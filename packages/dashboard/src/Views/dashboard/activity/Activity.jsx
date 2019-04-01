@@ -17,10 +17,10 @@ export default class Activity extends React.Component {
         </Col>
         <Col md="10" className={cn("activity-container", "rounded", align.allCenter, "p-0", "m-0")}>
             <Row className={cn(align.allCenter, align.full, "p-0", "m-0")}>
-            <Col md="6" className={cn(align.allCenter, "pr-1")}>
+            <Col md="6" className={cn(align.allCenter, "pr-2")}>
               <Streaming />
             </Col>
-            <Col md="6" className={cn(align.allCenter, "pl-1")}>
+            <Col md="6" className={cn(align.allCenter, "pl-2")}>
               <APIinQ />
             </Col>
           </Row>

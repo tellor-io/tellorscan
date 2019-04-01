@@ -35,7 +35,7 @@ const cols = [
     accessor: "event",
     Cell: row => (
       <div className={cn(align.allCenter, "text-bold")}>
-        <Link to={`/details/${row.value.id}`}>{row.value.id}</Link>
+        <Link to={`/details/${row.value.id}`}>{row.value.symbol}</Link>
       </div>
     )
   },
@@ -71,11 +71,11 @@ export default class Streaming extends React.Component {
     return (
       <Row className={cn(align.topCenter, align.full, "pt-4", "pb-4")}>
         <Col md="12" className={cn(align.leftCenter, "m-0", "p-0", "font-weight-light", "text-1")}>
-          Recent Mining Events
+          Mining Events
         </Col>
         <Col md="12" className={cn(align.allCenter, "m-0", "p-0")}>
           <ReactTable data={rows} columns={cols}
-                      pageSize={pageSize||20}
+                      pageSize={pageSize||10}
                       noDataText="No recent mining events"
                       className="w-100 m-0 p-0 -striped -highlight" />
         </Col>
