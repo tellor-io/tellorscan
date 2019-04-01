@@ -1,0 +1,30 @@
+The structure of the project follows a few core principles.
+
+Routes
+
+Routes in React have 2 parts: url pattern and a component to render at that url.
+We separate them into Routes and Views directories. Routes in React can also be
+treated as components and nested into hierarchies that follow their url patterns.
+For example, '/dashboard' is the starting point url. In React, we assign a
+Route definition for that url pattern (see Views/index.js). Under '/dashboard',
+there are two other routes, namely, "main" and "details". For TellorScan, those
+are currently the only two views used (all others are modals).
+
+When the user goes to "/", Views/index.js pushes them to /dashboard. That path
+is assigned to another Route--/Routes/root. In /Routes/root/index.js, the user is redirected
+again to /dashshboard/main. So remember, /Routes/root is assigned to base url
+/dashboard. So anything under /Routes/root is actually prefixed with /dashboard.
+So Routes/root/index.js defined <prefix>/main to go to /Views/dashboard which
+renders the main dashboard. If the url is /dashboard/details, it will instead
+reader /Views/details.
+
+Decomposition
+
+Views are decomposed according to whether the view has an associated Redux
+state. In other words, if a Redux state change can re-render the view, it
+becomes its own thing. It may seem like overkill to decompose the dashboard
+Overview into price, top-api, current-api, and cost. But each one of those
+is tied to a specific part of the Redux state tree, independent from one another.
+If the Tellor price changes, for example, should we really re-render the top-api?
+No, it's not related. So we decompose according to relationships to Redux state,
+and/or just try to make Components with single-purpose wherever possible.

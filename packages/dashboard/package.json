@@ -1,0 +1,88 @@
+{
+  "name": "dashboard",
+  "version": "0.1.0",
+  "description": "Tellorscan Dashboard",
+  "keywords": [
+    "Tellor",
+    "decentralized",
+    "oracle"
+  ],
+  "author": "mdcoon <mdcoon1@yahoo.com>",
+  "homepage": "https://github.com/tellor-io/tellorscan/tree/master/packages/dashboard#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tellor-io/tellorscan.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tellor-io/tellorscan/issues"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-add-module-exports": "^1.0.0",
+    "babel-plugin-dev-expression": "^0.2.1",
+    "babel-plugin-inline-react-svg": "^0.5.2",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-class-properties": "^6.19.0",
+    "babel-plugin-transform-es2015-classes": "^6.18.0",
+    "babel-polyfill": "^6.20.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-hmre": "^1.1.1",
+    "babel-preset-react-optimize": "^1.0.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "npm-run-all": "^4.1.3",
+    "react-scripts": "^2.1.5",
+    "redux-logger": "^3.0.6"
+  },
+  "dependencies": {
+    "@coreui/coreui": "^2.1.9",
+    "@coreui/icons": "^0.3.0",
+    "@coreui/react": "^2.1.5",
+    "@loadable/component": "^5.7.0",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
+    "classnames": "^2.2.6",
+    "coreui": "^0.4.2-alpha2",
+    "cross-env": "^5.2.0",
+    "font-awesome": "^4.7.0",
+    "node-sass": "^4.11.0",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-loadable": "^5.5.0",
+    "react-redux": "^6.0.1",
+    "react-redux-toastr": "^7.4.8",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "2.1.1",
+    "react-select": "^2.4.2",
+    "react-table": "^6.9.2",
+    "reactstrap": "^7.1.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "reduxsauce": "^1.0.1",
+    "simple-line-icons": "^2.4.1",
+    "yup": "^0.27.0"
+  },
+  "scripts": {
+    "start": "cross-env NODE_PATH=src SASS_PATH=node_modules:src/scss npm run start-js",
+    "start-js": "react-scripts start",
+    "build": "react-scripts build",
+    "lerna-build": "lerna bootstrap --scope=dashboard",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

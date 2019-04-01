@@ -1,0 +1,9 @@
+.search-box {
+  & input {
+
+    &::placeholder {
+      color: theme-color("input-placeholder");
+    }
+  }
+
+}

@@ -1,0 +1,35 @@
+@import "./top-api/TopApi";
+@import "./price/TellorPrice";
+@import "./current-api/CurrentApi";
+@import "./costs/Costs";
+@import "./current-tip/CurrentTip";
+
+.overview {
+
+  .overview-box {
+    background: theme-color("tellor-bg-light");
+    min-height: 200px;
+    border-radius: 3px 0 0 3px;
+
+    &.graph {
+      border-radius: 0 3px 3px 0;
+    }
+
+    .overview-section {
+      min-height: 100px;
+    }
+  }
+
+  .tellor-label {
+    line-height: 1em;
+    font-size: .9rem !important;
+  }
+
+  .tellor-bg-light {
+    background: theme-color("tellor-bg-light");
+  }
+
+  .overview-row {
+    min-height: 200px;
+  }
+}

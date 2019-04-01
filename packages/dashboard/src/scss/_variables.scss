@@ -1,0 +1,18 @@
+// Override Boostrap variables
+@import "node_modules/bootstrap/scss/bootstrap";
+
+
+$theme-colors: (
+  "tellor-logo-text-highlight": $success,
+  "tellor-logo-text-normal": $secondary,
+  "nav-bg": rgba(255, 255, 255, 1),
+  "main-bg": rgb(245, 245, 245),
+  "nav-item-text": rgba(255,255,255,.8),
+  "highlight-button-bg": $warning,
+  "input-placeholder": rgba(180, 180, 180, .8),
+  "highlight-gradient-start": #58c366,
+  "highlight-gradient-end": $success,
+  "tellor-text-dark": black,
+  "tellor-bg-light": white,
+  "clickable-icon-hover": $warning
+)

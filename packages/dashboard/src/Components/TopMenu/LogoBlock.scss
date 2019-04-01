@@ -1,0 +1,28 @@
+.tellor-text-highlight {
+  color: theme-color("tellor-logo-text-highlight");
+  font-weight: bold;
+  font-size: 3rem;
+  line-height: 2rem;
+}
+
+.tellor-text-normal {
+  color: theme-color("tellor-logo-text-normal");
+  font-weight: 300;
+  font-size: 3rem;
+  line-height: 2rem;
+}
+
+.navbar-brand {
+  display: flex;
+  flex-direction: row;
+  vertical-align: middle;
+  justify-content: center;
+  align-content: center;
+  img {
+    height: 3rem;
+  }
+}
+
+.navbar-brand {
+  margin-right: 0;
+}

@@ -1,0 +1,25 @@
+@import "./MainSearch";
+@import "./overview/Overview";
+@import "./activity/Activity";
+
+.dashboard-container {
+  background: theme-color("main-bg");
+
+  .request-button-wrapper {
+    background: linear-gradient(to right, theme-color("highlight-gradient-start"), theme-color("highlight-gradient-end"));
+
+    .request-button {
+      background: #fbd565;
+      color: black;
+      font-weight: bold;
+      &:hover {
+        background: $warning;
+      }
+    }
+  }
+
+  .activity-container {
+    background: theme-color("tellor-bg-light");
+  }
+
+}
