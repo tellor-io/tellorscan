@@ -29,7 +29,7 @@ export default class Overview extends React.Component {
                   <TopApi />
                 </Section>
               </Col>
-              <Col md="4" className={cn(align.vCenter)}>
+              <Col md="4" className={cn("border-right", align.vCenter)}>
                 <Section className="border-bottom" icon="fa fa-globe">
                   <CurrentApi />
                 </Section>
