@@ -40,7 +40,8 @@ export default class NonceSubmitted extends BaseEvent {
         _miner: this._miner,
         _nonce: this._nonce,
         _apiId: this._apiId,
-        _value: this._value
+        _value: this._value,
+        _currentChallenge: this._currentChallenge
       }
     }
   }
