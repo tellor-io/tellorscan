@@ -3,6 +3,7 @@
 @import "./current-api/CurrentApi";
 @import "./costs/Costs";
 @import "./current-tip/CurrentTip";
+@import "./Section";
 
 .overview {
 
@@ -15,9 +16,7 @@
       border-radius: 0 3px 3px 0;
     }
 
-    .overview-section {
-      min-height: 100px;
-    }
+    
   }
 
   .tellor-label {

@@ -12,13 +12,21 @@ import "react-table/react-table.css";
 import React, { Fragment, Component } from "react";
 import { connect } from "react-redux";
 import { Redirect, Route,Switch } from "react-router-dom";
-import MainRoute from "Routes/root";
+import MainRoute from "Routes/dashboard";
+import Details from 'Routes/details';
 import error from "Routes/error";
 import ReduxToastr from 'react-redux-toastr';
+import {default as initOps} from 'Redux/init/operations';
 
 const DEF_START = "/dashboard"
 
 class AppStart extends Component {
+  componentWillMount() {
+    if(this.props.needsInit) {
+      this.props.callInit();
+    }
+  }
+
   render() {
     const { location, match } = this.props;
     if (location.pathname === '/') {
@@ -38,7 +46,7 @@ class AppStart extends Component {
 
             <Switch>
               <Route path={`${match.url}dashboard`} component={MainRoute} />
-
+              <Route path={`${match.url}details`} component={Details} />
               <Route path={`/error`} component={error} />
               <Redirect to="/error" />
             </Switch>
@@ -47,11 +55,16 @@ class AppStart extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {}
-};
+const s2p = state => {
+  return {
+    needsInit: !state.init.initComplete && !state.init.initStarted
+  }
+}
 
-export default connect(
-  mapStateToProps,
-  {}
-)(AppStart);
+const d2p = dispatch => {
+  return {
+    callInit: () => dispatch(initOps.start())
+  }
+}
+
+export default connect(s2p, d2p)(AppStart);

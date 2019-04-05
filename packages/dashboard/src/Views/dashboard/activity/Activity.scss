@@ -1,5 +1,15 @@
 @import "./streaming/Streaming";
+@import "./apiInQ/APIinQ";
 
 .activity-container {
-  background: theme-color("tellor-bg-light");
+  background: transparent !important;
+  
+  .activity-box {
+
+  }
+
+  .activity-header {
+    min-height: 50px;
+    border-radius: 5px 5px 0 0;
+  }
 }

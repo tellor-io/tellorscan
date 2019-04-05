@@ -1,9 +1,10 @@
 @import "./LogoBlock";
 
 .top-nav {
+  min-height: 148px;
   background: theme-color("nav-bg");
   color: theme-color("nav-item-text");
-  
+
   .login {
 
   }

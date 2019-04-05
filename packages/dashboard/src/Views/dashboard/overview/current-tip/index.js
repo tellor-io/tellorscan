@@ -2,8 +2,9 @@ import {connect} from 'react-redux';
 import Tip from './CurrentTip';
 
 const s2p = state => {
+  let current = state.current || {};
   return {
-    tip: 5
+    tip: current.tip || 0
   }
 }
 

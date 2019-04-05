@@ -6,12 +6,14 @@
   background: theme-color("main-bg");
 
   .request-button-wrapper {
-    background: linear-gradient(to right, theme-color("highlight-gradient-start"), theme-color("highlight-gradient-end"));
+    background: transparent;
 
     .request-button {
-      background: #fbd565;
-      color: black;
+      background: theme-color("bg-tellor-green");
+      color: white;
       font-weight: bold;
+      border-radius: 20px;
+      border: 1px solid #BDBDBD;
       &:hover {
         background: $warning;
       }

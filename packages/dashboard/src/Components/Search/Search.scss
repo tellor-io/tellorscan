@@ -1,5 +1,14 @@
 .search-box {
+  background: transparent;
+
+  .search-icon {
+    height: 40px;
+    border-radius: 3px 0 0 3px;
+    color: white;
+    padding: 10px 20px 10px 20px;
+  }
   & input {
+    height: 40px;
 
     &::placeholder {
       color: theme-color("input-placeholder");

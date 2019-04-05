@@ -1,0 +1,9 @@
+@import "./general/Info";
+@import './cost/ValueToCost';
+
+.details-overview {
+  .overview-box {
+    background: theme-color("tellor-bg-light");
+    border-radius: 3px 0 0 3px;
+  }
+}

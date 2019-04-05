@@ -1,35 +1,39 @@
 import React from 'react';
-import ReactTable from 'react-table';
+//import ReactTable from 'react-table';
+import CleanTable from 'Components/CleanTable/CleanTable';
 import cn from 'classnames';
 import * as align from 'Constants/alignments';
-import {Link} from 'react-router-dom';
 import {
   Row,
-  Col
+  Col,
+  NavLink
 } from 'reactstrap';
 
 const cols = [
 
   {
     Header: "ID",
+    width: 1,
     accessor: "item",
     Cell: row => (
       <div className={cn(align.allCenter, "text-bold")}>
-        <Link to={`/details/${row.value.id}`}>{row.value.id}</Link>
+        <NavLink href="#" onClick={()=>row.value.actions.view(row.value.id)}>{row.value.id}</NavLink>
       </div>
     )
   },
   {
     Header: "Symbol",
+    width: 4,
     accessor: "item",
     Cell: row => (
       <div className={cn(align.allCenter, "text-bold")}>
-        <Link to={`/details/${row.value.id}`}>{row.value.symbol}</Link>
+        <NavLink href="#" onClick={()=>row.value.actions.view(row.value.id)}>{row.value.symbol}</NavLink>
       </div>
     )
   },
   {
     Header: "Tip",
+    width: 5,
     accessor: "item",
     Cell: row => (
       <div className={cn(align.allCenter, "text-bold")}>
@@ -38,7 +42,11 @@ const cols = [
     )
   },
   {
-    Header: "",
+    Header: (
+      <span className={cn("text-sz-sm", "text-muted", "text-center", "font-weight-light")}>
+        add to tip
+      </span>),
+    width: 1,
     accessor: "actions",
     Cell: row => (
       <div className={cn(align.allCenter, align.full)}>
@@ -48,25 +56,21 @@ const cols = [
   }
 
 ]
-export default class Streaming extends React.Component {
+export default class APIInQ extends React.Component {
   render() {
     const {
-      pageSize,
       onQ
     } = this.props;
     let rows = onQ.map(e=>({
-      item: e
+      ...e,
+      actions: {
+        view: id => this.props.viewAPI(id)
+      }
     }));
     return (
-      <Row className={cn(align.topCenter, align.full, "pt-4", "pb-4")}>
-        <Col md="12" className={cn(align.leftCenter, "m-0", "p-0", "font-weight-light", "text-1")}>
-          APIs in Queue
-        </Col>
-        <Col md="12" className={cn(align.allCenter, "m-0", "p-0")}>
-          <ReactTable data={rows} columns={cols}
-                      pageSize={pageSize||10}
-                      noDataText="No recent queued requests"
-                      className="w-100 m-0 p-0 -striped -highlight" />
+      <Row className={cn(align.topCenter, align.full, "p-0", "m-0")}>
+        <Col md="11" className={cn("api-table-box", align.topCenter, "m-0", "p-0")}>
+          <CleanTable cols={cols} data={rows} />
         </Col>
       </Row>
     )

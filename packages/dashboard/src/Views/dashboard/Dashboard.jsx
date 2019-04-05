@@ -19,8 +19,10 @@ export default class Dashboard extends React.Component {
         <Search />
         <Overview />
         <Row className={cn(align.allCenter, align.full, "mb-4", "mt-4")}>
-          <Col md="5" className={cn("request-button-wrapper", align.allCenter, "p-2", "bg-success", "rounded")}>
-            <Button size="lg" className={cn("request-button")}>Request Query</Button>
+          <Col md="5" className={cn("request-button-wrapper", align.allCenter, "p-2")}>
+            <Button size="lg"
+                    className={cn("request-button")}
+                    onClick={()=>this.props.requestData()}>Request Data</Button>
           </Col>
         </Row>
         <Activity />

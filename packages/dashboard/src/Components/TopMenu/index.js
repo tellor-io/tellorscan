@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import Menu from './TopMenu';
 import {withRouter} from 'react-router-dom';
+import * as navs from 'Navs';
 
 const s2p = state => {
   return {
@@ -8,9 +9,10 @@ const s2p = state => {
   }
 }
 
-const d2p = dispatch => {
+const d2p = (dispatch,own) => {
   return {
-
+    goHome: () => own.history.push(navs.HOME),
+    toDisputes: () => own.history.push(navs.DISPUTE_HOME)
   }
 }
 

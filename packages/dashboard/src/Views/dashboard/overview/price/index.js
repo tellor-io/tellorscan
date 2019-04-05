@@ -2,8 +2,11 @@ import {connect} from 'react-redux';
 import Price from './TellorPrice';
 
 const s2p = state => {
+  let current = state.current || {};
+  let price = current.price || 0;
+
   return {
-    price: "$5000"
+    price: `$${price.toFixed(2)}`
   }
 }
 

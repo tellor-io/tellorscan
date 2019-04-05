@@ -3,11 +3,12 @@ import Current from './CurrentApi';
 import {withRouter} from 'react-router-dom';
 
 const s2p = state => {
+  let current = state.current.currentChallenge;
+  if(current && !current.id) {
+    current = null;
+  }
   return {
-    current: {
-      id: "5",
-      symbol: "DOGE" //where do we get this?
-    }
+    current
   }
 }
 

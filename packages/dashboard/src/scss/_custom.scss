@@ -5,6 +5,18 @@
 @import "../Components/Components";
 
 
+.text-tellor-green {
+  color: theme-color("tellor-green");
+}
+
+.bg-tellor-green {
+  background: theme-color("tellor-green");
+}
+
+.bg-tellor-charcoal {
+  background: theme-color("bg-tellor-charcoal");
+}
+
 .flex-grow {
   flex: 1 0 auto;
 }

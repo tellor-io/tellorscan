@@ -11,23 +11,53 @@ import {
   VALUE_CLASS
 } from 'Views/dashboard/overview/common';
 
+/*
+
+  */
+
 export default class CurrentApi extends React.Component {
   render() {
     const {
       current
     } = this.props;
-
+    let idText = null;
+    if(current) {
+      idText = `${current.id} (${current.symbol})`;
+    } else {
+      idText = "no pending queries";
+    }
+    
     return (
-      <Row className={cn("current-api", align.topCenter, align.full, "m-0", "p-0")}>
-        <Col md="12" className={cn(LABEL_CLASS)}>
-          Current API
+      <Row className={cn("current-api", align.allCenter, align.full, "m-0", "p-0")}>
+        <Col md="8" className={cn( align.topCenter, "m-0", "p-0")}>
+
+          <Row className={cn(align.leftCenter, align.full, "m-0", "p-0")}>
+            <Col md="1" className={cn(align.leftCenter, "mr-2")}>
+              <i className={cn("icon-link", "text-muted", "font-weight-light")}/>
+            </Col>
+            <Col md="10" className={cn(LABEL_CLASS)}>
+              Current Request ID
+            </Col>
+          </Row>
+          <Row className={cn(align.leftCenter, align.full, "m-0", "p-0")}>
+            <Col md="1" className={cn(align.leftCenter, "mr-2")}>
+              &nbsp;
+            </Col>
+            <Col md="10" className={cn(VALUE_CLASS)}>
+              {idText}
+            </Col>
+          </Row>
+
         </Col>
-        <Col md="12" className={cn(VALUE_CLASS)}>
-          <span className={cn("text-left", "text-secondary", "mr-1", "m-0", "p-0")}>{`${current.id} - `}</span>
-          <span className={cn("text-right", "font-weight-bold")}>{current.symbol}</span>
-        </Col>
-        <Col md="12" className={cn(align.allCenter, "m-0", "p-0")}>
-          <Slots />
+
+        <Col md="4" className={cn(align.rightCenter, "m-0", "p-0")}>
+
+          <Row className={cn(align.topCenter, align.full, "m-0", "p-0")}>
+            <Col md="12" className={cn(align.allCenter, "m-0", "p-0")}>
+              <Slots />
+            </Col>
+          </Row>
+
         </Col>
       </Row>
     )

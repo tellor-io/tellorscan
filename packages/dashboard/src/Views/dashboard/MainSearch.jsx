@@ -10,9 +10,14 @@ import * as align from 'Constants/alignments';
 export default class MainSearch extends React.Component {
   render() {
     return (
-      <Row className={cn(align.allCenter, align.full)}>
+      <Row className={cn(align.allCenter, align.full, "mt-5", 'mb-5')}>
         <Col md="10" className={cn(align.allCenter, "search-wrapper","p-3")}>
-          <Search />
+          <Row className={cn(align.topCenter, align.full, "p-3")}>
+            <div className={cn(align.leftCenter, align.full, "p-0", "m-0", "text-sz-md", "text-light", "font-weight-bold")}>
+              Tellorscan Oracle Explorer
+            </div>
+            <Search className={cn("bg-light", "rounded")}/>
+          </Row>
         </Col>
       </Row>
     )

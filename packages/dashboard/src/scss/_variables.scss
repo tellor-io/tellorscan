@@ -3,10 +3,13 @@
 
 
 $theme-colors: (
+  "tellor-green": #06D87C,
   "tellor-logo-text-highlight": $success,
   "tellor-logo-text-normal": $secondary,
+  "bg-tellor-charcoal": #414141,
+  "bg-tellor-green": #06D87C,
   "nav-bg": rgba(255, 255, 255, 1),
-  "main-bg": rgb(245, 245, 245),
+  "main-bg": #F2F2F2,
   "nav-item-text": rgba(255,255,255,.8),
   "highlight-button-bg": $warning,
   "input-placeholder": rgba(180, 180, 180, .8),
