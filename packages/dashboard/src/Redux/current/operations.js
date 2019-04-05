@@ -26,12 +26,7 @@ const init = () => async (dispatch,getState) => {
 
   con.events.NonceSubmitted(null, async (e, evt)=>{
     if(evt) {
-      await Storage.instance.create({
-        database: dbNames.NonceSubmitted,
-        key: evt._apiId,
-        data: evt.toJSON()
-      });
-
+      
       let state = getState();
       let challenge = state.current.currentChallenge;
       if(challenge && challenge.challengeHash === evt._currentChallenge) {

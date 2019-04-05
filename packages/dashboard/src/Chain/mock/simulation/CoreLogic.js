@@ -1,7 +1,7 @@
 import * as ethUtils from 'web3-utils';
 import eventFactory from '../../LogEvents/EventFactory';
 import {isURL} from 'Utils/strings';
-
+import _ from 'lodash';
 
 
 const buildEvent = (payload) => {
@@ -56,6 +56,9 @@ export default class ContractLogic {
     //pending query requests sorted by highest tip
     this.pending = [];
 
+    //pending queries by their api id
+    this.pendingById = {};
+
     this.supportedInterface = [
       'requestData',
       'proofOfWork',
@@ -104,18 +107,18 @@ export default class ContractLogic {
 
       let index = 51;
       for(let i=0;i<this.pending.length;++i) {
-        if(this.pending[i]._apiId === _apiId) {
+        if(this.pending[i].apiId === _apiId) {
           index = i;
           break;
         }
       }
 
       return [
-        req._sapi,
-        req.hash,
-        req._granularity,
+        req.apiString,
+        req.apiHash,
+        req.granularity,
         index,
-        req._value
+        req.payout
       ];
   }
 
@@ -137,19 +140,16 @@ export default class ContractLogic {
 
   async requestData(queryString, apiId, multiplier, tip) {
     if(multiplier < 0) {
-      throw new Error("Multipler cannot be less than 0 or larger than 1e18");
+      throw new Error("Multiplier cannot be less than 0 or larger than 1e18");
     }
 
-    let qPacked = this.chain.web3.eth.abi.encodeParameters(['string', 'uint'], [queryString, multiplier]);
-    let hash = ethUtils.sha3(qPacked);
+    let hash = ethUtils.sha3(queryString + multiplier);
     let existing = this.requestsByHash[hash];
 
     if(apiId === 0){
       if(!isURL(queryString)) {
         throw new Error("Invalid query string");
       }
-      //solidity uses abi.encodePacked, but in web3js, packed params are done by
-      //treating them as params to a function and encoding them.
       if(!existing) {
         ++this.requests;
         apiId = this.requests;
@@ -291,7 +291,8 @@ export default class ContractLogic {
       let evt = buildEvent(payload);
       this.chain.publishEvent(evt);
     }
-    this.pending.push(query);
+    this.pendingById[query.apiId] = query;
+    this.pending = _.keys(this.pendingById).map(k=>this.pendingById[k]);
     this.pending.sort((a,b)=>{
       return b.payout - a.payout//descending order by tip
     });
@@ -308,6 +309,9 @@ export default class ContractLogic {
       return b.payout - a.payout//descending order by tip
     });
     let top = this.pending.shift() || {};
+    if(top) {
+      delete this.pendingById[top.apiId];
+    }
 
     let payload = {
       event: "NewChallenge",
@@ -316,12 +320,13 @@ export default class ContractLogic {
         _currentChallenge: ethUtils.sha3(""+((Math.random()*1000)+(top.payout||0))),
         _miningApiId: top.apiId || 0,
         _difficulty_level: 1,
-        _api: top.apiString
+        _api: top.apiString,
+        _value: top.payout
       }
     };
 
     let evt = buildEvent(payload, "NewChallenge");
-    this.currentChallenge = top;
+    this.currentChallenge = top.apiString?top:undefined;
     this.chain.publishEvent(evt);
   }
 }

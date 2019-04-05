@@ -4,7 +4,8 @@ const {Types, Creators} = createActions({
   initStart: null,
   initSuccess: ['events'],
   failure: ['error'],
-  addEvent: ['event']
+  addEvent: ['event'],
+  updateTip: ['id', 'total']
 }, {prefix: "events.requests."});
 
 export {

@@ -50,11 +50,32 @@ const addEvent = (state=INIT, action) => {
   }
 }
 
+const updateTip = (state=INIT, action) => {
+  let id = action.id;
+  let value = action.total;
+  let req = state.byId[id];
+  if(req) {
+    let byId = {
+      ...state.byId,
+      [id]: {
+        ...req,
+        tip: value
+      }
+    }
+    return {
+      ...state,
+      byId
+    }
+  }
+  return state;
+}
+
 const HANDLERS = {
   [Types.INIT_START]: initStart,
   [Types.INIT_SUCCESS]: initSuccess,
   [Types.FAILURE]: fail,
-  [Types.ADD_EVENT]: addEvent
+  [Types.ADD_EVENT]: addEvent,
+  [Types.UPDATE_TIP]: updateTip
 }
 
 export default createReducer(INIT, HANDLERS);

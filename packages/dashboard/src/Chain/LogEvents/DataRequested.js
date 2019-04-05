@@ -24,6 +24,7 @@ export default class DataRequested extends BaseEvent {
       multiplier: this._granularity,
       queryString: this._sapi,
       sender: this.sender,
+      value: this._value,
       originalEvent: this,
       normalize: () => payload
     }
@@ -39,6 +40,7 @@ export default class DataRequested extends BaseEvent {
         _sapi: this._sapi,
         _granularity: this._granularity,
         _apiId: this._apiId,
+        _value: this._value
       }
     }
   }

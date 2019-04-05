@@ -26,7 +26,20 @@ const requestData = props => (dispatch,getState) => {
     });
 }
 
+const addToTip = (id,tip) => (dispatch, getState) => {
+  let state = getState();
+  let req = state.events.requests.byId[id];
+  if(req) {
+    return dispatch(requestData({
+    queryString: req.queryString,
+    apiId: req.id,
+    multiplier: req.multiplier,
+    tip}));
+  }
+}
+
 export default {
   init,
-  requestData
+  requestData,
+  addToTip
 }

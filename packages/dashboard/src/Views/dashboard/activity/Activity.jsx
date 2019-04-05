@@ -8,44 +8,6 @@ import * as align from 'Constants/alignments';
 import Streaming from './streaming';
 import APIinQ from './apiInQ';
 
-
-/**
-<Row className={cn(align.allCenter, align.full, "h-100", "p-0", "m-0")}>
-
-  <Col md="5" className={cn("activity-box", align.topCenter, "border", "border-danger", "h-100", "p-0")}>
-
-    <Row className={cn(align.topCenter, align.full, )}>
-
-      <Col md="12" className={cn("activity-header", align.leftCenter,"bg-tellor-charcoal")}>
-
-      </Col>
-
-      <Col md="12" className={cn(align.topCenter, "bg-white")}>
-        <Streaming />
-      </Col>
-    </Row>
-
-  </Col>
-
-  <Col md="5" className={cn(align.rightCenter, )}>
-
-    <Row className={cn(align.topCenter, align.full, )}>
-
-      <Col md="12" className={cn("activity-header", align.leftCenter,"bg-tellor-charcoal")}>
-        <span className={cn("pl-3", "font-weight-bold", "text-sz-md", "text-light")}>
-          Requests in Queue
-        </span>
-      </Col>
-
-      <Col md="12" className={cn(align.allCenter, "bg-white")}>
-        <APIinQ />
-      </Col>
-    </Row>
-
-  </Col>
-</Row>
-*/
-
 export default class Activity extends React.Component {
   render() {
     return (
@@ -72,7 +34,7 @@ export default class Activity extends React.Component {
               <Col md="12" className={cn(align.topCenter, "bg-white", "p-0", "m-0")}>
                 <div className={cn("activity-header", "bg-tellor-charcoal", "text-white", align.leftCenter, align.full)}>
                   <span className={cn("pl-4", "font-weight-bold", "text-sz-md", "text-light")}>
-                    Requests in Queue
+                    Recent Requests
                   </span>
                 </div>
               </Col>

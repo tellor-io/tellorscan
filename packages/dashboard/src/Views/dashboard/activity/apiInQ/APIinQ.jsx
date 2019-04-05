@@ -47,10 +47,11 @@ const cols = [
         add to tip
       </span>),
     width: 1,
-    accessor: "actions",
+    accessor: "item",
     Cell: row => (
       <div className={cn(align.allCenter, align.full)}>
-          <i className={cn("circle-button fa fa-plus")} />
+          <i className={cn("circle-button fa fa-plus")}
+            onClick={()=>row.value.actions.increment(row.value.id)}/>
       </div>
     )
   }
@@ -64,7 +65,8 @@ export default class APIInQ extends React.Component {
     let rows = onQ.map(e=>({
       ...e,
       actions: {
-        view: id => this.props.viewAPI(id)
+        view: id => this.props.viewAPI(id),
+        increment: id => this.props.addTip(id, 1)
       }
     }));
     return (

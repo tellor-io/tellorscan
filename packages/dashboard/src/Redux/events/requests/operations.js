@@ -27,6 +27,62 @@ const init = () => async (dispatch,getState) => {
     }
   });
 
+  con.events.NonceSubmitted(null, async (e, evt)=>{
+    if(evt) {
+      let vals = await con.getApiVars(evt._apiId);
+
+      /*
+      req.apiString,
+      req.apiHash,
+      req.granularity,
+      index,
+      req.payout
+      */
+      let byId = getState().events.requests.byId;
+      let ex = byId[evt._apiId];
+      if(ex) {
+        dispatch(Creators.updateTip(evt._apiId, vals[4]));
+      }
+    }
+  });
+
+  con.events.NewValue(null, async (e, evt)=>{
+    if(evt) {
+      let vals = await con.getApiVars(evt._apiId);
+
+      /*
+      req.apiString,
+      req.apiHash,
+      req.granularity,
+      index,
+      req.payout
+      */
+      let byId = getState().events.requests.byId;
+      let ex = byId[evt._apiId];
+      if(ex) {
+        dispatch(Creators.updateTip(evt._apiId, vals[4]));
+      }
+    }
+  });
+
+  con.events.TipUpdated(null, async (e,evt)=>{
+    if(evt) {
+      let vals = await con.getApiVars(evt._apiId);
+      /*
+      req.apiString,
+      req.apiHash,
+      req.granularity,
+      index,
+      req.payout
+      */
+      let byId = getState().events.requests.byId;
+      let ex = byId[evt._apiId];
+      if(ex) {
+        dispatch(Creators.updateTip(evt._apiId, vals[4]));
+      }
+    }
+  });
+
   //read all current events
   let r = await Storage.instance.read({
     database: dbNames.DataRequested,
@@ -62,7 +118,7 @@ const lookup = id => async (dispatch,getState) => {
   let vars = await con.getApiVars(id);
   //order is queryString, queryHash,_granularity, paypool index, tip
   if(!empty(vars[0])) {
-    
+
     let payload = {
       event: "DataRequested",
       returnValues: {

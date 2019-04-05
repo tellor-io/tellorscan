@@ -1,12 +1,16 @@
 import {connect} from 'react-redux';
 import API from './APIinQ';
 import {default as qOps} from 'Redux/queries/operations';
+import {default as chainOps} from 'Redux/chain/operations';
 import * as navs from 'Navs';
 import {withRouter} from 'react-router-dom';
+import _ from 'lodash';
 
 const s2p = state => {
+  let byId = state.events.requests.byId;
+  let events = _.keys(byId).map(k=>byId[k]);
   return {
-    onQ: state.queries.queries
+    onQ: events
   }
 }
 
@@ -17,6 +21,10 @@ const d2p = (dispatch,own) => {
       dispatch(qOps.select(id));
       let url = navs.DETAILS_HOME + "/" + id;
       own.history.push(url);
+    },
+
+    addTip: (id, tip) => {
+      dispatch(chainOps.addToTip(id, tip));
     }
   }
 }
