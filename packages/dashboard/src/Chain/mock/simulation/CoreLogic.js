@@ -215,7 +215,7 @@ export default class ContractLogic {
         _nonce: nonce,
         _apiId,
         _value,
-        _currentChallenge: this.currentChallenge._currentChallenge
+        _currentChallenge: this.challengeHash
       }
     };
 
