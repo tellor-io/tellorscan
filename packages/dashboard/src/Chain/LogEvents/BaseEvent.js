@@ -8,6 +8,8 @@ export default class BaseEvent {
     this.address = props.address;
     this.transactionHash = props.transactionHash;
     this.blockNumber = props.blockNumber;
+    this.transiactionIndex = props.transactionIndex;
+    this.logIndex = props.logIndex;
     this.timestamp = props.timestamp;
   }
 

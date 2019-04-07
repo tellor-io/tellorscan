@@ -17,7 +17,8 @@ const d2p = dispatch => {
       queryString: "https://api.pro.coinbase.com/products/ETH-USD/ticker",
       apiId: 0,
       multiplier: 1000,
-      tip: 2
+      tip: 2,
+      symbol: "ETH-USD"
     }))
   }
 }

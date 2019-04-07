@@ -1,4 +1,5 @@
 export const DataRequested = "DataRequested";
+export const RequestMetadata = "RequestMetadata";
 export const NonceSubmitted = "NonceSubmitted";
 export const NewValue = "NewValue";
 export const TipUpdated = "TipUpdated";

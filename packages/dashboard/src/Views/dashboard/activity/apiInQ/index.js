@@ -9,6 +9,19 @@ import _ from 'lodash';
 const s2p = state => {
   let byId = state.events.requests.byId;
   let events = _.keys(byId).map(k=>byId[k]);
+  let tips = state.events.requests.tipsById;
+
+  events = events.map(e=>{
+    let tip = tips[e.id];
+    
+    if(tip === 'undefined') {
+      tip = e.value;
+    }
+    return {
+      ...e,
+      value: tip
+    }
+  });
   return {
     onQ: events
   }

@@ -6,12 +6,13 @@ export default class DataRequested extends BaseEvent {
     [
       'normalize'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
-    const {sender, _sapi, _granularity,  _apiId,  _value} = props.returnValues;
+    const {sender, _sapi, _granularity,  _apiId,  _value, _symbol} = props.returnValues;
     this.sender = sender;
     this._sapi = _sapi;
     this._granularity = _granularity;
     this._apiId = _apiId;
     this._value = _value-0;
+    this._symbol = _symbol?_symbol.toUpperCase():undefined
   }
 
   normalize() {
@@ -20,7 +21,7 @@ export default class DataRequested extends BaseEvent {
       ...parent,
       id: this._apiId,
       tip: this._value,
-      symbol: "not set yet",
+      symbol: this._symbol,
       multiplier: this._granularity,
       queryString: this._sapi,
       sender: this.sender,
@@ -40,7 +41,8 @@ export default class DataRequested extends BaseEvent {
         _sapi: this._sapi,
         _granularity: this._granularity,
         _apiId: this._apiId,
-        _value: this._value
+        _value: this._value,
+        _symbol: this._symbol
       }
     }
   }

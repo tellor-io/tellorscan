@@ -5,14 +5,17 @@ import eventFactory from 'Chain/LogEvents/EventFactory';
 import _ from 'lodash';
 
 const incomingEvent = async (dispatch, getState, evt) => {
-
-  await Storage.instance.create({
-    database: evt.event,
-    key: evt._apiId,
-    data: evt.toJSON()
-  });
-
-  dispatch(Creators.addEvent(evt.normalize()));
+  let st = getState();
+  let byId = st.events.requests.byId;
+  let q = byId[evt._apiId];
+  let norm = evt.normalize();
+  if(q) {
+    norm = {
+      ...norm,
+      symbol: q.symbol
+    }
+  }
+  dispatch(Creators.addEvent(norm));
 }
 
 const init = () => async (dispatch,getState) => {
@@ -77,11 +80,6 @@ const init = () => async (dispatch,getState) => {
 
 }
 
-const lookup = id => async (dispatch,getState) => {
-
-}
-
 export default {
-  init,
-  lookup
+  init
 }

@@ -1,6 +1,7 @@
 import EventEmitter from 'events';
 import * as eventTypes from './LogEvents';
 import _ from 'lodash';
+import Storage from 'Storage';
 
 export default class SubscriptionProvider {
   constructor(props) {
@@ -25,11 +26,20 @@ export default class SubscriptionProvider {
 
       this.chain.on(nm, async (e)=>{
         if(e) {
+          let actual = e;
+          if(!e.normalize) {
+            actual = this._toLogEvent(e);
+          }
+
+          //store all incoming events
+          await Storage.instance.create({
+            database: actual.event,
+            key: actual.transactionHash,
+            data: actual.toJSON()
+          });
+
           if(this.allListeners.length > 0) {
-            let actual = e;
-            if(!e.normalize) {
-              actual = this._toLogEvent(e);
-            }
+
             if(actual) {
               actual.normalize({
                 chain: this.chain,

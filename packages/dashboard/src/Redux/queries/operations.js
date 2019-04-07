@@ -8,18 +8,7 @@ const init = () => async (dispatch,getState) => {
   let state = getState();
   let con = state.chain.contract;
 
-  con.events.NewAPIonQinfo(null, async (e, evt)=>{
-    if(evt) {
-      await Storage.instance.create({
-        database: dbNames.NewAPIonQinfo,
-        key: evt._apiId,
-        data: evt.toJSON()
-      });
-
-      console.log("queries.operations Received newAPI event", evt);
-      dispatch(Creators.addEvent(evt.normalize()));
-    }
-  });
+  
 
   //get the latest ids on qeueu in the contract
   let paypool = await con.payoutPool();

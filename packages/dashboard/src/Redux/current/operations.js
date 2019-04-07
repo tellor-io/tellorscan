@@ -2,6 +2,7 @@ import {Creators} from './actions';
 import eventFactory from 'Chain/LogEvents/EventFactory';
 import * as dbNames from 'Storage/DBNames';
 import Storage from 'Storage';
+import {default as reqOps} from 'Redux/events/requests/operations';
 
 const init = () => async (dispatch,getState) => {
   dispatch(Creators.loadRequest());
@@ -9,29 +10,31 @@ const init = () => async (dispatch,getState) => {
   let con = chain.chain.getContract();
   con.events.NewChallenge(null, async (e, evt)=>{
     if(evt) {
-      await Storage.instance.create({
-        database: dbNames.NewChallenge,
-        key: evt._miningApiId,
-        data: evt.toJSON()
-      });
 
       //if it's an empty challenge, have to reset state
-      if(evt._apiId === 0) {
+      if(evt._miningApiId === 0) {
         dispatch(Creators.update(null))
       } else {
-        dispatch(Creators.update(evt.normalize()));
+
+        let query = getState().events.requests.byId[evt._miningApiId];
+        if(!query) {
+          query = await dispatch(reqOps.lookup(evt._miningApiId));
+        }
+        if(query) {
+          dispatch(Creators.update({
+            value: evt._value,
+            symbol: query.symbol,
+            id: evt._miningApiId,
+            challengeHash: evt._currentChallenge
+          }))
+        }
       }
     }
   });
 
   con.events.NonceSubmitted(null, async (e, evt)=>{
     if(evt) {
-      await Storage.instance.create({
-        database: dbNames.NonceSubmitted,
-        key: evt._apiId,
-        data: evt.toJSON()
-      });
-      
+
       let state = getState();
       let challenge = state.current.currentChallenge;
       if(challenge && challenge.challengeHash === evt._currentChallenge) {
@@ -47,19 +50,24 @@ const init = () => async (dispatch,getState) => {
 
   let currentInfo = await con.getVariables();
   //order is hash, id, diff, querysString, multiplier
-  let payload = {
-    event: "NewChallenge",
-    returnValues: {
-      _currentChallenge: currentInfo[0],
-      _miningApiId: currentInfo[1],
-      _difficulty_level: currentInfo[2],
-      _api: currentInfo[3]
-    }
-  };
-  let evt = eventFactory(payload);
-  let count = await con.count(); //miners completed
+  if(currentInfo[1] === 0) {
+    //nothing to do
+    dispatch(Creators.loadSuccess(null, 0));
+  } else {
+    let payload = {
+      event: "NewChallenge",
+      returnValues: {
+        _currentChallenge: currentInfo[0],
+        _miningApiId: currentInfo[1],
+        _difficulty_level: currentInfo[2],
+        _api: currentInfo[3]
+      }
+    };
+    let evt = eventFactory(payload);
+    let count = await con.count(); //miners completed
 
-  dispatch(Creators.loadSuccess(evt.normalize(), count));
+    dispatch(Creators.loadSuccess(evt.normalize(), count));
+  }
 }
 
 export default {

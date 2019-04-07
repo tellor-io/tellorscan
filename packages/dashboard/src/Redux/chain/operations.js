@@ -18,7 +18,7 @@ const init = () => async dispatch => {
 const requestData = props => (dispatch,getState) => {
   let state = getState();
   let con = state.chain.contract;
-  return con.requestData(props.queryString, props.apiId, props.multiplier, props.tip)
+  return con.requestData(props.queryString, props.apiId, props.multiplier, props.tip, props.symbol)
     .then(()=>{
       toastr.info("Submitted data request");
     }).catch(e=>{

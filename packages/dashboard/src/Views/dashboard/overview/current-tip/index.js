@@ -8,15 +8,8 @@ const s2p = state => {
       tip: 0
     }
   }
-  let req = state.events.requests.byId[current.id];
-  if(!req) {
-    return {
-      tip: 0
-    }
-  }
-
   return {
-    tip: req.tip
+    tip: current.value
   }
 }
 

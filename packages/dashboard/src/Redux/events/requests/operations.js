@@ -5,13 +5,11 @@ import eventFactory from 'Chain/LogEvents/EventFactory';
 import _ from 'lodash';
 import {empty} from 'Utils/strings';
 
-const incomingEvent = async (dispatch, getState, evt) => {
-  await Storage.instance.create({
-    database: dbNames.DataRequested,
-    data: evt.toJSON()
-  });
-
-  dispatch(Creators.addEvent(evt.normalize()));
+const getCurrentTip = id => async (dispatch, getState) => {
+  let state = getState();
+  let con = state.chain.contract;
+  let vals = await con.getApiVars(id);
+  return vals[4] || 0;
 }
 
 const init = () => async (dispatch,getState) => {
@@ -20,65 +18,33 @@ const init = () => async (dispatch,getState) => {
   dispatch(Creators.initStart());
 
   //subscribe to new events
-  con.events.DataRequested(null, (e, evt)=>{
+  con.events.DataRequested(null, async (e, evt)=>{
     if(evt) {
       console.log("requests.operations Received data request event", evt);
-      incomingEvent(dispatch, getState, evt);
+      //new data request. We add the event, but need to also adjust its
+      //tip amount according to what's on chain (it could have initiated a
+      //mining request which would zero-out its tip value);
+      let tip = await dispatch(getCurrentTip(evt._apid));
+      dispatch(Creators.addEvent(evt.normalize(), tip));
     }
   });
 
-  con.events.NonceSubmitted(null, async (e, evt)=>{
+  con.events.NewChallenge(null, async (e, evt)=>{
     if(evt) {
-      let vals = await con.getApiVars(evt._apiId);
-
-      /*
-      req.apiString,
-      req.apiHash,
-      req.granularity,
-      index,
-      req.payout
-      */
-      let byId = getState().events.requests.byId;
-      let ex = byId[evt._apiId];
-      if(ex) {
-        dispatch(Creators.updateTip(evt._apiId, vals[4]));
-      }
-    }
-  });
-
-  con.events.NewValue(null, async (e, evt)=>{
-    if(evt) {
-      let vals = await con.getApiVars(evt._apiId);
-
-      /*
-      req.apiString,
-      req.apiHash,
-      req.granularity,
-      index,
-      req.payout
-      */
-      let byId = getState().events.requests.byId;
-      let ex = byId[evt._apiId];
-      if(ex) {
-        dispatch(Creators.updateTip(evt._apiId, vals[4]));
-      }
+      dispatch(Creators.updateTip(evt._miningApiId, 0));
     }
   });
 
   con.events.TipUpdated(null, async (e,evt)=>{
     if(evt) {
-      let vals = await con.getApiVars(evt._apiId);
-      /*
-      req.apiString,
-      req.apiHash,
-      req.granularity,
-      index,
-      req.payout
-      */
+
       let byId = getState().events.requests.byId;
       let ex = byId[evt._apiId];
       if(ex) {
-        dispatch(Creators.updateTip(evt._apiId, vals[4]));
+        //We go on chain to get the current tip
+        let tip = await dispatch(getCurrentTip(evt._apiId));
+
+        dispatch(Creators.updateTip(evt._apiId, tip));
       }
     }
   });
@@ -104,15 +70,29 @@ const lookup = id => async (dispatch,getState) => {
   if(req) {
     return req;
   }
-  //see if storage has it
+  //see if storage has it from past events
   let r = await Storage.instance.read({
     database: dbNames.DataRequested,
-    key: id
+    selector: {
+      _apiId: id
+    }
   });
   let q = _.get(r, "data", [])[0];
   if(q) {
     return q;
   }
+
+  //see if we stored metadata from contract
+  r = await Storage.instance.read({
+    database: dbNames.RequestMetadata,
+    key: id
+  });
+
+  q = _.get(r, "data", [])[0];
+  if(q) {
+    return q;
+  }
+
   //finally go on chain and get it
   let con = getState().chain.contract;
   let vars = await con.getApiVars(id);
@@ -126,16 +106,17 @@ const lookup = id => async (dispatch,getState) => {
         _sapi: vars[0],
         _granularity: vars[2],
         _apiId: id,
-        _value: vars[4]
+        _value: vars[4],
+        _symbol: vars[5]
       }
     };
 
     let evt = eventFactory(payload);
     //store it for local retrieval next time
     await Storage.instance.create({
-      database: dbNames.DataRequested,
+      database: dbNames.RequestMetadata,
       key: id,
-      data: evt.toJSON()
+      data: evt.normalize()
     });
 
     return evt.normalize();

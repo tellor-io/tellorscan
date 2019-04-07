@@ -4,7 +4,8 @@ import {Types} from './actions';
 const INIT = {
   loading: false,
   error: null,
-  byId: {}
+  byId: {},
+  tipsById: {}
 }
 
 const initStart = (state=INIT) => {
@@ -23,6 +24,7 @@ const initSuccess = (state=INIT, action) => {
       return o;
     },{})
   }
+
   return {
     ...state,
     loading: false,
@@ -43,31 +45,29 @@ const addEvent = (state=INIT, action) => {
     ...state.byId,
     [action.event.id]: action.event
   };
+  let tipsById = {
+    ...state.tipsById,
+    [action.event.id]: action.tip
+  };
 
   return {
     ...state,
-    byId
+    byId,
+    tipsById
   }
 }
 
 const updateTip = (state=INIT, action) => {
   let id = action.id;
   let value = action.total;
-  let req = state.byId[id];
-  if(req) {
-    let byId = {
-      ...state.byId,
-      [id]: {
-        ...req,
-        tip: value
-      }
-    }
-    return {
-      ...state,
-      byId
-    }
+  let tips = {
+    ...state.tipsById,
+    [id]: value
   }
-  return state;
+  return {
+    ...state,
+    tipsById: tips
+  }
 }
 
 const HANDLERS = {

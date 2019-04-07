@@ -56,7 +56,7 @@ const cols = [
   {
     Header: (
       <span className={cn("text-sz-sm", "text-muted", "text-center", "font-weight-light")}>
-        view on etherscan
+        view txn
       </span>),
     width: 1,
     accessor: "actions",

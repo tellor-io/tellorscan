@@ -19,6 +19,7 @@ class Query {
     this.granularity = props._granularity;
     this.payout = props._value;
     this.index = props.index;
+    this.symbol = props._symbol;
   }
 }
 
@@ -118,7 +119,8 @@ export default class ContractLogic {
         req.apiHash,
         req.granularity,
         index,
-        req.payout
+        req.payout,
+        req.symbol //added in simulator only. Needs to be added to solidity
       ];
   }
 
@@ -138,7 +140,7 @@ export default class ContractLogic {
   }
 
 
-  async requestData(queryString, apiId, multiplier, tip) {
+  async requestData(queryString, apiId, multiplier, tip, symbol) {
     if(multiplier < 0) {
       throw new Error("Multiplier cannot be less than 0 or larger than 1e18");
     }
@@ -159,6 +161,7 @@ export default class ContractLogic {
           _apiHash: hash,
           _granularity: multiplier,
           _value: 0,
+          _symbol: symbol,
           index: 0
         });
         this.requestsById[apiId] = newQuery;
@@ -193,13 +196,15 @@ export default class ContractLogic {
           _sapi: queryString,
           _granularity:multiplier,
           _apiId: apiId,
-          _value: tip
+          _value: tip,
+          _symbol: symbol
         }
       };
       let reqEvent = buildEvent(payload);
       reqEvent.hash = hash;
       this.chain.publishEvent(reqEvent);
     }
+
   }
 
   async proofOfWork(miner,  nonce,  _apiId, _value)  {
@@ -210,6 +215,7 @@ export default class ContractLogic {
     let payload = {
       event: "NonceSubmitted",
       blockNumber: this.chain.block,
+      logIndex: 0,
       returnValues: {
         _miner: miner,
         _nonce: nonce,
@@ -232,13 +238,14 @@ export default class ContractLogic {
       //assuming it would up the antie for the next run. But it's 0'd out so the
       //next run wouldn't pay anything to the miner.
       let query = this.requestsById[_apiId];
-      query.payout = 0;
+      //query.payout = 0;
       this.minedSlots = [];
       this.nextUp();
 
       payload = {
         event: "NewValue",
         blockNumber: this.chain.block,
+        logIndex: 1,
         returnValues: {
           _apiId,
           _time: Math.floor(Date.now()/1000),
@@ -255,6 +262,10 @@ export default class ContractLogic {
     let query = this.requestsById[apiId];
     if(!this.currentChallenge || this.currentChallenge.apiId === 0) {
       this.challengeHash = ethUtils.sha3(""+((Math.random()*1000)+query.payout+this.chain.block));
+      this.currentChallenge = {
+        ...query
+      };
+
       let payload = {
         event: "NewChallenge",
         blockNumber: this.chain.block,
@@ -263,13 +274,13 @@ export default class ContractLogic {
           _miningApiId: apiId,
           _difficulty_level: 1,
           _api: query.apiString,
-          _value: query.payout
+          _value: this.currentChallenge.payout
         }
       }
-      //should payout be zero'd out at this point? It's not in the solidity codebase
-      //query.payout = 0; ???
+      //zero out tip since it's now being mined and any subsequent tips
+      //would be for the Next proposed request
+      query.payout = 0;
       let evt = buildEvent(payload);
-      this.currentChallenge = query;
       this.chain.publishEvent(evt);
       return;
     }
@@ -296,9 +307,9 @@ export default class ContractLogic {
     this.pending.sort((a,b)=>{
       return b.payout - a.payout//descending order by tip
     });
-    //the solidity code simply replaces the lowest payout
-    //with the new query. We don't do that. Instead, we
-    //simply update the list, sort it, and then trim the fat
+    //the solidity code does not keep a sorted list and uses index references
+    //to accomplish sorting. Here, we simply update the list, sort it,
+    //and then trim the fat
     if(this.pending.length > 50) {
       this.pending = this.pending.slice(0, 50);
     }
@@ -326,7 +337,13 @@ export default class ContractLogic {
     };
 
     let evt = buildEvent(payload, "NewChallenge");
-    this.currentChallenge = top.apiString?top:undefined;
+    this.currentChallenge = top.apiString?{
+      ...top
+    }:undefined;
+    let ex = this.requestsById[top.apiId];
+    if(ex) {
+      ex.payout = 0;
+    }
     this.chain.publishEvent(evt);
   }
 }
