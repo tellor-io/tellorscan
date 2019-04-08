@@ -1,19 +1,11 @@
 import {Creators} from './actions';
 import {default as eventOps} from 'Redux/events/operations';
-import {default as queryOps} from 'Redux/queries/operations';
 import {default as currentOps} from 'Redux/current/operations';
 import {default as chainOps} from 'Redux/chain/operations';
 
 const initChain = props => {
   return props.dispatch(chainOps.init())
     .then(()=>props);
-}
-
-const initQueries = props => {
-  return props.dispatch(queryOps.init())
-  .then(()=>{
-    return props
-  });
 }
 
 const initCurrent = props => {
@@ -42,7 +34,6 @@ const start = () => (dispatch,getState) => {
     getState
   }
   return initChain(props)
-        .then(initQueries)
         .then(initCurrent)
         .then(initEvents)
         .then(()=>{

@@ -17,6 +17,10 @@
   background: theme-color("bg-tellor-charcoal");
 }
 
+.bg-tellor-muted {
+  background: theme-color("bg-tellor-muted");
+}
+
 .flex-grow {
   flex: 1 0 auto;
 }
@@ -166,7 +170,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    color: theme-color("tellor-text-dark") !important;
+    /*color: theme-color("tellor-text-dark") !important;*/
     border: 1px solid theme-color("dark-border");
     border-radius: 50%;
     background: theme-color("tellor-bg-light");
@@ -175,6 +179,7 @@
 
     &:hover {
       cursor: pointer;
-      background: theme-color("clickable-icon-hover");
+      color: theme-color("clickable-icon-hover-text") !important;
+      background: theme-color("clickable-icon-hover-bg");
     }
 }

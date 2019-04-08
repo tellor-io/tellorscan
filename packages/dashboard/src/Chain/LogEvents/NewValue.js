@@ -31,11 +31,9 @@ export default class NewValue extends BaseEvent {
     let parent = super.toJSON();
     return {
       ...parent,
-      returnValues: {
-        _apiId: this._apiId,
-        _time: this._time,
-        _value: this._value
-      }
+      id: this._apiId,
+      time: this._time,
+      value: this._value,
     }
   }
 }

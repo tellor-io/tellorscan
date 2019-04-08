@@ -50,7 +50,7 @@ const cols = [
     accessor: "item",
     Cell: row => (
       <div className={cn(align.allCenter, align.full)}>
-          <i className={cn("circle-button fa fa-plus")}
+          <i className={cn("circle-button fa fa-plus", "text-tellor-green")}
             onClick={()=>row.value.actions.increment(row.value.id)}/>
       </div>
     )

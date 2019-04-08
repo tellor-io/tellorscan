@@ -3,6 +3,7 @@ import Simulator from './simulation/Simulator';
 import AddressGenerator from './AddressGenerator';
 import MockContract from './MockContract';
 import Web3 from 'web3';
+import * as ethUtils from 'web3-utils';
 import _ from 'lodash';
 import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
@@ -20,7 +21,7 @@ import * as dbNames from 'Storage/DBNames';
  const updateLastBlock = async (block, time) => {
    Storage.instance.create({
      database: dbNames.Blocks,
-     key: block,
+     key: ethUtils.sha3(JSON.stringify({block,time})),
      data: {
        number: block,
        timestamp: time
@@ -65,7 +66,7 @@ export default class Mock extends EventEmitter {
 
   async init() {
     //we need to make sure we have the proper block number
-    let r = await Storage.instance.read({
+    let r = await Storage.instance.readAll({
       database: dbNames.Blocks,
       limit: 50,
       sort: [{
@@ -73,19 +74,16 @@ export default class Mock extends EventEmitter {
         order: 'desc'
       }]
     });
-    let blocks = _.get(r, "data", []);
+    let blocks = r || [];
     this.blockTimes = blocks.reduce((o, b)=>{
-      o[b.timestamp] = b;
+      o[b.number] = b;
       return o;
     },{});
-    this.blockTimes['latest'] = blocks[0]; //descending order
+    this.blockTimes['latest'] = blocks[0];//descending order
+    let b = blocks[0] || {};
+    this.block = b.number || 0;
 
-    //we don't need to initialize events list because storage will
-    //have cached all previous event data and during init, individual
-    //operations would have pulled events from that store as needed.
-
-    //In the real chain, however, we'll need to pull events we've missed since
-    //last being offline
+    await this.contract.init();
   }
 
   async getBlock(number) {

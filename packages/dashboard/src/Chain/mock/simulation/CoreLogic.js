@@ -2,7 +2,9 @@ import * as ethUtils from 'web3-utils';
 import eventFactory from '../../LogEvents/EventFactory';
 import {isURL} from 'Utils/strings';
 import _ from 'lodash';
-
+import Storage from 'Storage';
+import * as dbNames from 'Storage/DBNames';
+import {generateQueryHash} from 'Chain/utils';
 
 const buildEvent = (payload) => {
   let hash = ethUtils.sha3(JSON.stringify(payload));
@@ -69,9 +71,28 @@ export default class ContractLogic {
       'getApiVars',
       'updateQueue',
       'nextUp',
-      'count'
+      'count',
+      '_storeState',
+      'init',
+      'getApiId'
     ];
     this.supportedInterface.forEach(fn=>this[fn]=this[fn].bind(this));
+  }
+
+  async init() {
+    let r = await Storage.instance.readAll({
+      database: dbNames.ChainData,
+      limit: 50
+    });
+    let hiId = 0;
+    r.forEach(req=>{
+      this.requestsById[req.apiId] = req;
+      this.requestsByHash[req.apiHash] = req;
+      if(req.apiId-0 > hiId) {
+        hiId = req.apiId - 0;
+      }
+    });
+    this.requests = hiId;
   }
 
   async getVariables() {
@@ -103,6 +124,7 @@ export default class ContractLogic {
   async getApiVars(_apiId) {
       let req = this.requestsById[_apiId];
       if(!req) {
+        console.log("No api found with id", _apiId);
         return [null, null, 0, 51, 0];
       }
 
@@ -122,6 +144,11 @@ export default class ContractLogic {
         req.payout,
         req.symbol //added in simulator only. Needs to be added to solidity
       ];
+  }
+
+  async getApiId(hash) {
+    let req = this.requestsByHash[hash];
+    return req ? req.apiId : 0;
   }
 
 
@@ -144,9 +171,12 @@ export default class ContractLogic {
     if(multiplier < 0) {
       throw new Error("Multiplier cannot be less than 0 or larger than 1e18");
     }
+    console.log("Incoming request params", queryString, apiId, multiplier, tip, symbol);
+    let hash = generateQueryHash(queryString, multiplier);
+    console.log("Query hash", hash);
 
-    let hash = ethUtils.sha3(queryString + multiplier);
     let existing = this.requestsByHash[hash];
+    console.log("Existing", existing);
 
     if(apiId === 0){
       if(!isURL(queryString)) {
@@ -174,11 +204,12 @@ export default class ContractLogic {
     if(tip > 0) {
       this.requestsById[apiId].payout += tip;
     }
-    this.updateQueue(apiId);
+    await this.updateQueue(apiId);
     if(existing) {
       let payload = {
         event: "TipUpdated",
         blockNumber: this.chain.blockNumber,
+        logIndex: 1,
         returnValues: {
           sender: this.chain.userAddress,
           _apiId: existing.apiId,
@@ -191,6 +222,7 @@ export default class ContractLogic {
       let payload = {
         event: "DataRequested",
         blockNumber: this.chain.block,
+        logIndex: 1,
         returnValues: {
           sender: this.chain.userAddress,
           _sapi: queryString,
@@ -200,6 +232,7 @@ export default class ContractLogic {
           _symbol: symbol
         }
       };
+      await this._storeState();
       let reqEvent = buildEvent(payload);
       reqEvent.hash = hash;
       this.chain.publishEvent(reqEvent);
@@ -233,19 +266,13 @@ export default class ContractLogic {
       let total = this.minedSlots.reduce((v, m)=>v+(m._value-0), 0);
       let avg = total / 5;
 
-      //solidity 0's out the payout at this point, even though I think it's an
-      //accounting error since tips could have come in for the currently mined request
-      //assuming it would up the antie for the next run. But it's 0'd out so the
-      //next run wouldn't pay anything to the miner.
-      let query = this.requestsById[_apiId];
-      //query.payout = 0;
       this.minedSlots = [];
-      this.nextUp();
+      await this.nextUp();
 
       payload = {
         event: "NewValue",
         blockNumber: this.chain.block,
-        logIndex: 1,
+        logIndex: 2,
         returnValues: {
           _apiId,
           _time: Math.floor(Date.now()/1000),
@@ -258,7 +285,7 @@ export default class ContractLogic {
     this.chain.incrementBlock();
   }
 
-  updateQueue(apiId) {
+  async updateQueue(apiId) {
     let query = this.requestsById[apiId];
     if(!this.currentChallenge || this.currentChallenge.apiId === 0) {
       this.challengeHash = ethUtils.sha3(""+((Math.random()*1000)+query.payout+this.chain.block));
@@ -269,6 +296,7 @@ export default class ContractLogic {
       let payload = {
         event: "NewChallenge",
         blockNumber: this.chain.block,
+        logIndex: 0,
         returnValues: {
           _currentChallenge: this.challengeHash,
           _miningApiId: apiId,
@@ -280,6 +308,7 @@ export default class ContractLogic {
       //zero out tip since it's now being mined and any subsequent tips
       //would be for the Next proposed request
       query.payout = 0;
+      await this._storeState();
       let evt = buildEvent(payload);
       this.chain.publishEvent(evt);
       return;
@@ -315,7 +344,7 @@ export default class ContractLogic {
     }
   }
 
-  nextUp() {
+  async nextUp() {
     this.pending.sort((a,b)=>{
       return b.payout - a.payout//descending order by tip
     });
@@ -327,6 +356,7 @@ export default class ContractLogic {
     let payload = {
       event: "NewChallenge",
       blockNumber: this.chain.block,
+      logIndex: 1,
       returnValues: {
         _currentChallenge: ethUtils.sha3(""+((Math.random()*1000)+(top.payout||0))),
         _miningApiId: top.apiId || 0,
@@ -344,6 +374,19 @@ export default class ContractLogic {
     if(ex) {
       ex.payout = 0;
     }
+    await this._storeState();
     this.chain.publishEvent(evt);
+  }
+
+  async _storeState() {
+    //we mainly need to store queries for now
+    _.keys(this.requestsById).forEach(async k=>{
+      let req = this.requestsById[k];
+      await Storage.instance.create({
+        database: dbNames.ChainData,
+        key: k,
+        data: req
+      })
+    });
   }
 }

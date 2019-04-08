@@ -1,14 +1,14 @@
 import {connect} from 'react-redux';
 import Info from './Info';
 import {withRouter} from 'react-router-dom';
-import {findAPI} from 'Views/details/common';
+import copy from 'copy-to-clipboard';
+import {toastr} from 'react-redux-toastr';
 
 const s2p = (state, own) => {
-  let q = state.queries.selectedQuery;
+  let byId = state.events.requests.byId;
   let id = own.match.params['apiID'];
-  if(!q && id) {
-    q = findAPI(id, state);
-  }
+  let q = byId[id];
+
   return {
     item: q
   }
@@ -16,7 +16,10 @@ const s2p = (state, own) => {
 
 const d2p = dispatch => {
   return {
-
+    copy: text => {
+      copy(text);
+      toastr.info("Copied to clipboard");
+    }
   }
 }
 

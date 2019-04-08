@@ -17,6 +17,13 @@ const initStart = (state=INIT) => {
 }
 
 const initSuccess = (state=INIT, action) => {
+  if(!action.events) {
+    return {
+      ...state,
+      loading: false
+    }
+  }
+
   let byId = {
     ...state.byId,
     ...action.events.reduce((o,e)=>{
@@ -70,12 +77,19 @@ const updateTip = (state=INIT, action) => {
   }
 }
 
+const clearAll = (state=INIT) => {
+  return {
+    ...INIT
+  }
+}
+
 const HANDLERS = {
   [Types.INIT_START]: initStart,
   [Types.INIT_SUCCESS]: initSuccess,
   [Types.FAILURE]: fail,
   [Types.ADD_EVENT]: addEvent,
-  [Types.UPDATE_TIP]: updateTip
+  [Types.UPDATE_TIP]: updateTip,
+  [Types.CLEAR_ALL]: clearAll
 }
 
 export default createReducer(INIT, HANDLERS);

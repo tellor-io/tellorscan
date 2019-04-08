@@ -10,11 +10,14 @@ import Menu from 'Components/TopMenu';
 import Search from './MainSearch';
 import Overview from './overview';
 import Activity from './activity';
+import ReqData from './modals/requestData';
 
 export default class Dashboard extends React.Component {
   render() {
     return (
       <div className={cn("dashboard-container", align.topCenter, align.full)}>
+        <ReqData />
+        
         <Menu withLogo/>
         <Search />
         <Overview />

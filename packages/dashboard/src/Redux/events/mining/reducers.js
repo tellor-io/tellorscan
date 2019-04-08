@@ -28,6 +28,13 @@ const initStart = (state=INIT) => {
 }
 
 const initSuccess = (state=INIT, action) => {
+  if(!action.nonces) {
+    return {
+      ...state,
+      loading: false
+    }
+  }
+
   let nonces = action.nonces || [];
   let values = action.values || [];
   let subsById = {
@@ -73,7 +80,7 @@ const fail = (state=INIT, action) => {
 
 const addEvent = (state=INIT, action) => {
   let evt = action.event;
-  
+
   if(evt.name === 'NonceSubmitted') {
     let subs = state.submissionsById[evt.id] || [];
     subs = [
@@ -109,11 +116,20 @@ const addEvent = (state=INIT, action) => {
   return state;
 }
 
+const clear = (state=INIT) => {
+  return {
+    ...state,
+    submissionsById: {},
+    valuesById: {}
+  }
+}
+
 const HANDLERS = {
   [Types.INIT_START]: initStart,
   [Types.INIT_SUCCESS]: initSuccess,
   [Types.FAILURE]: fail,
-  [Types.ADD_EVENT]: addEvent
+  [Types.ADD_EVENT]: addEvent,
+  [Types.CLEAR_ALL]: clear
 }
 
 export default createReducer(INIT, HANDLERS);

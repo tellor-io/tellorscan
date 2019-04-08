@@ -16,8 +16,7 @@ const s2p = (state,own) => {
   let vals = state.events.mining.valuesById[id] || [];
   let merged = _.concat([], subs);
   merged = _.concat(merged, vals);
-  console.log("Merged", merged, id);
-
+  
   merged = merged.filter(e=>e.id-0 === id);
   return {
     events: merged

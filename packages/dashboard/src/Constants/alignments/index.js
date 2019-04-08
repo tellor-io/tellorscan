@@ -26,4 +26,8 @@ export const bottomRight = cn(flex, col, justRight, alignRight);
 export const bottomCenter = cn(flex, col, justRight, alignCenter);
 export const vCenter = cn(flex, col, justCenter, alignCenter);
 
+export const noMargin = cn("m-0");
+export const noPad = cn("p-0");
+export const noMarginPad = cn(noMargin, noPad);
+
 export const full = "w-100";

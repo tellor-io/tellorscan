@@ -7,7 +7,8 @@ import escan from 'Assets/images/etherscan_logo.png';
 import {
   Row,
   Col,
-  NavLink
+  NavLink,
+  Badge
 } from 'reactstrap';
 
 const cols = [
@@ -22,12 +23,22 @@ const cols = [
     )
   },
   {
+    Header: "Block",
+    width: 1,
+    accessor: "blockNumber",
+    Cell: row => (
+      <div className={cn(align.allCenter, "text-bold")}>
+        <NavLink href="#" onClick={()=>row.value.actions.view(row.value.id)}>{row.value.blockNumber}</NavLink>
+      </div>
+    )
+  },
+  {
     Header: "Type",
     width: 2,
     accessor: "event",
     Cell: row => {
       return  (
-        <div className={cn(align.allCenter, "text-bold")}>
+        <div className={cn(align.allCenter, "text-bold", "text-center")}>
           <NavLink href="#" onClick={()=>row.value.actions.view(row.value.id)}>{row.value.type}</NavLink>
         </div>
       )
@@ -35,7 +46,7 @@ const cols = [
   },
   {
     Header: "Symbol",
-    width: 4,
+    width: 3,
     accessor: "event",
     Cell: row => (
       <div className={cn(align.allCenter, "text-bold")}>
@@ -48,8 +59,10 @@ const cols = [
     width: 4,
     accessor: "event",
     Cell: row => (
-      <div className={cn(align.allCenter, "text-bold")}>
-        {row.value.value.toFixed(4)}
+      <div className={cn(align.allCenter)}>
+        <Badge size="lg" className={cn("bg-tellor-muted", "text-bold", "text-1", "text-dark")}>
+          {row.value.value.toFixed(4)}
+        </Badge>
       </div>
     )
   },

@@ -1,5 +1,11 @@
+import {default as reqOps} from 'Redux/events/requests/operations';
 
-export const findAPI = (id, state) => {
+export const findAPI = (id) => async (dispatch,getState) => {
+  let state = getState();
   let apis = state.events.requests.byId || {};
-  return apis[id];
+  let q = apis[id];
+  if(!q) {
+    q = await dispatch(reqOps.lookup(id));
+  }
+  return q;
 }

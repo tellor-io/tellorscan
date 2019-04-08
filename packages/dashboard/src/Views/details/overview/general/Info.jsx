@@ -25,7 +25,7 @@ const rows = [
   },
   {
     label: "API String",
-    value: r => {
+    value: (r, props) => {
       let s = r.queryString;
       if(s.length > 50) {
         s = r.queryString.substring(0, 20) + '...' + r.queryString.substring(r.queryString.length-20);
@@ -35,7 +35,8 @@ const rows = [
           <span className={cn("text-left", "text-1", "font-weight-bold", "mr-2")}>
             {s}
           </span>
-          <i className={cn("fa fa-copy", "clickable-icon", "mr-2")} />
+          <i className={cn("fa fa-copy", "clickable-icon", "mr-2")}
+             onClick={()=>props.copy(r.queryString)}/>
           <a className="hash-link"
              target="_blank"
              rel='noreferrer noopener'
@@ -48,9 +49,9 @@ const rows = [
   }
 ]
 
-const buildRow = (item, spec, idx, isLast) => {
+const buildRow = (item, spec, idx, isLast,props) => {
   let val = null;
-  let v = spec.value(item);
+  let v = spec.value(item, props);
   if(typeof v !== 'object') {
     let s = (
       <span className={cn("text-center", "text-1", "font-weight-bold")}>
@@ -90,7 +91,7 @@ export default class Info extends React.Component {
     return (
       <Row className={cn("info-container", "border", "rounded", "m-3", align.topCenter, align.full)}>
           {
-              rows.map((r,i) => buildRow(item, r, i, i===rows.length-1))
+              rows.map((r,i) => buildRow(item, r, i, i===rows.length-1, this.props))
           }
       </Row>
     )

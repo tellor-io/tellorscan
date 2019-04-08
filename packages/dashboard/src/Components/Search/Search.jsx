@@ -19,8 +19,9 @@ export default class Search extends React.Component {
 
           <div className={cn("rounded",align.full, align.leftCenter)}>
             <i className={cn("search-icon fa fa-search", "m-0", "bg-tellor-green")} />
-            <input placeholder="api-ID" className={cn(align.full, "m-0")}/>
-
+            <div className={cn("input-wrapper", align.full, align.leftCenter, align.noMarginPad)}>
+              <input placeholder="api-ID" className={cn(align.full, "ml-1", "m-0")}/>
+            </div>
           </div>
         </Col>
 

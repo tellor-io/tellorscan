@@ -1,0 +1,27 @@
+.loading-overlay {
+  display: inline-flex;
+  color: theme-color("text-tellor-green");
+  position: absolute;
+  background: rgba(255,255,255,.5);
+  text-align: center;
+  font-size: 4em;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  &.small {
+    font-size: 1em;
+    /*width: 25%;*/
+  }
+
+  &.medium {
+    font-size: 2em;
+  }
+
+  .spinner {
+    margin: auto;
+    align-self: center;
+  }
+}

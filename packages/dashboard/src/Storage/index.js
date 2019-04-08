@@ -2,9 +2,14 @@
   * Just manages the instance we're going to use
   */
 import InMemory from './InMemory';
-//import PouchDB from './PouchDB';
+import LF from './LocalForage';
+
+let lf = new LF({
+  querySizeLimit: 50
+});
 
 new InMemory({
-  maxHistory: 50
+  maxHistory: 50,
+  next: lf
 });
 export default InMemory;

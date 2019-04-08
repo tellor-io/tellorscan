@@ -1,0 +1,15 @@
+.modal-shell {
+  max-width: 60% !important;
+
+  .modal-page {
+    min-height: 00px;
+  }
+
+  .modal-header {
+    background: theme-color("bg-tellor-charcoal");
+
+    .close {
+      color: white;
+    }
+  }
+}

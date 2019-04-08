@@ -32,12 +32,10 @@ export default class NewAPIonQinfo extends BaseEvent {
     let parent = super.toJSON();
     return {
       ...parent,
-      returnValues: {
-        _apiId: this._apiId,
-        _sapi: this._sapi,
-        _apiOnQ: this._apiOnQ,
-        _apiOnQPayout: this._apiOnQPayout
-      }
+      id: this._apiId,
+      queryString: this._sapi,
+      queryHash: this._apiOnQ,
+      tip: this._apiOnQPayout
     }
   }
 }

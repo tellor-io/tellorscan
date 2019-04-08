@@ -12,7 +12,8 @@ const s2p = state => {
 const d2p = (dispatch,own) => {
   return {
     goHome: () => own.history.push(navs.HOME),
-    toDisputes: () => own.history.push(navs.DISPUTE_HOME)
+    toDisputes: () => own.history.push(navs.DISPUTE_HOME),
+    toSettings: () => own.history.push(navs.SETTINGS_HOME)
   }
 }
 

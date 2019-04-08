@@ -1,2 +1,6 @@
 @import "./overview/Overview";
 @import "./activity/Activity";
+
+.details-container {
+  background: theme-color("main-bg");
+}

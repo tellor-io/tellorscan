@@ -1,7 +1,8 @@
 export default class BaseEvent {
   constructor(props) {
     [
-      'normalize'
+      'normalize',
+      'toJSON'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
     this.event = props.event;
     this.signature = props.signature;

@@ -7,12 +7,25 @@
     color: white;
     padding: 10px 20px 10px 20px;
   }
-  & input {
-    height: 40px;
 
-    &::placeholder {
-      color: theme-color("input-placeholder");
+  .input-wrapper {
+
+
+    input {
+      height: 40px;
+      border: none;
+
+      &::placeholder {
+        color: theme-color("input-placeholder");
+      }
+
+      &:focus {
+        outline: none;
+      }
     }
+
+
   }
+
 
 }

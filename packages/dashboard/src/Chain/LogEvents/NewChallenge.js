@@ -36,13 +36,11 @@ export default class NewChallenge extends BaseEvent {
     let parent = super.toJSON();
     return {
       ...parent,
-      returnValues: {
-        _currentChallenge: this._currentChallenge,
-        _miningApiId: this._miningApiId,
-        _difficulty_level: this._difficulty_level,
-        _api: this._api,
-        _value: this._value
-      }
+      id: this._miningApiId,
+      queryString: this._api,
+      difficulty: this._difficulty_level,
+      challengeHash: this._currentChallenge,
+      tip: this._value,
     }
   }
 }

@@ -8,13 +8,13 @@ import Activity from './activity';
 export default class Dashboard extends React.Component {
   render() {
     return (
-      <div className={cn("dashboard-container", align.topCenter, align.full)}>
+      <div className={cn("details-container", align.topCenter, align.full)}>
 
 
         <Menu withLogo withSearch/>
         <Overview />
         <Activity />
-        
+
       </div>
     )
   }

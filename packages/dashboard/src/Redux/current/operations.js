@@ -1,7 +1,5 @@
 import {Creators} from './actions';
 import eventFactory from 'Chain/LogEvents/EventFactory';
-import * as dbNames from 'Storage/DBNames';
-import Storage from 'Storage';
 import {default as reqOps} from 'Redux/events/requests/operations';
 
 const init = () => async (dispatch,getState) => {

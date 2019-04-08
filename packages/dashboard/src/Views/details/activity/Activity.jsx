@@ -62,8 +62,6 @@ class EventTable extends React.Component {
       event: r
     }));
 
-    console.log('rows', rows);
-
     return (
 
       <Row className={cn(align.topCenter, align.full, )}>

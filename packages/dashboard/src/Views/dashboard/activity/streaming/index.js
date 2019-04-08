@@ -1,7 +1,6 @@
 import {connect} from 'react-redux';
 import Stream from './Streaming';
 import {withRouter} from 'react-router-dom';
-import {default as qOps} from 'Redux/queries/operations';
 import * as navs from 'Navs';
 import _ from 'lodash';
 
@@ -34,7 +33,6 @@ const d2p = (dispatch, own) => {
   return {
     viewAPI: id => {
 
-      dispatch(qOps.select(id));
       let url = navs.DETAILS_HOME + "/" + id;
       own.history.push(url);
     }

@@ -1,10 +1,12 @@
 import BaseEvent from './BaseEvent';
+import {generateQueryHash} from 'Chain/utils';
 
 export default class DataRequested extends BaseEvent {
   constructor(props) {
     super(props);
     [
-      'normalize'
+      'normalize',
+      'toJSON',
     ].forEach(fn=>this[fn]=this[fn].bind(this));
     const {sender, _sapi, _granularity,  _apiId,  _value, _symbol} = props.returnValues;
     this.sender = sender;
@@ -12,7 +14,8 @@ export default class DataRequested extends BaseEvent {
     this._granularity = _granularity;
     this._apiId = _apiId;
     this._value = _value-0;
-    this._symbol = _symbol?_symbol.toUpperCase():undefined
+    this._symbol = _symbol?_symbol.toUpperCase():undefined;
+    this._queryHash = generateQueryHash(_sapi, _granularity);
   }
 
   normalize() {
@@ -26,6 +29,7 @@ export default class DataRequested extends BaseEvent {
       queryString: this._sapi,
       sender: this.sender,
       value: this._value,
+      queryHash: this._queryHash,
       originalEvent: this,
       normalize: () => payload
     }
@@ -33,17 +37,18 @@ export default class DataRequested extends BaseEvent {
   }
 
   toJSON() {
+
     let parent = super.toJSON();
     return {
       ...parent,
-      returnValues: {
-        sender: this.sender,
-        _sapi: this._sapi,
-        _granularity: this._granularity,
-        _apiId: this._apiId,
-        _value: this._value,
-        _symbol: this._symbol
-      }
-    }
+      id: this._apiId,
+      tip: this._value,
+      symbol: this._symbol,
+      multiplier: this._granularity,
+      queryString: this._sapi,
+      queryHash: this._queryHash,
+      sender: this.sender,
+      value: this._value
+    };
   }
 }

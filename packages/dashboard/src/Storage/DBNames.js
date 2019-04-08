@@ -7,3 +7,4 @@ export const NewAPIonQinfo = "NewAPIonQinfo";
 export const NewChallenge = "NewChallenge";
 export const Blocks = "Blocks";
 export const Metadata = "Metadata";
+export const ChainData = "ChainData";

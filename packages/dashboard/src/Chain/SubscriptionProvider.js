@@ -33,7 +33,7 @@ export default class SubscriptionProvider {
 
           //store all incoming events
           await Storage.instance.create({
-            database: actual.event,
+            database: actual.event,//event name === db name
             key: actual.transactionHash,
             data: actual.toJSON()
           });

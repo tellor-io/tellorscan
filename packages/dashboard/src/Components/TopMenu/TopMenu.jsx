@@ -23,6 +23,24 @@ export default class TopMenu extends React.Component {
       barClass = cn(barClass, align.topCenter);
     };
 
+    //
+    let navItems = (
+      <React.Fragment>
+        <NavItem className={cn(align.allCenter,"mr-2")}>
+          <NavLink className={cn("text-dark")} href="#" onClick={this.props.toSettings} >
+            <i className={cn("fa fa-gear", "text-dark", "mr-1")} />
+            Settings
+          </NavLink>
+        </NavItem>
+        <NavItem className={cn(align.allCenter)}>
+          <NavLink className={cn("text-dark")} href="#" onClick={this.props.toDisputes} >
+            <i className={cn("fa fa-commenting-o", "text-dark", "mr-1")} />
+            Disputes
+          </NavLink>
+        </NavItem>
+      </React.Fragment>
+    )
+
     let body = null;
     if(withSearch) {
       body = (
@@ -41,9 +59,7 @@ export default class TopMenu extends React.Component {
                   }
 
               <Nav navbar className={cn("ml-auto", "text-md", "font-weight-light", "p-0")}>
-                 <NavItem>
-                   <NavLink className={cn("text-dark")} href="#" onClick={this.props.toDisputes} >Dispute Center</NavLink>
-                 </NavItem>
+                {navItems}
               </Nav>
             </Col>
           </Row>
@@ -55,12 +71,10 @@ export default class TopMenu extends React.Component {
           <Col md="10" className={cn(align.leftCenter, "m-0", "p-0")}>
             {
               withLogo &&
-              <Logo />
+              <Logo goHome={this.props.goHome}/>
             }
             <Nav navbar className={cn("ml-auto", "text-md", "font-weight-light")}>
-               <NavItem>
-                <NavLink className={cn("text-dark")} href="#" onClick={this.props.toDisputes} >Dispute Center</NavLink>
-               </NavItem>
+              {navItems}
             </Nav>
           </Col>
         </Row>

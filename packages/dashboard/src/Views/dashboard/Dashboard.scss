@@ -1,6 +1,7 @@
 @import "./MainSearch";
 @import "./overview/Overview";
 @import "./activity/Activity";
+@import "./modals/Modals.scss";
 
 .dashboard-container {
   background: theme-color("main-bg");

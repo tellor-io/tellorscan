@@ -30,14 +30,10 @@ export default class TipUpdated extends BaseEvent {
   toJSON() {
     let parent = super.toJSON();
     return {
-      event: {
-        ...parent,
-        returnValues: {
-          sender: this.sender,
-          _value: this._value,
-          _apiId: this._apiId
-        }
-      }
+      ...parent,
+      id: this._apiId,
+      tip: this._value,
+      sender: this.sender,
     }
   }
 }

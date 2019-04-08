@@ -14,6 +14,8 @@ import { connect } from "react-redux";
 import { Redirect, Route,Switch } from "react-router-dom";
 import MainRoute from "Routes/dashboard";
 import Details from 'Routes/details';
+import Settings from 'Routes/settings';
+
 import error from "Routes/error";
 import ReduxToastr from 'react-redux-toastr';
 import {default as initOps} from 'Redux/init/operations';
@@ -47,6 +49,7 @@ class AppStart extends Component {
             <Switch>
               <Route path={`${match.url}dashboard`} component={MainRoute} />
               <Route path={`${match.url}details`} component={Details} />
+              <Route path={`${match.url}settings`} component={Settings} />
               <Route path={`/error`} component={error} />
               <Redirect to="/error" />
             </Switch>

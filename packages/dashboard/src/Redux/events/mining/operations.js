@@ -4,6 +4,9 @@ import * as dbNames from 'Storage/DBNames';
 import eventFactory from 'Chain/LogEvents/EventFactory';
 import _ from 'lodash';
 
+import {registerDeps} from 'Redux/DepMiddleware';
+import {Types as settingsTypes} from 'Redux/settings/actions';
+
 const incomingEvent = async (dispatch, getState, evt) => {
   let st = getState();
   let byId = st.events.requests.byId;
@@ -19,6 +22,13 @@ const incomingEvent = async (dispatch, getState, evt) => {
 }
 
 const init = () => async (dispatch,getState) => {
+
+  registerDeps([settingsTypes.CLEAR_HISTORY_SUCCESS], async () => {
+    dispatch(Creators.initStart());
+    dispatch(Creators.clearAll());
+    dispatch(Creators.initSuccess());
+  });
+
   let state = getState();
   let con = state.chain.contract;
   dispatch(Creators.initStart());
@@ -35,49 +45,55 @@ const init = () => async (dispatch,getState) => {
     }
   })
 
-
   //read all current events
-  let r = await Storage.instance.read({
+  let r = await Storage.instance.readAll({
     database: dbNames.NonceSubmitted,
     limit: 50,
     order: [{
-      field: '_apiId',
+      field: 'blockNumber',
       direction: 'desc'
     }]
   });
 
-  let events = _.get(r, "data", []);
+  let events = r || [];
 
-  r = await Storage.instance.read({
+  r = await Storage.instance.readAll({
     database: dbNames.NewValue,
     limit: 50,
     order: [{
-      field: '_apiId',
+      field: 'blockNumber',
       direction: 'desc'
     }]
   });
+  r = r || [];
   events = [
     ...events,
-    ..._.get(r, "data", [])
+    ...r
   ];
   events.sort((a,b)=>{
     if(a.blockNumber > b.blockNumber) {
       return 1;
-    } else if(a.blockNumber < b.blockNumber) {
+    }
+    if(a.blockNumber < b.blockNumber) {
       return -1
-    } else if(a._apiId > b._apiId) {
+    }
+    if(a.logIndex > b.logIndex) {
       return 1;
-    } else if(a._apiId < b._apiId) {
+    }
+    if(a.logIndex < b.logIndex) {
+      return -1;
+    }
+    if(a._apiId > b._apiId) {
+      return 1;
+    }
+    if(a._apiId < b._apiId) {
       return -1;
     }
     return 0;
   });
-  let normProps = {
-    chain: state.chain.chain,
-    storage: Storage.instance
-  };
-  dispatch(Creators.initSuccess(events.map(e=>eventFactory(e).normalize(normProps))));
-
+  events.forEach(e=>{
+    incomingEvent(dispatch, getState, eventFactory(e))
+  });
 }
 
 export default {

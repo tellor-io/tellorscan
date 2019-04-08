@@ -12,4 +12,5 @@ export default class MockContract {
     });
     this.getPastEvents = this.chain.getPastEvents.bind(this.chain);
   }
+
 }

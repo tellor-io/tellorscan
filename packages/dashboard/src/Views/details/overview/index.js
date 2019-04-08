@@ -1,15 +1,12 @@
 import {connect} from 'react-redux';
 import Overview from './Overview';
 import {withRouter} from 'react-router-dom';
-import {findAPI} from 'Views/details/common';
 
 const s2p = (state,own) => {
-  let q = state.queries.selectedQuery;
+  let byId = state.events.requests.byId;
   let id = own.match.params['apiID'];
-  
-  if(!q && id) {
-    q = findAPI(id, state);
-  }
+  let q = byId[id];
+
   return {
     item: q
   }
