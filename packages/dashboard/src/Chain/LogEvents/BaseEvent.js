@@ -5,6 +5,7 @@ export default class BaseEvent {
       'toJSON'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
     this.event = props.event;
+    this.name = props.event;
     this.signature = props.signature;
     this.address = props.address;
     this.transactionHash = props.transactionHash;
@@ -16,7 +17,7 @@ export default class BaseEvent {
 
   normalize() {
     return {
-      name: this.event,
+      name: this.name || this.event,
       signature: this.signature,
       address: this.address,
       transactionHash: this.transactionHash,
@@ -27,7 +28,7 @@ export default class BaseEvent {
 
   toJSON() {
     return {
-      event: this.event,
+      name: this.name || this.event,
       signature: this.signature,
       address: this.address,
       transactionHash: this.transactionHash,

@@ -33,6 +33,7 @@ export default class NewValue extends BaseEvent {
       ...parent,
       id: this._apiId,
       time: this._time,
+      type: "New value",
       value: this._value,
     }
   }

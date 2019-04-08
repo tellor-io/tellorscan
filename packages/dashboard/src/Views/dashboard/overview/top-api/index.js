@@ -2,11 +2,17 @@ import {connect} from 'react-redux';
 import Top from './TopApi';
 
 const s2p = state => {
-  let current = state.current.query || {
-    symbol: "no query history"
-  };
+  let top = state.analytics.topRequest.top || {};
+
+  let req = state.events.requests.byId[top.id] || {};
+  let loading = state.events.requests.loading ||
+                state.analytics.topRequest.loading ||
+                !req.id;
   return {
-    top: current.symbol || "no symbol"
+    loading,
+    topCount: top.count || 0,
+    topId: (top.id || ""),
+    topSymbol: (req.symbol || "")
   }
 }
 

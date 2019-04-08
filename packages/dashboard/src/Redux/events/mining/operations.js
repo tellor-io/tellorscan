@@ -9,9 +9,17 @@ import {Types as settingsTypes} from 'Redux/settings/actions';
 
 const incomingEvent = async (dispatch, getState, evt) => {
   let st = getState();
+  console.log("Incoming mining event", evt);
   let byId = st.events.requests.byId;
   let q = byId[evt._apiId];
-  let norm = evt.normalize();
+  if(!q) {
+    q = byId[evt.id];
+  }
+  console.log("Matching query", q);
+  let norm = evt;
+  if(evt.normalize) {
+    norm = evt.normalize();
+  }
   if(q) {
     norm = {
       ...norm,
@@ -83,16 +91,16 @@ const init = () => async (dispatch,getState) => {
     if(a.logIndex < b.logIndex) {
       return -1;
     }
-    if(a._apiId > b._apiId) {
+    if(a.id > b.id) {
       return 1;
     }
-    if(a._apiId < b._apiId) {
+    if(a.id < b.id) {
       return -1;
     }
     return 0;
   });
   events.forEach(e=>{
-    incomingEvent(dispatch, getState, eventFactory(e))
+    incomingEvent(dispatch, getState, e)
   });
 }
 

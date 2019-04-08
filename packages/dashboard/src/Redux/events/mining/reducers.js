@@ -80,8 +80,9 @@ const fail = (state=INIT, action) => {
 
 const addEvent = (state=INIT, action) => {
   let evt = action.event;
+  let nm = evt.name || evt.event;
 
-  if(evt.name === 'NonceSubmitted') {
+  if(nm === 'NonceSubmitted') {
     let subs = state.submissionsById[evt.id] || [];
     subs = [
       ...subs,
@@ -96,7 +97,10 @@ const addEvent = (state=INIT, action) => {
       ...state,
       submissionsById: byId
     }
-  } else if(evt.name === 'NewValue') {
+  } else if(nm === 'NewValue') {
+    if(!evt.type) {
+      evt.type = "New Value";
+    }
     let subs = state.valuesById[evt.id] || [];
     subs = [
       ...subs,
