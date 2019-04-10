@@ -10,6 +10,7 @@ import TopApi from './top-api';
 import CurrentApi from './current-api';
 import CurrentTip from './current-tip';
 import Section from './Section';
+import Tips from './costs';
 
 export default class Overview extends React.Component {
   render() {
@@ -35,7 +36,7 @@ export default class Overview extends React.Component {
                 </Section>
               </Col>
               <Col md="4" className={cn(align.vCenter)}>
-                graph
+                <Tips />
               </Col>
           </Row>
         </Col>

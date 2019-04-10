@@ -8,6 +8,7 @@ import {
   Col,
   NavLink
 } from 'reactstrap';
+import Loading from 'Components/Loading';
 
 const cols = [
 
@@ -60,7 +61,8 @@ const cols = [
 export default class APIInQ extends React.Component {
   render() {
     const {
-      onQ
+      onQ,
+      loading
     } = this.props;
     let rows = onQ.map(e=>({
       ...e,
@@ -71,6 +73,7 @@ export default class APIInQ extends React.Component {
     }));
     return (
       <Row className={cn(align.topCenter, align.full, "p-0", "m-0")}>
+        <Loading loading={loading} />
         <Col md="11" className={cn("api-table-box", align.topCenter, "m-0", "p-0")}>
           <CleanTable cols={cols} data={rows} />
         </Col>

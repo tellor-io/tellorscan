@@ -8,6 +8,9 @@ const s2p = (state, own) => {
   let byId = state.events.requests.byId;
   let id = own.match.params['apiID'];
   let q = byId[id];
+  if(!q) {
+    q = state.search.results.data.metadata;
+  }
 
   return {
     item: q

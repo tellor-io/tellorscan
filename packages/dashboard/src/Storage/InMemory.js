@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import _ from 'lodash';
 import BaseDB, {
   createSchema,
@@ -76,12 +75,15 @@ class DB {
       let d = this.kvs[k];
       let props = _.keys(sel);
       let allMatch = true;
-      console.log("Checking in-memory props", sel);
 
       for(let i=0;i<props.length;++i) {
         let p = props[i];
         let tgt = sel[p];
         let v = d[p];
+        if(!isNaN(v) && !isNaN(tgt)) {
+          v -= 0;
+          tgt -= 0;
+        }
         if(v !== tgt) {
           allMatch = false;
           break;
@@ -98,7 +100,7 @@ class DB {
         _sort(set, s);
       })
     }
-    return set;
+    return set.filter(s=>s!==null);
   }
 
   update(props) {
@@ -204,7 +206,7 @@ export default class InMemory extends BaseDB {
   async find(props) {
     findSchema.validateSync(props);
     let db = await this._getDB(props, this.dbFactory);
-    let res = db.find(props);
+    let res = await db.find(props);
     if(res.length === 0) {
       return this.next.find(props);
     }

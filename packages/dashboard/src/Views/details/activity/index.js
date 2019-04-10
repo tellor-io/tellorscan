@@ -1,31 +1,64 @@
 import {connect} from 'react-redux';
 import Activity from './Activity';
 import {withRouter} from 'react-router-dom';
-import _ from 'lodash';
+import {default as searchOps} from 'Redux/search/operations';
 
 const s2p = (state,own) => {
   let id = own.match.params['apiID'];
+  let search = state.search;
+  let res = search.results;
 
-  if(!id) {
+  if(res.data.metadata.id-0 !== id-0) {
+    console.log("No good on metadata");
+    //needs to be initialized
     return {
+      needsSearch: true,
+      total: 0,
+      metadata: {},
       events: []
     }
-  }
-  id = id-0;//make sure numeric comparison
-  let subs = state.events.mining.submissionsById[id] || [];
-  let vals = state.events.mining.valuesById[id] || [];
-  let merged = _.concat([], subs);
-  merged = _.concat(merged, vals);
-  
-  merged = merged.filter(e=>e.id-0 === id);
+  };
+
+  let sorting = search.sort || [
+    {
+      id: 'blockNumber',
+      desc: true
+    }
+  ];
+
   return {
-    events: merged
+    needsSearch: false,
+    sorting,
+    page: res.data.page,
+    pageSize: search.pageSize,
+    loading: search.loading,
+    total: res.total,
+    metadata: res.data.metadata,
+    events: res.data.events
   }
 }
 
-const d2p = dispatch => {
+const d2p = (dispatch,own) => {
   return {
+    doSearch: () => {
+      let id = own.match.params['apiID'];
+      if(!id) {
+        return;
+      }
+      dispatch(searchOps.search({id}))
+    },
 
+    nextPage: () => {
+
+    },
+
+    setPageSize: size => {
+
+    },
+
+    setSort: sort => {
+
+    }
   }
 }
 

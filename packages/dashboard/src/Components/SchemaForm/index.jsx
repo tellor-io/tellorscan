@@ -2,13 +2,6 @@ import React from 'react';
 
 import Form from 'react-jsonschema-form';
 
-import {
-  Row,
-  Col
-} from 'reactstrap';
-import * as align from 'Constants/alignments';
-import cn from 'classnames';
-
 export default class SchemaForm extends React.Component {
 
   render() {

@@ -6,8 +6,8 @@ const s2p = state => {
 
   let req = state.events.requests.byId[top.id] || {};
   let loading = state.events.requests.loading ||
-                state.analytics.topRequest.loading ||
-                !req.id;
+                state.events.mining.loading ||
+                state.analytics.topRequest.loading;
   return {
     loading,
     topCount: top.count || 0,

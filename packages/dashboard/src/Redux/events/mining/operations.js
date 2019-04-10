@@ -1,21 +1,17 @@
 import {Creators} from './actions';
 import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
-import eventFactory from 'Chain/LogEvents/EventFactory';
-import _ from 'lodash';
 
 import {registerDeps} from 'Redux/DepMiddleware';
 import {Types as settingsTypes} from 'Redux/settings/actions';
 
-const incomingEvent = async (dispatch, getState, evt) => {
+const normalizeEvent = (evt) => (dispatch,getState) => {
   let st = getState();
-  console.log("Incoming mining event", evt);
   let byId = st.events.requests.byId;
   let q = byId[evt._apiId];
   if(!q) {
     q = byId[evt.id];
   }
-  console.log("Matching query", q);
   let norm = evt;
   if(evt.normalize) {
     norm = evt.normalize();
@@ -25,10 +21,18 @@ const incomingEvent = async (dispatch, getState, evt) => {
       ...norm,
       symbol: q.symbol
     }
+  } else {
+    console.log("Attempting to normalize event without ref request", evt);
   }
+  return norm;
+}
+
+const incomingEvent = (dispatch, getState, evt) => {
+  let norm = dispatch(normalizeEvent(evt));
   dispatch(Creators.addEvent(norm));
 }
 
+const MAX_SIZE = 50;
 const init = () => async (dispatch,getState) => {
 
   registerDeps([settingsTypes.CLEAR_HISTORY_SUCCESS], async () => {
@@ -63,7 +67,7 @@ const init = () => async (dispatch,getState) => {
     }]
   });
 
-  let events = r || [];
+  let nonces = r || [];
 
   r = await Storage.instance.readAll({
     database: dbNames.NewValue,
@@ -73,17 +77,13 @@ const init = () => async (dispatch,getState) => {
       direction: 'desc'
     }]
   });
-  r = r || [];
-  events = [
-    ...events,
-    ...r
-  ];
-  events.sort((a,b)=>{
+  let values = r || [];
+  let sortFn = (a,b)=>{
     if(a.blockNumber > b.blockNumber) {
-      return 1;
+      return -1; //descending order
     }
     if(a.blockNumber < b.blockNumber) {
-      return -1
+      return 1
     }
     if(a.logIndex > b.logIndex) {
       return 1;
@@ -98,10 +98,18 @@ const init = () => async (dispatch,getState) => {
       return -1;
     }
     return 0;
-  });
-  events.forEach(e=>{
-    incomingEvent(dispatch, getState, e)
-  });
+  };
+  let merged = [
+    ...nonces,
+    ...values
+  ]
+  merged.sort(sortFn);
+  if(merged.length > MAX_SIZE) {
+    merged = merged.slice(0, MAX_SIZE);
+  }
+  merged = merged.map(e=>dispatch(normalizeEvent(e)));
+
+  dispatch(Creators.initSuccess(merged));
 }
 
 export default {

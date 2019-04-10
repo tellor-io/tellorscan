@@ -4,8 +4,6 @@ import * as dbNames from 'Storage/DBNames';
 import eventFactory from 'Chain/LogEvents/EventFactory';
 import _ from 'lodash';
 import {empty} from 'Utils/strings';
-import * as ethUtils from 'web3-utils';
-import {generateQueryHash} from 'Chain/utils';
 
 import {registerDeps} from 'Redux/DepMiddleware';
 import {Types as settingsTypes} from 'Redux/settings/actions';
@@ -13,13 +11,20 @@ import {Types as settingsTypes} from 'Redux/settings/actions';
 const getCurrentTip = id => async (dispatch, getState) => {
   let state = getState();
   let con = state.chain.contract;
+  if(!con) {
+    return 0;
+  }
   let vals = await con.getApiVars(id);
-  return vals[4] || 0;
+  return vals[5] || 0;
 }
 
 const initFromContract = () => async (dispatch,getState) => {
   let state = getState();
   let con = state.chain.contract;
+  if(!con) {
+    return;
+  }
+
   let apiIds = await con.payoutPool();
   if(apiIds) {
     //on real Rinkeby/Mainnet, this will be slow AF. But no choice
@@ -101,22 +106,34 @@ const init = () => async (dispatch,getState) => {
     }]
   });
   let events = r || [];
-
-  events.forEach(async e=>{
-    let tip = await dispatch(getCurrentTip(e.id));
-    dispatch(Creators.addEvent(e, tip));
-  });
-
-  events = await Storage.instance.readAll({
+  r = await Storage.instance.readAll({
     database: dbNames.RequestMetadata,
     limit: 50
   });
-  events.forEach(async e=>{
+  let shells = r || [];
+  let tips = [];
+  let merged = {};
+  for(let i=0;i<events.length;++i) {
+    let e = events[i];
     let tip = await dispatch(getCurrentTip(e.id));
-    dispatch(Creators.addEvent(e, tip));
-  });
-
-  dispatch(Creators.initSuccess());
+    tips.push({
+      id: e.id,
+      tip
+    });
+    merged[e.id] = e;
+  }
+  for(let i=0;i<shells.length;++i) {
+    let e = shells[i];
+    if(!merged[e.id]) {
+      merged[e.id] = e;
+      let tip = await dispatch(getCurrentTip(e.id));
+      tips.push({
+        id: e.id,
+        tip
+      })
+    }
+  }
+  dispatch(Creators.initSuccess(_.values(merged), tips));
 }
 
 const retrieveRequest = id => async (dispatch,getState) => {
@@ -148,6 +165,8 @@ const lookup = id => async (dispatch,getState) => {
   });
   let q = r[0];
   if(q) {
+    let tip = await dispatch(getCurrentTip(q.id));
+    dispatch(Creators.addEvent(q, tip));
     console.log("Found in DataRequested store", id, q);
     return q;
   }
@@ -161,17 +180,22 @@ const lookup = id => async (dispatch,getState) => {
     },
     limit: 1
   });
-
   q = r[0];
   if(q) {
+    let tip = await dispatch(getCurrentTip(q.id));
+    dispatch(Creators.addEvent(q, tip));
     console.log("Found in RequestMetadata store", id, q);
     return q;
   }
 
   //finally go on chain and get it
   let con = getState().chain.contract;
+  if(!con) {
+    return null;
+  }
+
   let vars = await con.getApiVars(id);
-  //order is queryString, queryHash,_granularity, paypool index, tip
+  //order is queryString, symbol, queryHash,_granularity, paypool index, tip
   if(!empty(vars[0])) {
 
     let payload = {
@@ -179,10 +203,10 @@ const lookup = id => async (dispatch,getState) => {
       returnValues: {
         sender: "from_contract",
         _sapi: vars[0],
-        _granularity: vars[2],
+        _symbol: vars[1],
+        _granularity: vars[3],
         _apiId: id,
-        _value: vars[4],
-        _symbol: vars[5]
+        _value: vars[5]
       }
     };
 
@@ -198,6 +222,8 @@ const lookup = id => async (dispatch,getState) => {
       data: evt.toJSON()
     });
 
+    let tip = await dispatch(getCurrentTip(id));
+    dispatch(Creators.addEvent(evt.normalize(),tip));
     return evt.normalize();
   }
 

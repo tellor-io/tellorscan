@@ -10,6 +10,7 @@ import {
   NavLink,
   Badge
 } from 'reactstrap';
+import Loading from 'Components/Loading';
 
 const cols = [
   {
@@ -84,7 +85,8 @@ const cols = [
 export default class Streaming extends React.Component {
   render() {
     const {
-      events
+      events,
+      loading
     } = this.props;
     let rows = events.map(e=>({
       ...e,
@@ -96,6 +98,7 @@ export default class Streaming extends React.Component {
 
     return (
       <Row className={cn(align.topCenter, align.full, "p-0", "m-0")}>
+        <Loading loading={loading} />
         <Col md="11" className={cn("event-table-box", align.topCenter, "m-0", "p-0")}>
           <CleanTable cols={cols} data={rows} />
         </Col>

@@ -27,7 +27,15 @@ const initSuccess = (state=INIT, action) => {
   let byId = {
     ...state.byId,
     ...action.events.reduce((o,e)=>{
-      o[e.id] = e;
+      o[e.id-0] = e;
+      return o;
+    },{})
+  }
+
+  let tipsById = {
+    ...state.tipsById,
+    ...action.tips.reduce((o,t)=>{
+      o[t.id-0]= t.tip;
       return o;
     },{})
   }
@@ -35,7 +43,8 @@ const initSuccess = (state=INIT, action) => {
   return {
     ...state,
     loading: false,
-    byId
+    byId,
+    tipsById
   }
 }
 
@@ -50,11 +59,11 @@ const fail = (state=INIT, action) => {
 const addEvent = (state=INIT, action) => {
   let byId = {
     ...state.byId,
-    [action.event.id]: action.event
+    [action.event.id-0]: action.event
   };
   let tipsById = {
     ...state.tipsById,
-    [action.event.id]: action.tip
+    [action.event.id-0]: action.tip
   };
 
   return {
@@ -65,7 +74,7 @@ const addEvent = (state=INIT, action) => {
 }
 
 const updateTip = (state=INIT, action) => {
-  let id = action.id;
+  let id = action.id-0;
   let value = action.total;
   let tips = {
     ...state.tipsById,

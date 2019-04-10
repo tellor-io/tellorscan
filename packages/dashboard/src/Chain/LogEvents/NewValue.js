@@ -7,10 +7,11 @@ export default class NewValue extends BaseEvent {
       'normalize'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
 
-    const {_apiId, _time, _value} = props.returnValues;
+    const {_apiId, _time, _value, _challengeHash} = props.returnValues;
     this._apiId = _apiId;
     this._time = _time;
     this._value = _value;
+    this._challengeHash = _challengeHash;
   }
 
   normalize() {
@@ -21,6 +22,7 @@ export default class NewValue extends BaseEvent {
       type: "New Value",
       time: this._time,
       value: this._value,
+      challengeHash: this._challengeHash,
       originalEvent: this,
       normalize: () => payload
     }
@@ -34,6 +36,7 @@ export default class NewValue extends BaseEvent {
       id: this._apiId,
       time: this._time,
       type: "New value",
+      challengeHash: this._challengeHash,
       value: this._value,
     }
   }

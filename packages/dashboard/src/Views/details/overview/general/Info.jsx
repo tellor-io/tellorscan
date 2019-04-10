@@ -27,7 +27,7 @@ const rows = [
     label: "API String",
     value: (r, props) => {
       let s = r.queryString;
-      if(s.length > 50) {
+      if(s && s.length > 50) {
         s = r.queryString.substring(0, 20) + '...' + r.queryString.substring(r.queryString.length-20);
       }
       return (

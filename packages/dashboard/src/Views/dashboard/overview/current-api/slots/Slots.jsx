@@ -26,12 +26,19 @@ class Slot extends React.Component {
 export default class Slots extends React.Component {
   render() {
     const {
+      pending,
       filled
     } = this.props;
 
     return (
-      <Row className={cn("mined-slots", "p-0", "m-0", align.topCenter, align.full)}>
-        <span className={cn("ml-1", "text-muted", "text-sz-sm")}>Progress</span>
+      <Row className={cn("mined-slots", align.noMarginPad, align.topCenter, align.full)}>
+        <div className={cn("ml-1", align.allCenter, align.noMarginPad, align.full)}>
+          <span className={cn("mr-1", align.noMarginPad, "text-muted", "text-sz-sm")}>Progress</span>
+          {
+            pending &&
+            <i className={cn("spinner","fa", "fa-spin", "fa-spinner")} style={{fontSize: "1.2em"}}/>
+          }
+        </div>
         <Col md="11" className={cn(align.allCenter)}>
           {
             filled.map((f,i)=>(

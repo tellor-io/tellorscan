@@ -2,13 +2,10 @@ import {createActions} from 'reduxsauce';
 
 const {Types, Creators} = createActions({
   initStart: null,
-  initSuccess: ['events', 'tips'],
+  initSuccess: ['data'],
   failure: ['error'],
-  addEvent: ['event', 'tip'],
-  updateTip: ['id', 'total'],
-  clearAll: null
-}, {prefix: "events.requests."});
-
+  update: ['event']
+}, {prefix: "analytics.tipsOverTime."});
 export {
   Types,
   Creators

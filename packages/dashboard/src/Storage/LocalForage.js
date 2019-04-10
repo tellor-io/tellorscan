@@ -5,8 +5,7 @@ import BaseDB, {
   readAllSchema,
   findSchema,
   updateSchema,
-  removeSchema,
-  sortData
+  removeSchema
 } from './BaseDB';
 import _ from 'lodash';
 import * as dbNames from './DBNames';
@@ -20,8 +19,14 @@ const dbFactory = async props => {
 
 const _buildSortFn = props => {
   if(!props.sort) {
-    return undefined;
+    props.sort = [
+      {
+        field: "blockNumber",
+        order: "desc"
+      }
+    ];
   }
+  
   let sorter = (set, fld, isAsc) => {
     set.sort((a,b)=>{
       let av = a[fld];
@@ -113,36 +118,66 @@ export default class LocalForage extends BaseDB {
     let sortFn = _buildSortFn(props);
     let limit = props.limit || this.querySizeLimit;
     let selKeys = _.keys(props.selector);
+    let offset = props.offset || 0;
+    let includeTotal = props.includeTotal;
+    let skipping = offset > 0;
+    let endLength = offset + limit;
 
+    let total = 0;
     await db.iterate((dbVal, dbKey, itNum)=>{
       let allMatch = true;
-      console.log("Checking props", props.selector, dbVal);
-
+      //filter based on selectors first. This way we make
+      //sure paging and sorting work with the same dataset
+      //each time. This is terribly slow but localforage/indexedDB
+      //doesn't offer skipping records. An optimization might be
+      //to keep our own index of record counts so that at a minimum
+      //we're not running through entire set each time. Skipping would
+      //still require walk from beginning. I don't know what happens if
+      //records are inserted during paging operation...would we miss an
+      //item if it's key were iterated earlier than the page we skipped?
+      //This needs more thought.
       for(let i=0;i<selKeys.length;++i) {
         let p = selKeys[i];
         let tgt = props.selector[p];
         let v = dbVal[p];
+        if(!isNaN(v) && !isNaN(tgt)) {
+          v -= 0;
+          tgt -= 0;
+        }
         if(v !== tgt) {
           allMatch = false;
           break;
         }
       }
       if(allMatch) {
-        set.push(dbVal);
+        ++total;
+        if(!skipping && set.length < endLength) {
+          set.push(dbVal);
+        } else if(!skipping && set.length >= endLength && !includeTotal) {
+          return set;
+        }
       }
+
+      skipping = total < offset || set.length > (offset+limit);
     });
+
     if(sortFn) {
       sortFn(set);
     }
-    console.log("Find", props, set);
+    if(includeTotal) {
+      return {
+        total,
+        data: set
+      }
+    }
     return set;
   }
 
   async update(props) {
-
+    updateSchema.validateSync(props);
   }
 
   async remove(props) {
-
+    removeSchema.validateSync(props);
   }
 }

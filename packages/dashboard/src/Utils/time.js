@@ -14,3 +14,13 @@ export const formatTime = (time) => {
   let m = moment.utc(time);
   return m.format("YYYY.MM.DD-HH:mm");
 }
+
+export const formatHour = (time) => {
+  let test = new Date(time);
+  let diff = Math.abs(new Date().getYear() - test.getYear());
+  if(diff > 2) {
+    time *= 1000;
+  }
+  let m = moment.utc(time);
+  return m.format("HH:mm");
+}

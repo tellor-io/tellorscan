@@ -8,6 +8,7 @@ const s2p = state => {
     current = null;
   }
   return {
+    loading: state.current.loading,
     current
   }
 }

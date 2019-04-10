@@ -20,6 +20,28 @@ export default class TopApi extends React.Component {
       loading
     } = this.props;
 
+    let tipBody = null;
+    if(topSymbol && topId) {
+      tipBody = (
+        <React.Fragment>
+          <Col md="6" className={cn(VALUE_CLASS)}>
+            {topId||''} ({topSymbol || ''})
+          </Col>
+          <Col md="6" className={cn(align.leftCenter, align.noMarginPad)}>
+            <span className={cn("text-muted", "text-left", "text-sz-sm")}>
+              recent requests: {topCount}
+            </span>
+          </Col>
+        </React.Fragment>
+      )
+    } else {
+      tipBody = (
+        <Col md="6" className={cn(VALUE_CLASS)}>
+          no event history
+        </Col>
+      )
+    }
+
 
     return (
       <Row className={cn(align.topCenter, align.full, "p-1", align.noMarginPad)}>
@@ -42,14 +64,7 @@ export default class TopApi extends React.Component {
             </Col>
             <Col md="10" className={cn(align.leftCenter, align.noMarginPad)}>
               <Row className={cn(align.leftCenter, align.full, align.noMarginPad)}>
-                <Col md="6" className={cn(VALUE_CLASS)}>
-                  {topId||''} ({topSymbol || ''})
-                </Col>
-                <Col md="6" className={cn(align.leftCenter, align.noMarginPad)}>
-                  <span className={cn("text-muted", "text-left", "text-sz-sm")}>
-                    recent requests: {topCount}
-                  </span>
-                </Col>
+                {tipBody}
               </Row>
             </Col>
           </Row>

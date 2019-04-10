@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const schema = {
   type: "object",
   required: ['queryString','multiplier','tip'],

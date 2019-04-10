@@ -22,6 +22,17 @@ const cols = [
     }
   },
   {
+    Header: "Block",
+    accessor: "event",
+    Cell: row => {
+      return  (
+        <div className={cn(align.allCenter, "text-bold")}>
+          {row.value.blockNumber}
+        </div>
+      )
+    }
+  },
+  {
     Header: "Value",
     accessor: "event",
     Cell: row => (
@@ -31,11 +42,11 @@ const cols = [
     )
   },
   {
-    Header: "Tip",
+    Header: "Type",
     accessor: "event",
     Cell: row => (
       <div className={cn(align.allCenter, "text-bold")}>
-        {row.value.tip}
+        {row.value.type}
       </div>
     )
   },
@@ -51,39 +62,27 @@ const cols = [
 
 ]
 
-class EventTable extends React.Component {
+export default class Activity extends React.Component {
+
+  componentWillMount() {
+    if(this.props.needsSearch && (!this.props.metadata || !this.props.metadata.id)) {
+      //need to initialize
+      this.props.doSearch();
+    }
+  }
+
   render() {
     const {
+      loading,
+      page,
+      sorting,
+      total,
       pageSize,
       events
     } = this.props;
 
-    let rows = events.map((r,i)=>({
-      event: r
-    }));
-
-    return (
-
-      <Row className={cn(align.topCenter, align.full, )}>
-        <Col md="12" className={cn(align.allCenter, "m-0", "p-0")}>
-          <ReactTable data={rows} columns={cols}
-                      pageSize={pageSize||10}
-                      noDataText="No recent events"
-                      className="w-100 m-0 p-0 -striped -highlight" />
-        </Col>
-      </Row>
-    )
-  }
-}
-
-export default class Activity extends React.Component {
-  render() {
-    const {
-      events,
-      pageSize
-    } = this.props;
-
-
+    let totalPages = Math.ceil(total/pageSize);
+    let rows = events.map(e=>({event: e}));
 
     return (
       <Row className={cn(align.topCenter, align.full,"pt-4", "pb-4")}>
@@ -91,7 +90,19 @@ export default class Activity extends React.Component {
           Recent Activity
         </Col>
         <Col md="10" className={cn("activity-table-container", "rounded", align.allCenter, "p-3", "m-0", "p-0")}>
-          <EventTable pageSize={pageSize} events={events} />
+          <ReactTable data={rows} columns={cols}
+                      defaultPageSize={pageSize}
+                      pageSize={pageSize}
+                      pages={totalPages}
+                      page={page}
+                      loading={loading}
+                      manual={true}
+                      defaultSorted={sorting}
+                      onPageChange={this.props.nextPage}
+                      onPageSizeChange={this.props.setPageSize}
+                      onSortedChange={this.props.setSort}
+                      noDataText="No recent events"
+                      className="w-100 m-0 p-0 -striped -highlight" />
         </Col>
       </Row>
     )

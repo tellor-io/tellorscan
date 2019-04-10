@@ -138,11 +138,11 @@ export default class ContractLogic {
 
       return [
         req.apiString,
+        req.symbol,
         req.apiHash,
         req.granularity,
         index,
-        req.payout,
-        req.symbol //added in simulator only. Needs to be added to solidity
+        req.payout
       ];
   }
 
@@ -267,8 +267,6 @@ export default class ContractLogic {
       let avg = total / 5;
 
       this.minedSlots = [];
-      await this.nextUp();
-
       payload = {
         event: "NewValue",
         blockNumber: this.chain.block,
@@ -276,9 +274,13 @@ export default class ContractLogic {
         returnValues: {
           _apiId,
           _time: Math.floor(Date.now()/1000),
-          _value: avg
+          _value: avg,
+          _challengeHash: this.challengeHash
         }
       };
+      //t-up the next one
+      await this.nextUp();
+      //publish the event
       let evt = buildEvent(payload);
       this.chain.publishEvent(evt);
     }

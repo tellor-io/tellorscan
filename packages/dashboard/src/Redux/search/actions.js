@@ -1,13 +1,11 @@
 import {createActions} from 'reduxsauce';
-
 const {Types, Creators} = createActions({
-  initStart: null,
-  initSuccess: ['events'],
+  searchStart: ['id'],
+  searchSuccess: ['data'],
   failure: ['error'],
-  addEvent: ['event'],
-  clearAll: null
-}, {prefix: "events.mining."});
-
+  setPageSize: ['size'],
+  setSort: ['sort']
+},{prefix: "search."});
 export {
   Types,
   Creators

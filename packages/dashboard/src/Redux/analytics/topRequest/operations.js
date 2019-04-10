@@ -8,45 +8,59 @@ const init = () => async (dispatch,getState) => {
   let con = getState().chain.contract;
 
   con.events.NewChallenge(null, async (e, evt) => {
+    if(!evt) {
+      return;
+    }
+
     if(evt.normalize) {
       evt = evt.normalize();
     }
+    if(!evt.id) {
+      return;
+    }
+    
     dispatch(Creators.updateStart());
     dispatch(Creators.updateSuccess(evt));
   });
 
-  //read last 50 challenge requests and see which one was called the most
-  let r = await Storage.instance.readAll({
-    database: dbNames.NewChallenge,
-    limit: 50,
-    sort: [
-      {
-        field: "blockNumber",
-        order: "desc"
+  try {
+    //read last 50 challenge requests and see which one was called the most
+    let r = await Storage.instance.readAll({
+      database: dbNames.NewChallenge,
+      limit: 50,
+      sort: [
+        {
+          field: "blockNumber",
+          order: "desc"
+        }
+      ]
+    });
+    let counts = r.reduce((o, h)=>{
+      if(!h || !h.id) {
+        return o;
       }
-    ]
-  });
-  let counts = r.reduce((o, h)=>{
-    if(!h.id) {
+      let obj = o[h.id] || {};
+      let cnt = obj.count || 0;
+      o[h.id] = {
+        ...h,
+        count: cnt+1
+      };
       return o;
-    }
-    let obj = o[h.id] || {};
-    let cnt = obj.count || 0;
-    o[h.id] = {
-      ...h,
-      count: cnt+1
-    };
-    return o;
-  },{});
-  let top = _.values(counts);
-  top.sort((a,b)=>{
-    return b.count - a.count;
-  });
+    },{});
+    let top = _.values(counts);
+    top.sort((a,b)=>{
+      return b.count - a.count;
+    });
+    let topReq = top[0] || {};
 
-  dispatch(Creators.initSuccess({
-    id: top[0].id,
-    count: top[0].count
-  }, counts));
+    dispatch(Creators.initSuccess({
+      id: topReq.id,
+      count: topReq.count
+    }, counts));
+  } catch (e) {
+    dispatch(Creators.failure(e));
+  }
+
 }
 
 export default {

@@ -10,6 +10,7 @@ import {
   LABEL_CLASS,
   VALUE_CLASS
 } from 'Views/dashboard/overview/common';
+import Loading from 'Components/Loading';
 
 /*
 
@@ -18,7 +19,8 @@ import {
 export default class CurrentApi extends React.Component {
   render() {
     const {
-      current
+      current,
+      loading
     } = this.props;
     let idText = null;
     if(current) {
@@ -26,12 +28,13 @@ export default class CurrentApi extends React.Component {
     } else {
       idText = "no pending queries";
     }
-    
+
     return (
-      <Row className={cn("current-api", align.allCenter, align.full, "m-0", "p-0")}>
+      <Row className={cn("current-api", align.allCenter, align.full, align.noMarginPad)}>
+        <Loading loading={loading} size="small"/>
         <Col md="8" className={cn( align.topCenter, "m-0", "p-0")}>
 
-          <Row className={cn(align.leftCenter, align.full, "m-0", "p-0")}>
+          <Row className={cn(align.leftCenter, align.full, align.noMarginPad)}>
             <Col md="1" className={cn(align.leftCenter, "mr-2")}>
               <i className={cn("icon-link", "text-muted", "font-weight-light")}/>
             </Col>
@@ -39,7 +42,7 @@ export default class CurrentApi extends React.Component {
               Current Request ID
             </Col>
           </Row>
-          <Row className={cn(align.leftCenter, align.full, "m-0", "p-0")}>
+          <Row className={cn(align.leftCenter, align.full, align.noMarginPad)}>
             <Col md="1" className={cn(align.leftCenter, "mr-2")}>
               &nbsp;
             </Col>
@@ -50,10 +53,10 @@ export default class CurrentApi extends React.Component {
 
         </Col>
 
-        <Col md="4" className={cn(align.rightCenter, "m-0", "p-0")}>
+        <Col md="4" className={cn(align.rightCenter, align.noMarginPad)}>
 
-          <Row className={cn(align.topCenter, align.full, "m-0", "p-0")}>
-            <Col md="12" className={cn(align.allCenter, "m-0", "p-0")}>
+          <Row className={cn(align.topCenter, align.full, align.noMarginPad)}>
+            <Col md="12" className={cn(align.allCenter, align.noMarginPad)}>
               <Slots />
             </Col>
           </Row>

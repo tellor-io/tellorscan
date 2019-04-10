@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import _ from 'lodash';
 
 /**
  * An in-memory implementation of storage. Mainly used for
@@ -42,7 +41,7 @@ export const findSchema = yup.object().shape({
 
   limit: yup.number(),
 
-  sort: yup.array().of(sortSchema)
+  sort: yup.array().of(sortSchema).nullable()
 });
 
 export const removeSchema = yup.object().shape({
