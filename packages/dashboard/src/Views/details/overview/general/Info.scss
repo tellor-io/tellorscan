@@ -1,7 +1,9 @@
 .info-container {
+  background: theme-color("tellor-bg-light");
+  box-shadow: 2px 2px 2px 1px rgba(100,100,100,.3);
 
   .item-row {
-    min-height: 50px;
+    min-height: 40px;
   }
 
   .hash-link {

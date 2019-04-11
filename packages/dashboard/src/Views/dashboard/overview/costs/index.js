@@ -5,7 +5,7 @@ const s2p = state => {
   let buckets = [
     ...state.analytics.tips.data
   ];
-  let loading = state.events.requests.loading ||
+  let loading = state.events.tree.loading ||
                 state.events.mining.loading ||
                 state.analytics.tips.loading;
 

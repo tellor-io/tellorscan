@@ -1,6 +1,6 @@
 import BaseEvent from './BaseEvent';
 
-export default class TipUpdated extends BaseEvent {
+export default class TipAdded extends BaseEvent {
   constructor(props) {
     super(props);
     [

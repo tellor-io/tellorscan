@@ -1,26 +1,34 @@
 import moment from 'moment';
 
 
-export const formatTime = (time) => {
-  if(typeof time === 'undefined') {
-    return -1;
-  }
-
+const _format = (time, fmt) => {
   let test = new Date(time);
   let diff = Math.abs(new Date().getYear() - test.getYear());
   if(diff > 2) {
     time *= 1000;
   }
   let m = moment.utc(time);
-  return m.format("YYYY.MM.DD-HH:mm");
+  return m.format(fmt);
+}
+
+export const formatTimeLong = (time) => {
+  if(typeof time === 'undefined') {
+    return "no-time";
+  }
+  return _format(time, "MM-DD-YYYY HH:mm:ss ZZ");
+}
+
+export const formatTime = (time) => {
+  if(typeof time === 'undefined') {
+    return "no-time";
+  }
+
+  return _format(time, "YYYY.MM.DD-HH:mm");
 }
 
 export const formatHour = (time) => {
-  let test = new Date(time);
-  let diff = Math.abs(new Date().getYear() - test.getYear());
-  if(diff > 2) {
-    time *= 1000;
+  if(!time) {
+    return "no-time";
   }
-  let m = moment.utc(time);
-  return m.format("HH:mm");
+  return _format(time, "HH:mm");
 }

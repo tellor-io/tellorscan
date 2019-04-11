@@ -17,8 +17,11 @@ export default class Chart extends React.Component {
     let tips = [];
     data.forEach(d=>{
       labels.push(formatHour(d.timestamp));
+      tips.push(d.tip);
+      /*
       let tipAvg = d.count?(d.tipTotal / d.count):0;
       tips.push(tipAvg.toFixed(2));
+      */
     });
 
     let config = chartConfig();

@@ -40,6 +40,7 @@ const init = () => async (dispatch, getState) => {
   //so that the most recent bucket is the last bucket
   history.reverse();
 
+  /*
   //lump into 15 buckets for display
   let buckets = [];
   let current = null;
@@ -59,6 +60,8 @@ const init = () => async (dispatch, getState) => {
   }
 
   dispatch(Creators.initSuccess(buckets));
+  */
+  dispatch(Creators.initSuccess(history));
 }
 
 export default {

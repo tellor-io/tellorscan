@@ -54,7 +54,7 @@ const _doRequestData = props => async (dispatch, getState) => {
 
 const addToTip = (id,tip) => (dispatch, getState) => {
   let state = getState();
-  let req = state.events.requests.byId[id];
+  let req = state.events.tree.byId[id];
   if(req) {
     return dispatch(_doRequestData({
     queryString: req.queryString,

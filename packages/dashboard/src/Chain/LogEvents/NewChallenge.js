@@ -25,7 +25,7 @@ export default class NewChallenge extends BaseEvent {
       difficulty: this._difficulty_level,
       challengeHash: this._currentChallenge,
       tip: this._value,
-      originalEvent: this,
+      //originalEvent: this,
       normalize: () => normalized
     }
 

@@ -27,7 +27,7 @@ class Miner {
             if(typeof data === 'string') {
               data = JSON.parse(data);
             }
-            this.chain.getContract().proofOfWork(this.address,  Math.floor(Math.random()*1000),  challenge.id, data.price-0);
+            this.chain.getContract().proofOfWork(this.address,  Math.floor(Math.random()*1000),  challenge.id, data.price-0, challenge.challengeHash);
           })
           .catch(e=>{
             toastr.error("Query Problem", "Simulated miner could not retrieve data from url: " + e.message);

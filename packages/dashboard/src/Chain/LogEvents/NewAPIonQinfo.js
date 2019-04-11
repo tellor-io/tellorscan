@@ -22,7 +22,7 @@ export default class NewAPIonQinfo extends BaseEvent {
       queryString: this._sapi,
       queryHash: this._apiOnQ,
       tip: this._apiOnQPayout,
-      originalEvent: this,
+      //originalEvent: this,
       normalize: () => payload
     }
     return payload;

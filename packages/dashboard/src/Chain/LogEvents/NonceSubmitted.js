@@ -13,6 +13,7 @@ export default class NonceSubmitted extends BaseEvent {
     this._apiId = _apiId;
     this._value = _value;
     this._currentChallenge = _currentChallenge;
+    this.winningOrder = -1;
   }
 
   normalize(props) {
@@ -26,7 +27,8 @@ export default class NonceSubmitted extends BaseEvent {
       nonce: this._nonce,
       value: this._value,
       challengeHash: this._currentChallenge,
-      originalEvent: this,
+      winningOrder: this.winningOrder,
+      //originalEvent: this,
       normalize: () => payload
     }
     return payload;
@@ -42,6 +44,7 @@ export default class NonceSubmitted extends BaseEvent {
       nonce: this._nonce,
       value: this._value,
       challengeHash: this._currentChallenge,
+      winningOrder: this.winningOrder
     }
   }
 }

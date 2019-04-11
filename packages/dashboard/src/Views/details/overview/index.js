@@ -1,23 +1,21 @@
 import {connect} from 'react-redux';
 import Overview from './Overview';
 import {withRouter} from 'react-router-dom';
+import {default as qOps} from 'Redux/events/tree/operations';
 
 const s2p = (state,own) => {
-  let byId = state.events.requests.byId;
+  let byId = state.events.tree.byId;
   let id = own.match.params['apiID'];
   let q = byId[id];
-  if(!q) {
-    q = state.search.results.data.metadata;
-  }
 
   return {
     item: q
   }
 }
 
-const d2p = dispatch => {
+const d2p = (dispatch,own) => {
   return {
-
+    
   }
 }
 

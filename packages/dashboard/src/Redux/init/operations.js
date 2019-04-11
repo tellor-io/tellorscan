@@ -3,6 +3,7 @@ import {default as eventOps} from 'Redux/events/operations';
 import {default as currentOps} from 'Redux/current/operations';
 import {default as chainOps} from 'Redux/chain/operations';
 import {default as analyticOps} from 'Redux/analytics/operations';
+import {default as tipOps} from 'Redux/tips/operations';
 
 const initChain = props => {
   return props.dispatch(chainOps.init())
@@ -28,6 +29,11 @@ const initAnalytics = props => {
   .then(()=>props)
 }
 
+const initTips = props => {
+  return props.dispatch(tipOps.init())
+      .then(()=>props);
+}
+
 const start = () => (dispatch,getState) => {
   let state = getState();
   if(state.init.initComplete) {
@@ -42,6 +48,7 @@ const start = () => (dispatch,getState) => {
   return initChain(props)
         .then(initCurrent)
         .then(initEvents)
+        .then(initTips)
         .then(initAnalytics)
         .then(()=>{
           dispatch(Creators.initSuccess());

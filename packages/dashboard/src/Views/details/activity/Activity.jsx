@@ -8,59 +8,7 @@ import cn from 'classnames';
 import * as align from 'Constants/alignments';
 import {formatTime} from 'Utils/time';
 import ReactTable from 'react-table';
-
-const cols = [
-  {
-    Header: "Time",
-    accessor: "event",
-    Cell: row => {
-      return  (
-        <div className={cn(align.allCenter, "text-bold")}>
-          {formatTime(row.value.timestamp)}
-        </div>
-      )
-    }
-  },
-  {
-    Header: "Block",
-    accessor: "event",
-    Cell: row => {
-      return  (
-        <div className={cn(align.allCenter, "text-bold")}>
-          {row.value.blockNumber}
-        </div>
-      )
-    }
-  },
-  {
-    Header: "Value",
-    accessor: "event",
-    Cell: row => (
-      <div className={cn(align.allCenter, "text-bold")}>
-        {row.value.value}
-      </div>
-    )
-  },
-  {
-    Header: "Type",
-    accessor: "event",
-    Cell: row => (
-      <div className={cn(align.allCenter, "text-bold")}>
-        {row.value.type}
-      </div>
-    )
-  },
-  {
-    Header: "",
-    accessor: "actions",
-    Cell: row => (
-      <div className={cn(align.allCenter, align.full)}>
-          <Button outline color="warning">Dispute</Button>
-      </div>
-    )
-  }
-
-]
+import ChallengeViewer from 'Components/ChallengeViewer/ChallengeViewer';
 
 export default class Activity extends React.Component {
 
@@ -73,37 +21,40 @@ export default class Activity extends React.Component {
 
   render() {
     const {
-      loading,
-      page,
-      sorting,
-      total,
-      pageSize,
-      events
+      challenges
     } = this.props;
 
-    let totalPages = Math.ceil(total/pageSize);
-    let rows = events.map(e=>({event: e}));
+    /*
+    <Col md="10" className={cn("activity-table-container", "rounded", align.allCenter, "p-3", "m-0", "p-0")}>
+      <ReactTable data={rows} columns={cols}
+                  defaultPageSize={pageSize}
+                  pageSize={pageSize}
+                  pages={totalPages}
+                  page={page}
+                  loading={loading}
+                  manual={true}
+                  defaultSorted={sorting}
+                  onPageChange={this.props.nextPage}
+                  onPageSizeChange={this.props.setPageSize}
+                  onSortedChange={this.props.setSort}
+                  noDataText="No recent events"
+                  className="w-100 m-0 p-0 -striped -highlight" />
+    </Col>
+    */
 
     return (
-      <Row className={cn(align.topCenter, align.full,"pt-4", "pb-4")}>
-        <Col md="10" className={cn(align.leftCenter, "m-0", "p-0", "font-weight-light", "text-1")}>
-          Recent Activity
+      <Row className={cn("activity-table-container",align.topCenter, align.full, align.noMarginPad)}>
+        <Col md="12" className={cn(align.topCenter, align.noMarginPad)}>
+          <div className={cn("activity-header", "bg-tellor-charcoal", "text-white", align.leftCenter, align.full)}>
+            <span className={cn("pl-4", "font-weight-bold", "text-sz-md", "text-light")}>
+              Recent Requests
+            </span>
+          </div>
         </Col>
-        <Col md="10" className={cn("activity-table-container", "rounded", align.allCenter, "p-3", "m-0", "p-0")}>
-          <ReactTable data={rows} columns={cols}
-                      defaultPageSize={pageSize}
-                      pageSize={pageSize}
-                      pages={totalPages}
-                      page={page}
-                      loading={loading}
-                      manual={true}
-                      defaultSorted={sorting}
-                      onPageChange={this.props.nextPage}
-                      onPageSizeChange={this.props.setPageSize}
-                      onSortedChange={this.props.setSort}
-                      noDataText="No recent events"
-                      className="w-100 m-0 p-0 -striped -highlight" />
+        <Col md="12" className={cn(  align.rightCenter,align.noMarginPad)}>
+          <ChallengeViewer noId noSymbol challenges={challenges} />
         </Col>
+
       </Row>
     )
   }

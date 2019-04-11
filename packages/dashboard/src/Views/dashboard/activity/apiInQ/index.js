@@ -8,9 +8,9 @@ import _ from 'lodash';
 import {toastr} from 'react-redux-toastr';
 
 const s2p = state => {
-  let byId = state.events.requests.byId;
+  let byId = state.events.tree.byId;
   let events = _.keys(byId).map(k=>byId[k]);
-  let tips = state.events.requests.tipsById;
+  let tips = state.tips.byId;
 
   events = events.map(e=>{
     let tip = tips[e.id];

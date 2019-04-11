@@ -9,8 +9,8 @@ import * as align from 'Constants/alignments';
 export default class ValueToCost extends React.Component {
   render() {
     return (
-      <Row className={cn("cost-container", "border", "rounded", "m-3", align.topCenter, align.full)}>
-        <Col md="12">Value to Cost Chart</Col>
+      <Row className={cn("cost-container", "border", "rounded",  align.topCenter, align.full, align.noMarginPad)}>
+        <Col md="12" className={cn(align.noMarginPad)}>Value to Cost Chart</Col>
       </Row>
     )
   }

@@ -32,7 +32,21 @@ const fail = (state=INIT, action) => {
 }
 
 const BUCKET_SIZE = 10; //tips per bucket
+const MAX_ITEMS = 25;
 const update = (state=INIT, action) => {
+  let points = [
+    ...state.data,
+    action.event
+  ];
+  if(points.length > MAX_ITEMS) {
+    points = points.slice(0, MAX_ITEMS);
+  }
+
+  return {
+    ...state,
+    data: points
+  }
+  /*
   let buckets = [
     ...state.data
   ];
@@ -65,6 +79,7 @@ const update = (state=INIT, action) => {
     ...state,
     data: buckets
   }
+  */
 }
 
 const HANDLERS = {

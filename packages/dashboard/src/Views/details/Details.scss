@@ -2,5 +2,20 @@
 @import "./activity/Activity";
 
 .details-container {
+
   background: theme-color("main-bg");
+
+  .overview-box {
+    min-height: 550px !important;
+  }
+
+  .activity-box {
+    min-height: 550px !important;
+    max-height: 550px !important;
+
+    .challenges-container {
+      min-height: 500px !important;
+      max-height: 500px !important;
+    }
+  }
 }

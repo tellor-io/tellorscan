@@ -20,19 +20,19 @@ const rows = [
     value: r => r.tip
   },
   {
-    label: "Multiplier/Granularity",
+    label: "Multiplier",
     value: r => r.multiplier
   },
   {
     label: "API String",
     value: (r, props) => {
       let s = r.queryString;
-      if(s && s.length > 50) {
-        s = r.queryString.substring(0, 20) + '...' + r.queryString.substring(r.queryString.length-20);
+      if(s && s.length > 60) {
+        s = r.queryString.substring(0, 30) + '...' + r.queryString.substring(r.queryString.length-30);
       }
       return (
-        <div className={cn(align.rightCenter, align.full)}>
-          <span className={cn("text-left", "text-1", "font-weight-bold", "mr-2")}>
+        <div className={cn(align.leftCenter, align.full)}>
+          <span className={cn("text-left", "text-1", "font-weight-light", "mr-2")}>
             {s}
           </span>
           <i className={cn("fa fa-copy", "clickable-icon", "mr-2")}
@@ -54,7 +54,7 @@ const buildRow = (item, spec, idx, isLast,props) => {
   let v = spec.value(item, props);
   if(typeof v !== 'object') {
     let s = (
-      <span className={cn("text-center", "text-1", "font-weight-bold")}>
+      <span className={cn("text-center", "text-1", "font-weight-light")}>
         {v}
       </span>
     );
@@ -69,10 +69,10 @@ const buildRow = (item, spec, idx, isLast,props) => {
   }
   return (
     <Row key={idx} className={cn("item-row", wBorder, align.leftCenter, align.full)}>
-      <Col md="3" className={cn(align.leftCenter, "font-weight-light", "text-secondary")}>
+      <Col md="3" className={cn(align.leftCenter, "font-weight-bold")}>
         {spec.label}
       </Col>
-      <Col md="9" className={cn(align.rightCenter)}>
+      <Col md="9" className={cn(align.leftCenter)}>
         {val}
       </Col>
     </Row>
@@ -89,7 +89,7 @@ export default class Info extends React.Component {
     }
 
     return (
-      <Row className={cn("info-container", "border", "rounded", "m-3", align.topCenter, align.full)}>
+      <Row className={cn("info-container", "border", "rounded", align.topCenter, align.full, align.noMarginPad)}>
           {
               rows.map((r,i) => buildRow(item, r, i, i===rows.length-1, this.props))
           }

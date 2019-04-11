@@ -23,7 +23,7 @@ export default class NewValue extends BaseEvent {
       time: this._time,
       value: this._value,
       challengeHash: this._challengeHash,
-      originalEvent: this,
+      //originalEvent: this,
       normalize: () => payload
     }
     return payload;

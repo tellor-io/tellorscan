@@ -30,7 +30,7 @@ export default class DataRequested extends BaseEvent {
       sender: this.sender,
       value: this._value,
       queryHash: this._queryHash,
-      originalEvent: this,
+      //originalEvent: this,
       normalize: () => payload
     }
     return payload;

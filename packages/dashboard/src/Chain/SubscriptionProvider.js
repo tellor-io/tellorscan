@@ -41,13 +41,9 @@ export default class SubscriptionProvider {
           if(this.allListeners.length > 0) {
 
             if(actual) {
-              actual.normalize({
-                chain: this.chain,
-                storage: Storage()
-              }).then(norm=>{
-                this.allListeners.forEach(al=>{
-                  this._filterAndNotify(al.options, al.callback, norm);
-                });
+              let norm = actual.normalize();
+              this.allListeners.forEach(al=>{
+                this._filterAndNotify(al.options, al.callback, norm);
               });
             } else {
               console.log("Could not decode to actual log event", e);

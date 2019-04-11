@@ -1,11 +1,11 @@
 import {createActions} from 'reduxsauce';
+
 const {Types, Creators} = createActions({
-  searchStart: ['id'],
-  searchSuccess: ['data'],
+  initStart: null,
+  initSuccess: ['tips'],
   failure: ['error'],
-  setPageSize: ['size'],
-  setSort: ['sort']
-},{prefix: "search."});
+  update: ['id','tip']
+},{prefix: "tips."});
 export {
   Types,
   Creators

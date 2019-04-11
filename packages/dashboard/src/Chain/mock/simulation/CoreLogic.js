@@ -207,7 +207,7 @@ export default class ContractLogic {
     await this.updateQueue(apiId);
     if(existing) {
       let payload = {
-        event: "TipUpdated",
+        event: "TipAdded",
         blockNumber: this.chain.blockNumber,
         logIndex: 1,
         returnValues: {
@@ -240,7 +240,14 @@ export default class ContractLogic {
 
   }
 
-  async proofOfWork(miner,  nonce,  _apiId, _value)  {
+  /**
+   * In the simulation, the miner passes back the challenge hash. In the
+   * real contract, the hash is analyzed against the nonce using PoW algo.
+   * There is also a race in JS in that multiple simulation miners are hitting
+   * this function at the same time. That doesn't happen on-chain so passing
+   * the challenge hash keeps things straight
+   */
+  async proofOfWork(miner,  nonce,  _apiId, _value, cHash)  {
     if(_apiId !== this.currentChallenge.apiId) {
       throw new Error("Invalid api id submitted by miner");
     }
@@ -254,7 +261,7 @@ export default class ContractLogic {
         _nonce: nonce,
         _apiId,
         _value,
-        _currentChallenge: this.challengeHash
+        _currentChallenge: cHash
       }
     };
 
@@ -275,7 +282,7 @@ export default class ContractLogic {
           _apiId,
           _time: Math.floor(Date.now()/1000),
           _value: avg,
-          _challengeHash: this.challengeHash
+          _challengeHash: cHash
         }
       };
       //t-up the next one

@@ -1,0 +1,55 @@
+.challenges-container {
+  max-height: 550px !important;
+  min-height: 550px !important;
+  overflow-y: scroll;
+
+  .item-row {
+    min-height: 63px !important;
+  }
+
+  .dispute-icon {
+    border-radius: 50%;
+    border: 1px solid theme-color("text-tellor-green");
+    height: 20px;
+    width: 20px;
+    border-color: theme-color("text-tellor-green");
+    justify-content: center;
+    align-items: center;
+    text-align: center;;
+    font-size: .8em;
+
+    &:before {
+      content: 'd'
+    }
+
+    &:hover {
+      font-size: .8em;
+      color: black !important;
+      background: theme-color("clickable-icon-hover-bg");
+      cursor: pointer;
+    }
+  }
+}
+
+.progress-slots {
+
+  .slot {
+    min-height: 20px;
+    max-height: 20px;
+    min-width: 20px;
+    max-width: 20px;
+    text-align: center;
+    font-size: 1.1em;
+
+    &.filled {
+      background: theme-color("bg-tellor-green");
+    }
+
+    i {
+      min-height: 15px;
+      max-height: 15px;
+      min-width: 15px;
+      max-width: 15px;
+    }
+  }
+}

@@ -25,14 +25,26 @@ const cols = [
   },
   {
     Header: "Block",
-    width: 1,
+    width: 2,
     accessor: "blockNumber",
-    Cell: row => (
-      <div className={cn(align.allCenter, "text-bold")}>
-        <NavLink href="#" onClick={()=>row.value.actions.view(row.value.id)}>{row.value.blockNumber}</NavLink>
-      </div>
-    )
+    Cell: row => {
+      if(!row.value.blockNumber) {
+        return (
+          <div className={cn(align.topCenter, align.noMarginPad)} style={{height: "40px", width: "40px"}}>
+            <Loading loading={true} size="small"/>
+          </div>
+        )
+      }
+      let bn = (""+row.value.blockNumber);
+      //could truncate string blocknumber if it gets too wide here
+      return (
+        <div className={cn(align.allCenter, "text-bold")}>
+          <NavLink href="#" onClick={()=>row.value.actions.view(row.value.id)}>{bn}</NavLink>
+        </div>
+      )
+    }
   },
+  /*
   {
     Header: "Type",
     width: 2,
@@ -44,7 +56,7 @@ const cols = [
         </div>
       )
     }
-  },
+  },*/
   {
     Header: "Symbol",
     width: 3,
@@ -59,13 +71,17 @@ const cols = [
     Header: "Value",
     width: 4,
     accessor: "event",
-    Cell: row => (
-      <div className={cn(align.allCenter)}>
-        <Badge size="lg" className={cn("bg-tellor-muted", "text-bold", "text-1", "text-dark")}>
-          {row.value.value.toFixed(4)}
-        </Badge>
-      </div>
-    )
+    Cell: row => {
+      let val = row.value.value?row.value.value.toFixed(4):"pending...";
+      
+      return  (
+        <div className={cn(align.allCenter)}>
+          <Badge size="lg" className={cn("bg-tellor-muted", "text-bold", "text-1", "text-dark")}>
+            {val}
+          </Badge>
+        </div>
+      )
+    }
   },
   {
     Header: (
