@@ -7,7 +7,6 @@ import {default as chain} from './chain/reducers';
 import {default as modals} from './modals/reducers';
 import {default as settings} from './settings/reducers';
 import {default as analytics} from './analytics/reducers';
-import {default as search} from './search/reducers';
 import {default as tips} from './tips/reducers';
 
 export default combineReducers({
@@ -19,6 +18,5 @@ export default combineReducers({
   modals,
   settings,
   analytics,
-  search,
   tips
 });

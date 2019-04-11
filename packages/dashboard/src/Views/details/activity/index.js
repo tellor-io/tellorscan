@@ -1,7 +1,6 @@
 import {connect} from 'react-redux';
 import Activity from './Activity';
 import {withRouter} from 'react-router-dom';
-import {default as searchOps} from 'Redux/search/operations';
 import _ from 'lodash';
 
 const s2p = (state,own) => {

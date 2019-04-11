@@ -28,7 +28,7 @@ const cols = [
     accessor: "item",
     Cell: row => (
       <div className={cn(align.allCenter, "text-bold")}>
-        <NavLink href="#" onClick={()=>row.value.actions.view(row.value.id)}>{row.value.symbol}</NavLink>
+        {row.value.symbol}
       </div>
     )
   },

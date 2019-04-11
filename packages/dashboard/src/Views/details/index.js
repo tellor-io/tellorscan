@@ -5,7 +5,9 @@ import {default as qOps} from 'Redux/events/tree/operations';
 
 //s2p short for stateToProperties
 const s2p = (state,own) => {
-  
+  return {
+    
+  }
 }
 
 //d2p short for dispatchToProperties

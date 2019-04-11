@@ -4,9 +4,8 @@ import Top from './TopApi';
 const s2p = state => {
   let top = state.analytics.topRequest.top || {};
 
-  let req = state.events.requests.byId[top.id] || {};
-  let loading = state.events.requests.loading ||
-                state.events.mining.loading ||
+  let req = state.events.tree.byId[top.id] || {};
+  let loading = state.events.tree.loading ||
                 state.analytics.topRequest.loading;
   return {
     loading,

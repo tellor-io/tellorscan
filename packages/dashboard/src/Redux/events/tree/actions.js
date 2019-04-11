@@ -8,7 +8,8 @@ const {Types, Creators} = createActions({
   addChallenge: ['challenge'],
   addNonce: ['nonce'],
   nonceUpdated: ['nonce'],
-  addNewValue: ['value', 'minerOrder']
+  addNewValue: ['value', 'minerOrder'],
+  clearAll: null
 },{prefix: "events.requests.tree."});
 export {
   Types,

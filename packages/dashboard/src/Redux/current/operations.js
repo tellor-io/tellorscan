@@ -1,6 +1,6 @@
 import {Creators} from './actions';
 import eventFactory from 'Chain/LogEvents/EventFactory';
-import {default as reqOps} from 'Redux/events/requests/operations';
+import {default as reqOps} from 'Redux/events/tree/operations';
 
 const init = () => async (dispatch,getState) => {
   dispatch(Creators.loadRequest());
@@ -14,9 +14,9 @@ const init = () => async (dispatch,getState) => {
         dispatch(Creators.update(null))
       } else {
 
-        let query = getState().events.requests.byId[evt._miningApiId];
+        let query = getState().events.tree.byId[evt._miningApiId];
         if(!query) {
-          query = await dispatch(reqOps.lookup(evt._miningApiId));
+          query = await dispatch(reqOps.findByRequestId(evt._miningApiId));
         }
         if(query) {
           dispatch(Creators.update({

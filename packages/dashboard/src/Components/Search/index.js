@@ -6,7 +6,7 @@ import {default as reqOps} from 'Redux/events/tree/operations';
 
 const s2p = state => {
   return {
-    loading: state.search.loading
+    loading: state.events.tree.loading
   }
 }
 
@@ -17,12 +17,6 @@ const d2p = (dispatch,own) => {
       .then(r=>{
         own.history.push(navs.DETAILS_HOME + "/" + id);
       })
-      /*
-      dispatch(searchOps.search({id}))
-      .then(()=>{
-        own.history.push(navs.DETAILS_HOME + "/" + id)
-      })
-      */
     }
   }
 }

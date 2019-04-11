@@ -1,7 +1,6 @@
 import {connect} from 'react-redux';
 import Stream from './ChallengeTable'; //'./Streaming';
 import {withRouter} from 'react-router-dom';
-import {default as searchOps} from 'Redux/search/operations';
 import * as navs from 'Navs';
 import _ from 'lodash';
 
@@ -33,13 +32,6 @@ const s2p = state => {
 const d2p = (dispatch, own) => {
   return {
     viewDetails: id => {
-      /*
-      dispatch(searchOps.search({id}))
-      .then(()=>{
-        let url = navs.DETAILS_HOME + "/" + id;
-        own.history.push(url);
-      });
-      */
       let url = navs.DETAILS_HOME + "/" + id;
       own.history.push(url);
     }

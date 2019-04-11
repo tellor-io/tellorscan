@@ -6,7 +6,6 @@ const s2p = state => {
     ...state.analytics.tips.data
   ];
   let loading = state.events.tree.loading ||
-                state.events.mining.loading ||
                 state.analytics.tips.loading;
 
   return {

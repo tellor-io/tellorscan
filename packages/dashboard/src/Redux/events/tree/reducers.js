@@ -169,6 +169,12 @@ const fail = (state=INIT_STATE, action) => {
   }
 }
 
+const clearAll = (state=INIT_STATE, action) => {
+  return {
+    ...state,
+    byId: {}
+  }
+}
 
 
 const HANDLERS = {
@@ -179,7 +185,8 @@ const HANDLERS = {
   [Types.ADD_CHALLENGE]: addChallenge,
   [Types.ADD_NONCE]: addNonce,
   [Types.NONCE_UPDATED]: nonceUpdated,
-  [Types.ADD_NEW_VALUE]: addNewValue
+  [Types.ADD_NEW_VALUE]: addNewValue,
+  [Types.CLEAR_ALL]: clearAll
 }
 
 export default createReducer(INIT_STATE, HANDLERS);

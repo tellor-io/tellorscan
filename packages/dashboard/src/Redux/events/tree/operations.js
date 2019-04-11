@@ -5,6 +5,8 @@ import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
 import eventFactory from 'Chain/LogEvents/EventFactory';
 import {empty} from 'Utils/strings';
+import {registerDeps} from 'Redux/DepMiddleware';
+import {Types as settingsTypes} from 'Redux/settings/actions';
 
 const normalizeEvent = (evt) => (dispatch,getState) => {
 
@@ -34,6 +36,13 @@ const normalizeEvent = (evt) => (dispatch,getState) => {
 }
 
 const init = () => async (dispatch,getState) => {
+  registerDeps([settingsTypes.CLEAR_HISTORY_SUCCESS], async () => {
+    //dispatch(Creators.initStart());
+    dispatch(Creators.clearAll());
+    //await dispatch(initFromContract());
+    //dispatch(Creators.initSuccess());
+  });
+
   dispatch(Creators.initStart());
 
   let con = getState().chain.contract;
