@@ -14,15 +14,10 @@ const init = () => async (dispatch, getState) => {
     if(evt.normalize) {
       evt = evt.normalize();
     }
-    if(!evt.tip) {
+    if(!evt.id) {
       return;
     }
-    console.log("Adding new challenge tip", evt);
-
-    dispatch(Creators.update({
-      timestamp: evt.timestamp,
-      tip: evt.tip
-    }));
+    dispatch(Creators.update(evt));
   })
 
   let history = await Storage.instance.readAll({
@@ -35,7 +30,7 @@ const init = () => async (dispatch, getState) => {
     ],
     limit: 144 //1 day, 10-min blocks
   });
-  history = history.filter(h=>h.tip);
+  history = history.filter(h=>h.id);
   //now we reverse the history so we get buckets filled in over time
   //so that the most recent bucket is the last bucket
   history.reverse();

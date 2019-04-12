@@ -1,6 +1,8 @@
 
 import React from "react";
 import ChartComponent, { Chart } from "react-chartjs-2";
+import * as align from 'Constants/alignments';
+import cn from 'classnames';
 
 export default class LineShadow extends React.Component {
   componentWillMount() {
@@ -43,9 +45,14 @@ export default class LineShadow extends React.Component {
   }
 
   render() {
-
+    let {
+      height
+    } = this.props;
+    
     return (
       <ChartComponent
+        className={cn(align.full, align.noMarginPad, "h-100")}
+        height={height}
         ref={ref => (this.chart_instance = ref && ref.chart_instance)}
         type="lineWithShadow"
         {...this.props}

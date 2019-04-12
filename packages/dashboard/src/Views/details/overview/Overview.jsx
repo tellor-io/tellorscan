@@ -1,7 +1,6 @@
 import React from 'react';
 import {
-  Row,
-  Col
+  Row
 } from 'reactstrap';
 import cn from 'classnames';
 import * as align from 'Constants/alignments';

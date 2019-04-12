@@ -1,3 +1,5 @@
 .cost-container {
-  
+  min-height: 320px !important;
+  background: theme-color("tellor-bg-light");
+  box-shadow: 2px 2px 2px 1px rgba(100,100,100,.3);
 }

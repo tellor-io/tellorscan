@@ -31,7 +31,6 @@ const fail = (state=INIT, action) => {
   }
 }
 
-const BUCKET_SIZE = 10; //tips per bucket
 const MAX_ITEMS = 25;
 const update = (state=INIT, action) => {
   let points = [
@@ -41,45 +40,10 @@ const update = (state=INIT, action) => {
   if(points.length > MAX_ITEMS) {
     points = points.slice(0, MAX_ITEMS);
   }
-
   return {
     ...state,
     data: points
   }
-  /*
-  let buckets = [
-    ...state.data
-  ];
-  let evt = action.event;
-  //get last bucket, which should be most recent in time order
-  let last = buckets[buckets.length-1] || {
-    count: 0,
-    tipTotal: 0,
-    timestamp: evt.timestamp
-  };
-
-  if(last.count === BUCKET_SIZE) {
-    last = {
-      count: 0,
-      tipTotal: 0,
-      timestamp: evt.timestamp
-    };
-    buckets.push(last);
-  } else {
-    //deep copy to avoid weird UI updates
-    last = {
-      ...last
-    };
-    buckets[buckets.length-1] = last;
-  }
-  last.count++;
-  last.tipTotal += evt.tip;
-
-  return {
-    ...state,
-    data: buckets
-  }
-  */
 }
 
 const HANDLERS = {

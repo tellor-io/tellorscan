@@ -15,7 +15,7 @@ class NonceRow extends React.Component {
       idx
     } = this.props;
     let isMedian = nonce.winningOrder === 2;
-    let bgColor = idx%2==0?"bg-tellor-subtle":"";
+    let bgColor = idx%2===0?"bg-tellor-subtle":"";
     let dIcon = null;
     if(disputable){
       dIcon = (<i className={cn("fa fa-thumbs-down", "clickable-icon", "text-warning")} />);
@@ -59,12 +59,19 @@ export default class ChallengeBody extends React.Component {
     } = this.props;
     let dFn = challenge.isDisputable;
     let disputable = dFn?dFn():true;
+    
+    let mtName = "mt-2";
+    let mbName = "mb-2";
+    let tbMargins = {
+      [mtName]: expanded,
+      [mbName]: expanded
+    };
     return (
-      <Row className={cn(align.leftCenter, align.full, "mt-2", "mb-2", align.noMarginPad)}>
+      <Row className={cn(align.leftCenter, align.full, tbMargins, align.noMarginPad)}>
         <Col md="12" className={cn(align.leftCenter, align.noMarginPad)}>
-          <Collapse isOpen={expanded} className={cn(align.full)}>
+          <Collapse isOpen={expanded} className={cn(align.full, align.noMarginPad)}>
 
-            <Row className={align.topCenter, align.full, align.noMarginPad}>
+            <Row className={cn(align.topCenter, align.full, align.noMarginPad)}>
               <Col md="12" className={cn("bg-tellor-charcoal", align.leftCenter, align.noMarginPad)}>
                 <Row className={cn(align.allCenter, align.full, align.noMarginPad)}>
                   <Col md="6" className={cn(align.leftCenter, align.noMarginPad)}>

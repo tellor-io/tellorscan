@@ -10,7 +10,8 @@ const lineColor = "#414141";
 export default class Chart extends React.Component {
   render() {
     const {
-      data
+      data,
+      height
     } = this.props;
 
     let labels = [];
@@ -18,10 +19,6 @@ export default class Chart extends React.Component {
     data.forEach(d=>{
       labels.push(formatHour(d.timestamp));
       tips.push(d.tip);
-      /*
-      let tipAvg = d.count?(d.tipTotal / d.count):0;
-      tips.push(tipAvg.toFixed(2));
-      */
     });
 
     let config = chartConfig();
@@ -50,7 +47,7 @@ export default class Chart extends React.Component {
       ]
     }
     return (
-      <LineShadow {...configWithData} />
+      <LineShadow {...configWithData} height={height} />
     )
   }
 }

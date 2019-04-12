@@ -16,30 +16,13 @@ import {
 class Controls extends React.Component {
   render() {
     const {
-      challenge,
       expanded
     } = this.props;
     let fontClass = cn("font-weight-bold", "text-sz-md");
     let clickableClass = cn("clickable-icon");
     let upDownColor = "text-tellor-green";
     let upDownIcon = expanded?"fa fa-caret-up":"fa fa-caret-down";
-
-    let disputeFn = challenge.isDisputable;
-    let canDispute = disputeFn?disputeFn():true;
-    let disputeIcon = canDispute?"dispute-icon":"fa fa-check";
-    let disputeColor = "text-tellor-green";
-    if(!challenge.finalValue) {
-      //technically can dispute but it's in progress so we'll wait
-      disputeIcon = "fa fa-ellipsis-h";
-      disputeColor = "black";
-    }
-
-
     let upDownClass = cn(fontClass, clickableClass, upDownIcon, upDownColor);
-    let disputeClass = cn(disputeIcon, disputeColor);
-    if(canDispute) {
-      disputeClass = cn(disputeClass, clickableClass);
-    }
 
     return (
       <Row className={cn(align.allCenter, align.full, align.noMarginPad)}>
@@ -61,7 +44,7 @@ class ChallengeHeader extends React.Component {
     } = this.props;
 
     return (
-      <Row className={cn(align.topCenter, align.full, "mb-4", align.noMarginPad)}>
+      <Row className={cn(align.topCenter, align.full, "pt-2", "pb-4", align.noMarginPad)}>
         <Col md="12" className={cn(align.topCenter, align.noMarginPad)}>
 
           <Row className={cn(align.leftCenter, align.full, align.noMarginPad)}>
@@ -71,7 +54,7 @@ class ChallengeHeader extends React.Component {
             {
               !hideId &&
               <Col md="1" className={cn(align.leftCenter, "ml-1", align.noMarginPad)}>
-                <span className={cn("font-weight-bold", "text-1", "text-center")}>
+                <span className={cn("font-weight-bold", "text-sz-sm", "text-center")}>
                   ID
                 </span>
               </Col>
@@ -80,7 +63,7 @@ class ChallengeHeader extends React.Component {
             {
               !hideSymbol &&
               <Col md="2" className={cn(align.leftCenter, "ml-1", align.noMarginPad)}>
-                <span className={cn("font-weight-bold", "text-1", "text-center")}>
+                <span className={cn("font-weight-bold", "text-sz-sm", "text-center")}>
                   Symbol
                 </span>
               </Col>
@@ -88,7 +71,7 @@ class ChallengeHeader extends React.Component {
 
 
             <Col md="2" className={cn(align.allCenter, "ml-1", align.noMarginPad)}>
-              <span className={cn("font-weight-bold", "text-1", "text-center")}>
+              <span className={cn("font-weight-bold", "text-sz-sm", "text-center")}>
                 Value
               </span>
             </Col>
@@ -96,13 +79,13 @@ class ChallengeHeader extends React.Component {
 
 
             <Col  className={cn(align.allCenter, "ml-auto", "mr-auto", align.noMarginPad)}>
-              <span className={cn("font-weight-bold", "text-1", "text-center")}>
+              <span className={cn("font-weight-bold", "text-sz-sm", "text-center")}>
                 Progress
               </span>
             </Col>
 
             <Col md="2" className={cn(align.allCenter, align.noMarginPad)}>
-              <span className={cn("font-weight-bold", "text-1", "text-center")}>
+              <span className={cn("font-weight-bold", "text-sz-sm", "text-center")}>
                 Tip
               </span>
             </Col>
@@ -138,7 +121,7 @@ class ChallengeHiglights extends React.Component {
     } = this.props;
 
     return (
-      <Row className={cn("item-row", "border-bottom", "border-muted", align.topCenter, align.full, align.noMarginPad)}>
+      <Row className={cn("item-row", "border-bottom", "border-muted", align.topCenter, align.full, "mb-3", align.noMarginPad)}>
         <Col md="12" className={cn(align.topCenter, align.noMarginPad)}>
           <Row className={cn(align.leftCenter, align.full, align.noMarginPad)}>
 
@@ -209,9 +192,11 @@ class ChallengeHiglights extends React.Component {
         <Col md="12" className={cn(align.topCenter, align.noMarginPad)}>
           <Row className={cn(align.leftCenter, align.full, align.noMarginPad)}>
             <Col md="1" className={cn(align.leftCenter, align.noMarginPad)}>
-              &nbsp;
-            </Col>
-            <Col md="11" className={cn(align.leftCenter, align.noMarginPad)}>
+
+              </Col>
+
+
+            <Col md="11" className={cn( align.leftCenter, align.noMarginPad)}>
               <Body challenge={challenge} expanded={this.state.expanded} />
             </Col>
           </Row>

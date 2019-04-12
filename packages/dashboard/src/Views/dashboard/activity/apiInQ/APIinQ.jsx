@@ -72,7 +72,7 @@ export default class APIInQ extends React.Component {
       }
     }));
     return (
-      <Row className={cn(align.topCenter, align.full, "p-0", "m-0")}>
+      <Row className={cn("request-container", align.topCenter, align.full, "p-0", "m-0")}>
         <Loading loading={loading} />
         <Col md="11" className={cn("api-table-box", align.topCenter, "m-0", "p-0")}>
           <CleanTable cols={cols} data={rows} />

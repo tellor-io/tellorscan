@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import Costs from './Costs';
 
 const s2p = state => {
-  let buckets = [
+  let data = [
     ...state.analytics.tips.data
   ];
   let loading = state.events.tree.loading ||
@@ -10,7 +10,7 @@ const s2p = state => {
 
   return {
     loading,
-    buckets: buckets
+    data
   }
 }
 

@@ -7,16 +7,19 @@
 
 .overview {
 
+
   .overview-box {
     background: theme-color("tellor-bg-light");
     min-height: 200px;
     border-radius: 3px 0 0 3px;
+    box-shadow: 2px 2px 2px 1px rgba(100,100,100,.3);
+
 
     &.graph {
       border-radius: 0 3px 3px 0;
     }
 
-    
+
   }
 
   .tellor-label {

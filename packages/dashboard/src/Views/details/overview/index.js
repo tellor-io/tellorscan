@@ -1,7 +1,6 @@
 import {connect} from 'react-redux';
 import Overview from './Overview';
 import {withRouter} from 'react-router-dom';
-import {default as qOps} from 'Redux/events/tree/operations';
 
 const s2p = (state,own) => {
   let byId = state.events.tree.byId;
@@ -15,7 +14,7 @@ const s2p = (state,own) => {
 
 const d2p = (dispatch,own) => {
   return {
-    
+
   }
 }
 
