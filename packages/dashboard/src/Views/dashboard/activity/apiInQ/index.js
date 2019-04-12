@@ -11,6 +11,8 @@ const s2p = state => {
   let events = _.keys(byId).map(k=>byId[k]);
   let tips = state.tips.byId;
 
+  
+
   events = events.map(e=>{
     let tip = tips[e.id];
 

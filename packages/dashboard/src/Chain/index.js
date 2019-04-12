@@ -2,13 +2,14 @@
  * Just manages how we are going to access chain data
  */
 
- //import Web3 from './Web3';
+ import Web3Wrapper from './Web3Wrapper';
  import Mock from './mock/Mock';
 
  let inst = null;
  export const init = (props) => {
    if(!inst) {
      inst = new Mock(props);
+     //inst = new Web3Wrapper();
    }
    return inst;
  }

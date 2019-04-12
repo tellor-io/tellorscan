@@ -2,6 +2,7 @@ import EventEmitter from 'events';
 import * as eventTypes from './LogEvents';
 import _ from 'lodash';
 import Storage from 'Storage';
+import eventFactory from 'Chain/LogEvents/EventFactory';
 
 export default class SubscriptionProvider {
   constructor(props) {
@@ -28,7 +29,7 @@ export default class SubscriptionProvider {
         if(e) {
           let actual = e;
           if(!e.normalize) {
-            actual = this._toLogEvent(e);
+            actual = eventFactory(e);
           }
 
           //store all incoming events

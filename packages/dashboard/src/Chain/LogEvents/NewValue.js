@@ -8,9 +8,9 @@ export default class NewValue extends BaseEvent {
     ].forEach(fn=>this[fn]=this[fn].bind(this));
 
     const {_apiId, _time, _value, _challengeHash} = props.returnValues;
-    this._apiId = _apiId;
-    this._time = _time;
-    this._value = _value;
+    this._apiId = this._asNum(_apiId);
+    this._time = this._asNum(_time);
+    this._value = this._asNum(_value);
     this._challengeHash = _challengeHash;
   }
 

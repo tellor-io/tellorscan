@@ -2,17 +2,29 @@ export default class BaseEvent {
   constructor(props) {
     [
       'normalize',
-      'toJSON'
+      'toJSON',
+      '_asNum'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
     this.event = props.event;
     this.name = props.event;
     this.signature = props.signature;
     this.address = props.address;
     this.transactionHash = props.transactionHash;
-    this.blockNumber = props.blockNumber;
-    this.transiactionIndex = props.transactionIndex;
-    this.logIndex = props.logIndex;
-    this.timestamp = props.timestamp;
+    this.blockNumber = this._asNum(props.blockNumber);
+    this.transiactionIndex = this._asNum(props.transactionIndex);
+    this.logIndex = this._asNum(props.logIndex);
+    this.timestamp = this._asNum(props.timestamp);
+  }
+
+  _asNum(v) {
+    if(!v) {
+      return v;
+    }
+    
+    if(v.toString) {
+      return v.toString()-0;
+    }
+    return v;
   }
 
   normalize() {

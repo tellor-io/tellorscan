@@ -8,10 +8,10 @@ export default class NewAPIonQinfo extends BaseEvent {
     ].forEach(fn=>this[fn]=this[fn].bind(this));
 
     const {_apiId, _sapi, _apiOnQ, _apiOnQPayout} = props.returnValues;
-    this._apiID = _apiId;
+    this._apiID = this._asNum(_apiId);
     this._sapi = _sapi;
     this._apiOnQ = _apiOnQ;
-    this._apiOnQPayout = _apiOnQPayout;
+    this._apiOnQPayout = this._asNum(_apiOnQPayout);
   }
 
   normalize() {

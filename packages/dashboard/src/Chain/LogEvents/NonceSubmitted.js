@@ -10,8 +10,8 @@ export default class NonceSubmitted extends BaseEvent {
     const {_miner, _nonce, _apiId, _value, _currentChallenge} = props.returnValues;
     this._miner = _miner;
     this._nonce = _nonce;
-    this._apiId = _apiId;
-    this._value = _value;
+    this._apiId = this._asNum(_apiId);
+    this._value = this._asNum(_value);
     this._currentChallenge = _currentChallenge;
     this.winningOrder = -1;
   }

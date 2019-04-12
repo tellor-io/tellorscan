@@ -47,23 +47,29 @@ const init = () => async (dispatch,getState) => {
   //or out of sync issues with our storage.
 
   let currentInfo = await con.getVariables();
-  //order is hash, id, diff, querysString, multiplier
-  if(currentInfo[1] === 0) {
-    //nothing to do
-    dispatch(Creators.loadSuccess(null, 0));
-  } else {
+  let evt = null;
+  if(currentInfo) {
     let payload = {
       event: "NewChallenge",
       returnValues: {
         _currentChallenge: currentInfo[0],
         _miningApiId: currentInfo[1],
         _difficulty_level: currentInfo[2],
-        _api: currentInfo[3]
+        _api: currentInfo[3],
+        _value: currentInfo[4]
       }
     };
-    let evt = eventFactory(payload);
-    let count = await con.count(); //miners completed
+    evt = eventFactory(payload);
+    evt = evt.normalize();
+  }
 
+
+  //order is hash, id, diff, querysString, multiplier,value
+  if(!evt || evt.id === 0) {
+    //nothing to do
+    dispatch(Creators.loadSuccess(null, 0));
+  } else {
+    let count = 0; //await con.count(); //miners completed
     dispatch(Creators.loadSuccess(evt.normalize(), count));
   }
 }

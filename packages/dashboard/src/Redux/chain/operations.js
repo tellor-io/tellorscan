@@ -29,7 +29,10 @@ const lookupQueryByHash = props => async (dispatch,getState) => {
   let con = state.chain.contract;
   let hash = generateQueryHash(props.queryString, props.multiplier);
   let ex = await con.getApiId(hash);
-  return ex;
+  if(ex && ex.toString) {
+    ex = ex.toString()-0;
+  }
+  return ex || 0;
 }
 
 const requestData = props => async (dispatch,getState) => {
@@ -43,7 +46,7 @@ const requestData = props => async (dispatch,getState) => {
 const _doRequestData = props => async (dispatch, getState) => {
   let state = getState();
   let con = state.chain.contract;
-  await con.requestData(props.queryString, props.apiId, props.multiplier, props.tip, props.symbol)
+  await con.requestData(props.queryString, props.symbol, props.apiId, props.multiplier, props.tip)
     .then(()=>{
       toastr.info("Submitted data request");
     }).catch(e=>{
@@ -56,11 +59,8 @@ const addToTip = (id,tip) => (dispatch, getState) => {
   let state = getState();
   let req = state.events.tree.byId[id];
   if(req) {
-    return dispatch(_doRequestData({
-    queryString: req.queryString,
-    apiId: req.id,
-    multiplier: req.multiplier,
-    tip}));
+    let con = state.chain.contract;
+    return con.addTip(req.id, tip);
   }
 }
 

@@ -11,11 +11,11 @@ export default class DataRequested extends BaseEvent {
     const {sender, _sapi, _granularity,  _apiId,  _value, _symbol} = props.returnValues;
     this.sender = sender;
     this._sapi = _sapi;
-    this._granularity = _granularity;
-    this._apiId = _apiId;
-    this._value = _value-0;
+    this._granularity = this._asNum(_granularity);
+    this._apiId = this._asNum(_apiId);
+    this._value = this._asNum(_value);
     this._symbol = _symbol?_symbol.toUpperCase():undefined;
-    this._queryHash = generateQueryHash(_sapi, _granularity);
+    this._queryHash = generateQueryHash(_sapi, this._granularity);
   }
 
   normalize() {

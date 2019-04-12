@@ -9,8 +9,8 @@ export default class TipAdded extends BaseEvent {
 
     const {sender, _apiId,  _value} = props.returnValues;
     this.sender = sender;
-    this._apiId = _apiId;
-    this._value = _value;
+    this._apiId = this._asNum(_apiId);
+    this._value = this._asNum(_value);
   }
 
   normalize() {

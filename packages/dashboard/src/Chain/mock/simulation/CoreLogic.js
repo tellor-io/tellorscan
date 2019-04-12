@@ -64,6 +64,7 @@ export default class ContractLogic {
 
     this.supportedInterface = [
       'requestData',
+      'addTip',
       'proofOfWork',
       'getVariables',
       'getVariablesOnQ',
@@ -166,8 +167,14 @@ export default class ContractLogic {
 
   }
 
+  async addTip(requestId, tip) {
+    let req = this.requestsById[requestId];
+    if(req) {
+      return this.requestData(req.apiString, req.symbol, requestId, req.granularity, tip);
+    }
+  }
 
-  async requestData(queryString, apiId, multiplier, tip, symbol) {
+  async requestData(queryString, symbol, apiId, multiplier, tip) {
     if(multiplier < 0) {
       throw new Error("Multiplier cannot be less than 0 or larger than 1e18");
     }

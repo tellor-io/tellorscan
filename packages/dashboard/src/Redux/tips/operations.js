@@ -9,7 +9,14 @@ const currentTip = id => async (dispatch, getState) => {
     return 0;
   }
   let vals = await con.getApiVars(id);
-  return vals[5] || 0;
+  if(!vals) {
+    vals = [];
+  }
+  let v = vals[5] || 0;
+  if(v.toString) {
+    v = v.toString()-0;
+  }
+  return v;
 }
 
 const init = () => async (dispatch, getState) => {
