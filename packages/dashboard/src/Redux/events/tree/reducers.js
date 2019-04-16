@@ -98,7 +98,6 @@ const addNonce = (state=INIT_STATE, action) => {
      ...ch.nonces,
      nonce
    ];
-   console.log("Added nonce to challenge", nonce, ch);
     return {
      ...state,
      byId

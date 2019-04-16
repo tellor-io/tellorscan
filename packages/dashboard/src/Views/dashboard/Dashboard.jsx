@@ -18,7 +18,7 @@ export default class Dashboard extends React.Component {
       <div className={cn("dashboard-container", align.topCenter, align.full)}>
         <ReqData />
         
-        <Menu withLogo/>
+        <Menu withLogo title="Dashboard"/>
         <Search />
         <Overview />
         <Row className={cn(align.allCenter, align.full, "mb-4", "mt-4")}>

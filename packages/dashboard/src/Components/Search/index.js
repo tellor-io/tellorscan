@@ -15,7 +15,11 @@ const d2p = (dispatch,own) => {
     runSearch: id => {
       dispatch(reqOps.findByRequestId(id))
       .then(r=>{
-        own.history.push(navs.DETAILS_HOME + "/" + id);
+        if(own.resultHandler) {
+          own.resultHandler(r);
+        } else {
+          own.history.push(navs.DETAILS_HOME + "/" + id);
+        }
       })
     }
   }

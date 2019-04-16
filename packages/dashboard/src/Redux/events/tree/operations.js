@@ -61,6 +61,8 @@ const init = () => async (dispatch,getState) => {
           if(req) {
             tree = new Request({metadata: req});
             dispatch(Creators.addRequest(tree));
+          } else {
+            console.log("No request found for incoming event", norm);
           }
         }
       }
@@ -127,7 +129,7 @@ const _lookupInState = id => async (dispatch, getState) => {
   let byId = state.events.tree.byId;
   let req = byId[id];
   if(req) {
-    console.log("Found from redux events.tree.byId", req);
+    //console.log("Found from redux events.tree.byId", req);
     return req;
   }
   return null;
@@ -144,7 +146,7 @@ const _lookupInStorage = id => async (dispatch, getState) => {
   });
   let q = r[0];
   if(q) {
-    console.log("Found in DataRequested store", id, q);
+    //console.log("Found in DataRequested store", id, q);
     return q;
   }
 
@@ -158,7 +160,7 @@ const _lookupInStorage = id => async (dispatch, getState) => {
   });
   q = r[0];
   if(q) {
-    console.log("Found in RequestMetadata store", id, q);
+    //console.log("Found in RequestMetadata store", id, q);
     return q;
   }
   return null;
@@ -172,6 +174,7 @@ const _lookupOnChain = id => async (dispatch, getState) => {
   }
 
   let vars = await con.getApiVars(id);
+
   //order is queryString, symbol, queryHash,_granularity, paypool index, tip
   if(!empty(vars[0])) {
 
@@ -190,7 +193,7 @@ const _lookupOnChain = id => async (dispatch, getState) => {
     let hash = vars[1];
 
     let evt = eventFactory(payload);
-    console.log("Retrieved from on-chain", hash, evt.normalize());
+    //console.log("Retrieved from on-chain", hash, evt.normalize());
 
     //store it for local retrieval next time
     await Storage.instance.create({

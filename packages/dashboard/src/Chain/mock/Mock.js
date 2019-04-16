@@ -55,6 +55,7 @@ export default class Mock extends EventEmitter {
     this.requestQueue = [];
     [
       'init',
+      'unload',
       'getBlock',
       'latestBlock',
       'getPastEvents',
@@ -84,6 +85,10 @@ export default class Mock extends EventEmitter {
     this.block = b.number || 0;
 
     await this.contract.init();
+  }
+
+  async unload() {
+    
   }
 
   async getBlock(number) {

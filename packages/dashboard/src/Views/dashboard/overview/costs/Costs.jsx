@@ -20,7 +20,7 @@ export default class Costs extends React.Component {
       <Row className={cn("cost-chart-wrapper", "h-100", align.topCenter, align.full, align.noMarginPad)}>
         <Loading loading={loading} />
         <Col md="12" className={cn(align.allCenter, align.noMarginPad)}>
-          Recent Query Costs
+          Recent Request Tips
         </Col>
         <Col md="12" className={cn("chart", "h-100", align.allCenter)}>
           <Chart height={height} data={data} />

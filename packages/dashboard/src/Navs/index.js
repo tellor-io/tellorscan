@@ -2,7 +2,7 @@
 const DB_BASE = "/dashboard";
 const DETAILS_BASE = "/details";
 const MINING_BASE = "/mining";
-const DISPUTE_BASE = "/dispute";
+const DISPUTE_BASE = "/disputes";
 const SETTINGS_BASE = "/settings";
 
 const MAIN = "/main";

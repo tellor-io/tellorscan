@@ -8,8 +8,12 @@ const s2p = state => {
       tip: 0
     }
   }
+  let tip = current.tip || current.value;
+  if(isNaN(tip)) {
+    tip = 0;
+  }
   return {
-    tip: current.value
+    tip
   }
 }
 

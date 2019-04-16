@@ -4,6 +4,8 @@ import {default as currentOps} from 'Redux/current/operations';
 import {default as chainOps} from 'Redux/chain/operations';
 import {default as analyticOps} from 'Redux/analytics/operations';
 import {default as tipOps} from 'Redux/tips/operations';
+import {default as disputeOps} from 'Redux/disputes/operations';
+import {default as tokenOps} from 'Redux/token/operations';
 
 const initChain = props => {
   return props.dispatch(chainOps.init())
@@ -34,6 +36,21 @@ const initTips = props => {
       .then(()=>props);
 }
 
+const initDisputes = props => {
+  return props.dispatch(disputeOps.init())
+          .then(()=>props);
+}
+
+const initToken = props => {
+  return props.dispatch(tokenOps.init())
+      .then(()=>props);
+}
+
+const unloadChain = props => {
+  return props.dispatch(chainOps.unload())
+      .then(()=>props);
+}
+
 const start = () => (dispatch,getState) => {
   let state = getState();
   if(state.init.initComplete) {
@@ -46,9 +63,11 @@ const start = () => (dispatch,getState) => {
     getState
   }
   return initChain(props)
+        .then(initToken)
         .then(initCurrent)
         .then(initEvents)
         .then(initTips)
+        .then(initDisputes)
         .then(initAnalytics)
         .then(()=>{
           dispatch(Creators.initSuccess());
@@ -58,6 +77,14 @@ const start = () => (dispatch,getState) => {
         });
 }
 
+const unload  = () => (dispatch,getState) => {
+  let props = {
+    dispatch, getState
+  };
+  return unloadChain(props);
+}
+
 export default {
-  start
+  start,
+  unload
 }

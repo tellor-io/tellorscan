@@ -12,7 +12,7 @@ export default class ChallengeValue extends React.Component {
     if(!fv) {
       return (
         <div className={cn(align.allCenter, align.full, align.noMarginPad)} style={{width: '40px', height: '40px'}}>
-          <Loading loading={true} size="small" />
+          <i className={cn("fa fa-spinner fa-spin", "text-sz-md", align.full, align.allCenter, align.noMarginPad)} />
         </div>
       )
     }

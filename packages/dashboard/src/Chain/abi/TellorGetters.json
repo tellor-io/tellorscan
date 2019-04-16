@@ -11769,7 +11769,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.6",
-  "updatedAt": "2019-04-12T16:02:16.574Z",
+  "updatedAt": "2019-04-14T19:32:08.386Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {

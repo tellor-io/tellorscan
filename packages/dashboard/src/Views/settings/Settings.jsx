@@ -57,15 +57,12 @@ export default class Settings extends React.Component {
 
     return (
       <div className={cn("settings-container", align.topCenter, align.full)}>
-        <Menu withLogo/>
+        <Menu withLogo title="Settings"/>
         <Row className={cn(align.allCenter, align.full)}>
           <Col md="8" className={cn(align.topCenter)}>
             <Row className={cn(align.topCenter, align.full)}>
-              <Col md="12" className={align.allCenter}>
-                <h1>Settings</h1>
-              </Col>
 
-              <Col md="12" className={cn(align.leftCenter, "mb-3", align.noMarginPad, "border-bottom", "border-muted")}>
+              <Col md="12" className={cn(align.leftCenter, "mt-3", "mb-3", align.noMarginPad, "border-bottom", "border-muted")}>
                 <HistorySettings {...this.props} />
               </Col>
             </Row>

@@ -12,22 +12,11 @@ import {
 
 export default class Details extends React.Component {
 
-  /*
-  <Col md="10" className={cn(align.topCenter, align.noMarginPad)}>
-    <Row className={cn(align.allCenter, align.full, align.noMarginPad)}>
-    */
-
-  /*
-
-</Row>
-</Col>
-  */
-
   render() {
     return (
       <div className={cn("details-container", align.topCenter, align.full, align.noMarginPad)}>
 
-        <Menu withLogo/>
+        <Menu withLogo title="Request Details"/>
         <Search />
         <Row className={cn(align.allCenter, align.full, "mb-3", align.noMarginPad)}>
 

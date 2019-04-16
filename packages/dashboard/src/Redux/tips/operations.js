@@ -58,6 +58,7 @@ const init = () => async (dispatch, getState) => {
   let allTips = {};
   _.keys(allReqs).forEach(async k=>{
     let tip = await dispatch(currentTip(k));
+    console.log("Tip for request", k, tip);
     allTips[k] = tip;
   });
   dispatch(Creators.initSuccess(allTips));

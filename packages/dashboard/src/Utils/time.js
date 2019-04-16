@@ -18,12 +18,12 @@ export const formatTimeLong = (time) => {
   return _format(time, "MM-DD-YYYY HH:mm:ss ZZ");
 }
 
-export const formatTime = (time) => {
+export const formatTime = (time, fmt) => {
   if(typeof time === 'undefined') {
     return "no-time";
   }
 
-  return _format(time, "YYYY.MM.DD-HH:mm");
+  return _format(time, fmt || "YYYY.MM.DD-HH:mm");
 }
 
 export const formatHour = (time) => {

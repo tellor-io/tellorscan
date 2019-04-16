@@ -13,17 +13,17 @@ export default class LogoBlock extends React.Component {
     let brand = null;
     if(!logo_only) {
       brand = (
-        <div className={cn(align.justLeft, align.alignCenter, "flex-column")}>
-          <div className={cn( align.leftLeft, "w-100", "mb-0", "pb-0")}>
-            <span className={cn(align.rightCenter, "m-0", "p-0", "font-weight-bold", "text-black")} style={{fontSize: "48px"}}>tellor</span>
-            <span className={cn("font-weight-bold", "text-tellor-green")} style={{fontSize: "48px"}}>scan</span>
+        <div className={cn( align.justLeft, align.alignCenter, "flex-column", align.noMarginPad)}>
+          <div className={cn( align.leftLeft, align.full, align.noMarginPad)}>
+            <span className={cn(align.rightCenter, align.noMarginPad, "font-weight-bold", "text-black")} style={{fontSize: "48px"}}>tellor</span>
+            <span className={cn("font-weight-bold", "text-tellor-green", align.noMarginPad)} style={{fontSize: "48px"}}>scan</span>
           </div>
         </div>
       )
     }
 
     return (
-      <NavbarBrand href="#" onClick={this.props.goHome} className="d-inline-flex flex-row tellor-brand align-items-center">
+      <NavbarBrand href="#" onClick={this.props.goHome} className={cn(align.leftCenter, align.full, align.noMarginPad)}>
         {brand}
       </NavbarBrand>
     )

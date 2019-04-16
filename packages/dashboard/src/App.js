@@ -6,8 +6,33 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import App from 'Views';
 import ScrollToTop from 'Components/Scroll/ScrollToTop';
 import configureStore from 'Store/configureStore';
+import {default as initOps} from 'Redux/init/operations';
 
-const MainApp = () => (<Provider store={configureStore()}>
+let store = configureStore();
+window.addEventListener("beforeunload", (e)=>{
+  /**
+   * NOTE: this is a best-attempt to cleanup chain subscriptions.
+   * It is NOT guaranteed to run since the browser may kill the
+   * thread before the async function completes. A waste-time
+   * example loop is given but even that wouldn't guarantee execution
+   * since it interrupts the main UI thread that is also calling the
+   * dispatch function in JavaScript's single event loop.
+   */
+  e.preventDefault();
+  return store.dispatch(initOps.unload()).then(()=>{
+    e.returnValue="finished";
+    return "finished";
+  });
+  /*
+  let now = Date.now();
+  let sleepTime = now + 5000;
+  while(now < sleepTime) {
+    now = Date.now();
+  }
+  */
+});
+
+const MainApp = () => (<Provider store={store}>
   <Router>
     <ScrollToTop>
       <Switch>

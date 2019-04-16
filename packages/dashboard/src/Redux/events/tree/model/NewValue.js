@@ -26,11 +26,12 @@ export default class NewValue {
 
   constructor(props) {
     let meta = props.metadata;
+    this.metadata = meta;
     _.keys(meta).forEach(k=>{
       let v = meta[k];
       if(typeof v !== 'function') {
         this[k] = v;
       }
-    })
+    });
   }
 }

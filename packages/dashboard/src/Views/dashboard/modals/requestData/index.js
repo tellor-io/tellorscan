@@ -51,7 +51,7 @@ const d2p = (dispatch,own) => {
         dispatch(modalOps.isLoading(ID, false));
         dispatch(modalOps.collect(ID, {entryExists: id}));
       } else {
-        await dispatch(chainOps.requestData(req))
+        return dispatch(chainOps.requestData(req))
                 .then(()=>{
                   dispatch(modalOps.clear(ID));
                   dispatch(modalOps.isLoading(ID, false));

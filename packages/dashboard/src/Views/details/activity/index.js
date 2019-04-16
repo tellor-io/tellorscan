@@ -2,6 +2,8 @@ import {connect} from 'react-redux';
 import Activity from './Activity';
 import {withRouter} from 'react-router-dom';
 import _ from 'lodash';
+import * as navs from 'Navs';
+import {default as dispOps} from 'Redux/disputes/operations';
 
 const s2p = (state,own) => {
   let id = own.match.params['apiID'];
@@ -27,7 +29,11 @@ const s2p = (state,own) => {
 
 const d2p = (dispatch,own) => {
   return {
-
+    selectForDispute: (ch, nonce) => {
+      dispatch(dispOps.selectForDispute(ch, nonce));
+      let url = navs.DISPUTE_HOME + "/" + ch.id;
+      own.history.push(url);
+    }
   }
 }
 

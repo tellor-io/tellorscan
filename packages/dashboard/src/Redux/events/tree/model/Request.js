@@ -10,25 +10,25 @@ import _ from 'lodash';
 class Ops {
   constructor(props) {
     [
-      'challengeEvent',
-      'tipAddedEvent'
+      'challengeEvent'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
   }
 
   challengeEvent(challenge) {
+
     return async (dispatch, getState) => {
+      if(!challenge) {
+        return;
+      }
+      let req = getState().events.tree.byId[challenge.id];
       let ch = new Challenge({
-        metadata: challenge
+        metadata: challenge,
+        parent: req
       });
       return dispatch(Creators.addChallenge(ch));
     }
   }
 
-  tipAddedEvent(tip) {
-    return async (dispatch,getState) => {
-
-    }
-  }
 }
 
 let ops = new Ops();
@@ -92,16 +92,17 @@ export default class RequestTree {
     * redux state store
    */
   constructor(props) {
-    
+
     //copy all event properties (not functions) to this instance for
     //consistency.
     let meta = props.metadata;
+    this.metadata = props.metadata;
     _.keys(meta).forEach(k=>{
       let v = meta[k];
       if(typeof v !== 'function') {
         this[k] = v;
       }
-    })
+    });
 
     //mapping of challenges associated with the request keyed by challenge hash
     this.challenges = {};

@@ -468,7 +468,7 @@
         "id": 929,
         "nodeType": "ImportDirective",
         "scope": 2105,
-        "sourceUnit": 5747,
+        "sourceUnit": 5757,
         "src": "50:25:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -4677,7 +4677,7 @@
                                         "name": "keccak256",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 5755,
+                                        "referencedDeclaration": 5765,
                                         "src": "9816:9:8",
                                         "typeDescriptions": {
                                           "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -5108,7 +5108,7 @@
                           "name": "block",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 5751,
+                          "referencedDeclaration": 5761,
                           "src": "10392:5:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_block",
@@ -8067,7 +8067,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13620:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -8164,7 +8164,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13662:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -8261,7 +8261,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13708:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -8358,7 +8358,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13750:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -8455,7 +8455,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13803:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -8552,7 +8552,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13853:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -8649,7 +8649,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13901:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -8746,7 +8746,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13943:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -10043,7 +10043,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "15472:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -10140,7 +10140,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "15515:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -10237,7 +10237,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "15552:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -11073,7 +11073,7 @@
                                   "name": "keccak256",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 5755,
+                                  "referencedDeclaration": 5765,
                                   "src": "16422:9:8",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -11181,7 +11181,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "16468:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -13111,7 +13111,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "19231:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -13208,7 +13208,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "19271:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -13339,7 +13339,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "19332:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -13497,7 +13497,7 @@
                                   "name": "keccak256",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 5755,
+                                  "referencedDeclaration": 5765,
                                   "src": "19399:9:8",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -13588,7 +13588,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "19438:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -13901,7 +13901,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "19732:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -13998,7 +13998,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "19769:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -14129,7 +14129,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "19826:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -15159,7 +15159,7 @@
                           "name": "keccak256",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 5755,
+                          "referencedDeclaration": 5765,
                           "src": "21109:9:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -15201,7 +15201,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5761,
+                        "referencedDeclaration": 5771,
                         "src": "21132:3:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -15305,7 +15305,7 @@
                           "name": "keccak256",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 5755,
+                          "referencedDeclaration": 5765,
                           "src": "21169:9:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -15571,7 +15571,7 @@
                         "name": "keccak256",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5755,
+                        "referencedDeclaration": 5765,
                         "src": "21486:9:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -15736,7 +15736,7 @@
         "id": 929,
         "nodeType": "ImportDirective",
         "scope": 2105,
-        "sourceUnit": 5747,
+        "sourceUnit": 5757,
         "src": "50:25:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -19945,7 +19945,7 @@
                                         "name": "keccak256",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 5755,
+                                        "referencedDeclaration": 5765,
                                         "src": "9816:9:8",
                                         "typeDescriptions": {
                                           "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -20376,7 +20376,7 @@
                           "name": "block",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 5751,
+                          "referencedDeclaration": 5761,
                           "src": "10392:5:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_block",
@@ -23335,7 +23335,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13620:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -23432,7 +23432,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13662:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -23529,7 +23529,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13708:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -23626,7 +23626,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13750:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -23723,7 +23723,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13803:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -23820,7 +23820,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13853:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -23917,7 +23917,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13901:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -24014,7 +24014,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "13943:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -25311,7 +25311,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "15472:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -25408,7 +25408,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "15515:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -25505,7 +25505,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "15552:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -26341,7 +26341,7 @@
                                   "name": "keccak256",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 5755,
+                                  "referencedDeclaration": 5765,
                                   "src": "16422:9:8",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -26449,7 +26449,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "16468:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -28379,7 +28379,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "19231:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -28476,7 +28476,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "19271:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -28607,7 +28607,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "19332:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -28765,7 +28765,7 @@
                                   "name": "keccak256",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 5755,
+                                  "referencedDeclaration": 5765,
                                   "src": "19399:9:8",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -28856,7 +28856,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "19438:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -29169,7 +29169,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "19732:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -29266,7 +29266,7 @@
                             "name": "keccak256",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5755,
+                            "referencedDeclaration": 5765,
                             "src": "19769:9:8",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -29397,7 +29397,7 @@
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5755,
+                                "referencedDeclaration": 5765,
                                 "src": "19826:9:8",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -30427,7 +30427,7 @@
                           "name": "keccak256",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 5755,
+                          "referencedDeclaration": 5765,
                           "src": "21109:9:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -30469,7 +30469,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5761,
+                        "referencedDeclaration": 5771,
                         "src": "21132:3:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -30573,7 +30573,7 @@
                           "name": "keccak256",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 5755,
+                          "referencedDeclaration": 5765,
                           "src": "21169:9:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -30839,7 +30839,7 @@
                         "name": "keccak256",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5755,
+                        "referencedDeclaration": 5765,
                         "src": "21486:9:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
@@ -30971,7 +30971,807 @@
     "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
   },
   "networks": {
-    "1555084920664": {
+    "1555269706530": {
+      "events": {
+        "0xc509d04e0782579ee59912139246ccbdf6c36c43abd90591d912017f3467dd16": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_apiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_time",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_value",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_payout",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_currentChallenge",
+              "type": "bytes32"
+            }
+          ],
+          "name": "NewValue",
+          "type": "event",
+          "signature": "0xc509d04e0782579ee59912139246ccbdf6c36c43abd90591d912017f3467dd16"
+        },
+        "0x6d7f869757848b19c8c2456e95cd98885bc6bed062fda4077bb07985e2f76cc9": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_sender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_sapi",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "name": "_symbol",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "name": "_granularity",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "_apiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_value",
+              "type": "uint256"
+            }
+          ],
+          "name": "DataRequested",
+          "type": "event",
+          "signature": "0x6d7f869757848b19c8c2456e95cd98885bc6bed062fda4077bb07985e2f76cc9"
+        },
+        "0xe6d63a2aee0aaed2ab49702313ce54114f2145af219d7db30d6624af9e6dffc4": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_miner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_nonce",
+              "type": "string"
+            },
+            {
+              "indexed": true,
+              "name": "_apiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_value",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_currentChallenge",
+              "type": "bytes32"
+            }
+          ],
+          "name": "NonceSubmitted",
+          "type": "event",
+          "signature": "0xe6d63a2aee0aaed2ab49702313ce54114f2145af219d7db30d6624af9e6dffc4"
+        },
+        "0x1c59b53c2f787064c7f5aae431916a0600db3a76bb4029c09e24fe8313042674": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_apiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_sapi",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "name": "_apiOnQ",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "_apiOnQPayout",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewAPIonQinfo",
+          "type": "event",
+          "signature": "0x1c59b53c2f787064c7f5aae431916a0600db3a76bb4029c09e24fe8313042674"
+        },
+        "0x9e959738f09af22daede9ff9563f8edf3f5cec8e17ce60287c911c95fa767f42": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_currentChallenge",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "name": "_miningApiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_difficulty_level",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_multiplier",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_api",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "name": "_value",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewChallenge",
+          "type": "event",
+          "signature": "0x9e959738f09af22daede9ff9563f8edf3f5cec8e17ce60287c911c95fa767f42"
+        },
+        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "spender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Approval",
+          "type": "event",
+          "signature": "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
+        },
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event",
+          "signature": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+        },
+        "0x46d8ab1385f70e5a3673e97c23c764f7600f7ed7a09b6687deae7131d51752e2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_sender",
+              "type": "address"
+            }
+          ],
+          "name": "NewStake",
+          "type": "event",
+          "signature": "0x46d8ab1385f70e5a3673e97c23c764f7600f7ed7a09b6687deae7131d51752e2"
+        },
+        "0x4a7934670bd8304e7da22378be1368f7c4fef17c5aee81804beda8638fe428ec": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_sender",
+              "type": "address"
+            }
+          ],
+          "name": "StakeWithdrawn",
+          "type": "event",
+          "signature": "0x4a7934670bd8304e7da22378be1368f7c4fef17c5aee81804beda8638fe428ec"
+        },
+        "0x453865710d0cb4b14ad25de371c860da196368895daa9662e5087711d14daecf": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_sender",
+              "type": "address"
+            }
+          ],
+          "name": "StakeWithdrawRequested",
+          "type": "event",
+          "signature": "0x453865710d0cb4b14ad25de371c860da196368895daa9662e5087711d14daecf"
+        },
+        "0xd739c8b7fe870f381c5442416ff79d9f44c3e1d54a16ce39fc0fbe8206c4a6e8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_DisputeID",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "_apiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_timestamp",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewDispute",
+          "type": "event",
+          "signature": "0xd739c8b7fe870f381c5442416ff79d9f44c3e1d54a16ce39fc0fbe8206c4a6e8"
+        },
+        "0x86abfce99b7dd908bec0169288797f85049ec73cbe046ed9de818fab3a497ae0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_disputeID",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_position",
+              "type": "bool"
+            },
+            {
+              "indexed": true,
+              "name": "_voter",
+              "type": "address"
+            }
+          ],
+          "name": "Voted",
+          "type": "event",
+          "signature": "0x86abfce99b7dd908bec0169288797f85049ec73cbe046ed9de818fab3a497ae0"
+        },
+        "0x21459c2f5447ebcf83a7f0a238c32c71076faef0d12295e771c0cb1e10434739": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_disputeID",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_result",
+              "type": "int256"
+            },
+            {
+              "indexed": true,
+              "name": "_reportedMiner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_reportingParty",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_active",
+              "type": "bool"
+            }
+          ],
+          "name": "DisputeVoteTallied",
+          "type": "event",
+          "signature": "0x21459c2f5447ebcf83a7f0a238c32c71076faef0d12295e771c0cb1e10434739"
+        },
+        "0xc2d1449eb0b6547aa426e09d9942a77fa4fc8cd3296305b3163e22452e0bcb8d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_newTellor",
+              "type": "address"
+            }
+          ],
+          "name": "NewTellorAddress",
+          "type": "event",
+          "signature": "0xc2d1449eb0b6547aa426e09d9942a77fa4fc8cd3296305b3163e22452e0bcb8d"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event",
+          "signature": "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0"
+        },
+        "0xd32134405b68f6f7220f9c38ae310df1b648d16188006768d45be2f7c24e8820": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_sender",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "_apiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_tip",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_payout",
+              "type": "uint256"
+            }
+          ],
+          "name": "TipAdded",
+          "type": "event",
+          "signature": "0xd32134405b68f6f7220f9c38ae310df1b648d16188006768d45be2f7c24e8820"
+        }
+      },
+      "links": {},
+      "address": "0x731A4E84fd77618A758883DDa92323EdD291b313",
+      "transactionHash": "0x5cc357721e382917c46f37c4e98aca358c730ba6e70c34dd3d23f0aa9f6b77a8"
+    },
+    "1555270027036": {
+      "events": {
+        "0xc509d04e0782579ee59912139246ccbdf6c36c43abd90591d912017f3467dd16": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_apiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_time",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_value",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_payout",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_currentChallenge",
+              "type": "bytes32"
+            }
+          ],
+          "name": "NewValue",
+          "type": "event",
+          "signature": "0xc509d04e0782579ee59912139246ccbdf6c36c43abd90591d912017f3467dd16"
+        },
+        "0x6d7f869757848b19c8c2456e95cd98885bc6bed062fda4077bb07985e2f76cc9": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_sender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_sapi",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "name": "_symbol",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "name": "_granularity",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "_apiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_value",
+              "type": "uint256"
+            }
+          ],
+          "name": "DataRequested",
+          "type": "event",
+          "signature": "0x6d7f869757848b19c8c2456e95cd98885bc6bed062fda4077bb07985e2f76cc9"
+        },
+        "0xe6d63a2aee0aaed2ab49702313ce54114f2145af219d7db30d6624af9e6dffc4": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_miner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_nonce",
+              "type": "string"
+            },
+            {
+              "indexed": true,
+              "name": "_apiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_value",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_currentChallenge",
+              "type": "bytes32"
+            }
+          ],
+          "name": "NonceSubmitted",
+          "type": "event",
+          "signature": "0xe6d63a2aee0aaed2ab49702313ce54114f2145af219d7db30d6624af9e6dffc4"
+        },
+        "0x1c59b53c2f787064c7f5aae431916a0600db3a76bb4029c09e24fe8313042674": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_apiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_sapi",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "name": "_apiOnQ",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "_apiOnQPayout",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewAPIonQinfo",
+          "type": "event",
+          "signature": "0x1c59b53c2f787064c7f5aae431916a0600db3a76bb4029c09e24fe8313042674"
+        },
+        "0x9e959738f09af22daede9ff9563f8edf3f5cec8e17ce60287c911c95fa767f42": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_currentChallenge",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "name": "_miningApiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_difficulty_level",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_multiplier",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_api",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "name": "_value",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewChallenge",
+          "type": "event",
+          "signature": "0x9e959738f09af22daede9ff9563f8edf3f5cec8e17ce60287c911c95fa767f42"
+        },
+        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "spender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Approval",
+          "type": "event",
+          "signature": "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
+        },
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event",
+          "signature": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+        },
+        "0x46d8ab1385f70e5a3673e97c23c764f7600f7ed7a09b6687deae7131d51752e2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_sender",
+              "type": "address"
+            }
+          ],
+          "name": "NewStake",
+          "type": "event",
+          "signature": "0x46d8ab1385f70e5a3673e97c23c764f7600f7ed7a09b6687deae7131d51752e2"
+        },
+        "0x4a7934670bd8304e7da22378be1368f7c4fef17c5aee81804beda8638fe428ec": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_sender",
+              "type": "address"
+            }
+          ],
+          "name": "StakeWithdrawn",
+          "type": "event",
+          "signature": "0x4a7934670bd8304e7da22378be1368f7c4fef17c5aee81804beda8638fe428ec"
+        },
+        "0x453865710d0cb4b14ad25de371c860da196368895daa9662e5087711d14daecf": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_sender",
+              "type": "address"
+            }
+          ],
+          "name": "StakeWithdrawRequested",
+          "type": "event",
+          "signature": "0x453865710d0cb4b14ad25de371c860da196368895daa9662e5087711d14daecf"
+        },
+        "0xd739c8b7fe870f381c5442416ff79d9f44c3e1d54a16ce39fc0fbe8206c4a6e8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_DisputeID",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "_apiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_timestamp",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewDispute",
+          "type": "event",
+          "signature": "0xd739c8b7fe870f381c5442416ff79d9f44c3e1d54a16ce39fc0fbe8206c4a6e8"
+        },
+        "0x86abfce99b7dd908bec0169288797f85049ec73cbe046ed9de818fab3a497ae0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_disputeID",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_position",
+              "type": "bool"
+            },
+            {
+              "indexed": true,
+              "name": "_voter",
+              "type": "address"
+            }
+          ],
+          "name": "Voted",
+          "type": "event",
+          "signature": "0x86abfce99b7dd908bec0169288797f85049ec73cbe046ed9de818fab3a497ae0"
+        },
+        "0x21459c2f5447ebcf83a7f0a238c32c71076faef0d12295e771c0cb1e10434739": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_disputeID",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_result",
+              "type": "int256"
+            },
+            {
+              "indexed": true,
+              "name": "_reportedMiner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_reportingParty",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "_active",
+              "type": "bool"
+            }
+          ],
+          "name": "DisputeVoteTallied",
+          "type": "event",
+          "signature": "0x21459c2f5447ebcf83a7f0a238c32c71076faef0d12295e771c0cb1e10434739"
+        },
+        "0xc2d1449eb0b6547aa426e09d9942a77fa4fc8cd3296305b3163e22452e0bcb8d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_newTellor",
+              "type": "address"
+            }
+          ],
+          "name": "NewTellorAddress",
+          "type": "event",
+          "signature": "0xc2d1449eb0b6547aa426e09d9942a77fa4fc8cd3296305b3163e22452e0bcb8d"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event",
+          "signature": "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0"
+        },
+        "0xd32134405b68f6f7220f9c38ae310df1b648d16188006768d45be2f7c24e8820": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "_sender",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "_apiId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_tip",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "name": "_payout",
+              "type": "uint256"
+            }
+          ],
+          "name": "TipAdded",
+          "type": "event",
+          "signature": "0xd32134405b68f6f7220f9c38ae310df1b648d16188006768d45be2f7c24e8820"
+        }
+      },
+      "links": {},
+      "address": "0x731A4E84fd77618A758883DDa92323EdD291b313",
+      "transactionHash": "0x5cc357721e382917c46f37c4e98aca358c730ba6e70c34dd3d23f0aa9f6b77a8"
+    },
+    "1555270259713": {
       "events": {
         "0xc509d04e0782579ee59912139246ccbdf6c36c43abd90591d912017f3467dd16": {
           "anonymous": false,
@@ -31373,7 +32173,7 @@
     }
   },
   "schemaVersion": "3.0.6",
-  "updatedAt": "2019-04-12T16:02:16.590Z",
+  "updatedAt": "2019-04-14T19:32:08.407Z",
   "devdoc": {
     "details": "Oracle contract where miners can submit the proof of work along with the value.Note at the top is the struct.  THE STRUCT SHOULD ALWAYS BE THE SAME AS TELLORDATA.SOLFailure to do so will result in errors with the fallback proxy",
     "methods": {

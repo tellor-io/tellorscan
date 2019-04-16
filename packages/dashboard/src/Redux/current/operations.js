@@ -2,29 +2,87 @@ import {Creators} from './actions';
 import eventFactory from 'Chain/LogEvents/EventFactory';
 import {default as reqOps} from 'Redux/events/tree/operations';
 
+const getCurrentChallenge = () => async (dispatch, getState) => {
+  let currentInfo = null;
+  let con = getState().chain.contract;
+  try {
+    currentInfo = await con.getVariables();
+  } catch (e) {
+    //possible that contract isn't deployed yet or is unreachable
+    //for whatever reason.
+  }
+
+  let evt = null;
+  if(currentInfo) {
+
+    let payload = {
+      event: "NewChallenge",
+      returnValues: {
+        _currentChallenge: currentInfo[0],
+        _miningApiId: currentInfo[1],
+        _difficulty_level: currentInfo[2],
+        _api: currentInfo[3],
+        _multiplier: currentInfo[4]
+      }
+    };
+    evt = eventFactory(payload);
+    evt = evt.normalize();
+    return evt;
+  }
+  return null;
+}
+
 const init = () => async (dispatch,getState) => {
   dispatch(Creators.loadRequest());
   let chain = getState().chain;
   let con = chain.chain.getContract();
+
   con.events.NewChallenge(null, async (e, evt)=>{
     if(evt) {
+      if(evt.normalize) {
+        evt = evt.normalize();
+      }
 
       //if it's an empty challenge, have to reset state
-      if(evt._miningApiId === 0) {
+      if(evt.id === 0) {
         dispatch(Creators.update(null))
       } else {
 
-        let query = getState().events.tree.byId[evt._miningApiId];
+        let query = getState().events.tree.byId[evt.id];
         if(!query) {
-          query = await dispatch(reqOps.findByRequestId(evt._miningApiId));
+          query = await dispatch(reqOps.findByRequestId(evt.id));
         }
         if(query) {
           dispatch(Creators.update({
-            value: evt._value,
+            value: evt.tip,
             symbol: query.symbol,
-            id: evt._miningApiId,
-            challengeHash: evt._currentChallenge
+            id: evt.id,
+            challengeHash: evt.challengeHash
           }))
+        }
+      }
+    }
+  });
+
+  con.events.NewValue(null, async (e, evt) => {
+    if(evt) {
+      if(evt.normalize) {
+        evt = evt.normalize();
+      }
+      let query = getState().events.tree.byId[evt.id];
+      if(!query) {
+        query = await dispatch(reqOps.findByRequestId(evt.id));
+      }
+      if(query) {
+        let current = getState().current.currentChallenge;
+        if(current && current.challengeHash === evt.challengeHash) {
+          let next = await dispatch(getCurrentChallenge());
+          let minedSlots = 0; //TODO: get from on chain once we know time granularity
+          if(next && next.id > 0) {
+            dispatch(Creators.update(next, minedSlots));
+          } else {
+            dispatch(Creators.update(null));
+          }
         }
       }
     }
@@ -32,11 +90,14 @@ const init = () => async (dispatch,getState) => {
 
   con.events.NonceSubmitted(null, async (e, evt)=>{
     if(evt) {
-
+      if(evt.normalize) {
+        evt = evt.normalize();
+      }
+      console.log("Getting nonce submitted in current", evt);
       let state = getState();
       let challenge = state.current.currentChallenge;
-      if(challenge && challenge.challengeHash === evt._currentChallenge) {
-        dispatch(Creators.slotMined(evt.normalize()));
+      if(challenge && challenge.challengeHash === evt.challengeHash) {
+        dispatch(Creators.slotMined(evt));
       }
     }
   });
@@ -46,31 +107,22 @@ const init = () => async (dispatch,getState) => {
   //It's best to sync with the contract directly and avoid any race
   //or out of sync issues with our storage.
 
-  let currentInfo = await con.getVariables();
-  let evt = null;
-  if(currentInfo) {
-    let payload = {
-      event: "NewChallenge",
-      returnValues: {
-        _currentChallenge: currentInfo[0],
-        _miningApiId: currentInfo[1],
-        _difficulty_level: currentInfo[2],
-        _api: currentInfo[3],
-        _value: currentInfo[4]
-      }
-    };
-    evt = eventFactory(payload);
-    evt = evt.normalize();
-  }
+  let current = await dispatch(getCurrentChallenge());
 
-
-  //order is hash, id, diff, querysString, multiplier,value
-  if(!evt || evt.id === 0) {
-    //nothing to do
-    dispatch(Creators.loadSuccess(null, 0));
-  } else {
-    let count = 0; //await con.count(); //miners completed
-    dispatch(Creators.loadSuccess(evt.normalize(), count));
+  if(current) {
+    //does the event refer to an ID we don't know about?
+    let req = getState().events.tree.byId[current.id];
+    if(!req) {
+      await dispatch(reqOps.findByRequestId(current.id));
+    }
+    //order is hash, id, diff, querysString, multiplier,value
+    if(!current || current.id === 0) {
+      //nothing to do
+      dispatch(Creators.loadSuccess(null, 0));
+    } else {
+      let count = 0; //await con.count(); //miners completed
+      dispatch(Creators.loadSuccess(current, count));
+    }
   }
 }
 

@@ -104,13 +104,13 @@ export default class ContractLogic {
     let challenge = {
       ...this.currentChallenge
     }
-    let details = this.requestsById[challenge._miningApiId] || {};
+    let details = this.requestsById[challenge.apiId] || {};
     return [
-      challenge._currentChallenge,
-      challenge._miningApiId,
-      challenge._difficulty_level,
-      challenge._api,
-      details._granularity
+      challenge.challengeChallenge,
+      challenge.apiId,
+      challenge.difficulty_level,
+      challenge.api,
+      challenge.granularity
     ]
   }
 
@@ -136,7 +136,6 @@ export default class ContractLogic {
           break;
         }
       }
-
       return [
         req.apiString,
         req.symbol,
@@ -178,13 +177,9 @@ export default class ContractLogic {
     if(multiplier < 0) {
       throw new Error("Multiplier cannot be less than 0 or larger than 1e18");
     }
-    console.log("Incoming request params", queryString, apiId, multiplier, tip, symbol);
     let hash = generateQueryHash(queryString, multiplier);
-    console.log("Query hash", hash);
 
     let existing = this.requestsByHash[hash];
-    console.log("Existing", existing);
-
     if(apiId === 0){
       if(!isURL(queryString)) {
         throw new Error("Invalid query string");
@@ -289,7 +284,7 @@ export default class ContractLogic {
           _apiId,
           _time: Math.floor(Date.now()/1000),
           _value: avg,
-          _challengeHash: cHash
+          _currentChallenge: cHash
         }
       };
       //t-up the next one
@@ -306,7 +301,9 @@ export default class ContractLogic {
     if(!this.currentChallenge || this.currentChallenge.apiId === 0) {
       this.challengeHash = ethUtils.sha3(""+((Math.random()*1000)+query.payout+this.chain.block));
       this.currentChallenge = {
-        ...query
+        ...query,
+        _difficulty_level: 1,
+        challengeHash: this.challengeHash
       };
 
       let payload = {
@@ -316,6 +313,7 @@ export default class ContractLogic {
         returnValues: {
           _currentChallenge: this.challengeHash,
           _miningApiId: apiId,
+          _multiplier: this.currentChallenge.granularity,
           _difficulty_level: 1,
           _api: query.apiString,
           _value: this.currentChallenge.payout
@@ -369,13 +367,16 @@ export default class ContractLogic {
       delete this.pendingById[top.apiId];
     }
 
+    let nextHash = ethUtils.sha3(""+((Math.random()*1000)+(top.payout||0)));
+    this.challengeHash = nextHash;
     let payload = {
       event: "NewChallenge",
       blockNumber: this.chain.block,
       logIndex: 1,
       returnValues: {
-        _currentChallenge: ethUtils.sha3(""+((Math.random()*1000)+(top.payout||0))),
+        _currentChallenge: nextHash,
         _miningApiId: top.apiId || 0,
+        _multiplier: top.granularity,
         _difficulty_level: 1,
         _api: top.apiString,
         _value: top.payout
@@ -384,7 +385,9 @@ export default class ContractLogic {
 
     let evt = buildEvent(payload, "NewChallenge");
     this.currentChallenge = top.apiString?{
-      ...top
+      ...top,
+      _difficulty_level: 1,
+      challengeHash: nextHash
     }:undefined;
     let ex = this.requestsById[top.apiId];
     if(ex) {

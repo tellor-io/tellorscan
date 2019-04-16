@@ -1,0 +1,7 @@
+.dispute-button {
+  border: none;
+  &:hover {
+    background: theme-color("highlight-button-bg");
+    cursor: pointer;
+  }
+}

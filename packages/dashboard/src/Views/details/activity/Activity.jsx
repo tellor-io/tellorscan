@@ -29,10 +29,11 @@ export default class Activity extends React.Component {
               Recent Requests
             </span>
           </div>
+          <div className={cn(align.full, align.topCenter, "pr-5", "pl-5", align.noMarginPad)}>
+            <ChallengeViewer dispute={this.props.selectForDispute} noId noSymbol data={challenges} />
+          </div>
         </Col>
-        <Col md="12" className={cn(  align.rightCenter,align.noMarginPad)}>
-          <ChallengeViewer noId noSymbol challenges={challenges} />
-        </Col>
+
 
       </Row>
     )

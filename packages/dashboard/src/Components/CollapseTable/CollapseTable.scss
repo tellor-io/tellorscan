@@ -1,0 +1,9 @@
+.collapse-table-container {
+  max-height: 550px !important;
+  min-height: 550px !important;
+  overflow-y: scroll;
+
+  .item-row {
+    min-height: 50px !important;
+  }
+}

@@ -1,5 +1,4 @@
 import React from 'react';
-//import ReactTable from 'react-table';
 import CleanTable from 'Components/CleanTable/CleanTable';
 import cn from 'classnames';
 import * as align from 'Constants/alignments';
@@ -9,6 +8,7 @@ import {
   NavLink
 } from 'reactstrap';
 import Loading from 'Components/Loading';
+import AddTip from 'Components/AddTipButton';
 
 const cols = [
 
@@ -42,6 +42,12 @@ const cols = [
       </div>
     )
   },
+  /*
+  <div className={cn(align.allCenter, align.full)}>
+      <i className={cn("circle-button fa fa-plus", "text-tellor-green")}
+        onClick={()=>row.value.actions.increment(row.value.id)}/>
+  </div>
+  */
   {
     Header: (
       <span className={cn("text-sz-sm", "text-muted", "text-center", "font-weight-light")}>
@@ -50,10 +56,8 @@ const cols = [
     width: 1,
     accessor: "item",
     Cell: row => (
-      <div className={cn(align.allCenter, align.full)}>
-          <i className={cn("circle-button fa fa-plus", "text-tellor-green")}
-            onClick={()=>row.value.actions.increment(row.value.id)}/>
-      </div>
+      <AddTip onClick={()=>row.value.actions.increment(row.value.id)} />
+
     )
   }
 

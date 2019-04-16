@@ -10,6 +10,7 @@ const s2p = (state, own) => {
   let q = byId[id];
 
   return {
+    id,
     item: q
   }
 }

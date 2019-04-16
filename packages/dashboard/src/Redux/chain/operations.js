@@ -24,6 +24,16 @@ const init = () => async (dispatch,getState) => {
   }
 }
 
+const unload = () => async (dispatch, getState) => {
+  try {
+
+    let chain = getState().chain.chain;
+    await chain.unload();
+  } catch (e) {
+    //have to ignore
+  }
+}
+
 const lookupQueryByHash = props => async (dispatch,getState) => {
   let state = getState();
   let con = state.chain.contract;
@@ -48,7 +58,7 @@ const _doRequestData = props => async (dispatch, getState) => {
   let con = state.chain.contract;
   await con.requestData(props.queryString, props.symbol, props.apiId, props.multiplier, props.tip)
     .then(()=>{
-      toastr.info("Submitted data request");
+      return toastr.info("Submitted data request");
     }).catch(e=>{
       toastr.error("Error", e.message);
       throw e;
@@ -66,6 +76,7 @@ const addToTip = (id,tip) => (dispatch, getState) => {
 
 export default {
   init,
+  unload,
   requestData,
   addToTip,
   lookupQueryByHash

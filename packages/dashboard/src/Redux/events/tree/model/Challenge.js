@@ -132,13 +132,21 @@ export default class Challenge {
         })
       });
 
+      //get the current one
+      let current = getState().current.currentChallenge;
+      if(current) {
+        let byHashMap = byId[current.id] || {};
+        byHashMap[current.challengeHash] = new Challenge({metadata: current});
+        byId[current.id] = byHashMap;
+      }
+
       return byId;
     }
   }
 
   constructor(props) {
     let meta = props.metadata;
-
+    this.metdata = meta;
     _.keys(meta).forEach(k=>{
       let v = meta[k];
       if(typeof v !== 'function') {
@@ -152,18 +160,25 @@ export default class Challenge {
     this.finalValue = null;
     this.minerOrder = [];
     [
-      'isDisputable'
+      'isDisputable',
+      'timeRemaining'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
   }
 
-  isDisputable() {
+  timeRemaining(challenge) {
+    let now = Math.floor(Date.now()/1000);
+    return DISPUTABLE_PERIOD - (now - challenge.finalValue.timestamp);
+  }
+
+  isDisputable(challenge) {
     if(!this.finalValue) {
       return true;
     }
-    let now = Math.floor(Date.now()/1000);
-    let diff = now - this.finalValue.timestamp;
-    return diff < DISPUTABLE_PERIOD;
+    let diff = this.timeRemaining(challenge);
+    return diff > 0;
   }
+
+
 
   static get ops() {
     return ops;

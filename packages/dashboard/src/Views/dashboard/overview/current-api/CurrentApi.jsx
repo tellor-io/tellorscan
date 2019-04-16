@@ -26,7 +26,7 @@ export default class CurrentApi extends React.Component {
     if(current) {
       idText = `${current.id} (${current.symbol})`;
     } else {
-      idText = "no pending queries";
+      idText = "no pending requests";
     }
 
     return (

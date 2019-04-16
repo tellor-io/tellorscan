@@ -15,9 +15,10 @@ import Search from 'Components/Search';
 export default class TopMenu extends React.Component {
   render() {
     const {
-      withLogo,
-      withSearch
+      withSearch,
+      title
     } = this.props;
+
     let barClass = cn("top-nav", align.full);
     if(withSearch) {
       barClass = cn(barClass, align.topCenter);
@@ -41,48 +42,45 @@ export default class TopMenu extends React.Component {
       </React.Fragment>
     )
 
-    let body = null;
+    let topBody = null;
     if(withSearch) {
-      body = (
-        <React.Fragment>
-          <Row className={cn(align.rightCenter, align.full, "pr-4", "m-0", "p-0")}>
-            <Col md="6" className={cn(align.rightCenter, "m-0", "p-0")}>
-              <Search className="tellor-bg-light"/>
+      topBody = (
+        <Row className={cn(align.rightCenter, align.full, "pr-4", align.noMarginPad)}>
+          <Col md="6" className={cn(align.rightCenter, align.noMarginPad)}>
+            <Search className="tellor-bg-light"/>
+          </Col>
+        </Row>
+      )
+    }
+    let body = (
+      <Row className={cn(align.allCenter, align.full, align.noMarginPad)}>
+        <Col md="10" className={cn(align.leftCenter, align.noMarginPad)}>
+          <Row className={cn(align.allCenter, align.noMarginPad, align.full)}>
+            <Col md="4" className={cn(align.leftCenter, align.noMarginPad)}>
+              <Logo goHome={this.props.goHome}/>
             </Col>
-          </Row>
-
-          <Row className={cn(align.allCenter, align.full, "m-0", "p-0")}>
-            <Col md="10" className={cn(align.leftCenter, "m-0", "p-0")}>
-              {
-                    withLogo &&
-                    <Logo goHome={this.props.goHome}/>
-                  }
-
+            <Col md="4" className={cn(align.allCenter, align.noMarginPad)}>
+                {
+                  title &&
+                  <h2 className={cn(align.allCenter, "text-muted", "font-weight-bold")}>
+                    {title}
+                  </h2>
+                }
+            </Col>
+            <Col md="4" className={cn(align.rightCenter, align.noMarginPad)}>
               <Nav navbar className={cn("ml-auto", "text-md", "font-weight-light", "p-0")}>
                 {navItems}
               </Nav>
             </Col>
           </Row>
-        </React.Fragment>
-      )
-    } else {
-      body = (
-        <Row className={cn(align.allCenter, align.full, "m-0", "p-0")}>
-          <Col md="10" className={cn(align.leftCenter, "m-0", "p-0")}>
-            {
-              withLogo &&
-              <Logo goHome={this.props.goHome}/>
-            }
-            <Nav navbar className={cn("ml-auto", "text-md", "font-weight-light")}>
-              {navItems}
-            </Nav>
-          </Col>
-        </Row>
-      )
-    }
+        </Col>
+      </Row>
+    )
+
 
     return (
       <Navbar light expand="sm" className={cn(barClass)}>
+         {topBody}
          {body}
       </Navbar>
     )

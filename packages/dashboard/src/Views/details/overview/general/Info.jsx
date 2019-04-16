@@ -8,7 +8,7 @@ import * as align from 'Constants/alignments';
 
 const rows = [
   {
-    label: "API ID",
+    label: "Request ID",
     value: r => r.id
   },
   {
@@ -24,7 +24,7 @@ const rows = [
     value: r => r.multiplier
   },
   {
-    label: "API String",
+    label: "Query String",
     value: (r, props) => {
       let s = r.queryString;
       if(s && s.length > 60) {
@@ -82,10 +82,19 @@ const buildRow = (item, spec, idx, isLast,props) => {
 export default class Info extends React.Component {
   render() {
     const {
+      id,
       item
     } = this.props;
     if(!item) {
-      return null;
+      return (
+        <Row className={cn("info-container", "border", "rounded", align.topCenter, align.full, align.noMarginPad)}>
+          <Row className={cn("item-row", align.leftCenter, align.full)}>
+            <Col md="12" className={cn(align.leftCenter, "font-weight-bold")}>
+              No request found with id: {id}
+            </Col>
+          </Row>
+        </Row>
+      )
     }
 
     return (

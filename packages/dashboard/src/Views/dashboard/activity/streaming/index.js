@@ -3,6 +3,7 @@ import Stream from './ChallengeTable'; //'./Streaming';
 import {withRouter} from 'react-router-dom';
 import * as navs from 'Navs';
 import _ from 'lodash';
+import {default as dispOps} from 'Redux/disputes/operations';
 
 const s2p = state => {
   //let mining = state.events.mining;
@@ -33,6 +34,11 @@ const d2p = (dispatch, own) => {
   return {
     viewDetails: id => {
       let url = navs.DETAILS_HOME + "/" + id;
+      own.history.push(url);
+    },
+    dispute: (challenge, nonce) => {
+      dispatch(dispOps.selectForDispute(challenge, nonce));
+      let url = navs.DISPUTE_HOME + "/" + challenge.id;
       own.history.push(url);
     }
   }

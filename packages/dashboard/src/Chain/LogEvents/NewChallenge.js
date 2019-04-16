@@ -24,7 +24,7 @@ export default class NewChallenge extends BaseEvent {
       queryString: this._api,
       difficulty: this._difficulty_level,
       challengeHash: this._currentChallenge,
-      multipler: this._multiplier,
+      multiplier: this._multiplier,
       tip: this._value,
       normalize: () => normalized
     }

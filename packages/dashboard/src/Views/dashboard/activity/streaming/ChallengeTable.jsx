@@ -20,7 +20,7 @@ export default class ChallengeTable extends React.Component {
       <Row className={cn("challenges-table", align.topCenter, align.full, "p-0", "m-0")}>
         <Loading loading={loading} />
         <Col md="11" className={cn("event-table-box", align.topCenter, "m-0", "p-0")}>
-          <ChallengeViewer challenges={challenges} idClicked={this.props.viewDetails}/>
+          <ChallengeViewer dispute={this.props.dispute} data={challenges} idClicked={this.props.viewDetails}/>
         </Col>
       </Row>
     )

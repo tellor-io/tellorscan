@@ -3,7 +3,7 @@ import {
   chartConfig
 } from 'Components/Chart/ChartTemplates';
 import LineShadow from 'Components/Chart/LineShadow';
-import {formatHour} from 'Utils/time';
+import {formatTime} from 'Utils/time';
 
 const lineColor = "#414141";
 
@@ -17,7 +17,7 @@ export default class Chart extends React.Component {
     let labels = [];
     let tips = [];
     data.forEach(d=>{
-      labels.push(formatHour(d.timestamp));
+      labels.push(formatTime(d.timestamp, "MM/DD HH:mm"));
       tips.push(d.tip);
     });
 
@@ -29,7 +29,7 @@ export default class Chart extends React.Component {
       labels,
       datasets: [
         {
-          label: "Avg Tip",
+          label: "Tip",
           data: tips,
           borderColor: lineColor,
           pointBackgroundColor: lineColor,

@@ -6,12 +6,15 @@ import {
 import abi from 'Chain/abi';
 import SubscriptionProvider from './SubscriptionProvider';
 import EventEmitter from 'events';
+import eventFactory from 'Chain/LogEvents/EventFactory';
 
 class ConAPI {
-  constructor({master, tellor, caller}) {
+  constructor({chain, master, tellor, caller}) {
+    this.chain = chain;
     this.master = master;
     this.caller = caller;
     this.tellor = tellor;
+    this.eventHistory = {};
     this._emitter = new EventEmitter();
 
     /*
@@ -25,17 +28,21 @@ class ConAPI {
       chain: this._emitter //pretend our emitter is the blockchain
     });
 
-    master.events.allEvents(null, (e, evt) => {
-      console.log("Getting event from MASTER", evt);
-      this._emitter.emit(evt.event, evt);
-    });
-    tellor.events.allEvents(null, (e, evt) => {
-      console.log("Getting event from TELLOR", evt);
-      this._emitter.emit(evt.event, evt);
+    this.eventSubs = {};
+
+    this.sub = this.master.events.allEvents(null, (e, evt)=>{
+      if(evt) {
+        console.log("Getting event from MASTER", evt);
+        let outEvent = eventFactory(evt);
+        if(outEvent) {
+          this._emitter.emit(outEvent.name, outEvent);
+        }
+      }
     });
 
     [
       'init',
+      'unload',
       'requestData',
       'addTip',
       'getVariables',
@@ -48,7 +55,6 @@ class ConAPI {
   }
 
   _call(con, method, args) {
-    console.log("Calling", method, args);
     return con.methods[method](...args).call({
       from: this.caller,
       gas: 100000
@@ -56,13 +62,31 @@ class ConAPI {
   }
 
   _send(con, method, args) {
-    return con.methods[method](...args).send({
-      from: this.caller
+    let tx = con.methods[method](...args);
+    return new Promise((done,err)=>{
+      this.chain.web3.eth.sendTransaction({
+        to: con.address,
+        from: this.caller,
+        data: tx.encodeABI()
+      }, (e,r)=>{
+        if(e) {
+          err(e);
+        } else {
+          done(r);
+        }
+      });
     });
   }
 
   async init() {
     //could we pull current stuff from contract and cache it here?
+  }
+
+  async unload() {
+    if(this.sub) {
+      await this.sub.unsubscribe();
+      this.sub = null;
+    }
   }
 
   getVariables() {
@@ -84,23 +108,26 @@ class ConAPI {
 
 
   requestData(queryString, symbol, requestId, multiplier, tip) {
-    return this._send(this.tellor, "requestData", [queryString, symbol, requestId, multiplier, tip]);
+    return this._send(this.master, "requestData", [queryString, symbol, requestId, multiplier, tip]);
   }
 
   addTip(requestId, tip) {
-    return this._send(this.tellor, "addTip", [requestId, tip]);
+    return this._send(this.master, "addTip", [requestId, tip]);
   }
 }
 
 export default class Web3Wrapper {
   constructor(props) {
+    this.times = {};
 
     [
       'init',
+      'unload',
       'getBlock',
       'latestBlock',
       'getPastEvents',
-      'getContract'
+      'getContract',
+      'getTime'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
   }
 
@@ -118,19 +145,44 @@ export default class Web3Wrapper {
       }
       this.block = await this.web3.eth.getBlockNumber();
       await this.web3.eth.clearSubscriptions()
-      this.web3.eth.subscribe('newBlockHeaders', (e, block) => {
-        console.log("Incoming newBlockHeader", e, block);
-        this.block = block?block.number:this.block;
+      let em = this.web3.eth.subscribe('newBlockHeaders');
+      em.on("data", (block)=>{
+
+        if(block) {
+          this.block = block.number;
+          this.times[this.block] = block.timestamp;
+          //TODO: cleanup times if the client will run for a long time!
+        }
+
       });
 
-      let master = this.web3.eth.Contract(abi, DEFAULT_MASTER_CONTRACT, {
+      let master = new this.web3.eth.Contract(abi, DEFAULT_MASTER_CONTRACT, {
         address: DEFAULT_MASTER_CONTRACT
       });
-      let tellor = this.web3.eth.Contract(abi, DEFAULT_TELLOR_CONTRACT, {
+      let tellor = new this.web3.eth.Contract(abi, DEFAULT_TELLOR_CONTRACT, {
         address: DEFAULT_TELLOR_CONTRACT
       });
-      this.contract = new ConAPI({master, tellor, caller: acts[0]});
+      console.log("Creating contract");
+      this.contract = new ConAPI({chain: this, master, tellor, caller: acts[0]});
     }
+  }
+
+  async unload() {
+    localStorage.setItem("web3Wrapper.unload", true);
+    await this.contract.unload();
+  }
+
+  async getTime(block) {
+    let t = this.times[block];
+    if(t) {
+      return t;
+    }
+    let b = await this.web3.eth.getBlock(block);
+    if(b) {
+      this.times[b.number] = b.timestamp;
+      return b.timestamp;
+    }
+    return undefined;
   }
 
   getBlock(number) {
