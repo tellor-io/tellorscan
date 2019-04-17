@@ -21,10 +21,32 @@ export default class Details extends React.Component {
         <Row className={cn(align.allCenter, align.full, "mb-3", align.noMarginPad)}>
 
           <Col md="5" className={cn("pr-3", align.topCenter, align.noMarginPad)}>
-            <Disputable />
+            <Row className={cn(align.topCenter, align.full, align.noMarginPad)}>
+              <Col md="12" className={cn(align.topCenter, "bg-white", align.noMarginPad)}>
+                <div className={cn("open-header", "p-2", "bg-tellor-charcoal", "text-white", align.leftCenter, align.full)}>
+                  <span className={cn("pl-4", "font-weight-bold", "text-sz-md", "text-light")}>
+                    Disputable Values
+                  </span>
+                </div>
+              </Col>
+              <Col md="12" className={cn(align.topCenter, align.noMarginPad)}>
+                <Disputable />
+              </Col>
+            </Row>
           </Col>
           <Col md="5" className={cn(align.topCenter, align.noMarginPad)}>
-            <Pending />
+            <Row className={cn(align.topCenter, align.full, align.noMarginPad)}>
+              <Col md="12" className={cn(align.topCenter, "bg-white", align.noMarginPad)}>
+                <div className={cn("open-header", "p-2", "bg-tellor-charcoal", "text-white", align.leftCenter, align.full)}>
+                  <span className={cn("pl-4", "font-weight-bold", "text-sz-md", "text-light")}>
+                    Open Disputes
+                  </span>
+                </div>
+              </Col>
+              <Col md="12" className={cn(align.topCenter, align.noMarginPad)}>
+                <Pending />
+              </Col>
+            </Row>
           </Col>
 
         </Row>

@@ -17,7 +17,7 @@ const nonceRows = [
   {
     value: (ch,n) => {
       if(n) {
-        return formatTimeLong(n.timestamp)
+        return formatTimeLong(n.mineTime)
       }
       return 'unknown'
     },
@@ -45,7 +45,7 @@ const nonceRows = [
       }
       //in seconds
       let m = moment.duration(remaining*1000); //.humanize();
-      return `${m.days()} days ${m.hours()} hours ${m.minutes()} mins`;
+      return `${m.hours()}h ${m.minutes()}m`;
     },
     label: "Time Remaining"
   },
@@ -92,7 +92,7 @@ class NonceDetail extends React.Component {
           }
         </Col>
         <Col md="2" className={cn(align.allCenter, align.noMarginPad)}>
-          <Button onClick={()=>{this.props.dispute(challenge, nonce)}}>Dispute</Button>
+          <Button challenge={challenge} nonce={nonce} onClick={()=>{this.props.dispute(challenge, nonce)}}>Dispute</Button>
         </Col>
       </Row>
     )

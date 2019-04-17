@@ -75,6 +75,40 @@ const addChallenge = (state=INIT_STATE, action) => {
    }
  }
 
+ const addDispute = (state=INIT_STATE, action) => {
+   let d = action.dispute;
+   let req = state.byId[d.requestId];
+   req = {
+     ...req
+   }
+
+   let byId = {
+     ...state.byId,
+     [req.id]: req
+   }
+   req.disputes = {
+     ...req.disputes,
+     [d.disputeHash]: d
+   }
+   //have to limit size of disputes to most recent 50
+   let dids = _.keys(req.disputes);
+   if(dids.length > 50) {
+     //disputes sorted in descening time order
+     let disputes = _.values(req.disputes);
+     disputes.sort((a,b)=>b.timestamp-a.timestamp);
+     disputes = disputes.slice(0, 50);
+     req.disputes = disputes.reduce((o,d)=>{
+       o[d.disputeHash] = d;
+       return o;
+     },{});
+   }
+
+   return {
+     ...state,
+     byId
+   }
+ }
+
 const addNonce = (state=INIT_STATE, action) => {
    let nonce = action.nonce;
    let req = state.byId[nonce.id];
@@ -98,6 +132,7 @@ const addNonce = (state=INIT_STATE, action) => {
      ...ch.nonces,
      nonce
    ];
+   ch.nonces.sort((a,b)=>a.winningOrder-b.winningOrder);
     return {
      ...state,
      byId
@@ -126,6 +161,7 @@ const nonceUpdated = (state=INIT_STATE, action) => {
      ...ch.nonces.filter(n=>n.miner!==nonce.miner),
      nonce
    ];
+   ch.nonces.sort((a,b)=>a.winningOrder-b.winningOrder);
     return {
      ...state,
      byId
@@ -185,6 +221,7 @@ const HANDLERS = {
   [Types.ADD_NONCE]: addNonce,
   [Types.NONCE_UPDATED]: nonceUpdated,
   [Types.ADD_NEW_VALUE]: addNewValue,
+  [Types.ADD_DISPUTE]: addDispute,
   [Types.CLEAR_ALL]: clearAll
 }
 

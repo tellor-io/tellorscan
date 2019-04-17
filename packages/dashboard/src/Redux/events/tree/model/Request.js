@@ -2,6 +2,7 @@ import {Creators} from '../actions';
 import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
 import Challenge from './Challenge';
+import Dispute from './Dispute';
 //import {default as tipOps} from 'Redux/tips/operations';
 
 import _ from 'lodash';
@@ -29,6 +30,20 @@ class Ops {
     }
   }
 
+  disputeEvent(dispute) {
+    return async (dispatch, getState) => {
+      if(!dispute) {
+        return;
+      }
+      let req = getState().events.tree.byId[dispute.requestId];
+      let d = new Dispute({
+        metadata: dispute,
+        parent: req
+      });
+      return dispatch(Creators.addDispute(d));
+    }
+  }
+
 }
 
 let ops = new Ops();
@@ -46,8 +61,6 @@ export default class RequestTree {
       */
     static loadAll() {
       return async (dispatch, getState) => {
-
-
         let r = await Storage.instance.readAll({
           database: dbNames.DataRequested,
           limit: 50,
@@ -75,11 +88,23 @@ export default class RequestTree {
 
         //returns a map of challenges keyed by request id
         let challenges = await dispatch(Challenge.loadAll(merged));
+
+        //have to first merge in all challenges since they are
+        //referenced by disputes below
         _.keys(merged).forEach(k=>{
           let req = merged[k];
           let chMap = challenges[k];
           if(chMap) {
             req.challenges = chMap;
+          }
+        });
+
+        let disputes = await dispatch(Dispute.loadAll(merged));
+        _.keys(merged).forEach(k=>{
+          let req = merged[k];
+          let dMap = disputes[k];
+          if(dMap) {
+            req.disputes = dMap;
           }
         });
         return merged;

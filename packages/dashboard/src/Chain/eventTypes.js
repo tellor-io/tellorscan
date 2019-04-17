@@ -88,23 +88,6 @@ export class StakeWithdrawRequested extends BaseEvent {
   }
 }
 
-export class NewDispute extends BaseEvent {
-  constructor(props) {
-    super(props);
-    [
-      'normalize'
-    ].forEach(fn=>this[fn]=this[fn].bind(this));
-
-    const {_DisputeID, _apiId, _timestamp} = props.event.returnValues;
-    this.disputeID = _DisputeID;
-    this.apiID = _apiId;
-    this.timestamp = _timestamp;
-  }
-  normalize(props) {
-
-  }
-}
-
 export class Voted extends BaseEvent {
   constructor(props) {
     super(props);

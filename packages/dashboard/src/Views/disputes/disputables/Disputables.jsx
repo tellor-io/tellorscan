@@ -55,13 +55,7 @@ export default class Disputables extends React.Component {
         <Loading loading={loading} />
 
         <Col md="12" className={cn("open-disputes-container", align.topCenter, align.noMarginPad)}>
-          <Row className={cn(align.leftCenter, align.full, align.noMarginPad)}>
-            <Col md="12" className={cn("open-header", "p-2", "bg-tellor-charcoal", "text-white", align.leftCenter, align.noMarginPad)}>
-              <span className={cn("pl-4", "font-weight-bold", "text-sz-md", "text-light")}>
-                Disputable Values
-              </span>
-            </Col>
-          </Row>
+          
           <Row className={cn(align.allCenter, align.full, "mt-2", align.noMarginPad)}>
             <Col md="12" className={cn(align.topCenter)}>
               {

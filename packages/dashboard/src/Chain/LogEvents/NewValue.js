@@ -20,7 +20,7 @@ export default class NewValue extends BaseEvent {
       ...parent,
       id: this._apiId,
       type: "New Value",
-      time: this._time,
+      mineTime: this._time,
       value: this._value,
       challengeHash: this._challengeHash,
       //originalEvent: this,
@@ -34,7 +34,7 @@ export default class NewValue extends BaseEvent {
     return {
       ...parent,
       id: this._apiId,
-      time: this._time,
+      mineTime: this._time,
       type: "New value",
       challengeHash: this._challengeHash,
       value: this._value,

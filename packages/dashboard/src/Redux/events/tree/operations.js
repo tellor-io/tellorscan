@@ -24,13 +24,12 @@ const normalizeEvent = (evt) => (dispatch,getState) => {
   if(!q) {
     q = byId[evt.id];
   }
+
   if(q) {
     norm = {
       ...norm,
       symbol: q.symbol
     }
-  } else {
-    console.log("Attempting to normalize event without ref request", evt);
   }
   return norm;
 }
@@ -52,12 +51,16 @@ const init = () => async (dispatch,getState) => {
 
       let norm = dispatch(normalizeEvent(evt));
       let tree = null;
-      if(norm.id) {
+      let reqId = norm.id;
+      if(norm.name === 'NewDispute') {
+        reqId = norm.requestId;
+      }
+      if(reqId) {
         let state = getState();
-        tree = state.events.tree.byId[norm.id];
+        tree = state.events.tree.byId[reqId];
         if(!tree) {
           //have to lookup the request and start a new root request.
-          let req = await dispatch(_lookup(norm.id));
+          let req = await dispatch(_lookup(reqId));
           if(req) {
             tree = new Request({metadata: req});
             dispatch(Creators.addRequest(tree));
@@ -88,6 +91,11 @@ const init = () => async (dispatch,getState) => {
 
           case dbNames.NewValue: {
             await dispatch(Challenge.ops.newValueEvent(norm));
+            break;
+          }
+
+          case dbNames.NewDispute: {
+            await dispatch(Request.ops.disputeEvent(norm));
             break;
           }
 
@@ -190,7 +198,7 @@ const _lookupOnChain = id => async (dispatch, getState) => {
       }
     };
 
-    let hash = vars[1];
+    let hash = vars[2];
 
     let evt = eventFactory(payload);
     //console.log("Retrieved from on-chain", hash, evt.normalize());

@@ -1,4 +1,9 @@
 import {Creators} from './actions';
+import Dispute from 'Redux/events/tree/model/Dispute';
+import _ from 'lodash';
+import Storage from 'Storage';
+import * as dbNames from 'Storage/DBNames';
+import eventFactory from 'Chain/LogEvents/EventFactory';
 
 const init = () => async (dispatch,getState) => {
   dispatch(Creators.initStart());
@@ -25,8 +30,13 @@ const toggleDisputeSelection = (ch) => (dispatch,getState) => {
   }
 }
 
+const findByDisputeHash = (hash) => (dispatch) => {
+  return dispatch(Dispute.ops.findByDisputeHash(hash));
+}
+
 export default {
   init,
+  findByDisputeHash,
   selectForDispute,
   clearDisputeSelection,
   toggleDisputeSelection

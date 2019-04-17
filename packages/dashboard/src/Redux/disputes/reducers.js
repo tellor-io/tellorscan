@@ -3,8 +3,7 @@ import {Types} from './actions';
 
 const INIT = {
   loading: false,
-  error: null,
-  data: {}
+  error: null
 }
 
 const initStart = (state=INIT) => {
@@ -18,8 +17,7 @@ const initStart = (state=INIT) => {
 const initSuccess = (state=INIT, action) => {
   return {
     ...state,
-    loading: false,
-    data: action.data
+    loading: false
   }
 }
 
@@ -28,17 +26,6 @@ const fail = (state=INIT, action) => {
     ...state,
     loading: false,
     error: action.error
-  }
-}
-
-const update = (state=INIT, action) => {
-  let data = {
-    ...state.data,
-    ...action.data
-  }
-  return {
-    ...state,
-    data
   }
 }
 
@@ -54,7 +41,6 @@ const HANDLERS = {
   [Types.INIT_START]: initStart,
   [Types.INIT_SUCCESS]: initSuccess,
   [Types.FAILURE]: fail,
-  [Types.UPDATE]: update,
   [Types.SELECT_FOR_DISPUTE]: select
 }
 

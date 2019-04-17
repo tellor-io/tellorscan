@@ -1,7 +1,7 @@
 import {Creators} from './actions';
 import Chain, {init as chainInit} from 'Chain';
 import {toastr} from 'react-redux-toastr';
-import {generateQueryHash} from 'Chain/utils';
+import {generateQueryHash, generateDisputeHash} from 'Chain/utils';
 
 import {registerDeps} from 'Redux/DepMiddleware';
 import {Types as settingsTypes} from 'Redux/settings/actions';
@@ -45,12 +45,32 @@ const lookupQueryByHash = props => async (dispatch,getState) => {
   return ex || 0;
 }
 
+const lookupDisputeByHash = props => async (dispatch, getState) => {
+  let state = getState();
+  let con = state.chain.contract;
+  let hash = generateDisputeHash({miner: props.miner.address, requestId: props.requestId, timestamp: props.timestamp});
+  let ex = await con.getDisputeIdByDisputeHash(hash);
+  if(ex && ex.toString) {
+    ex = ex.toString()-0;
+  }
+  return ex || 0;
+}
+
 const requestData = props => async (dispatch,getState) => {
   let ex = await dispatch(lookupQueryByHash(props));
   if(ex) {
     throw new Error("Query already exists with id: " + ex);
   }
   return dispatch(_doRequestData(props));
+}
+
+const initDispute = props => async (dispatch, getState) => {
+  let ex = await dispatch(lookupDisputeByHash(props));
+  if(ex) {
+    toastr.error("Error", "Dispute already active for miner,requestId,timestamp combination");
+  } else {
+    await dispatch(_doInitDispute(props));
+  }
 }
 
 const _doRequestData = props => async (dispatch, getState) => {
@@ -63,6 +83,18 @@ const _doRequestData = props => async (dispatch, getState) => {
       toastr.error("Error", e.message);
       throw e;
     });
+}
+
+const _doInitDispute = props => async (dispatch, getState) => {
+  let state = getState();
+  let con = state.chain.contract;
+  await con.beginDispute(props.requestId, props.timestamp, props.miner.index)
+    .then(()=>{
+      return toastr.info("Submitted dispute request");
+    }).catch(e=>{
+      toastr.error("Error", e.message);
+      throw e;
+    })
 }
 
 const addToTip = (id,tip) => (dispatch, getState) => {
@@ -79,5 +111,7 @@ export default {
   unload,
   requestData,
   addToTip,
-  lookupQueryByHash
+  lookupQueryByHash,
+  lookupDisputeByHash,
+  initDispute
 }

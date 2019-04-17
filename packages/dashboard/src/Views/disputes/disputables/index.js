@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom';
 import _ from 'lodash';
 import * as navs from 'Navs';
 import {default as dispOps} from 'Redux/disputes/operations';
+import {default as chainOps} from 'Redux/chain/operations';
 
 const s2p = (state,own) => {
   let byId = state.events.tree.byId;
@@ -66,7 +67,15 @@ const d2p = (dispatch,own) => {
       dispatch(dispOps.toggleDisputeSelection(ch));
     },
     initiateDispute: (ch, nonce) => {
-      console.log("Will dispute", ch, nonce);
+      let props = {
+        miner: {
+          index: nonce.winningOrder,
+          address: nonce.miner
+        },
+        requestId: ch.id,
+        timestamp: nonce.mineTime
+      };
+      dispatch(chainOps.initDispute(props));
     }
   }
 }

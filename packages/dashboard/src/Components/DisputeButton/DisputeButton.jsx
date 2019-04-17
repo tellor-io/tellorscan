@@ -3,10 +3,12 @@ import {
   Button
 } from 'reactstrap';
 import cn from 'classnames';
+import * as align from 'Constants/alignments';
 
 export default class DisputeButton extends React.Component {
   render() {
     const {
+      canDispute,
       hasTokens
     } = this.props;
 
@@ -17,6 +19,16 @@ export default class DisputeButton extends React.Component {
             Need Tokens
         </Button>
       )
+    }
+
+    if(!canDispute) {
+      return (
+        <div className={cn(align.allCenter, align.full, align.noMarginPad)}>
+          <span className={cn(align.allCenter, align.noMarginPad, "bg-secondary", "text-light", "text-center", "text-sz-sm")}>
+            in dispute already
+          </span>
+        </div>
+      );
     }
 
     return (

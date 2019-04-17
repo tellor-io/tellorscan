@@ -9,6 +9,7 @@ const {Types, Creators} = createActions({
   addNonce: ['nonce'],
   nonceUpdated: ['nonce'],
   addNewValue: ['value', 'minerOrder'],
+  addDispute: ['dispute'],
   clearAll: null
 },{prefix: "events.requests.tree."});
 export {

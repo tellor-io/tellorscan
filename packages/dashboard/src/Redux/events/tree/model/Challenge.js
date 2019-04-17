@@ -5,7 +5,8 @@ import Nonce from './Nonce';
 import NewValue from './NewValue';
 import {Creators} from '../actions';
 
-const DISPUTABLE_PERIOD = 7 * 86400; //7 days in seconds
+const DISPUTABLE_PERIOD = 86400; //1 day in seconds
+const VOTABLE_PERIOD = 7 * 86400; //7 days to vote
 
 class Ops {
   constructor() {
@@ -19,8 +20,6 @@ class Ops {
     return async (dispatch,getState) => {
       let state = getState();
       let req = state.events.tree.byId[nonce.id];
-      console.log("Adding nonce to ", req);
-
       let ch = req.challenges[nonce.challengeHash];
       let minerOrder = ch.minerOrder;
       let idx = minerOrder.indexOf(nonce.miner);
@@ -37,11 +36,14 @@ class Ops {
 
   newValueEvent(value) {
     return async (dispatch, getState) => {
-      //TODO: lookup miners on chain
       let state = getState();
+      let con = state.chain.contract;
+      let miners = await con.getMinersByRequestIdAndTimestamp(value.id, value.mineTime);
+      if(!miners) {
+        miners = ch.nonces.map(n=>n.miner);
+      }
       let req = state.events.tree.byId[value.id];
       let ch = req.challenges[value.challengeHash];
-      let miners = ch.nonces.map(n=>n.miner);
 
       ch.nonces.forEach(async n=>{
         let idx = miners.indexOf(n.miner);
@@ -54,6 +56,7 @@ class Ops {
           dispatch(Creators.nonceUpdated(n));
         }
       });
+      ch.nonces.sort((a,b)=>a.winningOrder-b.winningOrder);
       dispatch(Creators.addNewValue(value, miners));
     }
   }
@@ -102,8 +105,10 @@ export default class Challenge {
               minerOrder[n.winningOrder] = n.miner;
             }
           })
+          ch.nonces.sort((a,b)=>a.winningOrder-b.winningOrder);
         }
       });
+
 
       //returns individual new value items keyed by challenge hash
       let values = await dispatch(NewValue.loadAll(byHash));
@@ -142,6 +147,20 @@ export default class Challenge {
 
       return byId;
     }
+  }
+
+  static isDisputable(challenge) {
+    if(!challenge.finalValue) {
+      return true;
+    }
+    let diff = Challenge.timeRemaining(challenge);
+    return diff > 0;
+  }
+
+  static timeRemaining(challenge) {
+    let now = Math.floor(Date.now()/1000);
+    let end = challenge.finalValue?challenge.finalValue.timestamp:0;
+    return DISPUTABLE_PERIOD - (now - end);
   }
 
   constructor(props) {

@@ -4,6 +4,8 @@ import TipAdded from './TipAdded';
 import NewAPIonQinfo from './NewAPIonQinfo';
 import NewChallenge from './NewChallenge';
 import NewValue from './NewValue';
+import NewDispute from './NewDispute';
+import Voted from './Voted';
 
 export {
   DataRequested,
@@ -11,5 +13,7 @@ export {
   TipAdded,
   NewAPIonQinfo,
   NewChallenge,
-  NewValue
+  NewValue,
+  NewDispute,
+  Voted
 }

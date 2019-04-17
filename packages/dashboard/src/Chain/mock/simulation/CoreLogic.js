@@ -4,7 +4,8 @@ import {isURL} from 'Utils/strings';
 import _ from 'lodash';
 import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
-import {generateQueryHash} from 'Chain/utils';
+import {generateQueryHash, generateDisputeHash} from 'Chain/utils';
+import {normalizeToMinute} from 'Utils/time';
 
 const buildEvent = (payload) => {
   let hash = ethUtils.sha3(JSON.stringify(payload));
@@ -12,6 +13,9 @@ const buildEvent = (payload) => {
   payload.timestamp = Math.floor(Date.now()/1000);
   return eventFactory(payload);
 }
+
+const MAX_DISPUTE_TIME = 86400; //1 day
+const MAX_VOTE_TIME = 7 * 86400; //7 days to vote
 
 class Query {
   constructor(props) {
@@ -22,6 +26,31 @@ class Query {
     this.payout = props._value;
     this.index = props.index;
     this.symbol = props._symbol;
+    this.minedValuesByTimestamp = {};
+    this.minersByTimestamp = {};
+    this.challengeHashByTimestamp = {};
+  }
+}
+
+class Dispute {
+  constructor(props) {
+    this.id = props.id;
+    this.apiId = props.apiId;
+    this.hash = props.hash;
+    this.challengeHash = props.challengeHash;
+    this.value = props.value;
+    this.isPropFork = props.isPropFork;
+    this.reportedMiner = props.miner;
+    this.reportingParty = props.sender;
+    this.propForkAddress = props.propForkAddress || null;
+    this.executed = props.executed || false;
+    this.disputeVotePassed = props.disputeVotePassed || false;
+    this.tally = props.tally || 0;
+    this.timestamp = props.timestamp;
+    this.minerSlot = props.minerSlot;
+    this.numberOfVotes = props.numberOfVotes || 0;
+    this.quorum = props.quorum || 0;
+    this.voted = props.voted || [];
   }
 }
 
@@ -47,14 +76,32 @@ export default class ContractLogic {
     //current mined values
     this.minedSlots = [];
 
-    //id counter
+    //request id counter
     this.requests = 0;
+
+    this.challengesByHash = {};
 
     //all requests by their hash or query string and granularity
     this.requestsByHash = {};
 
     //all requests by id
     this.requestsById = {};
+
+    //disputes by their hashed miner, apiId, and timestamp
+    this.disputesByHash = {};
+
+    //disputes by time slot. Maps normalized time to list of disputes
+    this.disputesByTime = {};
+
+    //disputes by dispute id.
+    this.disputesById = {};
+
+    //dispute id counter
+    this.disputes = 0;
+
+    //disputes that have been initiated keyed by hash of
+    //miner address, apiId, and time block
+    this.disputesByMinedHash = {};
 
     //pending query requests sorted by highest tip
     this.pending = [];
@@ -66,9 +113,15 @@ export default class ContractLogic {
       'requestData',
       'addTip',
       'proofOfWork',
+      'beginDispute',
       'getVariables',
       'getVariablesOnQ',
+      'getMinersByRequestIdAndTimestamp',
+      'getDisputeIdByDisputeHash',
+      'getDisputeById', //TODO: rename/refactor once option is available on chain
       'payoutPool',
+      'vote',
+      'didVote',
       'getApiVars',
       'updateQueue',
       'nextUp',
@@ -94,6 +147,23 @@ export default class ContractLogic {
       }
     });
     this.requests = hiId;
+    r = await Storage.instance.readAll({
+      database: dbNames.ChainDisputes,
+      limit: 50
+    });
+    hiId = 0;
+    r.forEach(disp => {
+      this.disputesById[disp.id] = disp;
+      let vals = this.disputesByTime[disp.timestamp] || [];
+      vals.push(disp);
+      this.disputesByTime[disp.timestamp] = vals;
+      this.disputesByHash[disp.hash] = disp;
+
+      if(disp.id-0 > hiId) {
+        hiId = disp.id - 0;
+      }
+    });
+    this.disputes = hiId;
   }
 
   async getVariables() {
@@ -112,6 +182,35 @@ export default class ContractLogic {
       challenge.api,
       challenge.granularity
     ]
+  }
+
+  async getDisputeIdByDisputeHash(hash) {
+    let d = this.disputesByHash[hash];
+    if(d) {
+      return d.id;
+    }
+    return 0;
+  }
+
+  /** TODO: refactor this after contract mods made **/
+  async getDisputeById(id) {
+    let d = this.disputesById[id];
+    return [
+      d.hash,
+      d.executed,
+      d.disputeVotePassed,
+      d.isPropFork,
+      d.reportedMiner,
+      d.reportingParty,
+      d.proposedForkAddress,
+      d.apiId,
+      d.timestamp,
+      d.value,
+      d.minExecutionDate,
+      d.numberOfVotes,
+      d.minerSlot,
+      d.tally
+    ];
   }
 
   async count() {
@@ -163,7 +262,121 @@ export default class ContractLogic {
       req._apiOnQPayout, //tip
       req._sapi //query string
     ];
+  }
 
+  async getMinersByRequestIdAndTimestamp(requestId, timestamp) {
+    let req = this.requestsById[requestId];
+    if(!req) {
+      return []
+    };
+    let miners = req.minersByTimestamp[timestamp] || [];
+    return miners;
+  }
+
+  async beginDispute(requestId, timestamp, minerIndex) {
+    let req = this.requestsById[requestId];
+    if(!req) {
+      throw new Error("No request found with id: " + requestId);
+    }
+    let now = Math.floor(Date.now()/1000);
+    let miners = req.minersByTimestamp[timestamp];
+    if(!miners) {
+      throw new Error("No mining performed at timestamp: " + timestamp);
+    }
+    if(now- timestamp > MAX_DISPUTE_TIME) {
+      throw new Error("Cannot dispute 24 hours beyond time of mined event");
+    }
+    if(minerIndex >= 5) {
+      throw new Error("Miner index must be < 5");
+    }
+
+    let miner = miners[minerIndex];
+    let dispHash = generateDisputeHash({miner,requestId:req.apiId,timestamp});
+    let ex = this.disputesByHash[dispHash];
+    if(ex) {
+      throw new Error("Mined value is already under dispute");
+    }
+    ++this.disputes;
+    let did = this.disputes;
+    let val = req.minedValuesByTimestamp[timestamp];
+
+    this.disputesByHash[dispHash] = did;
+    let disp = new Dispute({
+      id: did,
+      apiId: requestId,
+      hash: dispHash,
+      isPropFork: false,
+      reportedMiner: miner,
+      reportingParty: null, //maybe need it later
+      propForkAddress: null,
+      executed: false,
+      disputeVotePassed: false,
+      tally: 1,
+      value: val,
+      timestamp: timestamp,
+      minExecutionDate: timestamp + (7*86400),
+      minerSlot: minerIndex
+    });
+    this.disputesById[did] = disp;
+    this.disputesByHash[dispHash] = disp;
+
+    let vals = this.disputesByTime[timestamp] || [];
+    vals.push(disp);
+    this.disputesByTime[timestamp] = vals;
+
+    await Storage.instance.create({
+      database: dbNames.ChainDisputes,
+      key: dispHash,
+      data: disp
+    });
+    let payload = {
+      event: "NewDispute",
+      blockNumber: this.chain.block,
+      logIndex: 0,
+      returnValues: {
+        sender: this.chain.userAddress,
+        _apiId: disp.apiId,
+        _value: disp.value,
+        _DisputeID: did,
+        _timestamp: timestamp,
+        _challengeHash: req.challengeHashByTimestamp[timestamp],
+        _disputeHash: dispHash,
+        _miner: miner
+      }
+    };
+    let evt = buildEvent(payload);
+    this.chain.publishEvent(evt);
+  }
+
+  async vote(sender, _disputeId, _supportsDispute) {
+    let disp = this.disputesById[_disputeId];
+    if(disp.voted[sender]) {
+      throw new Error("Can only vote once");
+    }
+    disp.voted[sender] = true;
+    disp.numberOfVotes += 1;
+    if (_supportsDispute) {
+      disp.tally++;
+    } else {
+      disp.tally--;
+    }
+    let payload = {
+      event: "Voted",
+      blockNumber: this.chain.block,
+      logIndex: 0,
+      returnValues: {
+        _disputeID: disp.id,
+        _position: _supportsDispute,
+        _voter: sender
+      }
+    };
+    let evt = buildEvent(payload);
+    this.chain.publishEvent(evt);
+  }
+
+  async didVote(disputeId, address) {
+    let disp = this.disputesById[disputeId];
+    //START HERE
   }
 
   async addTip(requestId, tip) {
@@ -210,7 +423,7 @@ export default class ContractLogic {
     if(existing) {
       let payload = {
         event: "TipAdded",
-        blockNumber: this.chain.blockNumber,
+        blockNumber: this.chain.block,
         logIndex: 1,
         returnValues: {
           sender: this.chain.userAddress,
@@ -253,7 +466,7 @@ export default class ContractLogic {
     if(_apiId !== this.currentChallenge.apiId) {
       throw new Error("Invalid api id submitted by miner");
     }
-
+    let ts = normalizeToMinute(Math.floor(Date.now()/1000));
     let payload = {
       event: "NonceSubmitted",
       blockNumber: this.chain.block,
@@ -263,9 +476,21 @@ export default class ContractLogic {
         _nonce: nonce,
         _apiId,
         _value,
-        _currentChallenge: cHash
+        _currentChallenge: cHash,
+        _timestamp: ts
       }
     };
+    let req = this.requestsById[_apiId];
+    let vals = req.minedValuesByTimestamp[ts] || [];
+    vals.push({miner, value: _value});
+    vals.sort((a,b)=>{
+      return a.value - b.value;
+    });
+    req.minedValuesByTimestamp[ts] = vals;
+    let miners = req.minersByTimestamp[ts] || [];
+    miners.push(miner);
+    req.minersByTimestamp[ts] = miners;
+    req.challengeHashByTimestamp[ts] = cHash;
 
     let evt = buildEvent(payload);
     this.chain.publishEvent(evt); //for now, lot more logic to work on here
@@ -274,6 +499,8 @@ export default class ContractLogic {
 
       let total = this.minedSlots.reduce((v, m)=>v+(m._value-0), 0);
       let avg = total / 5;
+      let sortedMiners = vals.map(v=>v.miner);
+      req.minersByTimestamp[ts] = sortedMiners;
 
       this.minedSlots = [];
       payload = {
@@ -282,7 +509,7 @@ export default class ContractLogic {
         logIndex: 2,
         returnValues: {
           _apiId,
-          _time: Math.floor(Date.now()/1000),
+          _time: ts,
           _value: avg,
           _currentChallenge: cHash
         }
