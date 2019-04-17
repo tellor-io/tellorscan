@@ -159,7 +159,7 @@ export default class Challenge {
 
   static timeRemaining(challenge) {
     let now = Math.floor(Date.now()/1000);
-    let end = challenge.finalValue?challenge.finalValue.timestamp:0;
+    let end = challenge.finalValue?challenge.finalValue.mineTime:0;
     return DISPUTABLE_PERIOD - (now - end);
   }
 
@@ -186,7 +186,8 @@ export default class Challenge {
 
   timeRemaining(challenge) {
     let now = Math.floor(Date.now()/1000);
-    return DISPUTABLE_PERIOD - (now - challenge.finalValue.timestamp);
+    let end = challenge.finalValue?challenge.finalValue.mineTime:0;
+    return DISPUTABLE_PERIOD - (now - end);
   }
 
   isDisputable(challenge) {

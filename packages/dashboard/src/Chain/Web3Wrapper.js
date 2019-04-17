@@ -45,10 +45,11 @@ class ConAPI {
       'unload',
       'requestData',
       'addTip',
-      'getVariables',
-      'getVariablesOnQ',
-      'getApiVars',
-      'getApiId',
+      'getCurrentVariables',
+      'getVariablesOnDeck',
+      'getRequestVars',
+      'getRequestIdByQueryHash',
+      'getMinersByRequestIdAndTimestamp',
       '_call',
       '_send'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
@@ -89,23 +90,26 @@ class ConAPI {
     }
   }
 
-  getVariables() {
-      return this._call(this.master, "getVariables", []);
+  getCurrentVariables() {
+      return this._call(this.master, "getCurrentVariables", []);
   }
 
-  getApiVars(_apiId) {
-    return this._call(this.master, "getApiVars", [_apiId]);
+  getRequestVars(_apiId) {
+    return this._call(this.master, "getRequestVars", [_apiId]);
   }
 
-  getApiId(hash) {
-    return this._call(this.master, "getApiId", [hash]);
+  getRequestIdByQueryHash(hash) {
+    return this._call(this.master, "getRequestIdByQueryHash", [hash]);
   }
 
 
-  getVariablesOnQ() {
-    return this._call(this.master, "getVariablesOnQ", []);
+  getVariablesOnDeck() {
+    return this._call(this.master, "getVariablesOnDeck", []);
   }
 
+  getMinersByRequestIdAndTimestamp(requestId, timestamp) {
+    return this._call(this.master, "getMinersByRequestIdAndTimestamp", [requestId, timestamp]);
+  }
 
   requestData(queryString, symbol, requestId, multiplier, tip) {
     return this._send(this.master, "requestData", [queryString, symbol, requestId, multiplier, tip]);

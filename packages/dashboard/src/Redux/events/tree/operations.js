@@ -181,8 +181,9 @@ const _lookupOnChain = id => async (dispatch, getState) => {
     return null;
   }
 
-  let vars = await con.getApiVars(id);
-
+  let vars = await con.getRequestVars(id);
+  console.log("Vars", vars);
+  
   //order is queryString, symbol, queryHash,_granularity, paypool index, tip
   if(!empty(vars[0])) {
 
@@ -190,11 +191,11 @@ const _lookupOnChain = id => async (dispatch, getState) => {
       event: "DataRequested",
       returnValues: {
         sender: "from_contract",
-        _sapi: vars[0],
-        _symbol: vars[1],
+        _query: vars[0],
+        _querySymbol: vars[1],
         _granularity: vars[3],
-        _apiId: id,
-        _value: vars[5]
+        _requestId: id,
+        _totalTips: vars[5]
       }
     };
 

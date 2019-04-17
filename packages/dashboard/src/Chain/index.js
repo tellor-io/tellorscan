@@ -8,8 +8,8 @@
  let inst = null;
  export const init = (props) => {
    if(!inst) {
-     inst = new Mock(props);
-     //inst = new Web3Wrapper();
+     //inst = new Mock(props);
+     inst = new Web3Wrapper();
    }
    return inst;
  }

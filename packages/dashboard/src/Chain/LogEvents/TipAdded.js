@@ -6,11 +6,12 @@ export default class TipAdded extends BaseEvent {
     [
       'normalize'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
-
-    const {sender, _apiId,  _value} = props.returnValues;
-    this.sender = sender;
-    this._apiId = this._asNum(_apiId);
-    this._value = this._asNum(_value);
+  
+    const {_sender, _requestId, _tip, _totalTips} = props.returnValues;
+    this._sender = _sender;
+    this._requestId = this._asNum(_requestId);
+    this._tip = this._asNum(_tip);
+    this._totalTips = this._asNum(_totalTips);
   }
 
   normalize() {
@@ -18,10 +19,10 @@ export default class TipAdded extends BaseEvent {
 
     let payload = {
       ...parent,
-      id: this._apiId,
-      tip: this._value,
-      sender: this.sender,
-      originalEvent: this,
+      id: this._requestId,
+      tip: this._tip,
+      totalTips: this._totalTips,
+      sender: this._sender,
       normalize: () => payload
     }
     return payload;
@@ -31,9 +32,10 @@ export default class TipAdded extends BaseEvent {
     let parent = super.toJSON();
     return {
       ...parent,
-      id: this._apiId,
-      tip: this._value,
-      sender: this.sender,
+      id: this._requestId,
+      tip: this._tip,
+      totalTips: this._totalTips,
+      sender: this._sender,
     }
   }
 }

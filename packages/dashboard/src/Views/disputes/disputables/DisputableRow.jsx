@@ -16,12 +16,12 @@ const DISPUTABLE_PERIOD = 7 * 86400;
 const nonceRows = [
   {
     value: (ch,n) => {
-      if(n) {
-        return formatTimeLong(n.mineTime)
+      if(ch && ch.finalValue) {
+        return formatTimeLong(ch.finalValue.mineTime)
       }
       return 'unknown'
     },
-    label: "Mined At"
+    label: "Finished At"
   },
   {
     value: (ch,n) => {
@@ -179,7 +179,7 @@ export default class DisputableRow extends React.Component {
               <Col key={i} md='2' className={cn(align.leftCenter, align.noMarginPad)}>
                 <span onClick={()=>{this.props.selectForDispute(challenge, n)}}
                       className={cn("value-tab", "p-1", "rounded", "text-center", "text-1", {["bg-tellor-muted"]: selected}, borderClass)}>
-                  {n.value.toFixed(2)}
+                  {n.value}
                 </span>
               </Col>
             )

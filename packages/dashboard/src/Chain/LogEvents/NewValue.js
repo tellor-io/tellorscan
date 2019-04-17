@@ -6,9 +6,8 @@ export default class NewValue extends BaseEvent {
     [
       'normalize'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
-
-    const {_apiId, _time, _value, _currentChallenge} = props.returnValues;
-    this._apiId = this._asNum(_apiId);
+    const {_requestId, _time, _value, _currentChallenge} = props.returnValues;
+    this._requestId = this._asNum(_requestId);
     this._time = this._asNum(_time);
     this._value = this._asNum(_value);
     this._challengeHash = _currentChallenge;
@@ -18,12 +17,11 @@ export default class NewValue extends BaseEvent {
     let parent = super.normalize();
     let payload = {
       ...parent,
-      id: this._apiId,
+      id: this._requestId,
       type: "New Value",
       mineTime: this._time,
       value: this._value,
       challengeHash: this._challengeHash,
-      //originalEvent: this,
       normalize: () => payload
     }
     return payload;
@@ -33,7 +31,7 @@ export default class NewValue extends BaseEvent {
     let parent = super.toJSON();
     return {
       ...parent,
-      id: this._apiId,
+      id: this._requestId,
       mineTime: this._time,
       type: "New value",
       challengeHash: this._challengeHash,

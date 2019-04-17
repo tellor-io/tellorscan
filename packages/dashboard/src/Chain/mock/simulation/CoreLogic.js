@@ -114,15 +114,14 @@ export default class ContractLogic {
       'addTip',
       'proofOfWork',
       'beginDispute',
-      'getVariables',
-      'getVariablesOnQ',
+      'getCurrentVariables',
+      'getVariablesOnDeck',
       'getMinersByRequestIdAndTimestamp',
       'getDisputeIdByDisputeHash',
       'getDisputeById', //TODO: rename/refactor once option is available on chain
-      'payoutPool',
       'vote',
       'didVote',
-      'getApiVars',
+      'getRequestVars',
       'updateQueue',
       'nextUp',
       'count',
@@ -166,7 +165,7 @@ export default class ContractLogic {
     this.disputes = hiId;
   }
 
-  async getVariables() {
+  async getCurrentVariables() {
     if(!this.currentChallenge) {
       return [0, 0, 0, null, 0];
     }
@@ -221,7 +220,7 @@ export default class ContractLogic {
     return this.pending.map(p=>p._apiId);
   }
 
-  async getApiVars(_apiId) {
+  async getRequestVars(_apiId) {
       let req = this.requestsById[_apiId];
       if(!req) {
         console.log("No api found with id", _apiId);
@@ -245,13 +244,13 @@ export default class ContractLogic {
       ];
   }
 
-  async getApiId(hash) {
+  async getRequestIdByQueryHash(hash) {
     let req = this.requestsByHash[hash];
     return req ? req.apiId : 0;
   }
 
 
-  async getVariablesOnQ() {
+  async getVariablesOnDeck() {
     let req = this.nextCandidate;
     if(!req) {
       return [null, null, 0, 0, 0];
@@ -335,9 +334,9 @@ export default class ContractLogic {
       logIndex: 0,
       returnValues: {
         sender: this.chain.userAddress,
-        _apiId: disp.apiId,
+        _requestId: disp.apiId,
         _value: disp.value,
-        _DisputeID: did,
+        _disputeId: did,
         _timestamp: timestamp,
         _challengeHash: req.challengeHashByTimestamp[timestamp],
         _disputeHash: dispHash,
@@ -365,7 +364,7 @@ export default class ContractLogic {
       blockNumber: this.chain.block,
       logIndex: 0,
       returnValues: {
-        _disputeID: disp.id,
+        _disputeId: disp.id,
         _position: _supportsDispute,
         _voter: sender
       }
@@ -386,22 +385,22 @@ export default class ContractLogic {
     }
   }
 
-  async requestData(queryString, symbol, apiId, multiplier, tip) {
+  async requestData(queryString, symbol, requestId, multiplier, tip) {
     if(multiplier < 0) {
       throw new Error("Multiplier cannot be less than 0 or larger than 1e18");
     }
     let hash = generateQueryHash(queryString, multiplier);
 
     let existing = this.requestsByHash[hash];
-    if(apiId === 0){
+    if(requestId === 0){
       if(!isURL(queryString)) {
         throw new Error("Invalid query string");
       }
       if(!existing) {
         ++this.requests;
-        apiId = this.requests;
+        requestId = this.requests;
         let newQuery = new Query({
-          _apiId: apiId,
+          _apiId: requestId,
           _sapi: queryString,
           _apiHash: hash,
           _granularity: multiplier,
@@ -409,17 +408,17 @@ export default class ContractLogic {
           _symbol: symbol,
           index: 0
         });
-        this.requestsById[apiId] = newQuery;
+        this.requestsById[requestId] = newQuery;
         this.requestsByHash[hash] = newQuery;
       } else {
-        apiId = existing.apiId;
+        requestId = existing.apiId;
       }
     }
 
     if(tip > 0) {
-      this.requestsById[apiId].payout += tip;
+      this.requestsById[requestId].payout += tip;
     }
-    await this.updateQueue(apiId);
+    await this.updateQueue(requestId);
     if(existing) {
       let payload = {
         event: "TipAdded",
@@ -427,7 +426,7 @@ export default class ContractLogic {
         logIndex: 1,
         returnValues: {
           sender: this.chain.userAddress,
-          _apiId: existing.apiId,
+          _requestId: existing.apiId,
           _value: existing.payout
         }
       };
@@ -440,11 +439,11 @@ export default class ContractLogic {
         logIndex: 1,
         returnValues: {
           sender: this.chain.userAddress,
-          _sapi: queryString,
+          _query: queryString,
           _granularity:multiplier,
-          _apiId: apiId,
-          _value: tip,
-          _symbol: symbol
+          _requestId: requestId,
+          _totalTips: tip,
+          _querySymbol: symbol
         }
       };
       await this._storeState();
@@ -462,8 +461,8 @@ export default class ContractLogic {
    * this function at the same time. That doesn't happen on-chain so passing
    * the challenge hash keeps things straight
    */
-  async proofOfWork(miner,  nonce,  _apiId, _value, cHash)  {
-    if(_apiId !== this.currentChallenge.apiId) {
+  async proofOfWork(miner,  nonce,  _requestId, _value, cHash)  {
+    if(_requestId !== this.currentChallenge.apiId) {
       throw new Error("Invalid api id submitted by miner");
     }
     let ts = normalizeToMinute(Math.floor(Date.now()/1000));
@@ -474,13 +473,13 @@ export default class ContractLogic {
       returnValues: {
         _miner: miner,
         _nonce: nonce,
-        _apiId,
+        _requestId,
         _value,
         _currentChallenge: cHash,
         _timestamp: ts
       }
     };
-    let req = this.requestsById[_apiId];
+    let req = this.requestsById[_requestId];
     let vals = req.minedValuesByTimestamp[ts] || [];
     vals.push({miner, value: _value});
     vals.sort((a,b)=>{
@@ -508,7 +507,7 @@ export default class ContractLogic {
         blockNumber: this.chain.block,
         logIndex: 2,
         returnValues: {
-          _apiId,
+          _requestId: _requestId,
           _time: ts,
           _value: avg,
           _currentChallenge: cHash
@@ -539,11 +538,11 @@ export default class ContractLogic {
         logIndex: 0,
         returnValues: {
           _currentChallenge: this.challengeHash,
-          _miningApiId: apiId,
+          _currentRequestId: apiId,
           _multiplier: this.currentChallenge.granularity,
-          _difficulty_level: 1,
-          _api: query.apiString,
-          _value: this.currentChallenge.payout
+          _difficulty: 1,
+          _query: query.apiString,
+          _totalTips: this.currentChallenge.payout
         }
       }
       //zero out tip since it's now being mined and any subsequent tips
@@ -602,18 +601,18 @@ export default class ContractLogic {
       logIndex: 1,
       returnValues: {
         _currentChallenge: nextHash,
-        _miningApiId: top.apiId || 0,
+        _currentRequestId: top.apiId || 0,
         _multiplier: top.granularity,
-        _difficulty_level: 1,
-        _api: top.apiString,
-        _value: top.payout
+        _difficulty: 1,
+        _query: top.apiString,
+        _totalTips: top.payout
       }
     };
 
     let evt = buildEvent(payload, "NewChallenge");
     this.currentChallenge = top.apiString?{
       ...top,
-      _difficulty_level: 1,
+      _difficulty: 1,
       challengeHash: nextHash
     }:undefined;
     let ex = this.requestsById[top.apiId];

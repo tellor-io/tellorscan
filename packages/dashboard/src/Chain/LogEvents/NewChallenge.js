@@ -7,22 +7,22 @@ export default class NewChallenge extends BaseEvent {
       'normalize'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
 
-    const {_currentChallenge, _miningApiId, _difficulty_level, _multiplier,  _api,  _value} = props.returnValues;
+    const {_currentChallenge, _currentRequestId, _difficulty, _multiplier,  _query,  _totalTips} = props.returnValues;
     this._currentChallenge = _currentChallenge;
     this._multiplier = this._asNum(_multiplier);
-    this._miningApiId = this._asNum(_miningApiId);
-    this._difficulty_level = this._asNum(_difficulty_level);
-    this._api = _api;
-    this._value = this._asNum(_value);
+    this._currentRequestId = this._asNum(_currentRequestId);
+    this._difficulty = this._asNum(_difficulty);
+    this._query = _query;
+    this._value = this._asNum(_totalTips);
   }
 
   normalize() {
     let parent = super.normalize();
     let normalized = {
       ...parent,
-      id: this._miningApiId,
-      queryString: this._api,
-      difficulty: this._difficulty_level,
+      id: this._currentRequestId,
+      queryString: this._query,
+      difficulty: this._difficulty,
       challengeHash: this._currentChallenge,
       multiplier: this._multiplier,
       tip: this._value,
@@ -36,12 +36,12 @@ export default class NewChallenge extends BaseEvent {
     let parent = super.toJSON();
     return {
       ...parent,
-      id: this._miningApiId,
-      queryString: this._api,
-      difficulty: this._difficulty_level,
-      multiplier: this._multiplier,
+      id: this._currentRequestId,
+      queryString: this._query,
+      difficulty: this._difficulty,
       challengeHash: this._currentChallenge,
-      tip: this._value,
+      multiplier: this._multiplier,
+      tip: this._value
     }
   }
 }

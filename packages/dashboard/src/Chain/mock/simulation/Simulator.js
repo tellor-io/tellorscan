@@ -69,7 +69,7 @@ export default class Simulator extends EventEmitter {
     }
 
     this.parentChain.getContract().events.NewChallenge(null, async (err,evt)=>{
-      if(evt && evt._miningApiId > 0) {
+      if(evt && evt._currentRequestId > 0) {
         this.miners.forEach(m=>m.newChallenge(evt.normalize()));
       }
     });

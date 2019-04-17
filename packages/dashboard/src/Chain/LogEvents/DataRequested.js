@@ -8,25 +8,26 @@ export default class DataRequested extends BaseEvent {
       'normalize',
       'toJSON',
     ].forEach(fn=>this[fn]=this[fn].bind(this));
-    const {sender, _sapi, _granularity,  _apiId,  _value, _symbol} = props.returnValues;
+
+    const {sender, _query, _querySymbol, _granularity,  _requestId,  _totalTips} = props.returnValues;
     this.sender = sender;
-    this._sapi = _sapi;
+    this._query = _query;
     this._granularity = this._asNum(_granularity);
-    this._apiId = this._asNum(_apiId);
-    this._value = this._asNum(_value);
-    this._symbol = _symbol?_symbol.toUpperCase():undefined;
-    this._queryHash = generateQueryHash(_sapi, this._granularity);
+    this._requestId = this._asNum(_requestId);
+    this._value = this._asNum(_totalTips);
+    this._symbol = _querySymbol?_querySymbol.toUpperCase():undefined;
+    this._queryHash = generateQueryHash(_query, this._granularity);
   }
 
   normalize() {
     let parent = super.normalize();
     let payload = {
       ...parent,
-      id: this._apiId,
+      id: this._requestId,
       tip: this._value,
       symbol: this._symbol,
       multiplier: this._granularity,
-      queryString: this._sapi,
+      queryString: this._query,
       sender: this.sender,
       value: this._value,
       queryHash: this._queryHash,
@@ -41,11 +42,11 @@ export default class DataRequested extends BaseEvent {
     let parent = super.toJSON();
     return {
       ...parent,
-      id: this._apiId,
+      id: this._requestId,
       tip: this._value,
       symbol: this._symbol,
       multiplier: this._granularity,
-      queryString: this._sapi,
+      queryString: this._query,
       queryHash: this._queryHash,
       sender: this.sender,
       value: this._value

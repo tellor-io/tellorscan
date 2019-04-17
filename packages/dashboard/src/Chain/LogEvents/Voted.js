@@ -6,7 +6,7 @@ export default class Voted extends BaseEvent {
     [
       'normalize'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
-
+    
     const {_disputeID, _position, _voter} = props.event.returnValues;
     this.disputeID = _disputeID;
     this.position = _position;

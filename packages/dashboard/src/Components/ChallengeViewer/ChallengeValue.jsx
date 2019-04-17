@@ -19,7 +19,7 @@ export default class ChallengeValue extends React.Component {
     return (
       <div className={cn(align.leftCenter, align.full, align.noMarginPad, "bg-tellor-muted", "rounded")}>
         <span className={cn("text-center", align.full)}>
-          {fv.value.toFixed(2)}
+          {fv.value}
         </span>
       </div>
     )

@@ -8,7 +8,7 @@ const currentTip = id => async (dispatch, getState) => {
   if(!con) {
     return 0;
   }
-  let vals = await con.getApiVars(id);
+  let vals = await con.getRequestVars(id);
   if(!vals) {
     vals = [];
   }

@@ -116,8 +116,8 @@ class Ops {
             event: "NewDispute",
             timestamp: submitDate,
             returnValues: {
-              _DisputeID: id,
-              _apiId: vars[7],
+              _disputeId: id,
+              _requestId: vars[7],
               _timestamp: vars[8],
               _challengeHash: null, //get this later
               _disputeHash: vars[0],

@@ -38,7 +38,7 @@ const lookupQueryByHash = props => async (dispatch,getState) => {
   let state = getState();
   let con = state.chain.contract;
   let hash = generateQueryHash(props.queryString, props.multiplier);
-  let ex = await con.getApiId(hash);
+  let ex = await con.getRequestIdByQueryHash(hash);
   if(ex && ex.toString) {
     ex = ex.toString()-0;
   }

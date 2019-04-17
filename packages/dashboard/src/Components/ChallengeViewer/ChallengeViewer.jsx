@@ -149,6 +149,7 @@ export default class ChallengeViewer extends CollapseTable {
   }
 
   _buildTimestampField(data) {
+    let ts = data.finalValue?data.finalValue.mineTime:undefined;
     return {
       data: [
         {
@@ -162,7 +163,7 @@ export default class ChallengeViewer extends CollapseTable {
               </Col>
               <Col md="12" className={cn(align.leftCenter, align.noMarginPad)}>
                 <span className={cn(align.noMarginPad,"text-muted", "text-left", "font-weight-light", "text-1")}>
-                  {formatTimeLong(data.timestamp)}
+                  {formatTimeLong(ts)}
                 </span>
               </Col>
             </React.Fragment>

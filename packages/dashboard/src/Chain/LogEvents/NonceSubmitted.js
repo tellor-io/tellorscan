@@ -6,11 +6,10 @@ export default class NonceSubmitted extends BaseEvent {
     [
       'normalize'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
-
-    const {_miner, _nonce, _apiId, _value, _currentChallenge} = props.returnValues;
+    const {_miner, _nonce, _requestId, _value, _currentChallenge} = props.returnValues;
     this._miner = _miner;
     this._nonce = _nonce;
-    this._apiId = this._asNum(_apiId);
+    this._requestId = this._asNum(_requestId);
     this._value = this._asNum(_value);
     this._currentChallenge = _currentChallenge;
     this.winningOrder = -1;
@@ -21,7 +20,7 @@ export default class NonceSubmitted extends BaseEvent {
 
     let payload = {
       ...parent,
-      id: this._apiId,
+      id: this._requestId,
       type: "Mined",
       miner: this._miner,
       nonce: this._nonce,
@@ -39,7 +38,7 @@ export default class NonceSubmitted extends BaseEvent {
     return {
       ...parent,
       type: "Mined",
-      id: this._apiId,
+      id: this._requestId,
       miner: this._miner,
       nonce: this._nonce,
       value: this._value,

@@ -6,7 +6,7 @@ const getCurrentChallenge = () => async (dispatch, getState) => {
   let currentInfo = null;
   let con = getState().chain.contract;
   try {
-    currentInfo = await con.getVariables();
+    currentInfo = await con.getCurrentVariables();
   } catch (e) {
     //possible that contract isn't deployed yet or is unreachable
     //for whatever reason.
@@ -19,9 +19,9 @@ const getCurrentChallenge = () => async (dispatch, getState) => {
       event: "NewChallenge",
       returnValues: {
         _currentChallenge: currentInfo[0],
-        _miningApiId: currentInfo[1],
-        _difficulty_level: currentInfo[2],
-        _api: currentInfo[3],
+        _currentRequestId: currentInfo[1],
+        _difficulty: currentInfo[2],
+        _query: currentInfo[3],
         _multiplier: currentInfo[4]
       }
     };
