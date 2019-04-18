@@ -3,6 +3,7 @@ import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
 import {Creators} from '../actions';
 import eventFactory from 'Chain/LogEvents/EventFactory';
+import {generateDisputeHash} from 'Chain/utils';
 
 const VOTABLE_PERIOD = 7 * 86400; //7 days to vote
 
@@ -149,7 +150,7 @@ const findMatchingNonce = (disp, challenge) => {
 
 export default class Dispute {
 
-  static loadAll(reqById) {
+  static _retrieveFromCache (reqById) {
     return async (dispatch, getState) => {
       let r = await Storage.instance.readAll({
         database: dbNames.NewDispute,
@@ -182,8 +183,53 @@ export default class Dispute {
         return o;
       },{});
 
-      //TODO: load all open disputes from contract
+      return {byId, byHash};
+    }
+  }
 
+  static _storePastDispute(e) {
+    return Storage.instance.create({
+      database: dbNames.NewDispute,
+      key: e.transactionHash,
+      data: e
+    });
+  }
+
+  static _readMissingDisputes ({gaps, byId, byHash}) {
+    return async (dispatch, getState) => {
+      let con = getState().chain.contract;
+
+      //we need to also get all past request events
+      //that we might be missing
+      gaps.forEach(async g=>{
+        let evts = await con.getPastEvents("NewDispute", {
+          fromBlock: g.start,
+          toBlock: g.end
+        });
+        evts.forEach(async evt=>{
+          let e = eventFactory(evt);
+          if(e) {
+            let norm = e.normalize();
+
+            if(byHash[norm.disputeHash])  {
+              return; //already know about it
+            }
+            await Dispute._storePastDispute(e.toJSON());
+            let d = new Dispute({metadata: norm});
+            let h = byId[norm.id] || {};
+            h[d.disputeHash] = d;
+            byId[norm.id] = h;
+            byHash[norm.disputeHash] = d;
+          }
+        });
+      });
+    }
+  }
+
+  static loadAll(missingBlocks, reqById) {
+    return async (dispatch, getState) => {
+      let {byId,byHash} = await dispatch(Dispute._retrieveFromCache(reqById));
+      await dispatch(Dispute._readMissingDisputes({gaps: missingBlocks, byId, byHash}));
       return byId;
     }
   }

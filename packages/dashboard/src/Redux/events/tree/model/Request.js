@@ -3,7 +3,7 @@ import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
 import Challenge from './Challenge';
 import Dispute from './Dispute';
-//import {default as tipOps} from 'Redux/tips/operations';
+import eventFactory from 'Chain/LogEvents/EventFactory';
 
 import _ from 'lodash';
 
@@ -54,12 +54,7 @@ export default class RequestTree {
       return ops;
     }
 
-   //-----------------------------------------------------------------------
-     /**
-      * Reads all stored requests and attaches challenges to the correct request
-      * objects. This is called from Redux/events/operations during init.
-      */
-    static loadAll() {
+    static _retrieveFromCache () {
       return async (dispatch, getState) => {
         let r = await Storage.instance.readAll({
           database: dbNames.DataRequested,
@@ -85,9 +80,68 @@ export default class RequestTree {
             return o;
           },{}),
         };
+        return merged;
+      }
+    }
 
-        //returns a map of challenges keyed by request id
-        let challenges = await dispatch(Challenge.loadAll(merged));
+    static _storePastRequest(e) {
+      return Storage.instance.create({
+        database: dbNames.DataRequested,
+        key: e.transactionHash,
+        data: e
+      });
+    }
+
+    static _readMissingRequests (gaps, merged) {
+      return async (dispatch, getState) => {
+        let con = getState().chain.contract;
+
+        //we need to also get all past request events
+        //that we might be missing
+        for(let i=0;i<gaps.length;++i) {
+          let g = gaps[i];
+          let evts = await con.getPastEvents("DataRequested", {
+            fromBlock: g.start,
+            toBlock: g.end
+          });
+          for(let j=0;j<evts.length;++j) {
+            let evt = evts[j];
+            let e = eventFactory(evt);
+            if(e) {
+              let norm = e.normalize();
+              if(merged[norm.id])  {
+                continue; //already know about it
+              }
+              await RequestTree._storePastRequest(e.toJSON());
+              let tree = new RequestTree({metadata: norm});
+              merged[norm.id] = tree;
+            }
+          }
+        }
+      }
+    }
+
+   //-----------------------------------------------------------------------
+     /**
+      * Reads all stored requests and attaches challenges to the correct request
+      * objects. This is called from Redux/events/operations during init.
+      */
+    static loadAll(missingBlocks) {
+      return async (dispatch, getState) => {
+        //get from local cache
+      //  console.log("Getting cached requests...");
+        let merged = await dispatch(RequestTree._retrieveFromCache());
+      //  console.log("Retrieved", _.keys(merged).length, "requests");
+
+        //read any missing items from chain (cache them locally)
+      //  console.log("Reading past requests from chain...");
+        await dispatch(RequestTree._readMissingRequests(missingBlocks, merged));
+      //  console.log("Total requests", _.keys(merged).length);
+
+        //get a map of all challenges keyed by request id
+      //  console.log("Loading all challenges...");
+        let challenges = await dispatch(Challenge.loadAll(missingBlocks, merged));
+      //  console.log("Loaded challenges", challenges);
 
         //have to first merge in all challenges since they are
         //referenced by disputes below
@@ -99,7 +153,9 @@ export default class RequestTree {
           }
         });
 
-        let disputes = await dispatch(Dispute.loadAll(merged));
+      //  console.log("Loading disputes...");
+        let disputes = await dispatch(Dispute.loadAll(missingBlocks, merged));
+      //  console.log("Loaded disputes", disputes);
         _.keys(merged).forEach(k=>{
           let req = merged[k];
           let dMap = disputes[k];
@@ -107,6 +163,7 @@ export default class RequestTree {
             req.disputes = dMap;
           }
         });
+      //  console.log("Done loading all requests");
         return merged;
       }
     }

@@ -1,14 +1,8 @@
-import Web3 from 'web3';
-import {
-  DEFAULT_MASTER_CONTRACT,
-  DEFAULT_TELLOR_CONTRACT
-} from 'Constants/chain/web3Config';
-import abi from 'Chain/abi';
-import SubscriptionProvider from './SubscriptionProvider';
 import EventEmitter from 'events';
+import SubscriptionProvider from '../SubscriptionProvider';
 import eventFactory from 'Chain/LogEvents/EventFactory';
 
-class ConAPI {
+export default class Web3Contract {
   constructor({chain, master, tellor, caller}) {
     this.chain = chain;
     this.master = master;
@@ -28,20 +22,10 @@ class ConAPI {
       chain: this._emitter //pretend our emitter is the blockchain
     });
 
-    this.eventSubs = {};
-
-    this.sub = this.master.events.allEvents(null, (e, evt)=>{
-      if(evt) {
-        console.log("Getting event from MASTER", evt);
-        let outEvent = eventFactory(evt);
-        if(outEvent) {
-          this._emitter.emit(outEvent.name, outEvent);
-        }
-      }
-    });
-
     [
       'init',
+      'getPastEvents',
+      'startSubscriptions',
       'unload',
       'requestData',
       'addTip',
@@ -50,9 +34,87 @@ class ConAPI {
       'getRequestVars',
       'getRequestIdByQueryHash',
       'getMinersByRequestIdAndTimestamp',
+      'beginDispute',
+      'vote',
       '_call',
       '_send'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
+  }
+
+  async getPastEvents(event, opts, callback) {
+    //we have to intercept results from get past events because all event
+    //creations will expect to retrieve the timestamp for each block
+    //so we need to have the time available before any event gets distributed
+    //downstream.
+
+    let r = await this.master.getPastEvents(event||"allEvents", opts, async (err, events) => {
+      if(events) {
+
+        //we need to replay the blocks in their ascending time order. So we
+        //first make sure blocks are sorted by blockNumber and logIndex
+        events.sort((a,b)=>{
+          let diff = a.blockNumber - b.blockNumber;
+          if(diff) {
+            return diff;
+          }
+          return a.logIndex = b.logIndex;
+        });
+        for(let i=0;i<events.length;++i) {
+          let e = events[i];
+          let b = await this.chain.web3.eth.getBlock(e.blockNumber);
+          if(b) {
+            this[b.blockNumber] = b.timestamp;
+            //apply the time to the event as well
+            e.timestamp = b.timestamp;
+            await this.chain._storeBlockTime(b);
+          }
+        }
+        if(callback) {
+          let p = callback(events);
+          if(p instanceof Promise) {
+            await p;
+          }
+        }
+        return events;
+      }
+      if(err)
+        throw err;
+    });
+    return r;
+  }
+
+  async startSubscriptions() {
+    //first, read all past events based on gaps in blocks received
+    //going back up to 7 days (roughly 56k blocks)
+    /*
+    let gaps = await this.chain.getMissingBlockRanges();
+    gaps.forEach(async g=> {
+      //read all past events in missing block range
+      await this.getPastEvents(null, {
+        fromBlock: g.start,
+        toBlock: g.end
+      }, (events) => {
+        //emit them as if they just arrived
+        events.forEach(e=>{
+          let outEvent = eventFactory(e);
+          if(outEvent) {
+            console.log("Emitting ", outEvent);
+            this._emitter.emit(outEvent.name, outEvent);
+          }
+        })
+      })
+    });
+    */
+
+    this.sub = this.master.events.allEvents(null, (e, evt)=>{
+      if(evt) {
+        //console.log("Getting event from MASTER", evt);
+        let outEvent = eventFactory(evt);
+        if(outEvent) {
+          this._emitter.emit(outEvent.name, outEvent);
+        }
+      }
+    });
   }
 
   _call(con, method, args) {
@@ -118,91 +180,12 @@ class ConAPI {
   addTip(requestId, tip) {
     return this._send(this.master, "addTip", [requestId, tip]);
   }
-}
 
-export default class Web3Wrapper {
-  constructor(props) {
-    this.times = {};
+  beginDispute() {
 
-    [
-      'init',
-      'unload',
-      'getBlock',
-      'latestBlock',
-      'getPastEvents',
-      'getContract',
-      'getTime'
-    ].forEach(fn=>this[fn]=this[fn].bind(this));
   }
 
-  async init() {
-    let ethProvider = window.ethereum;
-    if(!ethProvider && window.web3){
-      ethProvider =  window.web.currentProvider;
-    }
-    if(ethProvider) {
-      this.web3 = new Web3(ethProvider);
-      let acts = await ethProvider.enable();
-      if(!acts) {
-        //user denied access to app
-        acts = [];
-      }
-      this.block = await this.web3.eth.getBlockNumber();
-      await this.web3.eth.clearSubscriptions()
-      let em = this.web3.eth.subscribe('newBlockHeaders');
-      em.on("data", (block)=>{
+  vote() {
 
-        if(block) {
-          this.block = block.number;
-          this.times[this.block] = block.timestamp;
-          //TODO: cleanup times if the client will run for a long time!
-        }
-
-      });
-
-      let master = new this.web3.eth.Contract(abi, DEFAULT_MASTER_CONTRACT, {
-        address: DEFAULT_MASTER_CONTRACT
-      });
-      let tellor = new this.web3.eth.Contract(abi, DEFAULT_TELLOR_CONTRACT, {
-        address: DEFAULT_TELLOR_CONTRACT
-      });
-      console.log("Creating contract");
-      this.contract = new ConAPI({chain: this, master, tellor, caller: acts[0]});
-    }
   }
-
-  async unload() {
-    localStorage.setItem("web3Wrapper.unload", true);
-    await this.contract.unload();
-  }
-
-  async getTime(block) {
-    let t = this.times[block];
-    if(t) {
-      return t;
-    }
-    let b = await this.web3.eth.getBlock(block);
-    if(b) {
-      this.times[b.number] = b.timestamp;
-      return b.timestamp;
-    }
-    return undefined;
-  }
-
-  getBlock(number) {
-    return this.web3.getBlock(number);
-  }
-
-  async latestBlock() {
-    return this.block;
-  }
-
-  getPastEvents(event, opts, callback) {
-    return this.web3.getPastEvents(event, opts, callback);
-  }
-
-  getContract(props) {
-    return this.contract;
-  }
-
 }

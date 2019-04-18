@@ -4,6 +4,7 @@ import * as dbNames from 'Storage/DBNames';
 import Nonce from './Nonce';
 import NewValue from './NewValue';
 import {Creators} from '../actions';
+import eventFactory from 'Chain/LogEvents/EventFactory';
 
 const DISPUTABLE_PERIOD = 86400; //1 day in seconds
 const VOTABLE_PERIOD = 7 * 86400; //7 days to vote
@@ -66,7 +67,7 @@ let ops = new Ops();
 
 export default class Challenge {
 
-  static loadAll(reqById) {
+  static _retrieveFromCache(reqById) {
     return async (dispatch, getState) => {
       let r = await Storage.instance.readAll({
         database: dbNames.NewChallenge,
@@ -90,13 +91,113 @@ export default class Challenge {
         byId[c.id] = h;
         return o;
       },{});
+      return {byId, byHash};
+    }
+  }
 
+  static _storePastChallenge(e) {
+    return Storage.instance.create({
+      database: dbNames.NewChallenge,
+      key: e.transactionHash,
+      data: e
+    })
+  }
+
+  static _readMissingChallenges({gaps, reqById, byHash, byId}) {
+    return async (dispatch, getState) => {
+      let con = getState().chain.contract;
+      //we need to also get all past request events
+      //that we might be missing
+      for(let i=0;i<gaps.length;++i) {
+        let g = gaps[i];
+        let evts = await con.getPastEvents("NewChallenge", {
+          fromBlock: g.start,
+          toBlock: g.end
+        });
+        for(let j=0;j<evts.length;++j) {
+          let evt = evts[j];
+          let e = eventFactory(evt);
+          if(e) {
+            let norm = e.normalize();
+            if(byHash[norm.challengeHash]) {
+              continue; //already have it
+            }
+
+            await Challenge._storePastChallenge(e.toJSON());
+            let ch = new Challenge({
+              metadata: norm,
+              parent: req
+            });
+            let req = reqById[ch.id];
+            let h = byId[ch.id] || {};
+            h[ch.challengeHash] = ch;
+            byId[ch.id] = h;
+            byHash[ch.challengeHash] = ch;
+          }
+        }
+      }
+    }
+  }
+
+  static readCurrentChallenge() {
+    return async (dispatch, getState) => {
+      let currentInfo = null;
+      let con = getState().chain.contract;
+      try {
+        currentInfo = await con.getCurrentVariables();
+      } catch (e) {
+        //possible that contract isn't deployed yet or is unreachable
+        //for whatever reason.
+      }
+
+      let evt = null;
+      if(currentInfo) {
+
+        let payload = {
+          event: "NewChallenge",
+          returnValues: {
+            _currentChallenge: currentInfo[0],
+            _currentRequestId: currentInfo[1],
+            _difficulty: currentInfo[2],
+            _query: currentInfo[3],
+            _multiplier: currentInfo[4]
+          }
+        };
+        evt = eventFactory(payload);
+        evt = evt.normalize();
+        return evt;
+      }
+      return null;
+    }
+  }
+
+  static _readMiningOrder(id, ts) {
+    return async (dispatch, getState) => {
+      let con = getState().chain.contract;
+      let r = await con.getMinersByRequestIdAndTimestamp(id, ts);
+      return r;
+    }
+  }
+
+  static loadAll(missingBlocks, reqById) {
+    return async (dispatch, getState) => {
+    //  console.log("Reading challenges by cache...");
+      let {byId, byHash} = await dispatch(Challenge._retrieveFromCache(reqById));
+    //  console.log("Read ", _.keys(byHash).length);
+    //  console.log("Reading missing challenges from chain...");
+      await dispatch(Challenge._readMissingChallenges({gaps: missingBlocks, reqById, byId, byHash}));
+    //  console.log("Now have", _.keys(byHash).length, "challenges");
 
       //returns lists of nonces keyed by challenge hash
-      let nonces = await dispatch(Nonce.loadAll(byHash));
+    //  console.log("Reading nonces...");
+      let nonces = await dispatch(Nonce.loadAll(missingBlocks, byHash));
+    //  console.log("Read nonces", nonces);
       let minerOrder = [];
       _.keys(byHash).forEach(k=>{
         let nList = nonces[k];
+        if(!nList) {
+          return;
+        }
         let ch = byHash[k];
         if(ch) {
           ch.nonces = nList;
@@ -111,34 +212,41 @@ export default class Challenge {
 
 
       //returns individual new value items keyed by challenge hash
-      let values = await dispatch(NewValue.loadAll(byHash));
+    //  console.log("Reading values...");
+      let values = await dispatch(NewValue.loadAll(missingBlocks, byHash));
+    //  console.log("Read values", values);
 
-      _.keys(values).forEach(k=>{
+      let valKeys = _.keys(values);
+      for(let i=0;i<valKeys.length;++i) {
+        let k = valKeys[i];
         let val = values[k];
         let ch = byHash[k];
         if(ch) {
           ch.finalValue = val;
-          ch.minerOrder = minerOrder;
-        }
-      });
+          let miners = minerOrder;
+          if(minerOrder.length === 0) {
+            miners = await dispatch(Challenge._readMiningOrder(ch.id, val.mineTime));
+            let nonces = ch.nonces || [];
 
-      let latestBlock = await getState().chain.chain.latestBlock();
-      _.keys(byId).forEach(k=>{
-        let challengesByHash = byId[k];
-
-        _.keys(challengesByHash).forEach(cHash=>{
-          let ch = challengesByHash[cHash];
-
-          if(!ch.finalValue && ch.blockNumber < latestBlock) {
-            //FIXME: we need to pull events from the block of this challenge
-            //and see if we missed something.
-            delete challengesByHash[cHash];
+            for(let j=0;j<nonces.length;++j) {
+              let n = nonces[j];
+              let newNonce = {
+                ...n,
+                winningOrder: miners.indexOf(n.miner)
+              };
+              await dispatch(newNonce.save());
+              return newNonce;
+            }
+            nonces.sort((a,b)=>a.winningOrder-b.winningOrder);
           }
-        })
-      });
+          ch.minerOrder = miners;
+        }
+      }
 
       //get the current one
-      let current = getState().current.currentChallenge;
+    //  console.log("Getting current");
+      let current = await dispatch(Challenge.readCurrentChallenge());
+    //  console.log("Read current", current);
       if(current) {
         let byHashMap = byId[current.id] || {};
         byHashMap[current.challengeHash] = new Challenge({metadata: current});

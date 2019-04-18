@@ -106,9 +106,15 @@ const addToTip = (id,tip) => (dispatch, getState) => {
   }
 }
 
+const startSubscriptions = () => async (dispatch, getState) => {
+  let con = getState().chain.contract;
+  await con.startSubscriptions();
+}
+
 export default {
   init,
   unload,
+  startSubscriptions,
   requestData,
   addToTip,
   lookupQueryByHash,

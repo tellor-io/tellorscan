@@ -44,7 +44,14 @@ const init = () => async (dispatch,getState) => {
 
   dispatch(Creators.initStart());
 
+  let chain = getState().chain.chain;
   let con = getState().chain.contract;
+
+  let missing = await chain.getMissingBlockRanges();
+  //locally cached requests keyed by id
+  let requests = await dispatch(Request.loadAll(missing));
+
+  //subscribe to incoming events
   con.events.allEvents(null, async (e, evt)=>{
     if(evt) {
       console.log("Incoming tree.operations event", evt);
@@ -106,7 +113,7 @@ const init = () => async (dispatch,getState) => {
       }
     }
   });
-  let requests = await dispatch(Request.loadAll());
+
   dispatch(Creators.initSuccess(requests));
 }
 
@@ -183,7 +190,7 @@ const _lookupOnChain = id => async (dispatch, getState) => {
 
   let vars = await con.getRequestVars(id);
   console.log("Vars", vars);
-  
+
   //order is queryString, symbol, queryHash,_granularity, paypool index, tip
   if(!empty(vars[0])) {
 

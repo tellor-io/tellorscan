@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
+import eventFactory from 'Chain/LogEvents/EventFactory';
 
 class Ops {
   constructor(props) {
@@ -34,7 +35,8 @@ class Ops {
 let opInst = new Ops();
 
 export default class Nonce {
-  static loadAll(challengesByHash) {
+
+  static _retrieveFromCache(challengesByHash) {
     return async (dispatch, getState) => {
       let byHash = {};
       let hashes = _.keys(challengesByHash);
@@ -53,8 +55,82 @@ export default class Nonce {
         });
 
         let nonces = r || [];
-        byHash[hash] = nonces.map(n=>new Nonce({metadata: n}));
+        if(nonces.length > 0) {
+          byHash[hash] = nonces.map(n=>new Nonce({metadata: n}));
+          byHash[hash].sort((a,b)=>{
+            let diff = a.value-b.value;
+            if(diff) {
+              return diff;
+            }
+            diff = a.blockNumber-b.blockNumber;
+            if(diff) {
+              return diff;
+            }
+            return a.logIndex - b.logIndex;
+          });
+          
+          //FIXME: This saves round-trip to contract to ask for winning
+          //miners. But we're making an assumption that the sorted order
+          //is actually the correct order. This might need to be changed.
+          byHash[hash].forEach((n,i)=>{
+            if(n.winningOrder < 0) {
+              n.winningOrder = i;
+            }
+          });
+        }
       }
+      return byHash;
+    }
+  }
+
+  static _storePastNonce(e) {
+    return Storage.instance.create({
+      database: dbNames.NonceSubmitted,
+      key: e.transactionHash,
+      data: e
+    })
+  }
+
+  static _readMissingNonces({gaps, noncesByHash}) {
+    return async (dispatch, getState) => {
+      let con = getState().chain.contract;
+      //we need to also get all past request events
+      //that we might be missing
+      for(let i=0;i<gaps.length;++i) {
+        let g = gaps[i];
+        let evts = await con.getPastEvents("NonceSubmitted", {
+          fromBlock: g.start,
+          toBlock: g.end
+        });
+        for(let j=0;j<evts.length;++j) {
+          let evt = evts[j];
+          let e = eventFactory(evt);
+          if(e) {
+            let norm = e.normalize();
+            let list = noncesByHash[norm.challengeHash] || [];
+            if(list.length === 5) {
+              continue;
+            }
+            await Nonce._storePastNonce(e.toJSON());
+            let n = new Nonce({
+              metadata: norm
+            });
+            list.push(n);
+            noncesByHash[n.challengeHash] = list;
+          }
+        }
+      }
+    }
+  }
+
+  static loadAll(missingBlocks, challengesByHash) {
+    return async (dispatch, getState) => {
+    //  console.log("Loading nonces from cache...");
+      let byHash = await dispatch(Nonce._retrieveFromCache(challengesByHash));
+    //  console.log("Read", _.keys(byHash).length);
+    //  console.log("Reading nonces from chain...");
+      await dispatch(Nonce._readMissingNonces({gaps: missingBlocks, noncesByHash: byHash}));
+    //  console.log("Now have", _.keys(byHash).length, "nonces");
       return byHash;
     }
   }

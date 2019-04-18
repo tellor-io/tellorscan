@@ -9,11 +9,10 @@ import Voted from './Voted';
 
 export {
   DataRequested,
-  NonceSubmitted,
-  TipAdded,
-  NewAPIonQinfo,
   NewChallenge,
+  NonceSubmitted,
   NewValue,
+  TipAdded,
   NewDispute,
   Voted
 }

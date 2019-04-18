@@ -3,11 +3,13 @@ import * as eventTypes from './LogEvents';
 import _ from 'lodash';
 import Storage from 'Storage';
 import eventFactory from 'Chain/LogEvents/EventFactory';
+import {Mutex} from 'async-mutex';
 
 export default class SubscriptionProvider {
   constructor(props) {
     this.chain = props.chain;
     this.allListeners = [];
+    this.mutex = new Mutex();
 
     [
       'once',
@@ -27,28 +29,41 @@ export default class SubscriptionProvider {
 
       this.chain.on(nm, async (e)=>{
         if(e) {
-          let actual = e;
-          if(!e.normalize) {
-            actual = eventFactory(e);
-          }
+          let release = await this.mutex.acquire();
 
-          //store all incoming events
-          await Storage.instance.create({
-            database: actual.event,//event name === db name
-            key: actual.transactionHash,
-            data: actual.toJSON()
-          });
+          try {
+            let actual = e;
+            if(!e.normalize) {
+              actual = eventFactory(e);
+            }
+            if(!actual) {
+              return;
+            }
 
-          if(this.allListeners.length > 0) {
+            console.log("Receiving event from chain", actual.event);
+            //store all incoming events
+            try {
+              await Storage.instance.create({
+                database: actual.event,//event name === db name
+                key: actual.transactionHash,
+                data: actual.toJSON()
+              });
+            } catch (e) {
+              console.log("Problem storing event", e);
+            }
 
-            if(actual) {
+            console.log("Stored event", actual.event);
+
+            if(this.allListeners.length > 0) {
+              console.log("Notifying allListener for event", actual.event);
               let norm = actual.normalize();
               this.allListeners.forEach(al=>{
+                console.log("Notifying listener for event", norm.name);
                 this._filterAndNotify(al.options, al.callback, norm);
               });
-            } else {
-              console.log("Could not decode to actual log event", e);
             }
+          } finally {
+            release();
           }
         }
       });
@@ -114,9 +129,14 @@ export default class SubscriptionProvider {
 
   _sub(name, opts, cb) {
     let emitter = new EventEmitter();
-    this.chain.on(name, (e)=>{
-      if(e) {
-        this._filterAndNotify(opts, cb, e, emitter);
+    this.chain.on(name, async (e)=>{
+      let rel = await this.mutex.acquire();
+      try {
+        if(e) {
+          this._filterAndNotify(opts, cb, e, emitter);
+        }
+      } finally {
+        rel();
       }
     });
     return emitter;

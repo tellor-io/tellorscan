@@ -93,7 +93,6 @@ const init = () => async (dispatch,getState) => {
       if(evt.normalize) {
         evt = evt.normalize();
       }
-      console.log("Getting nonce submitted in current", evt);
       let state = getState();
       let challenge = state.current.currentChallenge;
       if(challenge && challenge.challengeHash === evt.challengeHash) {

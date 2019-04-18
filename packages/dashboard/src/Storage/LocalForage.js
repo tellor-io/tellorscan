@@ -26,7 +26,7 @@ const _buildSortFn = props => {
       }
     ];
   }
-  
+
   let sorter = (set, fld, isAsc) => {
     set.sort((a,b)=>{
       let av = a[fld];
@@ -99,15 +99,22 @@ export default class LocalForage extends BaseDB {
     let set = [];
     let sortFn = _buildSortFn(props);
     let limit = props.limit || this.querySizeLimit;
+    let filterFn = props.filterFn;
     await db.iterate((v, k, itNum)=>{
       if(itNum > limit) {
         return set;
       }
-      set.push(v);
-      if(sortFn) {
-        sortFn(set);
+      if(filterFn) {
+        if(filterFn(v, k, itNum)) {
+          set.push(v);
+        }
+      } else {
+        set.push(v);
       }
     });
+    if(sortFn) {
+      sortFn(set);
+    }
     return set;
   }
 

@@ -10,7 +10,6 @@ const s2p = (state,own) => {
   if(challenge && nonce && challenge.id && nonce.miner) {
     hash = generateDisputeHash({miner: nonce.miner, requestId: challenge.id, timestamp: challenge.finalValue.mineTime});
   }
-  console.log("Hash", hash);
   let req = state.events.tree.byId[challenge.id] || {};
   let disputes = req.disputes || {};
   let match = disputes[hash];

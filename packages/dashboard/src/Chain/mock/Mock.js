@@ -59,10 +59,15 @@ export default class Mock extends EventEmitter {
       'getBlock',
       'latestBlock',
       'getPastEvents',
+      'getMissingBlockRanges',
       'publishEvent',
       'getContract',
       'incrementBlock'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
+  }
+
+  async getMissingBlockRanges() {
+    return []
   }
 
   async init() {
@@ -88,7 +93,7 @@ export default class Mock extends EventEmitter {
   }
 
   async unload() {
-    
+
   }
 
   async getBlock(number) {

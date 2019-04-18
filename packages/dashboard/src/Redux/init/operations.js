@@ -51,6 +51,11 @@ const unloadChain = props => {
       .then(()=>props);
 }
 
+const startSubscriptions = props => {
+  return props.dispatch(chainOps.startSubscriptions())
+      .then(()=>props);
+}
+
 const start = () => (dispatch,getState) => {
   let state = getState();
   if(state.init.initComplete) {
@@ -64,11 +69,12 @@ const start = () => (dispatch,getState) => {
   }
   return initChain(props)
         .then(initToken)
-        .then(initCurrent)
         .then(initEvents)
+        .then(initCurrent)
         .then(initTips)
         .then(initDisputes)
         .then(initAnalytics)
+        .then(startSubscriptions)
         .then(()=>{
           dispatch(Creators.initSuccess());
         })
