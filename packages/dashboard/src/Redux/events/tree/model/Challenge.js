@@ -64,7 +64,6 @@ class Ops {
 }
 
 let ops = new Ops();
-
 export default class Challenge {
 
   static _retrieveFromCache(reqById) {
@@ -81,6 +80,9 @@ export default class Challenge {
       let byId = {}
       let byHash = r.reduce((o,c)=>{
         let req = reqById[c.id];
+        if(!req) {
+          console.log("No request found with id", c.id);
+        }
         let ch = new Challenge({
           metadata: c,
           parent: req
@@ -105,6 +107,7 @@ export default class Challenge {
 
   static _readMissingChallenges({gaps, reqById, byHash, byId}) {
     return async (dispatch, getState) => {
+      let chain = getState().chain.chain;
       let con = getState().chain.contract;
       //we need to also get all past request events
       //that we might be missing
@@ -118,17 +121,22 @@ export default class Challenge {
           let evt = evts[j];
           let e = eventFactory(evt);
           if(e) {
+            let ts = await chain.getTime(e.blockNumber);
+            e.timestamp = ts;
             let norm = e.normalize();
             if(byHash[norm.challengeHash]) {
               continue; //already have it
             }
 
             await Challenge._storePastChallenge(e.toJSON());
+            let req = reqById[norm.id];
+            if(!req){
+              console.log("Could not find request with id: " + norm.id);
+            }
             let ch = new Challenge({
               metadata: norm,
               parent: req
             });
-            let req = reqById[ch.id];
             let h = byId[ch.id] || {};
             h[ch.challengeHash] = ch;
             byId[ch.id] = h;
@@ -139,7 +147,7 @@ export default class Challenge {
     }
   }
 
-  static readCurrentChallenge() {
+  static readCurrentChallenge(reqById) {
     return async (dispatch, getState) => {
       let currentInfo = null;
       let con = getState().chain.contract;
@@ -165,7 +173,14 @@ export default class Challenge {
         };
         evt = eventFactory(payload);
         evt = evt.normalize();
-        return evt;
+        let req = reqById[evt.id];
+        if(!req) {
+          console.log("Could not find request with id", evt.id);
+        }
+        return new Challenge({
+          metadata: evt,
+          parent: req
+        });
       }
       return null;
     }
@@ -185,7 +200,7 @@ export default class Challenge {
       let {byId, byHash} = await dispatch(Challenge._retrieveFromCache(reqById));
     //  console.log("Read ", _.keys(byHash).length);
     //  console.log("Reading missing challenges from chain...");
-      await dispatch(Challenge._readMissingChallenges({gaps: missingBlocks, reqById, byId, byHash}));
+    //  await dispatch(Challenge._readMissingChallenges({gaps: missingBlocks, reqById, byId, byHash}));
     //  console.log("Now have", _.keys(byHash).length, "challenges");
 
       //returns lists of nonces keyed by challenge hash
@@ -225,7 +240,9 @@ export default class Challenge {
           ch.finalValue = val;
           let miners = minerOrder;
           if(minerOrder.length === 0) {
+      //      console.log("Reading mining order");
             miners = await dispatch(Challenge._readMiningOrder(ch.id, val.mineTime));
+      //      console.log("Read miners", miners);
             let nonces = ch.nonces || [];
 
             for(let j=0;j<nonces.length;++j) {
@@ -234,24 +251,30 @@ export default class Challenge {
                 ...n,
                 winningOrder: miners.indexOf(n.miner)
               };
-              await dispatch(newNonce.save());
-              return newNonce;
+        //      console.log("Saving updated nonce...");
+              await dispatch(Nonce.ops.save(newNonce));
+        //      console.log("Nonce saved");
+              nonces[j] = newNonce;
             }
             nonces.sort((a,b)=>a.winningOrder-b.winningOrder);
+            ch.nonces = nonces;
           }
+
           ch.minerOrder = miners;
         }
       }
 
       //get the current one
     //  console.log("Getting current");
-      let current = await dispatch(Challenge.readCurrentChallenge());
+      let current = await dispatch(Challenge.readCurrentChallenge(reqById));
     //  console.log("Read current", current);
       if(current) {
         let byHashMap = byId[current.id] || {};
-        byHashMap[current.challengeHash] = new Challenge({metadata: current});
+        let req = reqById[current.id];
+        byHashMap[current.challengeHash] = new Challenge({metadata: current, parent: req});
         byId[current.id] = byHashMap;
       }
+    //  console.log("Challenges by id", byId);
 
       return byId;
     }

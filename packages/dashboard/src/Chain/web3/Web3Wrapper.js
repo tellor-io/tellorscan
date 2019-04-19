@@ -25,6 +25,11 @@ export default class Web3Wrapper {
   }
 
   async init() {
+    if(this.contract) {
+      await this.contract.init();
+      return;
+    }
+
     let ethProvider = window.ethereum;
     if(!ethProvider && window.web3){
       ethProvider =  window.web.currentProvider;
@@ -56,8 +61,9 @@ export default class Web3Wrapper {
       let tellor = new this.web3.eth.Contract(abi, DEFAULT_TELLOR_CONTRACT, {
         address: DEFAULT_TELLOR_CONTRACT
       });
-      console.log("Creating contract");
       this.contract = new Web3Contract({chain: this, master, tellor, caller: acts[0]});
+      this.ethereumAccount = acts[0];
+      await this.contract.init();
     }
   }
 

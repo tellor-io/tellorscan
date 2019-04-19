@@ -16,7 +16,7 @@ const s2p = (state,own) => {
   let canDispute = !match && challenge.finalValue;
   return {
     canDispute,
-    hasTokens: true //state.token.balance > 0
+    hasTokens: state.token.balance > 0
   }
 }
 

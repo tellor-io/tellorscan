@@ -88,7 +88,7 @@ export default class Mock extends EventEmitter {
     this.blockTimes['latest'] = blocks[0];//descending order
     let b = blocks[0] || {};
     this.block = b.number || 0;
-
+    this.ethereumAccount = "0x123456789...";
     await this.contract.init();
   }
 

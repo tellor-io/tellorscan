@@ -198,6 +198,7 @@ export default class Dispute {
   static _readMissingDisputes ({gaps, byId, byHash}) {
     return async (dispatch, getState) => {
       let con = getState().chain.contract;
+      let chain = getState().chain.chain;
 
       //we need to also get all past request events
       //that we might be missing
@@ -209,6 +210,8 @@ export default class Dispute {
         evts.forEach(async evt=>{
           let e = eventFactory(evt);
           if(e) {
+            let ts = await chain.getTime(e.blockNumber);
+            e.timestamp = ts;
             let norm = e.normalize();
 
             if(byHash[norm.disputeHash])  {
@@ -229,7 +232,7 @@ export default class Dispute {
   static loadAll(missingBlocks, reqById) {
     return async (dispatch, getState) => {
       let {byId,byHash} = await dispatch(Dispute._retrieveFromCache(reqById));
-      await dispatch(Dispute._readMissingDisputes({gaps: missingBlocks, byId, byHash}));
+      //await dispatch(Dispute._readMissingDisputes({gaps: missingBlocks, byId, byHash}));
       return byId;
     }
   }

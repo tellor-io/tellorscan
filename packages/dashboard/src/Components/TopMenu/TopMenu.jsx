@@ -5,18 +5,25 @@ import {
   NavItem,
   Nav,
   Row,
-  Col
+  Col,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown
 } from 'reactstrap';
 import cn from 'classnames';
 import * as align from 'Constants/alignments';
 import Logo from './LogoBlock';
 import Search from 'Components/Search';
+import Loading from 'Components/Loading';
 
 export default class TopMenu extends React.Component {
   render() {
     const {
+      balance,
       withSearch,
-      title
+      title,
+      tokenLoading
     } = this.props;
 
     let barClass = cn("top-nav", align.full);
@@ -39,6 +46,24 @@ export default class TopMenu extends React.Component {
             Disputes
           </NavLink>
         </NavItem>
+        <UncontrolledDropdown nav inNavbar>
+          <DropdownToggle nav caret>
+            <i className={cn("icon-wallet", "mr-1")} />
+            Wallet
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem header>
+              <Loading loading={tokenLoading}/>
+              Token Balance: {balance}
+            </DropdownItem>
+            <DropdownItem onClick={this.props.getTokens}>
+              Get Tokens
+            </DropdownItem>
+            <DropdownItem onClick={this.props.getBalance}>
+              Refresh Balance
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
       </React.Fragment>
     )
 

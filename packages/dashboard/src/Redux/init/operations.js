@@ -7,6 +7,9 @@ import {default as tipOps} from 'Redux/tips/operations';
 import {default as disputeOps} from 'Redux/disputes/operations';
 import {default as tokenOps} from 'Redux/token/operations';
 
+import {registerDeps} from 'Redux/DepMiddleware';
+import {Types as settingsTypes} from 'Redux/settings/actions';
+
 const initChain = props => {
   return props.dispatch(chainOps.init())
     .then(()=>props);
@@ -61,7 +64,13 @@ const start = () => (dispatch,getState) => {
   if(state.init.initComplete) {
     return;
   }
+  registerDeps([settingsTypes.CLEAR_HISTORY_SUCCESS], async () => {
+    dispatch(_doStart());
+  });
+  return dispatch(_doStart());
+}
 
+const _doStart = () => (dispatch,getState) => {
   dispatch(Creators.initStart());
   let props = {
     dispatch,

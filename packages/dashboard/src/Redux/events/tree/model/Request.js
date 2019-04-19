@@ -94,6 +94,7 @@ export default class RequestTree {
 
     static _readMissingRequests (gaps, merged) {
       return async (dispatch, getState) => {
+        let chain = getState().chain.chain;
         let con = getState().chain.contract;
 
         //we need to also get all past request events
@@ -108,6 +109,8 @@ export default class RequestTree {
             let evt = evts[j];
             let e = eventFactory(evt);
             if(e) {
+              let ts = await chain.getTime(e.blockNumber);
+              e.timestamp = ts;
               let norm = e.normalize();
               if(merged[norm.id])  {
                 continue; //already know about it
@@ -135,7 +138,7 @@ export default class RequestTree {
 
         //read any missing items from chain (cache them locally)
       //  console.log("Reading past requests from chain...");
-        await dispatch(RequestTree._readMissingRequests(missingBlocks, merged));
+      //  await dispatch(RequestTree._readMissingRequests(missingBlocks, merged));
       //  console.log("Total requests", _.keys(merged).length);
 
         //get a map of all challenges keyed by request id

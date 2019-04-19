@@ -4,7 +4,7 @@ import Button from './AddTipButton';
 const s2p = state => {
 
   return {
-    hasTokens: true //state.token.balance > 0
+    hasTokens: state.token.balance > 0
   }
 }
 

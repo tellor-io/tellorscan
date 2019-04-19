@@ -20,14 +20,20 @@ class Ops {
         return o;
       },{});
 
-      await Storage.instance.create({
-        database: dbNames.NonceSubmitted,
-        key: nonce.transactionHash,
-        data: {
-          ...data,
-          winningOrder: nonce.winningOrder
-        }
-      })
+      try {
+        console.log("Saving nonce data", data);
+        await Storage.instance.create({
+          database: dbNames.NonceSubmitted,
+          key: nonce.transactionHash,
+          data: {
+            ...data,
+            winningOrder: nonce.winningOrder
+          }
+        })
+      } catch (e) {
+        console.log("Problem saving nonce", e);
+      }
+
     }
   }
 }
@@ -68,7 +74,7 @@ export default class Nonce {
             }
             return a.logIndex - b.logIndex;
           });
-          
+
           //FIXME: This saves round-trip to contract to ask for winning
           //miners. But we're making an assumption that the sorted order
           //is actually the correct order. This might need to be changed.
@@ -93,6 +99,7 @@ export default class Nonce {
 
   static _readMissingNonces({gaps, noncesByHash}) {
     return async (dispatch, getState) => {
+      let chain = getState().chain.chain;
       let con = getState().chain.contract;
       //we need to also get all past request events
       //that we might be missing
@@ -105,7 +112,10 @@ export default class Nonce {
         for(let j=0;j<evts.length;++j) {
           let evt = evts[j];
           let e = eventFactory(evt);
+
           if(e) {
+            let ts = await chain.getTime(e.blockNumber);
+            e.timestamp = ts;
             let norm = e.normalize();
             let list = noncesByHash[norm.challengeHash] || [];
             if(list.length === 5) {
@@ -129,7 +139,7 @@ export default class Nonce {
       let byHash = await dispatch(Nonce._retrieveFromCache(challengesByHash));
     //  console.log("Read", _.keys(byHash).length);
     //  console.log("Reading nonces from chain...");
-      await dispatch(Nonce._readMissingNonces({gaps: missingBlocks, noncesByHash: byHash}));
+    //  await dispatch(Nonce._readMissingNonces({gaps: missingBlocks, noncesByHash: byHash}));
     //  console.log("Now have", _.keys(byHash).length, "nonces");
       return byHash;
     }

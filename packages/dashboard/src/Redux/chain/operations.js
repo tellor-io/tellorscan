@@ -7,10 +7,10 @@ import {registerDeps} from 'Redux/DepMiddleware';
 import {Types as settingsTypes} from 'Redux/settings/actions';
 
 const init = () => async (dispatch,getState) => {
-  registerDeps([settingsTypes.CLEAR_HISTORY_SUCCESS], async () => {
+  /*registerDeps([settingsTypes.CLEAR_HISTORY_SUCCESS], async () => {
     let state = getState();
     return state.chain.chain.init();
-  });
+  });*/
 
   dispatch(Creators.loadRequest());
   //TODO: pass any init props if needed
@@ -106,6 +106,12 @@ const addToTip = (id,tip) => (dispatch, getState) => {
   }
 }
 
+const getTokens = () => (dispatch, getState) => {
+  let state = getState();
+  let con = state.chain.contract;
+  return con.getTokens();
+}
+
 const startSubscriptions = () => async (dispatch, getState) => {
   let con = getState().chain.contract;
   await con.startSubscriptions();
@@ -119,5 +125,6 @@ export default {
   addToTip,
   lookupQueryByHash,
   lookupDisputeByHash,
-  initDispute
+  initDispute,
+  getTokens
 }

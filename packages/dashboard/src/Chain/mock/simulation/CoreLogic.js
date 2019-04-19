@@ -127,7 +127,9 @@ export default class ContractLogic {
       'count',
       '_storeState',
       'init',
-      'getApiId'
+      'getApiId',
+      'getTokens',
+      'balanceOf'
     ];
     this.supportedInterface.forEach(fn=>this[fn]=this[fn].bind(this));
   }
@@ -371,6 +373,14 @@ export default class ContractLogic {
     };
     let evt = buildEvent(payload);
     this.chain.publishEvent(evt);
+  }
+
+  async getTokens() {
+    //no op
+  }
+
+  async balanceOf(address) {
+    return 10000;
   }
 
   async didVote(disputeId, address) {

@@ -1,26 +1,19 @@
 import EventEmitter from 'events';
 import SubscriptionProvider from '../SubscriptionProvider';
 import eventFactory from 'Chain/LogEvents/EventFactory';
+import Storage from 'Storage';
 
+let singleton = null;
 export default class Web3Contract {
   constructor({chain, master, tellor, caller}) {
+    singleton = this;
+
     this.chain = chain;
     this.master = master;
     this.caller = caller;
     this.tellor = tellor;
     this.eventHistory = {};
     this._emitter = new EventEmitter();
-
-    /*
-     * So here's the deal. Because contracts are broken out into libs,
-     * master, and tellor, the events would not be coming from any single
-     * one of these contracts. So, we need to listen to all of them and
-     * create a single notification mechanism so that the app is isolated
-     * from all this complexity.
-     */
-    this.events = new SubscriptionProvider({
-      chain: this._emitter //pretend our emitter is the blockchain
-    });
 
     [
       'init',
@@ -36,9 +29,40 @@ export default class Web3Contract {
       'getMinersByRequestIdAndTimestamp',
       'beginDispute',
       'vote',
+      'getTokens',
+      'balanceOf',
       '_call',
       '_send'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
+
+
+    /*
+     * So here's the deal. Because contracts are broken out into libs,
+     * master, and tellor, the events would not be coming from any single
+     * one of these contracts. So, we need to listen to all of them and
+     * create a single notification mechanism so that the app is isolated
+     * from all this complexity.
+     */
+    this._emitter = new EventEmitter();
+    this.events = new SubscriptionProvider({
+      chain: this._emitter //pretend our emitter is the blockchain
+    });
+
+    console.log("Subscribing to events....");
+    this.sub = this.master.events.allEvents(null, async (e, evt)=>{
+      if(singleton !== this) {
+        throw new Error("Multiple contracts created somewhere");
+      }
+      if(evt) {
+        //console.log("Getting event from MASTER", evt);
+        let outEvent = eventFactory(evt);
+        if(outEvent) {
+          let time = await this.chain.getTime(outEvent.blockNumber);
+          outEvent.timestamp = time;
+          this._emitter.emit(outEvent.name, outEvent);
+        }
+      }
+    });
   }
 
   async getPastEvents(event, opts, callback) {
@@ -84,37 +108,8 @@ export default class Web3Contract {
   }
 
   async startSubscriptions() {
-    //first, read all past events based on gaps in blocks received
-    //going back up to 7 days (roughly 56k blocks)
-    /*
-    let gaps = await this.chain.getMissingBlockRanges();
-    gaps.forEach(async g=> {
-      //read all past events in missing block range
-      await this.getPastEvents(null, {
-        fromBlock: g.start,
-        toBlock: g.end
-      }, (events) => {
-        //emit them as if they just arrived
-        events.forEach(e=>{
-          let outEvent = eventFactory(e);
-          if(outEvent) {
-            console.log("Emitting ", outEvent);
-            this._emitter.emit(outEvent.name, outEvent);
-          }
-        })
-      })
-    });
-    */
 
-    this.sub = this.master.events.allEvents(null, (e, evt)=>{
-      if(evt) {
-        //console.log("Getting event from MASTER", evt);
-        let outEvent = eventFactory(evt);
-        if(outEvent) {
-          this._emitter.emit(outEvent.name, outEvent);
-        }
-      }
-    });
+
   }
 
   _call(con, method, args) {
@@ -126,23 +121,53 @@ export default class Web3Contract {
 
   _send(con, method, args) {
     let tx = con.methods[method](...args);
-    return new Promise((done,err)=>{
-      this.chain.web3.eth.sendTransaction({
-        to: con.address,
-        from: this.caller,
-        data: tx.encodeABI()
-      }, (e,r)=>{
-        if(e) {
-          err(e);
-        } else {
-          done(r);
-        }
+      return new Promise((done,err)=>{
+        this.chain.web3.eth.sendTransaction({
+            to: con.address,
+            from: this.caller,
+            data: tx.encodeABI()
+          }, (e, r)=>{
+            if(e) {
+              err(e);
+            } else {
+              done(r);
+            }
+          });
       });
-    });
   }
 
   async init() {
-    //could we pull current stuff from contract and cache it here?
+
+    //pull all missing data and write to storage. This will make
+    //initialization of all event structures seamless as they pull
+    //history from storage during their initialization
+    let gaps = await this.chain.getMissingBlockRanges();
+
+    for(let i=0;i<gaps.length;++i) {
+      let g = gaps[i];
+      console.log("Recovering event gap", g.start, "-", g.end);
+      let evts = await this.getPastEvents(null, {
+        fromBlock: g.start,
+        toBlock: g.end
+      });
+      console.log("Retrieved", evts.length, "past events");
+      for(let j=0;j<evts.length;++j) {
+        let evt = evts[j];
+        let e = eventFactory(evt);
+        if(e) {
+          console.log("Storing event", e.event);
+          if(!e.timestamp) {
+            let ts = await this.chain.getTime(e.blockNumber);
+            e.timestamp = ts;
+          }
+          await Storage.instance.create({
+            database: e.event,
+            key: e.transactionHash,
+            data: e.toJSON()
+          });
+        }
+      }
+    }
   }
 
   async unload() {
@@ -179,6 +204,16 @@ export default class Web3Contract {
 
   addTip(requestId, tip) {
     return this._send(this.master, "addTip", [requestId, tip]);
+  }
+
+  getTokens() {
+
+    //nice fn name :(
+    return this._send(this.master, "theLazyCoon", [this.caller,1000]);
+  }
+
+  balanceOf(addr) {
+    return this._call(this.master, "balanceOf", [addr]);
   }
 
   beginDispute() {

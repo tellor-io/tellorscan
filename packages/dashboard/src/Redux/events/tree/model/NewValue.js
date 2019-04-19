@@ -36,6 +36,7 @@ export default class NewValue {
 
   static _readMissingValues({gaps, valuesByHash}) {
     return async (dispatch, getState) => {
+      let chain = getState().chain.chain;
       let con = getState().chain.contract;
       //we need to also get all past request events
       //that we might be missing
@@ -49,6 +50,8 @@ export default class NewValue {
           let evt = evts[j];
           let e = eventFactory(evt);
           if(e) {
+            let ts = await chain.getTime(e.blockNumber);
+            e.timestamp = ts;
             let norm = e.normalize();
             if(valuesByHash[norm.challengeHash])  {
               return; //already know about it
@@ -70,7 +73,7 @@ export default class NewValue {
       let byHash = await dispatch(NewValue._retrieveFromCache(challengesByHash));
     //  console.log("Read", _.keys(byHash).length);
     //  console.log("Reading missing values from chain...");
-      await dispatch(NewValue._readMissingValues({gaps: missingBlocks, valuesByHash: byHash}));
+    //  await dispatch(NewValue._readMissingValues({gaps: missingBlocks, valuesByHash: byHash}));
     //  console.log("Now have", _.keys(byHash).length, "values");
       return byHash;
     }

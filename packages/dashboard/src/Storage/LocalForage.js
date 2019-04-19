@@ -82,7 +82,12 @@ export default class LocalForage extends BaseDB {
   async create(props) {
     createSchema.validateSync(props);
     let db = await this._getDB(props, dbFactory);
-    await db.setItem(props.key, props.data);
+    try {
+      await db.setItem(props.key, props.data);
+    } catch (e) {
+      console.log("Problem storing to", props.database, e);
+    }
+
   }
 
   async read(props) {

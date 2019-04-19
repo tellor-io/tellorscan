@@ -34,22 +34,14 @@ const normalizeEvent = (evt) => (dispatch,getState) => {
   return norm;
 }
 
-const init = () => async (dispatch,getState) => {
-  registerDeps([settingsTypes.CLEAR_HISTORY_SUCCESS], async () => {
-    //dispatch(Creators.initStart());
-    dispatch(Creators.clearAll());
-    //await dispatch(initFromContract());
-    //dispatch(Creators.initSuccess());
-  });
+let subscribed = false;
 
-  dispatch(Creators.initStart());
+const _initSubs = () => (dispatch, getState) => {
+  if(subscribed) {
+    return;
+  }
 
-  let chain = getState().chain.chain;
   let con = getState().chain.contract;
-
-  let missing = await chain.getMissingBlockRanges();
-  //locally cached requests keyed by id
-  let requests = await dispatch(Request.loadAll(missing));
 
   //subscribe to incoming events
   con.events.allEvents(null, async (e, evt)=>{
@@ -62,7 +54,7 @@ const init = () => async (dispatch,getState) => {
       if(norm.name === 'NewDispute') {
         reqId = norm.requestId;
       }
-      if(reqId) {
+      if(reqId && norm.name !== 'DataRequested') {
         let state = getState();
         tree = state.events.tree.byId[reqId];
         if(!tree) {
@@ -113,6 +105,21 @@ const init = () => async (dispatch,getState) => {
       }
     }
   });
+  subscribed = true;
+}
+
+const init = () => async (dispatch,getState) => {
+  dispatch(Creators.clearAll());
+  dispatch(Creators.initStart());
+
+  let chain = getState().chain.chain;
+  let con = getState().chain.contract;
+
+  let missing = await chain.getMissingBlockRanges();
+  //locally cached requests keyed by id
+  let requests = await dispatch(Request.loadAll(missing));
+
+  dispatch(_initSubs());
 
   dispatch(Creators.initSuccess(requests));
 }

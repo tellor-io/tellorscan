@@ -1,6 +1,7 @@
 import {Creators} from './actions';
 import eventFactory from 'Chain/LogEvents/EventFactory';
 import {default as reqOps} from 'Redux/events/tree/operations';
+import Challenge from 'Redux/events/tree/model/Challenge';
 
 const getCurrentChallenge = () => async (dispatch, getState) => {
   let currentInfo = null;
@@ -8,6 +9,7 @@ const getCurrentChallenge = () => async (dispatch, getState) => {
   try {
     currentInfo = await con.getCurrentVariables();
   } catch (e) {
+    console.log("Error getting current", e);
     //possible that contract isn't deployed yet or is unreachable
     //for whatever reason.
   }
@@ -27,15 +29,25 @@ const getCurrentChallenge = () => async (dispatch, getState) => {
     };
     evt = eventFactory(payload);
     evt = evt.normalize();
-    return evt;
+    let req = getState().events.tree.byId[evt.id];
+    if(!req) {
+      await dispatch(reqOps.findByRequestId(evt.id));
+    }
+    let ch = new Challenge({
+      metadata: evt,
+      parent: req
+    });
+    return ch;
   }
   return null;
 }
 
-const init = () => async (dispatch,getState) => {
-  dispatch(Creators.loadRequest());
-  let chain = getState().chain;
-  let con = chain.chain.getContract();
+let subscribed = false;
+const _initSubs = () => (dispatch,getState) => {
+  if(subscribed) {
+    return;
+  }
+  let con = getState().chain.contract;
 
   con.events.NewChallenge(null, async (e, evt)=>{
     if(evt) {
@@ -101,6 +113,13 @@ const init = () => async (dispatch,getState) => {
     }
   });
 
+  subscribed = true;
+}
+
+const init = () => async (dispatch,getState) => {
+  dispatch(Creators.loadRequest());
+  dispatch(_initSubs());
+
   //note that even though we store the new challenges and nonces,
   //we don't use them for initialization of the current challenge.
   //It's best to sync with the contract directly and avoid any race
@@ -110,18 +129,18 @@ const init = () => async (dispatch,getState) => {
 
   if(current) {
     //does the event refer to an ID we don't know about?
-    let req = getState().events.tree.byId[current.id];
-    if(!req) {
-      await dispatch(reqOps.findByRequestId(current.id));
-    }
+
     //order is hash, id, diff, querysString, multiplier,value
     if(!current || current.id === 0) {
       //nothing to do
       dispatch(Creators.loadSuccess(null, 0));
     } else {
+
       let count = 0; //await con.count(); //miners completed
       dispatch(Creators.loadSuccess(current, count));
     }
+  } else {
+    dispatch(Creators.loadSuccess(null));
   }
 }
 
