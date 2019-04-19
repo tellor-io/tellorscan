@@ -73,7 +73,9 @@ const _initSubs = () => (dispatch, getState) => {
       //if(tree) {
         switch(norm.name) {
           case dbNames.DataRequested: {
-            await dispatch(Creators.addRequest(tree));
+            if(tree) {
+              await dispatch(Creators.addRequest(tree));
+            }
             break;
           }
 
