@@ -8,6 +8,7 @@ import {
 import cn from 'classnames';
 import * as align from 'Constants/alignments';
 import {formatTimeLong, humanizeDuration, formatDuration} from 'Utils/time';
+import VoteButtons from 'Components/VoteButtons';
 
 class DisputeInfo extends React.Component {
   render() {
@@ -23,8 +24,8 @@ class DisputeInfo extends React.Component {
     let prefix = "";
     let exIcon = expanded?"fa-caret-up":"fa-caret-down";
 
-    if(v > 0) { color = "text-success"; prefix = "fa fa-thumbs-up"; leaning = "agree w/miner";}
-    else if(v < 0) {color = "text-danger"; prefix = "fa fa-thumbs-down"; leaning = "disagree w/miner"; }
+    if(v > 0) { color = "text-success"; prefix = "fa fa-thumbs-up"; leaning = "for disputer";}
+    else if(v < 0) {color = "text-danger"; prefix = "fa fa-thumbs-down"; leaning = "against disputer"; }
     else {color = "text-dark"; prefix = "fa fa-ellipsis-h"; leaning = "no votes yet"}
     v = Math.abs(v);
     let tally = (
@@ -59,7 +60,7 @@ class DisputeInfo extends React.Component {
         </Col>
         <Col md='2' className={cn(align.allCenter, align.noMarginPad)}>
           <span className={cn("p-1", "text-center", "text-1")}>
-            {dispute.value.toFixed(2)}
+            {dispute.value}
           </span>
         </Col>
         <Col md='2' className={cn(align.allCenter, align.noMarginPad)}>
@@ -90,6 +91,10 @@ const detailRows = [
     value: (r, d) => formatTimeLong(d.timestamp)
   },
   {
+    label: "Disputer",
+    value: (r, d) => d.disputer
+  },
+  {
     label: "Time Remaining",
     value: (r, d) => {
       let rm = d.timeRemaining(d);
@@ -106,8 +111,41 @@ class DisputeDetails extends React.Component {
   render() {
     const {
       request,
-      dispute
+      dispute,
+      canVote,
+      voteReason
     } = this.props;
+
+    let votingBody = null;
+    if(canVote) {
+      votingBody = (
+        <React.Fragment>
+          <Col md='12' className={cn(align.allCenter, align.noMarginPad)}>
+            <span className={cn("text-sz-sm", "text-center", "font-weight-bold", "text-dark")}>
+              Agree w/ Disputer?
+            </span>
+          </Col>
+          <Col md='12' className={cn(align.allCenter, align.noMarginPad)}>
+            <VoteButtons dispute={dispute}/>
+          </Col>
+        </React.Fragment>
+      )
+    } else {
+      votingBody = (
+        <React.Fragment>
+          <Col md='12' className={cn(align.allCenter, align.noMarginPad)}>
+            <span className={cn("text-sz-sm", "text-center", "font-weight-bold", "text-dark")}>
+              Cannot vote
+            </span>
+          </Col>
+          <Col md='12' className={cn(align.allCenter, align.noMarginPad)}>
+            <span className={cn("text-muted", "text-sz-sm", "text-center")}>
+              {voteReason}
+            </span>
+          </Col>
+        </React.Fragment>
+      )
+    }
     return (
       <Row className={cn(align.leftCenter, align.full, align.noMarginPad)}>
         <Col md="10" className={cn(align.topCenter, align.noMarginPad)}>
@@ -134,15 +172,7 @@ class DisputeDetails extends React.Component {
         </Col>
         <Col md="2" className={cn(align.allCenter, align.noMarginPad)}>
           <Row className={cn(align.topCenter, align.full, align.noMarginPad)}>
-            <Col md='12' className={cn(align.allCenter, align.noMarginPad)}>
-              <span className={cn("text-sz-sm", "text-center", "font-weight-bold", "text-dark")}>
-                Agree w/ Miner?
-              </span>
-            </Col>
-            <Col md='12' className={cn(align.allCenter, align.noMarginPad)}>
-              <i className={cn("fa fa-thumbs-up", "text-tellor-green", "mr-3")} />
-              <i className={cn("fa fa-thumbs-down", "text-tellor-green")} />
-            </Col>
+            {votingBody}
           </Row>
 
         </Col>

@@ -2,6 +2,7 @@ import EventEmitter from 'events';
 import SubscriptionProvider from '../SubscriptionProvider';
 import eventFactory from 'Chain/LogEvents/EventFactory';
 import Storage from 'Storage';
+import * as ethUtils from 'web3-utils';
 
 let singleton = null;
 export default class Web3Contract {
@@ -27,14 +28,19 @@ export default class Web3Contract {
       'getRequestVars',
       'getRequestIdByQueryHash',
       'getMinersByRequestIdAndTimestamp',
+      'getDisputeIdByDisputeHash',
+      'getAllDisputeVars',
       'beginDispute',
+      'didVote',
       'vote',
       'getTokens',
       'balanceOf',
       '_call',
       '_send'
-    ].forEach(fn=>this[fn]=this[fn].bind(this));
-
+    ].forEach(fn=>{
+      if(!this[fn]) { throw new Error("Web3Contract missing fn: " + fn)}
+      this[fn]=this[fn].bind(this);
+    });
 
     /*
      * So here's the deal. Because contracts are broken out into libs,
@@ -54,7 +60,7 @@ export default class Web3Contract {
         throw new Error("Multiple contracts created somewhere");
       }
       if(evt) {
-        //console.log("Getting event from MASTER", evt);
+        console.log("Getting event from MASTER", evt);
         let outEvent = eventFactory(evt);
         if(outEvent) {
           let time = await this.chain.getTime(outEvent.blockNumber);
@@ -167,6 +173,8 @@ export default class Web3Contract {
           });
         }
       }
+      //have to fill in blocks or we'll see gaps again on next run
+      await this.chain.fillBlockGap(g);
     }
   }
 
@@ -209,18 +217,30 @@ export default class Web3Contract {
   getTokens() {
 
     //nice fn name :(
-    return this._send(this.master, "theLazyCoon", [this.caller,1000]);
+    return this._send(this.master, "theLazyCoon", [this.caller,"1000000000000000000000"]);
   }
 
   balanceOf(addr) {
     return this._call(this.master, "balanceOf", [addr]);
   }
 
-  beginDispute() {
-
+  getDisputeIdByDisputeHash(hash) {
+    return this._call(this.master, "getDisputeIdByDisputeHash", [hash]);
   }
 
-  vote() {
+  getAllDisputeVars(id) {
+    return this._call(this.master, "getAllDisputeVars", [id]);
+  }
 
+  beginDispute(requestId, timestamp, minerIndex) {
+    return this._send(this.master, "beginDispute", [requestId, timestamp, minerIndex]);
+  }
+
+  didVote(disputeId, user) {
+    return this._call(this.master, "didVote", [disputeId, user]);
+  }
+  
+  vote(disputeId, supportsDisputer) {
+    return this._send(this.master, "vote", [disputeId, supportsDisputer]);
   }
 }

@@ -144,6 +144,7 @@ export default class InMemory extends BaseDB {
       'update',
       'remove',
       'dbFactory',
+      'iterate',
       'clearAll'
     ].forEach(fn=>{
       this[fn]=this[fn].bind(this)
@@ -173,6 +174,11 @@ export default class InMemory extends BaseDB {
     });
 
     return this.next.clearAll();
+  }
+
+  async iterate(props) {
+    //intended for slower DB walk through
+    return this.next.iterate(props);
   }
 
   async create(props) {

@@ -196,6 +196,26 @@ const addNewValue = (state=INIT_STATE, action) => {
    }
  }
 
+ const voteUpdated = (state=INIT_STATE, action) =>  {
+   let disp = action.dispute;
+   let req = state.byId[disp.requestId];
+   req = {
+     ...req,
+     disputes: {
+       ...req.disputes,
+       [disp.disputeHash]: disp
+     }
+   };
+   let byId = {
+     ...state.byId,
+     [req.id]: req
+   };
+   return {
+     ...state,
+     byId
+   }
+ }
+
 const fail = (state=INIT_STATE, action) => {
   return {
     ...state,
@@ -222,6 +242,7 @@ const HANDLERS = {
   [Types.NONCE_UPDATED]: nonceUpdated,
   [Types.ADD_NEW_VALUE]: addNewValue,
   [Types.ADD_DISPUTE]: addDispute,
+  [Types.VOTE_UPDATED]: voteUpdated,
   [Types.CLEAR_ALL]: clearAll
 }
 

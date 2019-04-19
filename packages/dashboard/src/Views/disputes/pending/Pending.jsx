@@ -85,7 +85,12 @@ export default class Pending extends React.Component {
               {
                 rows.map((r,i)=>{
                   return (
-                    <DRow key={i} idClicked={this.props.viewRequestDetails} dispute={r} request={r.request} />
+                    <DRow key={i}
+                          idClicked={this.props.viewRequestDetails}
+                          dispute={r}
+                          canVote={r.canVote}
+                          voteReason={r.voteReason}
+                          request={r.request} />
                   )
                 })
               }

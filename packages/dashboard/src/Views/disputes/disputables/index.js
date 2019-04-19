@@ -5,6 +5,7 @@ import _ from 'lodash';
 import * as navs from 'Navs';
 import {default as dispOps} from 'Redux/disputes/operations';
 import {default as chainOps} from 'Redux/chain/operations';
+import {default as disputeOps} from 'Redux/disputes/operations';
 
 const s2p = (state,own) => {
   let byId = state.events.tree.byId;
@@ -73,9 +74,9 @@ const d2p = (dispatch,own) => {
           address: nonce.miner
         },
         requestId: ch.id,
-        timestamp: nonce.mineTime
+        timestamp: ch.finalValue.mineTime
       };
-      dispatch(chainOps.initDispute(props));
+      dispatch(disputeOps.initDispute(props));
     }
   }
 }

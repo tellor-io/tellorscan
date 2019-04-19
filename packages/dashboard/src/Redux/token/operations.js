@@ -24,6 +24,7 @@ const getTokens = () => async (dispatch, getState) => {
   });
 }
 
+
 const getBalance = () => async (dispatch, getState) => {
   let con = getState().chain.contract;
   let b = await con.balanceOf(getState().chain.chain.ethereumAccount);

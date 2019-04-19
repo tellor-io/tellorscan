@@ -61,6 +61,10 @@ export const readAllSchema = yup.object().shape({
   sort: yup.array().of(sortSchema)
 });
 
+export const iterateSchema = yup.object().shape({
+  database: dbBaseSchema
+});
+
 export const sortData = (ar, def) => {
   ar.sort((a,b)=>{
     let fld = def.field;

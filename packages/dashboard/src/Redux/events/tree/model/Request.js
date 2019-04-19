@@ -11,7 +11,8 @@ import _ from 'lodash';
 class Ops {
   constructor(props) {
     [
-      'challengeEvent'
+      'challengeEvent',
+      'disputeEvent'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
   }
 
@@ -191,5 +192,8 @@ export default class RequestTree {
 
     //mapping of challenges associated with the request keyed by challenge hash
     this.challenges = {};
+
+    //mapping of all disputes by dispute Id
+    this.disputes = {};
   }
 }

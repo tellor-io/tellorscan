@@ -11,7 +11,7 @@ export default class NewDispute extends BaseEvent {
     this._timestamp = this._asNum(_timestamp);
     this._requestId = this._asNum(_requestId);
     this._disputeId = this._asNum(_disputeId);
-    this._miner = _miner;
+    this._miner = _miner.toLowerCase();
     this._disputeHash = generateDisputeHash({requestId: this._requestId, miner: this._miner, timestamp: this._timestamp});
   }
 
@@ -20,8 +20,8 @@ export default class NewDispute extends BaseEvent {
     let normalized = {
       ...parent,
       id: this._disputeId,
-      requestId: this._apiId,
-      miningTime: this._timestamp,
+      requestId: this._requestId,
+      mineTime: this._timestamp,
       miner: this._miner,
       disputeHash: this._disputeHash,
       normalize: () => normalized
@@ -36,7 +36,7 @@ export default class NewDispute extends BaseEvent {
       ...parent,
       id: this._disputeId,
       requestId: this._requestId,
-      miningTime: this._timestamp,
+      mineTime: this._timestamp,
       miner: this._miner,
       disputeHash: this._disputeHash
     }

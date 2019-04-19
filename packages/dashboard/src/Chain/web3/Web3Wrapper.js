@@ -20,8 +20,12 @@ export default class Web3Wrapper {
       'getContract',
       'getTime',
       'getMissingBlockRanges',
-      '_storeBlockTime'
-    ].forEach(fn=>this[fn]=this[fn].bind(this));
+      '_storeBlockTime',
+      'fillBlockGap'
+    ].forEach(fn=>{
+      if(!this[fn]) { throw new Error("Web3Wrapper missing fn: " + fn)}
+      this[fn]=this[fn].bind(this);
+    });
   }
 
   async init() {
@@ -46,7 +50,7 @@ export default class Web3Wrapper {
       await this.web3.eth.clearSubscriptions()
       let em = this.web3.eth.subscribe('newBlockHeaders');
       em.on("data", async (block)=>{
-
+        console.log("Getting new block", block);
         if(block) {
           this.block = block.number;
           this.times[this.block] = block.timestamp;
@@ -101,7 +105,7 @@ export default class Web3Wrapper {
   async getMissingBlockRanges(limit) {
     let all = await Storage.instance.readAll({
       database: dbNames.Blocks,
-      limit,
+      limit: limit || 56000, //7 days worth
       sort: [
         {
           field: "blockNumber",
@@ -139,6 +143,19 @@ export default class Web3Wrapper {
       return a.start - b.start;
     })
     return gaps;
+  }
+
+  async fillBlockGap(gap) {
+    for(let i=gap.start;i<=gap.end;++i) {
+      let t = this.times[i];
+      if(!t) {
+        let b = await this.web3.eth.getBlock(i);
+        if(b) {
+          this.times[i] = b.timestamp;
+          await this._storeBlockTime(b);
+        }
+      }
+    }
   }
 
   async _getLastSeenBlock() {

@@ -4,6 +4,7 @@ import * as dbNames from 'Storage/DBNames';
 import {Creators} from '../actions';
 import eventFactory from 'Chain/LogEvents/EventFactory';
 import {generateDisputeHash} from 'Chain/utils';
+import Vote from './Vote';
 
 const VOTABLE_PERIOD = 7 * 86400; //7 days to vote
 
@@ -16,12 +17,38 @@ class Ops {
       '_lookupInState',
       '_lookupInStorage',
       '_lookupOnChain'
-    ].forEach(fn=>this[fn]=this[fn].bind(this));
+    ].forEach(fn=>{
+      if(!this[fn]) { throw new Error("Dispute missing fn: " + fn)}
+      this[fn]=this[fn].bind(this);
+    });
   }
 
-  voteEvent(nonce) {
+  voteEvent(vote) {
     return async (dispatch,getState) => {
+      let voteValue = vote.agreesWithDisputer?1:-1;
+      let byId = getState().events.tree.byId;
 
+      //TODO: once request id part of vote, we can find matching dispute easier
+      let reqs = _.values(byId);
+      let disp = null;
+      for(let i=0;i<reqs.length;++i) {
+        let r = reqs[i];
+        let match = _.values(r.disputes).filter(d=>d.id===vote.id)[0];
+        if(match) {
+          disp = match;
+          break;
+        }
+      }
+      let user = getState().chain.chain.ethereumAccount;
+      let userVoted = (user === vote.voter);
+      if(disp) {
+        disp = {
+          ...disp,
+          voteCount: disp.voteCount + voteValue,
+          userVoted
+        }
+        dispatch(Creators.voteUpdated(disp));
+      }
     }
   }
 
@@ -46,7 +73,9 @@ class Ops {
 
       d = await dispatch(this._lookupOnChain(hash));
       if(d) {
-        let disp = new Dispute({metadata: d});
+        let norm = d.normalize();
+        let req = getState().events.tree.byId[norm.id];
+        let disp = new Dispute({metadata: d, parent: req});
         dispatch(Creators.addDispute(disp));
         return disp;
       }
@@ -57,7 +86,7 @@ class Ops {
   _lookupInState(hash) {
     return (dispatch, getState) => {
       let state = getState();
-      let reqs = _.values(state.event.tree.byId);
+      let reqs = _.values(state.events.tree.byId);
       for(let i=0;i<reqs.length;++i) {
         let r = reqs[i];
         let d = r.disputes[hash];
@@ -91,37 +120,42 @@ class Ops {
       let state = getState();
       let con = state.chain.contract;
       let id = await con.getDisputeIdByDisputeHash(hash);
+
       if(id) {
+        id = id.toString()-0;
+
         //get variables to recreate dispute metadata
-        let vars = await con.getDisputeById(id);
-        if(vars && vars.length > 0) {
-          /*
-          d.hash,                   0
-          d.executed,               1
-          d.disputeVotePassed,      2
-          d.isPropFork,             3
-          d.reportedMiner,          4
-          d.reportingParty,         5
-          d.proposedForkAddress,    6
-          d.apiId,                  7
-          d.timestamp,              8
-          d.value,                  9
-          d.minExecutionDate,       10
-          d.numberOfVotes,          11
-          d.minerSlot,              12
-          d.tally                   13
-          */
-          let finalDate = vars[10];
+        let vars = await con.getAllDisputeVars(id);
+        /*
+        hash,                     0
+        executed,                 1
+        disputeVotePassed,        2
+        isPropFork,               3
+        reportedMiner,            4
+        reportingParty,           5
+        proposedForkAddress,      6
+        [requestId,               7.0
+         timestamp,               7.1
+         value,                   7.2
+         minExecutionDate,        7.3
+         numberOfVotes,           7.4
+         blockNumber,             7.5
+         minerSlot,               7.6
+         quorum],                 7.7
+         tally                    8
+         */
+
+        if(vars && vars[0] === hash) {
+
+          let finalDate = vars[7][3].toString()-0;
           let submitDate = finalDate - (7*86400);
           let payload = {
             event: "NewDispute",
             timestamp: submitDate,
             returnValues: {
               _disputeId: id,
-              _requestId: vars[7],
-              _timestamp: vars[8],
-              _challengeHash: null, //get this later
-              _disputeHash: vars[0],
+              _requestId: vars[7][0].toString()-0,
+              _timestamp: vars[7][1].toString()-0,
               _miner: vars[4]
             }
           };
@@ -168,6 +202,7 @@ export default class Dispute {
           console.log("No dispute parent request found with id", d.requestId);
           return o;
         }
+
         let disp = new Dispute({
           metadata: d,
           parent: req
@@ -182,6 +217,16 @@ export default class Dispute {
 
         return o;
       },{});
+
+      let disputes = _.values(byHash);
+      let con = getState().chain.contract;
+      for(let i=0;i<disputes.length;++i) {
+        let d = disputes[i];
+        let vars = await con.getAllDisputeVars(d.id);
+        if(vars && vars[5]) {
+          d.disputer = vars[5].toLowerCase();
+        }
+      }
 
       return {byId, byHash};
     }
@@ -232,7 +277,15 @@ export default class Dispute {
   static loadAll(missingBlocks, reqById) {
     return async (dispatch, getState) => {
       let {byId,byHash} = await dispatch(Dispute._retrieveFromCache(reqById));
-      //await dispatch(Dispute._readMissingDisputes({gaps: missingBlocks, byId, byHash}));
+
+      let votesById = await dispatch(Vote.loadAll(missingBlocks, byHash));
+      _.values(byHash).forEach(d=>{
+        let voterInfo = votesById[d.id];
+        if(voterInfo) {
+          d.voteCount = voterInfo.voteCount;
+          d.userVoted = voterInfo.userVoted;
+        }
+      });
       return byId;
     }
   }
@@ -265,11 +318,21 @@ export default class Dispute {
     this.voteCount = this.voteCount || 0;
     this.finalTally =this.finalTally || null;
     if(props.parent) {
-      let ch = props.parent.challenges[this.challengeHash];
-      let nonce = findMatchingNonce(this, ch);
-      if(nonce) {
-        this.value = nonce.value;
+      let match = _.values(props.parent.challenges).filter(c=>c.finalValue && c.finalValue.mineTime===this.mineTime)[0];
+      if(match) {
+        let nonce = findMatchingNonce(this, match);
+
+        if(nonce) {
+          this.value = nonce.value;
+          this.minerIndex = nonce.winningOrder;
+        } else {
+          console.log("No matching nonce found", match.nonces);
+        }
+      } else {
+        console.log("No matching challenge for dispute", props.parent.challenges);
       }
+    } else {
+      console.log("Disputed created without parent request");
     }
   }
 

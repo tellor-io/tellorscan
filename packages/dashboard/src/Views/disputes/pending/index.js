@@ -53,25 +53,41 @@ let disp3 = {
 
 const s2p = (state,own) => {
   let reqsById = state.events.tree.byId;
+  let chain = state.chain.chain || {};
+  let user = chain.ethereumAccount || "";
+  user = user.toLowerCase();
 
   let all = [];
   _.values(reqsById).forEach(r=>{
     let ds = r.disputes || {};
     let challenges = r.challenges || {};
 
-    _.values(ds).forEach(d=>{
-      let c = challenges[d.challengeHash] || {nonces: []}; //what do we do if not here?
-      let match = (c.nonces.filter(n=>n.miner==d.miner)[0])||{};
-      all.push({
+  _.values(ds).forEach(d=>{
+    let canVote = true;
+    let voteReason = null;
+    if(d.userVoted) {
+      canVote = false;
+      voteReason = "already voted"
+    }
+    if(d.disputer === user) {
+      canVote = false;
+      voteReason = "dispute owner";
+    }
+
+    all.push({
         ...d,
         request: r,
-        minerIndex: match.winningOrder,
-        value: match.value || 0,
-        timeRemaining: Dispute.timeRemaining
+        timeRemaining: Dispute.timeRemaining,
+        canVote,
+        voteReason
       });
     })
   });
-  all.sort((a,b)=>a.timestamp-b.timestamp); //those ending first
+  all.sort((a,b)=>{
+    let aRem = Dispute.timeRemaining(a);
+    let bRem = Dispute.timeRemaining(b);
+    return aRem - bRem;
+  }); //those ending first
 
   return {
     disputes: all,

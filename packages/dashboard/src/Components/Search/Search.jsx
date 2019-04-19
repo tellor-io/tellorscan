@@ -61,7 +61,7 @@ export default class Search extends React.Component {
           <div className={cn("rounded",align.full, align.leftCenter)}>
             <i className={cn("search-icon fa fa-search", "m-0", "bg-tellor-green")} onClick={this.doSearch} />
             <div className={cn("input-wrapper", align.full, align.leftCenter, align.noMarginPad)}>
-              <input type="number" placeholder="api-ID" className={cn(align.full, "ml-1", "m-0")}
+              <input type="number" placeholder="request-ID" className={cn(align.full, "ml-1", "m-0")}
                 onChange={this.updateText}
                 onKeyPress={this.keyDown}
               />

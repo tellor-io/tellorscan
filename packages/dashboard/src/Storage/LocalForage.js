@@ -5,7 +5,8 @@ import BaseDB, {
   readAllSchema,
   findSchema,
   updateSchema,
-  removeSchema
+  removeSchema,
+  iterateSchema
 } from './BaseDB';
 import _ from 'lodash';
 import * as dbNames from './DBNames';
@@ -59,7 +60,8 @@ export default class LocalForage extends BaseDB {
       'find',
       'update',
       'remove',
-      'clearAll'
+      'clearAll',
+      'iterate'
     ].forEach(fn=>{
       this[fn]=this[fn].bind(this)
     });
@@ -121,6 +123,15 @@ export default class LocalForage extends BaseDB {
       sortFn(set);
     }
     return set;
+  }
+
+  async iterate(props) {
+    iterateSchema.validateSync(props);
+    if(typeof props.callback !== 'function') {
+      throw new Error("Missing callback function");
+    }
+    let db = await this._getDB(props, dbFactory);
+    await db.iterate(props.callback);
   }
 
   async find(props) {

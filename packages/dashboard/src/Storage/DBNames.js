@@ -7,6 +7,7 @@ export const TipAdded = "TipAdded";
 export const NewAPIonQinfo = "NewAPIonQinfo";
 export const NewChallenge = "NewChallenge";
 export const NewDispute = "NewDispute";
+export const Voted = "Voted";
 export const Blocks = "Blocks";
 export const Metadata = "Metadata";
 export const ChainData = "ChainData";

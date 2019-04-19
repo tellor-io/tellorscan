@@ -7,7 +7,7 @@ export default class NonceSubmitted extends BaseEvent {
       'normalize'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
     const {_miner, _nonce, _requestId, _value, _currentChallenge} = props.returnValues;
-    this._miner = _miner;
+    this._miner = _miner.toLowerCase();
     this._nonce = _nonce;
     this._requestId = this._asNum(_requestId);
     this._value = this._asNum(_value);

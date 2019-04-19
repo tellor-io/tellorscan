@@ -1,6 +1,7 @@
 import {Creators} from './actions';
 import Request from './model/Request';
 import Challenge from './model/Challenge';
+import Dispute from './model/Dispute';
 import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
 import eventFactory from 'Chain/LogEvents/EventFactory';
@@ -69,7 +70,7 @@ const _initSubs = () => (dispatch, getState) => {
         }
       }
 
-      if(tree) {
+      //if(tree) {
         switch(norm.name) {
           case dbNames.DataRequested: {
             await dispatch(Creators.addRequest(tree));
@@ -94,7 +95,14 @@ const _initSubs = () => (dispatch, getState) => {
           }
 
           case dbNames.NewDispute: {
+            console.log("Getting dispute event");
             await dispatch(Request.ops.disputeEvent(norm));
+            break;
+          }
+
+          case dbNames.Voted: {
+            console.log("Getting vote");
+            await dispatch(Dispute.ops.voteEvent(norm));
             break;
           }
 
@@ -102,7 +110,7 @@ const _initSubs = () => (dispatch, getState) => {
             console.log("Not handling event", norm.name);
           }
         }
-      }
+      //}
     }
   });
   subscribed = true;
