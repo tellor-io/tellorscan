@@ -9,8 +9,14 @@ export default class Voted extends BaseEvent {
 
     const {_disputeID, _position, _voter} = props.returnValues;
     this._disputeID = this._asNum(_disputeID);
+    this.id = this._disputeID;
+
     this._position = _position;
+    this.agreesWithDisputer = this._position;
+    this.position = this._position;
+
     this._voter = _voter.toLowerCase();
+    this.voter = this._voter;
   }
 
   normalize() {
@@ -20,6 +26,7 @@ export default class Voted extends BaseEvent {
       id: this._disputeID,
       agreesWithDisputer: this._position,
       voter: this._voter,
+      position: this.position,
       normalize: () => normalized
     }
 
@@ -32,6 +39,7 @@ export default class Voted extends BaseEvent {
       ...parent,
       id: this._disputeID,
       agreesWithDisputer: this._position,
+      position: this.position,
       voter: this._voter
     }
   }

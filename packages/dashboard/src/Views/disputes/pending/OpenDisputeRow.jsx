@@ -16,6 +16,7 @@ class DisputeInfo extends React.Component {
       dispute,
       expanded
     } = this.props;
+
     let remaining = dispute.timeRemaining(dispute);
     remaining = humanizeDuration(remaining*1000);
     let v = dispute.voteCount;
@@ -55,12 +56,12 @@ class DisputeInfo extends React.Component {
         </Col>
         <Col md='2' className={cn(align.allCenter, align.noMarginPad)}>
           <span className={cn("p-1", "text-center", "text-1")}>
-            {dispute.minerIndex}
+            {dispute.targetNonce.winningOrder}
           </span>
         </Col>
         <Col md='2' className={cn(align.allCenter, align.noMarginPad)}>
           <span className={cn("p-1", "text-center", "text-1")}>
-            {dispute.value}
+            {dispute.targetNonce.value}
           </span>
         </Col>
         <Col md='2' className={cn(align.allCenter, align.noMarginPad)}>
@@ -92,7 +93,9 @@ const detailRows = [
   },
   {
     label: "Disputer",
-    value: (r, d) => d.disputer
+    value: (r, d) => {
+      return d.sender;
+    }
   },
   {
     label: "Time Remaining",

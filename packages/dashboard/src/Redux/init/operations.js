@@ -6,6 +6,7 @@ import {default as analyticOps} from 'Redux/analytics/operations';
 import {default as tipOps} from 'Redux/tips/operations';
 import {default as disputeOps} from 'Redux/disputes/operations';
 import {default as tokenOps} from 'Redux/token/operations';
+import {default as reqOps} from 'Redux/requests/operations';
 
 import {registerDeps} from 'Redux/DepMiddleware';
 import {Types as settingsTypes} from 'Redux/settings/actions';
@@ -27,6 +28,11 @@ const initEvents = props => {
   .then(()=>{
     return props
   });
+}
+
+const initRequests = props => {
+  return props.dispatch(reqOps.init())
+  .then(()=>props);
 }
 
 const initAnalytics = props => {
@@ -56,7 +62,7 @@ const unloadChain = props => {
 
 const startSubscriptions = props => {
   return props.dispatch(chainOps.startSubscriptions())
-      .then(()=>props);
+        .then(()=>props);
 }
 
 const start = () => (dispatch,getState) => {
@@ -78,7 +84,7 @@ const _doStart = () => (dispatch,getState) => {
   }
   return initChain(props)
         .then(initToken)
-        .then(initEvents)
+        .then(initRequests)
         .then(initCurrent)
         .then(initTips)
         .then(initDisputes)

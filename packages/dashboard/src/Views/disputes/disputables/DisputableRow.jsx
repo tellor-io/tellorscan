@@ -10,6 +10,8 @@ import * as align from 'Constants/alignments';
 import {formatTimeLong} from 'Utils/time';
 import moment from 'moment';
 import Button from 'Components/DisputeButton';
+import _ from 'lodash';
+import {default as dispOps} from 'Redux/disputes/operations';
 
 const DISPUTABLE_PERIOD = 7 * 86400;
 
@@ -38,8 +40,8 @@ const nonceRows = [
   {
     value: ch => {
       let remaining = 0;
-      if(ch.timeRemaining && ch.finalValue) {
-        remaining = ch.timeRemaining(ch);
+      if(ch.finalValue) {
+        remaining = dispOps.timeRemaining(ch);
       } else {
         return "unknown"
       }
@@ -68,6 +70,7 @@ class NonceDetail extends React.Component {
         <Col md="10" className={cn(align.topCenter, align.noMarginPad)}>
           {
             nonceRows.map((r,i)=>{
+
               let val  = null;
               if(r.field) {
                 val = challenge[r.field];
@@ -153,7 +156,10 @@ export default class DisputableRow extends React.Component {
   }
 
   buildNormalCols(challenge) {
-    let nonces = challenge.nonces || [];
+
+    let nonces = _.values(challenge.nonces) || [];
+    nonces.sort((a,b)=>a.winningOrder-b.winningOrder);
+
     let exIcon = this.props.expanded?"fa-caret-up":"fa-caret-down";
     return (
       <React.Fragment>
@@ -173,11 +179,13 @@ export default class DisputableRow extends React.Component {
         </Col>
         {
           nonces.map((n,i)=>{
-            let selected = this.props.selectedNonce === i && this.props.expanded;
+            let selected = this.props.selectedNonce === n && this.props.expanded;
             let borderClass = selected?"border border-dark":undefined;
             return (
               <Col key={i} md='2' className={cn(align.leftCenter, align.noMarginPad)}>
-                <span onClick={()=>{this.props.selectForDispute(challenge, n)}}
+                <span onClick={()=>{
+                  this.props.selectForDispute(challenge, n)
+                }}
                       className={cn("value-tab", "p-1", "rounded", "text-center", "text-1", {["bg-tellor-muted"]: selected}, borderClass)}>
                   {n.value}
                 </span>
@@ -197,7 +205,7 @@ export default class DisputableRow extends React.Component {
       expanded
     } = this.props;
     let loading = !challenge.finalValue;
-    let selNonce = challenge.nonces[this.props.selectedNonce] || {};
+    let selNonce = this.props.selectedNonce || {};
     let details = (
       <NonceCollapse dispute={this.props.dispute} challenge={challenge} nonce={selNonce} expanded={expanded} />
     )

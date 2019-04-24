@@ -17,6 +17,15 @@ export const createSchema = yup.object().shape({
   data: yup.object().required("Missing data object to store")
 });
 
+export const createBulkSchema = yup.object().shape({
+  database: dbBaseSchema,
+
+  items: yup.array().of(yup.object().shape({
+    key: yup.string().required("Need a key to store data"),
+    value: yup.object().required("Missing value object to store")
+  }))
+});
+
 export const sortSchema = yup.object().shape({
   field: yup.string().required("Missing sort field name"),
   order: yup.string().required("Missing order")

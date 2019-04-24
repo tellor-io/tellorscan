@@ -8,7 +8,7 @@ import {default as chainOps} from 'Redux/chain/operations';
 import {default as disputeOps} from 'Redux/disputes/operations';
 
 const s2p = (state,own) => {
-  let byId = state.events.tree.byId;
+  let byId = state.requests.byId; //state.events.tree.byId;
   let id = own.match.params['apiID'];
   let reqs = _.values(byId);
   if(id) {
@@ -23,12 +23,12 @@ const s2p = (state,own) => {
     _.keys(r.challenges).forEach(k=>{
 
       let c = r.challenges[k];
-      if(c.isDisputable && c.isDisputable(c)) {
+      if(disputeOps.isDisputable(c)) {
         challenges.push(c);
       }
     });
   });
-  let current = state.current.currentChallenge || {};
+  let current = state.requests.current || {}; //state.current.currentChallenge || {};
 
   challenges.sort((a,b)=>{
     return b.blockNumber - a.blockNumber;
@@ -45,13 +45,12 @@ const s2p = (state,own) => {
 
   let selCh = state.disputes.selectedChallenge || {};
   let selNonce = state.disputes.selectedNonce || {};
-  let nonces = selCh.nonces || [];
-  let selNonceIndex = _.findIndex(nonces, (n=>n.miner === selNonce.miner));
+  let nonces = _.values(selCh.nonces) || [];
   return {
     expandedHash: selCh.challengeHash,
-    selectedNonce: selNonceIndex || 0,
+    selectedNonce: selNonce,
     challenges,
-    loading: state.events.tree.loading
+    loading: state.requests.loading || state.init.loading
   }
 }
 
@@ -68,6 +67,7 @@ const d2p = (dispatch,own) => {
       dispatch(dispOps.toggleDisputeSelection(ch));
     },
     initiateDispute: (ch, nonce) => {
+      console.log("Incoming nonce", nonce);
       let props = {
         miner: {
           index: nonce.winningOrder,

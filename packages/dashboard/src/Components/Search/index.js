@@ -6,7 +6,7 @@ import {default as reqOps} from 'Redux/events/tree/operations';
 
 const s2p = state => {
   return {
-    loading: state.events.tree.loading
+    loading: state.requests.loading || state.init.loading
   }
 }
 

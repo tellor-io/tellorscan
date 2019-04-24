@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import cn from 'classnames';
 import * as align from 'Constants/alignments';
 import {
@@ -28,7 +29,7 @@ export default class ChallengeProgress extends React.Component {
     const {
       challenge
     } = this.props;
-    if(challenge.nonces.length === 5) {
+    if(challenge.finalValue) {
       //all filled
       return (
         <Row className={cn("progress-slots", align.noMarginPad, align.allCenter, align.full)}>
@@ -40,9 +41,9 @@ export default class ChallengeProgress extends React.Component {
         </Row>
       )
     }
-    
+
     let filled = [false, false, false, false, false];
-    challenge.nonces.forEach((n, i)=>filled[i]=true);
+    _.values(challenge.nonces).forEach((n, i)=>filled[i]=true);
 
     return (
       <Row className={cn("progress-slots", align.noMarginPad, align.allCenter, align.full)}>

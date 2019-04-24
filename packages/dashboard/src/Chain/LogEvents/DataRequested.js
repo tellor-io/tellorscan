@@ -12,11 +12,22 @@ export default class DataRequested extends BaseEvent {
     const {sender, _query, _querySymbol, _granularity,  _requestId,  _totalTips} = props.returnValues;
     this.sender = sender;
     this._query = _query;
+    this.queryString = _query;
+
     this._granularity = this._asNum(_granularity);
+    this.multiplier = this._granularity;
+
     this._requestId = this._asNum(_requestId);
+    this.id = this._requestId;
+
     this._value = this._asNum(_totalTips);
+    this.value = this._value;
+
     this._symbol = _querySymbol?_querySymbol.toUpperCase():undefined;
+    this.symbol = this._symbol;
+
     this._queryHash = generateQueryHash(_query, this._granularity);
+    this.queryHash = this._queryHash;
   }
 
   normalize() {

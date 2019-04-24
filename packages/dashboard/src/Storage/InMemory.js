@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import BaseDB, {
   createSchema,
+  createBulkSchema,
   readSchema,
   readAllSchema,
   findSchema,
@@ -21,6 +22,7 @@ class DB {
     this.kvs = {};
     [
       'create',
+      'createBulk',
       'read',
       'readAll',
       'find',
@@ -39,6 +41,14 @@ class DB {
     this.kvs[props.key] = {
       ...props.data
     }
+  }
+
+  createBulk(props) {
+    props.items.forEach(i=>{
+      this.kvs[i.key] = {
+        ...i.data
+      }
+    });
   }
 
   read(query) {
@@ -138,6 +148,7 @@ export default class InMemory extends BaseDB {
 
     [
       'create',
+      'createBulk',
       'read',
       'readAll',
       'find',
@@ -186,6 +197,13 @@ export default class InMemory extends BaseDB {
     let db = await this._getDB(props, this.dbFactory);
     db.create(props);
     this.next.create(props);
+  }
+
+  async createBulk(props) {
+    createBulkSchema.validateSync(props);
+    let db = await this._getDB(props, this.dbFactory);
+    db.createBulk(props);
+    this.next.createBulk(props); 
   }
 
   async read(props) {

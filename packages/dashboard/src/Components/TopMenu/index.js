@@ -6,6 +6,7 @@ import {default as tokenOps} from 'Redux/token/operations';
 
 const s2p = state => {
   return {
+    loading: state.requests.loading || state.init.loading,
     balance: state.token.balance,
     tokenLoading: state.token.loading
   }

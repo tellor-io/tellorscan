@@ -1,6 +1,8 @@
 import localforage from 'localforage';
+import {extendPrototype} from 'localforage-setitems';
 import BaseDB, {
   createSchema,
+  createBulkSchema,
   readSchema,
   readAllSchema,
   findSchema,
@@ -10,6 +12,8 @@ import BaseDB, {
 } from './BaseDB';
 import _ from 'lodash';
 import * as dbNames from './DBNames';
+
+extendPrototype(localforage);
 
 const dbFactory = async props => {
   var db = await localforage.createInstance({
@@ -55,6 +59,7 @@ export default class LocalForage extends BaseDB {
 
     [
       'create',
+      'createBulk',
       'read',
       'readAll',
       'find',
@@ -90,6 +95,16 @@ export default class LocalForage extends BaseDB {
       console.log("Problem storing to", props.database, e);
     }
 
+  }
+
+  async createBulk(props) {
+    createBulkSchema.validateSync(props);
+    let db = await this._getDB(props, dbFactory);
+    try {
+      await db.setItems(props.items);
+    } catch (e) {
+      console.log("Problem storing items", props.database, e);
+    }
   }
 
   async read(props) {

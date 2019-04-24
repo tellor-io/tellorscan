@@ -18,6 +18,7 @@ export default class Web3Contract {
 
     [
       'init',
+      'emitEvents',
       'getPastEvents',
       'startSubscriptions',
       'unload',
@@ -54,6 +55,7 @@ export default class Web3Contract {
       chain: this._emitter //pretend our emitter is the blockchain
     });
 
+    /***
     console.log("Subscribing to events....");
     this.sub = this.master.events.allEvents(null, async (e, evt)=>{
       if(singleton !== this) {
@@ -69,6 +71,12 @@ export default class Web3Contract {
         }
       }
     });
+    ***/
+  }
+
+  emitEvents(events) {
+    console.log("Emitting events", events);
+    this._emitter.emit("blockEvents", {events});
   }
 
   async getPastEvents(event, opts, callback) {
@@ -76,6 +84,8 @@ export default class Web3Contract {
     //creations will expect to retrieve the timestamp for each block
     //so we need to have the time available before any event gets distributed
     //downstream.
+
+    console.log("Something is getting all pass events", opts);
 
     let r = await this.master.getPastEvents(event||"allEvents", opts, async (err, events) => {
       if(events) {
@@ -143,6 +153,10 @@ export default class Web3Contract {
   }
 
   async init() {
+
+    if(true) {
+      return;
+    }
 
     //pull all missing data and write to storage. This will make
     //initialization of all event structures seamless as they pull
@@ -239,7 +253,7 @@ export default class Web3Contract {
   didVote(disputeId, user) {
     return this._call(this.master, "didVote", [disputeId, user]);
   }
-  
+
   vote(disputeId, supportsDisputer) {
     return this._send(this.master, "vote", [disputeId, supportsDisputer]);
   }

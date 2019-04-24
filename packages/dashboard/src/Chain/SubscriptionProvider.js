@@ -5,18 +5,28 @@ import Storage from 'Storage';
 import eventFactory from 'Chain/LogEvents/EventFactory';
 import {Mutex} from 'async-mutex';
 
+let id = 0;
 export default class SubscriptionProvider {
   constructor(props) {
     this.chain = props.chain;
     this.allListeners = [];
+    this.blockListeners = [];
     this.mutex = new Mutex();
+    this.id = id++;
 
     [
       'once',
       'allEvents',
+      'allBlockEvents',
       '_sub',
       '_filterAndNotify'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
+
+    this.chain.on("blockEvents", e=> {
+      this.blockListeners.forEach(bl=>{
+        bl.callback(null, e.events);
+      })
+    });
 
     //treat each defined event type as a function that user can
     //subscribe to.
@@ -42,6 +52,7 @@ export default class SubscriptionProvider {
 
             console.log("Receiving event from chain", actual.event);
             //store all incoming events
+            /***
             try {
               await Storage.instance.create({
                 database: actual.event,//event name === db name
@@ -53,6 +64,7 @@ export default class SubscriptionProvider {
             }
 
             console.log("Stored event", actual.event);
+            ***/
 
             if(this.allListeners.length > 0) {
               console.log("Notifying allListener for event", actual.event);
@@ -85,6 +97,10 @@ export default class SubscriptionProvider {
       options: opts,
       callback: cb
     });
+  }
+
+  allBlockEvents(opts, cb) {
+    this.blockListeners.push({options: opts, callback: cb});
   }
 
 

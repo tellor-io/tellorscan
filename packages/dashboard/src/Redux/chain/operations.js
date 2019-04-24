@@ -5,22 +5,26 @@ import {generateQueryHash, generateDisputeHash} from 'Chain/utils';
 
 import {registerDeps} from 'Redux/DepMiddleware';
 import {Types as settingsTypes} from 'Redux/settings/actions';
+import ethProcs from './procs';
 
 const init = () => async (dispatch,getState) => {
-  /*registerDeps([settingsTypes.CLEAR_HISTORY_SUCCESS], async () => {
-    let state = getState();
-    return state.chain.chain.init();
-  });*/
-
   dispatch(Creators.loadRequest());
-  //TODO: pass any init props if needed
   chainInit();
   let chain = Chain(); //shared instance of whatever chain source we're using
   try {
-    await chain.init(chain);
+    await dispatch(chain.init());
     dispatch(Creators.loadSuccess(chain));
+    await dispatch(ethProcs.init());
   } catch (e) {
     dispatch(Creators.failure(e));
+  }
+}
+
+const startSubscriptions = () => async (dispatch,getState) => {
+  try {
+    await dispatch(ethProcs.ready());
+  } catch (e) {
+    console.log("Could not start eht processors", e);
   }
 }
 
@@ -28,6 +32,7 @@ const unload = () => async (dispatch, getState) => {
   try {
 
     let chain = getState().chain.chain;
+    await dispatch(ethProcs.unload());
     await chain.unload();
   } catch (e) {
     //have to ignore
@@ -99,7 +104,7 @@ const _doInitDispute = props => async (dispatch, getState) => {
 
 const addToTip = (id,tip) => (dispatch, getState) => {
   let state = getState();
-  let req = state.events.tree.byId[id];
+  let req = state.requests.byId[id];
   if(req) {
     let con = state.chain.contract;
     return con.addTip(req.id, tip);
@@ -112,10 +117,6 @@ const getTokens = () => (dispatch, getState) => {
   return con.getTokens();
 }
 
-const startSubscriptions = () => async (dispatch, getState) => {
-  let con = getState().chain.contract;
-  await con.startSubscriptions();
-}
 
 export default {
   init,

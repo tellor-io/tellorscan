@@ -7,8 +7,8 @@ import {default as dispOps} from 'Redux/disputes/operations';
 
 const s2p = state => {
   //let mining = state.events.mining;
-  let byId = state.events.tree.byId;
-  let currentChallenge  = state.current.currentChallenge || {};
+  let byId = state.requests.byId;
+  let currentChallenge  = state.requests.current || {};
 
   let requests = _.values(byId) || [];
   let challenges = [];
@@ -23,7 +23,7 @@ const s2p = state => {
     return b.blockNumber - a.blockNumber; //descending so reverse comp
   });
 
-  let loading = state.events.tree.loading;
+  let loading = state.requests.loading || state.init.loading;
   return {
     loading,
     challenges

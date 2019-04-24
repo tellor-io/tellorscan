@@ -14,16 +14,21 @@ import ReqData from './modals/requestData';
 
 export default class Dashboard extends React.Component {
   render() {
+    const {
+      loading
+    } = this.props;
+
     return (
       <div className={cn("dashboard-container", align.topCenter, align.full)}>
         <ReqData />
-        
+
         <Menu withLogo title="Dashboard"/>
-        <Search />
+        <Search loading={loading}/>
         <Overview />
         <Row className={cn(align.allCenter, align.full, "mb-4", "mt-4")}>
           <Col md="5" className={cn("request-button-wrapper", align.allCenter, "p-2")}>
             <Button size="lg"
+                    disabled={loading}
                     className={cn("request-button")}
                     onClick={()=>this.props.requestData()}>Request Data</Button>
           </Col>

@@ -2,8 +2,13 @@ import {connect} from 'react-redux';
 import Tip from './CurrentTip';
 
 const s2p = state => {
-  let current = state.current.currentChallenge;
-  if(!current) {
+  let meta = state.requests.current;
+  let current = null;
+  if(meta) {
+    current = state.requests.byId[meta.id].challenges[meta.challengeHash];
+  }
+
+  if(!current || current.finalValue) {
     return {
       tip: 0
     }

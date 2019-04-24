@@ -1,17 +1,28 @@
 import {connect} from 'react-redux';
 import Slots from './Slots';
+import _ from 'lodash';
 
 const TOTAL_SLOTS = 5;
 
 const s2p = state => {
-  let current = state.current || {};
-  let challenge = current.currentChallenge;
-  let slots = current.minedSlots || 0;
-  let filled = [];
-  for(let i=0;i<TOTAL_SLOTS;++i) {
-    filled[i] = (i<slots);
+  let meta = state.requests.current;
+  let current = null;
+  if(meta) {
+    current = state.requests.byId[meta.id].challenges[meta.challengeHash];
   }
-  let pending = (typeof challenge !== 'undefined') && challenge !== null;
+  let filled = [];
+  let pending = (typeof current !== 'undefined') && current !== null;
+
+  if(!current || current.finalValue) {
+    current = null;
+    pending = false;
+  } else {
+    let slots = _.keys(current.nonces).length;
+    for(let i=0;i<TOTAL_SLOTS;++i) {
+      filled[i] = (i<slots);
+    }
+  }
+
   return {
     pending,
     filled

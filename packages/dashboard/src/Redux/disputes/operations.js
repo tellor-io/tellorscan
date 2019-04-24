@@ -8,6 +8,8 @@ import {default as chainOps} from 'Redux/chain/operations';
 import {generateDisputeHash} from 'Chain/utils';
 import {toastr} from 'react-redux-toastr';
 
+const DISPUTABLE_PERIOD = 86400; //1 day in seconds
+const VOTABLE_PERIOD = 7 * 86400; //7 days to vote
 const init = () => async (dispatch,getState) => {
   dispatch(Creators.initStart());
   //load disputes
@@ -15,6 +17,7 @@ const init = () => async (dispatch,getState) => {
 }
 
 const selectForDispute = (ch, nonce) => dispatch => {
+  console.log("Dispute nonce", nonce);
   dispatch(Creators.selectForDispute(ch, nonce));
 }
 
@@ -28,7 +31,10 @@ const toggleDisputeSelection = (ch) => (dispatch,getState) => {
   if(selCh.challengeHash === ch.challengeHash) {
     dispatch(clearDisputeSelection());
   } else {
-    let selNonce = state.disputes.selectedNonce || ch.nonces[0];
+    let selNonce = state.disputes.selectedNonce;
+    if(!selNonce) {
+      selNonce = _.values(ch.nonces).filter(n=>n.winningOrder===0)[0];
+    }
     dispatch(selectForDispute(ch, selNonce));
   }
 }
@@ -38,6 +44,8 @@ const findByDisputeHash = (hash) => (dispatch) => {
 }
 
 const initDispute = props => async (dispatch,getState) => {
+  console.log("initDispute", props);
+
   let hash = generateDisputeHash({miner: props.miner.address, requestId: props.requestId, timestamp: props.timestamp});
   let ex = await dispatch(findByDisputeHash(hash));
   if(ex) {
@@ -70,6 +78,26 @@ const _vote = (dispute,pos) => async (dispatch, getState) => {
   }
 }
 
+const timeRemaining = (challenge) => {
+  let now = Math.floor(Date.now()/1000);
+  let end = challenge.finalValue?challenge.finalValue.mineTime:0;
+  return DISPUTABLE_PERIOD - (now - end);
+}
+
+const voteTimeRemaining = (dispute) => {
+  let now = Math.floor(Date.now()/1000);
+  let end = dispute.timestamp || 0;
+  return VOTABLE_PERIOD - (now - end);
+}
+
+const isDisputable = (challenge) => {
+  if(!challenge.finalValue) {
+      return true;
+  }
+  let diff = timeRemaining(challenge);
+  return diff > 0;
+}
+
 export default {
   init,
   initDispute,
@@ -78,6 +106,9 @@ export default {
   voteDown,
   selectForDispute,
   clearDisputeSelection,
-  toggleDisputeSelection
+  toggleDisputeSelection,
+  isDisputable,
+  timeRemaining,
+  voteTimeRemaining
 
 }

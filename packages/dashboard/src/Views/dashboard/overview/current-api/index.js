@@ -3,15 +3,17 @@ import Current from './CurrentApi';
 import {withRouter} from 'react-router-dom';
 
 const s2p = state => {
-  let current = state.current.currentChallenge;
-  if(current && !current.id) {
+  let meta = state.requests.current;
+  let current = null;
+  if(meta) {
+    current = state.requests.byId[meta.id].challenges[meta.challengeHash];
+  }
+
+  if(current && (!current.id || current.finalValue)) {
     current = null;
-  } else if(current){
-    let req = state.events.tree.byId[current.id] || {};
-    current.symbol = req.symbol;
   }
   return {
-    loading: state.current.loading,
+    loading: state.requests.loading || state.init.loading,
     current
   }
 }

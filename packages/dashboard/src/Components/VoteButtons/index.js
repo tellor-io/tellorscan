@@ -14,7 +14,7 @@ const s2p = (state,own) => {
     if(disp.userVoted) {
       canVote = false;
       voteReason = "already voted";
-    } else if(disp.disputer === user) {
+    } else if(disp.sender === user) {
       canVote = false;
       voteReason = "dispute owner";
     } else {

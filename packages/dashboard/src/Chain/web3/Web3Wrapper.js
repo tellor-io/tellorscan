@@ -7,6 +7,7 @@ import abi from 'Chain/abi';
 import Web3Contract from './Web3Contract';
 import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
+import {Creators as ChainCreators} from 'Redux/chain/actions';
 
 export default class Web3Wrapper {
   constructor(props) {
@@ -28,46 +29,57 @@ export default class Web3Wrapper {
     });
   }
 
-  async init() {
-    if(this.contract) {
-      await this.contract.init();
-      return;
-    }
-
-    let ethProvider = window.ethereum;
-    if(!ethProvider && window.web3){
-      ethProvider =  window.web.currentProvider;
-    }
-    if(ethProvider) {
-      this.web3 = new Web3(ethProvider);
-      let acts = await ethProvider.enable();
-      if(!acts) {
-        //user denied access to app
-        acts = [];
+  init() {
+    return async (dispatch, getState) => {
+      if(this.contract) {
+        await this.contract.init();
+        return;
       }
-      this.block = await this.web3.eth.getBlockNumber();
 
-      await this.web3.eth.clearSubscriptions()
-      let em = this.web3.eth.subscribe('newBlockHeaders');
-      em.on("data", async (block)=>{
-        console.log("Getting new block", block);
-        if(block) {
-          this.block = block.number;
-          this.times[this.block] = block.timestamp;
-          //TODO: cleanup times if the client will run for a long time!
-          await this._storeBlockTime(this.block);
+      let ethProvider = window.ethereum;
+      if(!ethProvider && window.web3){
+        ethProvider =  window.web.currentProvider;
+      }
+      if(ethProvider) {
+
+        this.web3 = new Web3(ethProvider);
+        let acts = await ethProvider.enable();
+        if(!acts) {
+          //user denied access to app
+          acts = [];
         }
-      });
+        ethProvider.on('accountsChanged', (accounts) => {
+          this.ethereumAccount = accounts[0];
+          this.contract.caller = accounts[0];
+          dispatch(ChainCreators.loadSuccess(this));
+        });
+        this.block = await this.web3.eth.getBlockNumber();
+        console.log("Latest block", this.block);
 
-      let master = new this.web3.eth.Contract(abi, DEFAULT_MASTER_CONTRACT, {
-        address: DEFAULT_MASTER_CONTRACT
-      });
-      let tellor = new this.web3.eth.Contract(abi, DEFAULT_TELLOR_CONTRACT, {
-        address: DEFAULT_TELLOR_CONTRACT
-      });
-      this.contract = new Web3Contract({chain: this, master, tellor, caller: acts[0]});
-      this.ethereumAccount = acts[0];
-      await this.contract.init();
+        /*
+        await this.web3.eth.clearSubscriptions()
+        let em = this.web3.eth.subscribe('newBlockHeaders');
+        em.on("data", async (block)=>{
+          console.log("Getting new block", block);
+          if(block) {
+            this.block = block.number;
+            this.times[this.block] = block.timestamp;
+            //TODO: cleanup times if the client will run for a long time!
+            await this._storeBlockTime(this.block);
+          }
+        });
+        */
+
+        let master = new this.web3.eth.Contract(abi, DEFAULT_MASTER_CONTRACT, {
+          address: DEFAULT_MASTER_CONTRACT
+        });
+        let tellor = new this.web3.eth.Contract(abi, DEFAULT_TELLOR_CONTRACT, {
+          address: DEFAULT_TELLOR_CONTRACT
+        });
+        this.contract = new Web3Contract({chain: this, master, tellor, caller: acts[0]});
+        this.ethereumAccount = acts[0];
+        await this.contract.init();
+      }
     }
   }
 

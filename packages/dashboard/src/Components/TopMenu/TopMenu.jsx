@@ -20,6 +20,7 @@ import Loading from 'Components/Loading';
 export default class TopMenu extends React.Component {
   render() {
     const {
+      loading,
       balance,
       withSearch,
       title,
@@ -105,6 +106,7 @@ export default class TopMenu extends React.Component {
 
     return (
       <Navbar light expand="sm" className={cn(barClass)}>
+      
          {topBody}
          {body}
       </Navbar>

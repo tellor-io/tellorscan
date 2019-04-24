@@ -10,6 +10,7 @@ import {default as analytics} from './analytics/reducers';
 import {default as tips} from './tips/reducers';
 import {default as disputes} from './disputes/reducers';
 import {default as token} from './token/reducers';
+import {default as requests} from './requests/reducers';
 
 export default combineReducers({
   toastr: toastrReducer,
@@ -22,5 +23,6 @@ export default combineReducers({
   analytics,
   tips,
   disputes,
-  token
+  token,
+  requests
 });

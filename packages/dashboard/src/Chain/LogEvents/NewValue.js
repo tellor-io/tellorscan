@@ -8,9 +8,16 @@ export default class NewValue extends BaseEvent {
     ].forEach(fn=>this[fn]=this[fn].bind(this));
     const {_requestId, _time, _value, _currentChallenge} = props.returnValues;
     this._requestId = this._asNum(_requestId);
+    this.id = this._requestId;
+
     this._time = this._asNum(_time);
+    this.mineTime = this._time;
+
     this._value = this._asNum(_value);
+    this.value = this._value;
+
     this._challengeHash = _currentChallenge;
+    this.challengeHash = this._challengeHash;
   }
 
   normalize() {

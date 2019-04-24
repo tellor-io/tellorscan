@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import cn from 'classnames';
 import * as align from 'Constants/alignments';
 import {
@@ -61,6 +62,8 @@ export default class ChallengeBody extends React.Component {
     } = this.props;
     let dFn = challenge.isDisputable;
     let disputable = dFn?dFn(challenge):true;
+    let nonces = _.values(challenge.nonces);
+    nonces.sort((a,b)=>a.winningOrder-b.winningOrder);
 
     return (
       <Row className={cn(align.topCenter, align.full, align.noMarginPad)}>
@@ -80,10 +83,10 @@ export default class ChallengeBody extends React.Component {
         </Col>
         <Col md="12" className={cn(align.topCenter, align.noMarginPad)}>
           {
-            challenge.nonces.map((n,i)=>{
+            nonces.map((n,i)=>{
 
               return (
-                <NonceRow dispute={(idx)=>this.props.dispute(challenge, challenge.nonces[idx])} nonce={n} idx={i} key={i} disputable={disputable}/>
+                <NonceRow dispute={(idx)=>this.props.dispute(challenge, n)} nonce={n} idx={i} key={i} disputable={disputable}/>
               )
             })
           }

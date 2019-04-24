@@ -7,8 +7,8 @@ import {default as dispOps} from 'Redux/disputes/operations';
 
 const s2p = (state,own) => {
   let id = own.match.params['apiID'];
-  let req = state.events.tree.byId[id] || {};
-  let current = state.current.currentChallenge || {};
+  let req = state.requests.byId[id] || {}; //state.events.tree.byId[id] || {};
+  let current = state.requests.current || {}; //state.current.currentChallenge || {};
 
   let challenges = _.values(req.challenges);
   //put any current challenge on the top

@@ -9,11 +9,22 @@ export default class NewChallenge extends BaseEvent {
 
     const {_currentChallenge, _currentRequestId, _difficulty, _multiplier,  _query,  _totalTips} = props.returnValues;
     this._currentChallenge = _currentChallenge;
+    this.challengeHash = this._currentChallenge;
+
     this._multiplier = this._asNum(_multiplier);
+    this.multiplier = this._multiplier;
+
     this._currentRequestId = this._asNum(_currentRequestId);
+    this.id = this._currentRequestId;
+
     this._difficulty = this._asNum(_difficulty);
+    this.difficulty = this._difficulty;
+
     this._query = _query;
+    this.queryString = this._query;
+
     this._value = this._asNum(_totalTips);
+    this.tip = this._value;
   }
 
   normalize() {

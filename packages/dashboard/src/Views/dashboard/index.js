@@ -5,7 +5,7 @@ import {default as modalOps} from 'Redux/modals/operations';
 
 const s2p = state => {
   return {
-
+    loading: state.init.loading
   }
 }
 

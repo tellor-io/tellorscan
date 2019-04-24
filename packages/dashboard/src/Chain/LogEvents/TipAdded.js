@@ -6,12 +6,19 @@ export default class TipAdded extends BaseEvent {
     [
       'normalize'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
-  
+
     const {_sender, _requestId, _tip, _totalTips} = props.returnValues;
     this._sender = _sender;
+    this.sender = this._sender;
+
     this._requestId = this._asNum(_requestId);
+    this.id = this._requestId;
+
     this._tip = this._asNum(_tip);
+    this.tip = this._tip;
+
     this._totalTips = this._asNum(_totalTips);
+    this.totalTips = this._totalTips;
   }
 
   normalize() {

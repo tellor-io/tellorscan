@@ -53,6 +53,7 @@
     "cross-env": "^5.2.0",
     "font-awesome": "^4.7.0",
     "localforage": "^1.7.3",
+    "localforage-setitems": "^1.4.0",
     "moment": "^2.24.0",
     "node-sass": "^4.11.0",
     "react": "^16.6.3",

@@ -10,6 +10,7 @@ import * as align from 'Constants/alignments';
 export default class MainSearch extends React.Component {
   render() {
     let {
+      loading,
       title
     } = this.props;
     if(!title) {
@@ -22,7 +23,7 @@ export default class MainSearch extends React.Component {
             <div className={cn(align.leftCenter, align.full, "p-0", "m-0", "text-sz-md", "text-light", "font-weight-bold")}>
               {title}
             </div>
-            <Search {...this.props} className={cn("bg-light", "rounded")}/>
+            <Search loading={loading} {...this.props} className={cn("bg-light", "rounded")}/>
           </Row>
         </Col>
       </Row>

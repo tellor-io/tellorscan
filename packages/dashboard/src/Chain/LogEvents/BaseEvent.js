@@ -5,6 +5,8 @@ export default class BaseEvent {
       'toJSON',
       '_asNum'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
+    this.sender = props.sender;
+    this.fnContext = props.fnContext;
     this.event = props.event;
     this.name = props.event;
     this.signature = props.signature;
@@ -20,7 +22,7 @@ export default class BaseEvent {
     if(!v) {
       return v;
     }
-    
+
     if(v.toString) {
       return v.toString()-0;
     }
@@ -29,6 +31,7 @@ export default class BaseEvent {
 
   normalize() {
     return {
+      fnContext: this.fnContext,
       name: this.name || this.event,
       signature: this.signature,
       address: this.address,
@@ -40,6 +43,8 @@ export default class BaseEvent {
 
   toJSON() {
     return {
+      sender: this.sender,
+      fnContext: this.fnContext,
       name: this.name || this.event,
       signature: this.signature,
       address: this.address,

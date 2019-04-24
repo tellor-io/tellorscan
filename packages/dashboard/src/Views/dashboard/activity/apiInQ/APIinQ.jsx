@@ -38,7 +38,7 @@ const cols = [
     accessor: "item",
     Cell: row => (
       <div className={cn(align.allCenter, "text-bold")}>
-        {row.value.value}
+        {row.value.currentTip}
       </div>
     )
   },
