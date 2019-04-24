@@ -75,7 +75,12 @@ export default class ABIParser {
         if(t.to && t.to.toLowerCase() === DEFAULT_MASTER_CONTRACT) {
           let rcpt = await web3.eth.getTransactionReceipt(t.hash);
           if(rcpt) {
+            if(!rcpt.status) {
+              continue;
+            }
+            
             t.receipt = rcpt;
+
             let logEvents = await dispatch(this._decode(block, t));
             t.logEvents = logEvents;
             t.logEventMap = createEventMap(logEvents);

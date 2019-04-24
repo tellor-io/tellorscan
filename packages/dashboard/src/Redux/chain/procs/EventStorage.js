@@ -19,7 +19,6 @@ export default class EventStorage {
 
   process({block}, next)  {
     return async (dispatch, getState) => {
-      console.log("Will store block", block.number);
       let txns = block.transactions;
       for(let i=0;i<txns.length;++i) {
         let txn = txns[i];
