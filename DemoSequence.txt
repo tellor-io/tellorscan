@@ -1,0 +1,48 @@
+The demo needs to follow a very specific setup/operation sequence to be
+successful.
+
+One Time Setups:
+- Globally install lerna and truffle (npm i -g lerna; npm i -g truffle)
+- Install all dashboard and mockMiner dependencies: (in tellorscan): lerna bootstrap
+- Install all tellor core deps: (in Tellor-Core) npm i
+- Install private keys into MetaMask
+   DETAILS: Make sure to choose demo accounts that are NOT also miners.
+   Looking at the set of accounts that get spit out when starting ganache,
+   miner accounts are 0-5. So demo accounts should be like 8 and 9.
+   We need at least two accounts for the demo: 1 to dispute/request data, and
+   another to vote on disputes. Why? Because a disputer cannot vote for their
+   own dispute. And if we used the miner addresses, it is VERY easy to accidently
+   dispute a miner's value that is also one of the demo accounts which would
+   ultimately lock the demo user from doing anything!
+
+Demo Setup
+- Start dashboard: (in tellorscan/packages/dashboard) npm start
+- Start ganache-cli: ganache-cli -m "nick lucian brenda kevin sam fiscal patch fly damp ocean produce wish" -l 10000000
+- Deploy contracts: (in Tellor-Core project) truffle migrate
+- Setup init contract and request: (in Tellor-Core) truffle exec scripts/MockScript.js
+- Refresh MetaMask by selecting the network localhost:8545
+- If you've run a demo before and are starting from scratch, go to Settings and
+  clear any cached data.
+- Get a balance of tokens for the accounts using Get Token dropdown in the top nav Wallet section
+   DETAILS: this is currently the lazyCoon function but somehow these accounts
+   must have a balance before they can do anything including add tips, dispute
+   and vote. And before disputing, make sure the voter has a balance or they
+   won't be able to vote!
+- Confirm balance using the Refresh Balance dropdown in the top nav Wallet section.
+
+Demo Sequence
+- UI should show a pending request for BTC/USD. Story is that it's waiting for miners
+  to provide the 5-value slots
+- Start the mock miner: (in tellorscan/packages/mockMiner) npm start
+- UI should show the mined values filled in after about 5 seconds or so
+- Click the add tip icon and enter a tip amount to submit to miners
+- Should see a new current request and within a few seconds, miners should
+  complete mining all 5 slots.
+- Expand a Recent Mined Event and click the thumbs-down icon next to a value to dispute
+- Should show the dispute screen with that item pre-selected/visible. Click the dispute button
+- Confirm that the dispute shows up in the Open Disputes table
+- Expanding the dispute you should see that the current demo account selected in
+  MetaMask is not allowed to vote because they are the disputer.
+- Switch accounts in MetaMask
+- The voting should not be enabled. Vote up/down
+- It should increase the vote count and show that the user can no longer vote
