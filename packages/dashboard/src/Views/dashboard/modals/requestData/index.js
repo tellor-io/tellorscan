@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import Modal from './RequestDataModal';
 import {default as modalOps} from 'Redux/modals/operations';
 import {default as chainOps} from 'Redux/chain/operations';
-import {default as reqOps} from 'Redux/events/tree/operations';
+import {default as reqOps} from 'Redux/requests/operations';
 
 import {withRouter} from 'react-router-dom';
 import * as navs from 'Navs';
@@ -31,7 +31,7 @@ const d2p = (dispatch,own) => {
     showDetails: id => {
       //first retrieve data if we don't already have it
       dispatch(modalOps.isLoading(ID, true));
-      dispatch(reqOps.findRequestId(id))
+      dispatch(reqOps.findRequestById(id))
       .then(()=>{
         dispatch(modalOps.hide(ID));
         own.history.push(navs.DETAILS_HOME + '/' + id)

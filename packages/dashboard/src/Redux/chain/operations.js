@@ -8,6 +8,10 @@ import {Types as settingsTypes} from 'Redux/settings/actions';
 import ethProcs from './procs';
 
 const init = () => async (dispatch,getState) => {
+  if(getState().chain.chain) {
+    return;
+  }
+  
   dispatch(Creators.loadRequest());
   chainInit();
   let chain = Chain(); //shared instance of whatever chain source we're using

@@ -1,5 +1,4 @@
 import {Creators} from './actions';
-import Dispute from 'Redux/events/tree/model/Dispute';
 import _ from 'lodash';
 import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
@@ -17,7 +16,6 @@ const init = () => async (dispatch,getState) => {
 }
 
 const selectForDispute = (ch, nonce) => dispatch => {
-  console.log("Dispute nonce", nonce);
   dispatch(Creators.selectForDispute(ch, nonce));
 }
 
@@ -40,12 +38,10 @@ const toggleDisputeSelection = (ch) => (dispatch,getState) => {
 }
 
 const findByDisputeHash = (hash) => (dispatch) => {
-  return dispatch(Dispute.ops.findByDisputeHash(hash));
+  //return dispatch(Dispute.ops.findByDisputeHash(hash));
 }
 
 const initDispute = props => async (dispatch,getState) => {
-  console.log("initDispute", props);
-
   let hash = generateDisputeHash({miner: props.miner.address, requestId: props.requestId, timestamp: props.timestamp});
   let ex = await dispatch(findByDisputeHash(hash));
   if(ex) {
@@ -101,7 +97,7 @@ const isDisputable = (challenge) => {
 export default {
   init,
   initDispute,
-  findByDisputeHash,
+  //findByDisputeHash,
   voteUp,
   voteDown,
   selectForDispute,

@@ -9,6 +9,7 @@ import {
 } from 'reactstrap';
 import Loading from 'Components/Loading';
 import AddTip from 'Components/AddTipButton';
+import TipModal from 'Views/dashboard/modals/tip';
 
 const cols = [
 
@@ -78,6 +79,7 @@ export default class APIInQ extends React.Component {
     return (
       <Row className={cn("request-container", align.topCenter, align.full, "p-0", "m-0")}>
         <Loading loading={loading} />
+        <TipModal />
         <Col md="11" className={cn("api-table-box", align.topCenter, "m-0", "p-0")}>
           <CleanTable cols={cols} data={rows} />
         </Col>

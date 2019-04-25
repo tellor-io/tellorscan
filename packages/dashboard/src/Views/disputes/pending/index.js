@@ -4,7 +4,6 @@ import Pending from './Pending';
 import moment from 'moment';
 import * as navs from 'Navs';
 import _ from 'lodash';
-import Dispute from 'Redux/events/tree/model/Dispute';
 import {default as dispOps} from 'Redux/disputes/operations';
 
 const s2p = (state,own) => {
@@ -21,6 +20,10 @@ const s2p = (state,own) => {
   _.values(ds).forEach(d=>{
     let canVote = true;
     let voteReason = null;
+    if(state.token.balance <= 0) {
+      canVote = false;
+      voteReason = "need tokens";
+    }
     if(d.userVoted) {
       canVote = false;
       voteReason = "already voted"

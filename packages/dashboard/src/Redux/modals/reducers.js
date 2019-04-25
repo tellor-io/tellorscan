@@ -63,6 +63,10 @@ const clear = (state=INIT, action) => {
     data: {
       ...state.data,
       [action.id]: undefined
+    },
+    errors: {
+      ...state.errors,
+      [action.id]: undefined
     }
   }
 }

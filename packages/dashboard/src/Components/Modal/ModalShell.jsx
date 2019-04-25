@@ -38,12 +38,13 @@ export default class ModalShell extends React.Component {
       showing,
       loading,
       error,
-      loadStatus
+      loadStatus,
+      className
     } = this.props;
 
     return (
       <Modal isOpen={showing} toggle={this.props.cancel}
-              className="modal-shell">
+              className={cn("modal-shell",className)}>
         <Loading loading={loading} status={loadStatus}/>
 
         <ModalHeader className={cn("modal-header", "text-light")}

@@ -4,49 +4,18 @@ import {Types} from './actions';
 const INIT = {
   loading: false,
   error: null,
-  byId: {}
+  selectedRequest: null
 }
 
-const initStart = (state=INIT) => {
+const select = (state=INIT, action) => {
   return {
     ...state,
-    loading: true,
-    error: null
-  }
-}
-
-const initSuccess = (state=INIT, action) => {
-  return {
-    ...state,
-    loading: false,
-    byId: action.tips
-  }
-}
-
-const fail = (state=INIT, action) => {
-  return {
-    ...state,
-    loading: false,
-    error: action.error
-  }
-}
-
-const update = (state=INIT, action) => {
-  let byId = {
-    ...state.byId,
-    [action.id]: action.tip
-  }
-  return {
-    ...state,
-    byId
+    selectedRequest: action.request
   }
 }
 
 const HANDLERS = {
-  [Types.INIT_START]: initStart,
-  [Types.INIT_SUCCESS]: initSuccess,
-  [Types.FAILURE]: fail,
-  [Types.UPDATE]: update
+  [Types.SELECT_FOR_TIP]: select
 }
 
 export default createReducer(INIT, HANDLERS);

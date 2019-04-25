@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import API from './APIinQ';
-import {default as chainOps} from 'Redux/chain/operations';
+import {default as tipOps} from 'Redux/tips/operations';
 import * as navs from 'Navs';
 import {withRouter} from 'react-router-dom';
 import _ from 'lodash';
@@ -26,9 +26,10 @@ const d2p = (dispatch,own) => {
       own.history.push(url);
     },
 
-    addTip: async (id, tip) => {
+    addTip: async (id) => {
       try {
-        await dispatch(chainOps.addToTip(id, tip));
+        //await dispatch(chainOps.addToTip(id, tip));
+        dispatch(tipOps.showTipModal(id));
       } catch (e) {
         toastr.error("Error", e.message);
       }

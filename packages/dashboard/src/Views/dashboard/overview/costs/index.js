@@ -17,7 +17,7 @@ const s2p = state => {
     recentTips.splice(0,50);
   }
 
-  let loading = state.events.tree.loading ||
+  let loading = state.requests.loading ||
                 state.analytics.tips.loading;
 
   return {

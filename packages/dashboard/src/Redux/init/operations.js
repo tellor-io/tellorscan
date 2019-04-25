@@ -1,6 +1,4 @@
 import {Creators} from './actions';
-import {default as eventOps} from 'Redux/events/operations';
-import {default as currentOps} from 'Redux/current/operations';
 import {default as chainOps} from 'Redux/chain/operations';
 import {default as analyticOps} from 'Redux/analytics/operations';
 import {default as tipOps} from 'Redux/tips/operations';
@@ -14,20 +12,6 @@ import {Types as settingsTypes} from 'Redux/settings/actions';
 const initChain = props => {
   return props.dispatch(chainOps.init())
     .then(()=>props);
-}
-
-const initCurrent = props => {
-  return props.dispatch(currentOps.init())
-  .then(()=>{
-    return props
-  });
-}
-
-const initEvents = props => {
-  return props.dispatch(eventOps.init())
-  .then(()=>{
-    return props
-  });
 }
 
 const initRequests = props => {
@@ -85,7 +69,6 @@ const _doStart = () => (dispatch,getState) => {
   return initChain(props)
         .then(initToken)
         .then(initRequests)
-        .then(initCurrent)
         .then(initTips)
         .then(initDisputes)
         .then(initAnalytics)

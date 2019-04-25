@@ -78,7 +78,9 @@ export default class VoteHandler extends Plugin {
   }
 
   process(txn, store) {
+
     return async (dispatch, getState) => {
+      console.log("Getting vote call");
       let state = getState();
       let outData = {};
       await dispatch(addVote({txn, store, outData: outData}));

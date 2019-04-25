@@ -3,6 +3,7 @@ import MiningHandler from './MiningSolutionHandler';
 import RequestHandler from './RequestDataHandler';
 import InitDispute from './InitDispute';
 import VoteHandler from './VoteHandler';
+import _ from 'lodash';
 
 const PLUGINS = [
   new RequestHandler(),
@@ -31,6 +32,10 @@ export default class Enrichment {
         }
         p.fnContexts.forEach(f=>{
           let a = this.plugins[f] || [];
+          let idx = _.findIndex(a, (pl)=>pl.id===p.id);
+          if(idx >= 0) {
+            throw new Error("Attempting to add plugin twice: " + p.id);
+          }
           a.push(p);
           this.plugins[f] = a;
         })
@@ -47,6 +52,7 @@ export default class Enrichment {
         let logs = txn.logEvents;
         if(logs && txn.fn) {
           let procs = this.plugins[txn.fn];
+          console.log("fn,procs", txn.fn, procs);
           if(procs) {
             for(let j=0;j<procs.length;++j) {
               let p = procs[j];

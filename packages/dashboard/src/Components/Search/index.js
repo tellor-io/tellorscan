@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import Search from './Search';
 import {withRouter} from 'react-router-dom';
 import * as navs from 'Navs';
-import {default as reqOps} from 'Redux/events/tree/operations';
+import {default as reqOps} from 'Redux/requests/operations';
 
 const s2p = state => {
   return {
@@ -13,7 +13,7 @@ const s2p = state => {
 const d2p = (dispatch,own) => {
   return {
     runSearch: id => {
-      dispatch(reqOps.findByRequestId(id))
+      dispatch(reqOps.findRequestById(id))
       .then(r=>{
         if(own.resultHandler) {
           own.resultHandler(r);

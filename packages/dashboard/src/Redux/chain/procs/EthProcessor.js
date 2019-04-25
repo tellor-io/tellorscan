@@ -34,6 +34,11 @@ class StorageCtx {
       let db = dbs[i];
       let dbItems = this.toStore[db];
       let dbKeys = _.keys(dbItems);
+      if(dbKeys.length === 0) {
+        console.log("Have DB w/out keys", db);
+        continue;
+      }
+
       let storedItems = [];
 
       for(let j=0;j<dbKeys.length;++j) {
@@ -175,6 +180,7 @@ export default class EthProcessor {
     if(!proc) {
       return;
     }
+    console.log("Adding proc", proc);
     procSchema.validateSync(proc);
     this._checkExists(proc);
     this.processors[proc.id] = {
