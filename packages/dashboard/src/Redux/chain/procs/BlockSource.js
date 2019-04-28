@@ -1,4 +1,5 @@
 import * as dbNames from 'Storage/DBNames';
+import Storage from 'Storage';
 
 export default class BlockSource {
   constructor() {
@@ -23,14 +24,47 @@ export default class BlockSource {
   }
 
   unload() {
-    return async (dispatch, getState) => {
+    return  (dispatch, getState) => {
       if(this.sub) {
         this.sub.removeListener("data", this.subCallback);
-        await this.sub.unsubscribe((e,good)=>{
-          console.log("Unsubscribed to blocks", good, e);
+        return new Promise((done,err)=>{
+          this.sub.unsubscribe(async (e,good)=>{
+              let now = Date.now();
+              let dtStr = new Date(now).toString();
+              console.log("Storing shutdown info....");
+              Storage.instance.create({
+                database: "ShutdownStatus",
+                key: ""+now,
+                data: {
+                  error: e?e.message:null,
+                  status: good,
+                  time: dtStr
+                }
+              }).then(()=>{
+                console.log("unsubscribe finished");
+                done();
+              }).catch(e=>{
+                err(e);
+              })
+              this.sub = null;
+              this.subCallback = null;
+          });
         });
-        this.sub = null;
-        this.subCallback = null;
+
+      } else {
+        return new Promise((done,err)=>{
+          let now = Date.now();
+          let dtStr = new Date(now).toString();
+          Storage.instance.create({
+            database: "ShutdownStatus",
+            key: ""+now,
+            data: {
+              error: "no subscription",
+              time: dtStr
+            }
+          }).then(()=>done())
+          .catch(e=>err(e));
+        });
       }
     }
   }
@@ -81,6 +115,7 @@ export default class BlockSource {
       //now subscribe to chain for all new blocks and push on demand
       this.sub = web3.eth.subscribe('newBlockHeaders');
       this.subCallback = async (block) => {
+        console.log("incoming block");
         if(block) {
           let wTxns = await getState().chain.chain.web3.eth.getBlock(block.number, true);
           console.log("BlockSource Getting new block", wTxns);

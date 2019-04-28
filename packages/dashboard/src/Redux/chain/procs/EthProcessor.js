@@ -247,9 +247,17 @@ export default class EthProcessor {
   }
 
   _unloadProc(proc) {
-    return (dispatch) => {
+    return async (dispatch) => {
+      console.log("Attempting unload of proc", proc.id);
       if(proc && typeof proc.unload === 'function') {
-        return dispatch(proc.unload());
+        console.log("Proc has unload fn");
+        try {
+          await dispatch(proc.unload());
+        } catch (e) {
+          console.log("Unload failure", e);
+        }
+
+        console.log("Done unloading", proc.id);
       }
     }
   }

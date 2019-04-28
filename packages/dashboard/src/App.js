@@ -19,10 +19,11 @@ window.addEventListener("beforeunload", (e)=>{
    * dispatch function in JavaScript's single event loop.
    */
   e.preventDefault();
-  return store.dispatch(initOps.unload()).then(()=>{
+  store.dispatch(initOps.unload()).then(()=>{
     e.returnValue="finished";
     return "finished";
   });
+
   /*
   let now = Date.now();
   let sleepTime = now + 5000;
@@ -30,6 +31,7 @@ window.addEventListener("beforeunload", (e)=>{
     now = Date.now();
   }
   */
+
 });
 
 const MainApp = () => (<Provider store={store}>

@@ -9,6 +9,8 @@ import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
 import {Creators as ChainCreators} from 'Redux/chain/actions';
 
+const MAX_BLOCKS = 8000;
+
 export default class Web3Wrapper {
   constructor(props) {
     this.times = {};
@@ -31,6 +33,7 @@ export default class Web3Wrapper {
 
   init() {
     return async (dispatch, getState) => {
+      console.log("Chain init called");
       if(this.contract) {
         await this.contract.init();
         return;
@@ -51,24 +54,11 @@ export default class Web3Wrapper {
         ethProvider.on('accountsChanged', (accounts) => {
           this.ethereumAccount = accounts[0];
           this.contract.caller = accounts[0];
+          console.log("Accounts changed in MM");
           dispatch(ChainCreators.loadSuccess(this));
         });
         this.block = await this.web3.eth.getBlockNumber();
         console.log("Latest block", this.block);
-
-        /*
-        await this.web3.eth.clearSubscriptions()
-        let em = this.web3.eth.subscribe('newBlockHeaders');
-        em.on("data", async (block)=>{
-          console.log("Getting new block", block);
-          if(block) {
-            this.block = block.number;
-            this.times[this.block] = block.timestamp;
-            //TODO: cleanup times if the client will run for a long time!
-            await this._storeBlockTime(this.block);
-          }
-        });
-        */
 
         let master = new this.web3.eth.Contract(abi, DEFAULT_MASTER_CONTRACT, {
           address: DEFAULT_MASTER_CONTRACT
@@ -84,11 +74,13 @@ export default class Web3Wrapper {
   }
 
   async unload() {
+    console.log("Getting unload");
     localStorage.setItem("web3Wrapper.unload", true);
     await this.contract.unload();
   }
 
   async getTime(block) {
+
     let t = this.times[block];
     if(t) {
       return t;
@@ -103,6 +95,7 @@ export default class Web3Wrapper {
   }
 
   getBlock(number) {
+    console.log("Calling getBlock");
     return this.web3.getBlock(number);
   }
 
@@ -117,7 +110,7 @@ export default class Web3Wrapper {
   async getMissingBlockRanges(limit) {
     let all = await Storage.instance.readAll({
       database: dbNames.Blocks,
-      limit: limit || 56000, //7 days worth
+      limit: limit || MAX_BLOCKS, //about a day
       sort: [
         {
           field: "blockNumber",
@@ -129,6 +122,10 @@ export default class Web3Wrapper {
     let last = all[0]?all[0].blockNumber-0:0;
     //the first gap could be from the latest block back
     if(last < this.block) {
+      let diff = this.block - last;
+      if(diff > MAX_BLOCKS) {
+        last = this.block - MAX_BLOCKS;
+      }
       gaps.push({
         start: last,
         end: this.block
@@ -139,12 +136,15 @@ export default class Web3Wrapper {
       //if current block is earlier than one less than last
       //there is a gap
       if(a.blockNumber-0 < (last-1)) {
-        gaps.push({
-          //gap starts with the current block
-          start: a.blockNumber-0,
-          //going forward in ascending order to last one seen
-          end: last
-        });
+        let diff = last - (a.blockNumber-0);
+        if(diff < MAX_BLOCKS) {
+          gaps.push({
+            //gap starts with the current block
+            start: a.blockNumber-0,
+            //going forward in ascending order to last one seen
+            end: last
+          });
+        }
       }
       last = a.blockNumber-0;
     });
@@ -154,10 +154,12 @@ export default class Web3Wrapper {
     gaps.sort((a,b)=>{
       return a.start - b.start;
     })
+    console.log("Recovering gaps", gaps);
     return gaps;
   }
 
   async fillBlockGap(gap) {
+    console.log("Filling block gap", gap);
     for(let i=gap.start;i<=gap.end;++i) {
       let t = this.times[i];
       if(!t) {

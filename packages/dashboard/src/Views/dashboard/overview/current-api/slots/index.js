@@ -8,7 +8,10 @@ const s2p = state => {
   let meta = state.requests.current;
   let current = null;
   if(meta) {
-    current = state.requests.byId[meta.id].challenges[meta.challengeHash];
+    let req = state.requests.byId[meta.id];
+    if(req) {
+      current = req.challenges[meta.challengeHash];
+    }
   }
   let filled = [];
   let pending = (typeof current !== 'undefined') && current !== null;

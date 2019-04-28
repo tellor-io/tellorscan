@@ -48,7 +48,13 @@ class NonceRow extends React.Component {
           </span>
         </Col>
 
-        <Col md="8" className={cn("pr-5", align.rightCenter, align.noMarginPad)}>
+        <Col md="6" className={cn(align.leftCenter, align.noMarginPad)}>
+          <span className={cn(align.leftCenter, "p-1", "text-sz-sm", "rounded", "font-weight-light", isMedian?"bg-secondary text-light":"")}>
+            {nonce.miner}
+          </span>
+        </Col>
+
+        <Col md="2" className={cn("pr-5", align.rightCenter, align.noMarginPad)}>
           {dIcon}
         </Col>
       </Row>

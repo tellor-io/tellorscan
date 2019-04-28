@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/ChainConfig.js"],"names":["MASTER_CONTRACT","toLowerCase"],"mappings":";;;;;AACO,IAAMA,4CAAkB,6CAA6CC,WAA7C,EAAxB","file":"ChainConfig.js","sourcesContent":["\nexport const MASTER_CONTRACT = \"0x2B63d6e98E66C7e9fe11225Ba349B0B33234D9A2\".toLowerCase();\n"]}
