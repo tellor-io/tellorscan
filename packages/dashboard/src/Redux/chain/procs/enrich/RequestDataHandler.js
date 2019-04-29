@@ -91,6 +91,7 @@ export default class RequestDataHandler extends Plugin {
           data:newChallenge.toJSON()
         });
         req.challenges[newChallenge.challengeHash] = normalizeChallenge(req,newChallenge);
+        req.current = newChallenge;
         dispatch(topOps.challengeIssued(newChallenge));
       }
 
@@ -195,7 +196,8 @@ export default class RequestDataHandler extends Plugin {
           challenges: {
             ...req.challenges,
             [ch.challengeHash]: ch
-          }
+          },
+          current: ch
         }
         dispatch(Creators.updateRequest({request: req}));
         dispatch(Creators.updateCurrent({challenge: ch}));

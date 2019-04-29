@@ -23,6 +23,7 @@ export default class Web3Wrapper {
       'getContract',
       'getTime',
       'getMissingBlockRanges',
+      'checkInDispute',
       '_storeBlockTime',
       'fillBlockGap'
     ].forEach(fn=>{
@@ -51,10 +52,11 @@ export default class Web3Wrapper {
           //user denied access to app
           acts = [];
         }
-        ethProvider.on('accountsChanged', (accounts) => {
+        ethProvider.on('accountsChanged', async (accounts) => {
           this.ethereumAccount = accounts[0];
           this.contract.caller = accounts[0];
           console.log("Accounts changed in MM");
+          await this.checkInDispute();
           dispatch(ChainCreators.loadSuccess(this));
         });
         this.block = await this.web3.eth.getBlockNumber();
@@ -69,8 +71,14 @@ export default class Web3Wrapper {
         this.contract = new Web3Contract({chain: this, master, tellor, caller: acts[0]});
         this.ethereumAccount = acts[0];
         await this.contract.init();
+        await this.checkInDispute();
       }
     }
+  }
+
+  async checkInDispute() {
+    let r = await this.contract.isInDispute(this.ethereumAccount);
+    this.isInDispute = r;
   }
 
   async unload() {

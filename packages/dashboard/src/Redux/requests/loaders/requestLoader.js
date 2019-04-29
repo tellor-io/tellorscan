@@ -39,14 +39,18 @@ const loadAll = () => async (dispatch, getState) => {
   },{});
 
   let chById = await dispatch(chOps.loadAll(byId));
+  let current = null;
   _.keys(chById).forEach(id=>{
     let req = byId[id];
     let challenges = chById[id];
-
+    let filtered = _.values(challenges).filter(c=>typeof c.finalValue !== 'object');
+    if(filtered.length > 0) {
+      current = filtered[0];
+    }
     if(req) {
       byId[id] = {
         ...req,
-        challenges: chById[id]
+        challenges
       }
     }
   });
@@ -73,7 +77,7 @@ const loadAll = () => async (dispatch, getState) => {
     }
   });
 
-  return byId;
+  return {current, byId};
 }
 
 const incomingEvents = (ctx) => async (dispatch, getState) => {

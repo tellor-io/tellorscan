@@ -33,6 +33,7 @@ export default class Web3Contract {
       'getAllDisputeVars',
       'beginDispute',
       'didVote',
+      'isInDispute',
       'vote',
       'getTokens',
       'balanceOf',
@@ -133,28 +134,22 @@ export default class Web3Contract {
   }
 
   getCurrentVariables() {
-    console.log("Getting current vars");
-      return this._call(this.master, "getCurrentVariables", []);
+    return this._call(this.master, "getCurrentVariables", []);
   }
 
   getRequestVars(_apiId) {
-    console.log("Getting request vars");
     return this._call(this.master, "getRequestVars", [_apiId]);
   }
 
   getRequestIdByQueryHash(hash) {
-    console.log("Getting requeset id by hash");
     return this._call(this.master, "getRequestIdByQueryHash", [hash]);
   }
 
-
   getVariablesOnDeck() {
-    console.log("Getting variables on deck");
     return this._call(this.master, "getVariablesOnDeck", []);
   }
 
   getMinersByRequestIdAndTimestamp(requestId, timestamp) {
-    console.log("Getting  miners by request id and hash");
     return this._call(this.master, "getMinersByRequestIdAndTimestamp", [requestId, timestamp]);
   }
 
@@ -173,17 +168,14 @@ export default class Web3Contract {
   }
 
   balanceOf(addr) {
-    console.log("Getting balance");
     return this._call(this.master, "balanceOf", [addr]);
   }
 
   getDisputeIdByDisputeHash(hash) {
-    console.log("Getting dispute id by hash");
     return this._call(this.master, "getDisputeIdByDisputeHash", [hash]);
   }
 
   getAllDisputeVars(id) {
-    console.log("Getting dispute vars");
     return this._call(this.master, "getAllDisputeVars", [id]);
   }
 
@@ -192,11 +184,15 @@ export default class Web3Contract {
   }
 
   didVote(disputeId, user) {
-    console.log("Getting voted status");
     return this._call(this.master, "didVote", [disputeId, user]);
   }
 
   vote(disputeId, supportsDisputer) {
     return this._send(this.master, "vote", [disputeId, supportsDisputer]);
+  }
+
+  async isInDispute(address) {
+    let vars = await this._call(this.master, "getStakerInfo", [address]);
+    return (vars[0].toString()-0)!==3;
   }
 }

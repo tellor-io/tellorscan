@@ -3,11 +3,18 @@ import {default as reqOps} from './loaders/requestLoader';
 import {findRequestById as findById} from 'Chain/utils';
 import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
+import {registerDeps} from 'Redux/DepMiddleware';
+import {Types as settingTypes} from 'Redux/settings/actions';
 
 const init = () => async (dispatch, getState) => {
   dispatch(Creators.initStart());
-  let byId = await dispatch(reqOps.loadAll());
+  registerDeps([settingTypes.CLEAR_HISTORY_SUCCESS], ()=>{
+    dispatch(Creators.initSuccess({}));
+  });
+  let {current, byId} = await dispatch(reqOps.loadAll());
+
   dispatch(Creators.initSuccess(byId));
+  dispatch(Creators.updateCurrent({challenge: current}));
 }
 
 const findRequestById = id => async (dispatch, getState) => {
