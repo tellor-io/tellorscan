@@ -3,6 +3,8 @@ import * as dbNames from 'Storage/DBNames';
 import {findRequestById, getCurrentTipForRequest} from 'Chain/utils';
 import * as ethUtils from 'web3-utils';
 import {Creators} from 'Redux/requests/actions';
+import {default as miningOps} from 'Redux/analytics/mining/operations';
+
 import _ from 'lodash';
 import {
   normalizeRequest,
@@ -116,6 +118,7 @@ const changeNonceOrder = ({txn, store, prevData, outData}) => async (dispatch, g
     data: newVal.toJSON()
   });
 
+
   let miners = await dispatch(getMiningOrder(newVal));
   if(miners && miners.length > 0) {
     let lastKey = null;
@@ -150,6 +153,7 @@ const changeNonceOrder = ({txn, store, prevData, outData}) => async (dispatch, g
         return o;
       },{})
     }
+    dispatch(miningOps.update(outData.challenge));
   }
 }
 

@@ -192,8 +192,7 @@ var ContractWrapper = function () {
   }, {
     key: '_send',
     value: function _send(caller, con, method, args) {
-      var _this2 = this,
-          _con$methods3;
+      var _this2 = this;
 
       var web3 = this.chain.web3;
 
@@ -244,21 +243,6 @@ var ContractWrapper = function () {
               err(e);
             }
           });
-        });
-      });
-
-      var tx = (_con$methods3 = con.methods)[method].apply(_con$methods3, _toConsumableArray(args));
-      return new Promise(function (done, err) {
-        _this2.chain.web3.eth.sendTransaction({
-          to: con.address,
-          from: _this2.caller,
-          data: tx.encodeABI()
-        }, function (e, r) {
-          if (e) {
-            err(e);
-          } else {
-            done(r);
-          }
         });
       });
     }

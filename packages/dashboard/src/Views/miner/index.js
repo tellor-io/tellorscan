@@ -1,0 +1,25 @@
+import {connect} from 'react-redux';
+import Miner from './Miner';
+import _ from 'lodash';
+import {humanizeTellor} from 'Utils/token';
+
+const s2p = state => {
+  let miners = _.values(state.analytics.mining.topMiners);
+  miners.sort((a,b)=>{
+    let aBal = humanizeTellor(a.balance);
+    let bBal = humanizeTellor(b.balance);
+    return bBal - aBal;
+  });
+
+  return {
+    miners
+  }
+}
+
+const d2p = dispatch => {
+  return {
+
+  }
+}
+
+export default connect(s2p, d2p)(Miner);

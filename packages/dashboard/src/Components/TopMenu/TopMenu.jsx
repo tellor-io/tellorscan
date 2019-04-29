@@ -16,6 +16,7 @@ import * as align from 'Constants/alignments';
 import Logo from './LogoBlock';
 import Search from 'Components/Search';
 import Loading from 'Components/Loading';
+import miner from 'Assets/images/miner.png';
 
 export default class TopMenu extends React.Component {
   render() {
@@ -45,6 +46,12 @@ export default class TopMenu extends React.Component {
           <NavLink className={cn("text-dark")} href="#" onClick={this.props.toDisputes} >
             <i className={cn("fa fa-commenting-o", "text-dark", "mr-1")} />
             Disputes
+          </NavLink>
+        </NavItem>
+        <NavItem className={cn(align.allCenter)}>
+          <NavLink className={cn("text-dark")} href="#" onClick={this.props.toMining} >
+            <img className={cn("mr-1")} src={miner} width="15" height="15" alt="miner"/>
+            Mining
           </NavLink>
         </NavItem>
         <UncontrolledDropdown nav inNavbar>
@@ -106,7 +113,7 @@ export default class TopMenu extends React.Component {
 
     return (
       <Navbar light expand="sm" className={cn(barClass)}>
-      
+
          {topBody}
          {body}
       </Navbar>

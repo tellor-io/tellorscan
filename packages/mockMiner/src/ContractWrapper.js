@@ -133,21 +133,5 @@ export default class ContractWrapper {
         });
       });
     });
-
-
-    let tx = con.methods[method](...args);
-      return new Promise((done,err)=>{
-        this.chain.web3.eth.sendTransaction({
-            to: con.address,
-            from: this.caller,
-            data: tx.encodeABI()
-          }, (e, r)=>{
-            if(e) {
-              err(e);
-            } else {
-              done(r);
-            }
-          });
-      });
   }
 }

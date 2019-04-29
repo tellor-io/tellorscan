@@ -16,6 +16,7 @@ import MainRoute from "Routes/dashboard";
 import Details from 'Routes/details';
 import Settings from 'Routes/settings';
 import Disputes from 'Routes/disputes';
+import Miner from 'Routes/miner';
 
 import error from "Routes/error";
 import ReduxToastr from 'react-redux-toastr';
@@ -52,6 +53,7 @@ class AppStart extends Component {
               <Route path={`${match.url}details`} component={Details} />
               <Route path={`${match.url}settings`} component={Settings} />
               <Route path={`${match.url}disputes`} component={Disputes} />
+              <Route path={`${match.url}miner`} component={Miner} />
               <Route path={`/error`} component={error} />
               <Redirect to="/error" />
             </Switch>

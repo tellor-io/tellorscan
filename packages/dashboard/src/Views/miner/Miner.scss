@@ -1,0 +1,31 @@
+.miner-container {
+  background: theme-color("main-bg");
+
+
+  .download-col {
+    min-height: 500px;
+    max-height: 500px;
+    box-shadow: 2px 2px 2px 1px rgba(100,100,100,.3);
+    .download-box {
+      min-height: 250px;
+      max-height: 250px;
+
+    }
+  }
+
+  .top-miner-col {
+    min-height: 500px;
+    max-height: 500px;
+  }
+
+  .top-container {
+    min-height: 450px;
+    max-height: 450px;
+    box-shadow: 2px 2px 2px 1px rgba(100,100,100,.3);
+    overflow-y: scroll;
+
+    .detail {
+      min-height: 60px;
+    }
+  }
+}

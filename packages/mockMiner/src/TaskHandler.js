@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const NUM_MINERS = 6;
 const SLEEP_BETWEEN_CHECKS = 5000;
-const SLEEP_BETWEEN_MINES = 10000; //65000;
+const SLEEP_BETWEEN_MINES = 65000; //10000;
 
 const MINER_ADDRESSES = [
                          "0xe010aC6e0248790e08F42d5F697160DEDf97E024",
@@ -61,7 +61,6 @@ export default class TaskHandler {
     this.running = false;
   }
 
-  async
   async _runMiningCycle(next) {
 
     let all = [];
@@ -91,7 +90,7 @@ export default class TaskHandler {
       if(n > 0) {
         let value = await this._getValue(next._queryString);
         if(!isNaN(value)) {
-          value *= next._granularity;
+          value = Math.ceil(value * next._granularity);
           await this._submitNonce({...next, miner: canMine[i].account, nonce: n, value});
         }
       }

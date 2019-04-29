@@ -24,7 +24,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var NUM_MINERS = 6;
 var SLEEP_BETWEEN_CHECKS = 5000;
-var SLEEP_BETWEEN_MINES = 10000; //65000;
+var SLEEP_BETWEEN_MINES = 65000; //10000;
 
 var MINER_ADDRESSES = ["0xe010aC6e0248790e08F42d5F697160DEDf97E024", "0xE037EC8EC9ec423826750853899394dE7F024fee", "0xcdd8FA31AF8475574B8909F135d510579a8087d3", "0xb9dD5AfD86547Df817DA2d0Fb89334A6F8eDd891", "0x230570cD052f40E14C14a81038c6f3aa685d712B", "0x3233afA02644CCd048587F8ba6e99b3C00A34DcC"];
 
@@ -234,7 +234,7 @@ var TaskHandler = function () {
                   break;
                 }
 
-                value *= next._granularity;
+                value = Math.ceil(value * next._granularity);
                 _context3.next = 31;
                 return this._submitNonce(_extends({}, next, { miner: canMine[_i].account, nonce: n, value: value }));
 

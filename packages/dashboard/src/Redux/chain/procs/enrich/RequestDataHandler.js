@@ -146,8 +146,9 @@ export default class RequestDataHandler extends Plugin {
           }
         }
 
-        store({database: dbNames.TipAdded,
-            key: ethUtils.sha3(tipEvt.sender + tipEvt.id+tipEvt.logIndex),
+        store({
+            database: dbNames.TipAdded,
+            key: tipEvt.transactionHash,
             data: tipEvt.toJSON()
         });
 
