@@ -46,30 +46,34 @@ export default class Miner {
       let jEnc = Buffer.from(""+j);
       let nonce = jEnc.toString("hex")//ethUtils.toHex(jEnc.toString(""));
       let n =
-        abi.solidityPack(
-          ['bytes20'],
-          [
-            util.ripemd160(
-              abi.solidityPack(
-                ['bytes32'],
-                [
-                  util.keccak256(
-                    abi.solidityPack(
-                        ['bytes32', 'address', 'string'],
-                        [challenge, this.account.toLowerCase(), nonce]
+        util.sha256(
+          abi.solidityPack(
+            ['bytes20'],
+            [
+              util.ripemd160(
+                abi.solidityPack(
+                  ['bytes32'],
+                  [
+                    util.keccak256(
+                      abi.solidityPack(
+                          ['bytes32', 'address', 'string'],
+                          [challenge, this.account, nonce]
+                      )
                     )
-                  )
-                ]
+                  ]
+                )
               )
-            )
-          ]
+            ]
+          )
         );
 
-      //console.log("N", n.toString('hex'));
-      let comp = new util.BN(n);
+
+      console.log("N", n.toString('hex'));
+      let comp = new util.BN(n.toString('hex'));
       let diffBN = new util.BN(""+difficulty);
 
-      /*sha256(
+      /*from solidity
+        sha256(
           abi.encodePacked(
             ripemd160(
               abi.encodePacked(
@@ -84,16 +88,7 @@ export default class Miner {
         );
       */
 
-      /*
-      let hash1 = parseInt('0x'+ n.toString('hex'), 16);
-      console.log("Hash1", hash1);
-
-      if(hash1 % difficulty === 0) {
-        return j;
-      }
-      */
-
-      if(comp.mod(diffBN) === 0) {
+      if((comp.mod(diffBN).toString()-0) === 0) {
         return j;
       }
 

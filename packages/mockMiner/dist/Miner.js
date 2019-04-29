@@ -88,7 +88,7 @@ var Miner = function () {
 
               case 4:
                 if (!true) {
-                  _context.next = 30;
+                  _context.next = 31;
                   break;
                 }
 
@@ -97,14 +97,22 @@ var Miner = function () {
                 jEnc = Buffer.from("" + j);
                 nonce = jEnc.toString("hex"); //ethUtils.toHex(jEnc.toString(""));
 
-                n = _ethereumjsAbi2.default.solidityPack(['bytes20'], [_ethereumjsUtil2.default.ripemd160(_ethereumjsAbi2.default.solidityPack(['bytes32'], [_ethereumjsUtil2.default.keccak256(_ethereumjsAbi2.default.solidityPack(['bytes32', 'address', 'string'], [challenge, this.account.toLowerCase(), nonce]))]))]);
+                n = _ethereumjsUtil2.default.sha256(_ethereumjsAbi2.default.solidityPack(['bytes20'], [_ethereumjsUtil2.default.ripemd160(_ethereumjsAbi2.default.solidityPack(['bytes32'], [_ethereumjsUtil2.default.keccak256(trim0x(challenge) + trim0x(this.account) + trim0x(nonce)
+                /*
+                abi.solidityPack(
+                    ['bytes32', 'address', 'string'],
+                    [challenge, this.account, nonce]
+                )
+                */
+                )]))]));
 
-                //console.log("N", n.toString('hex'));
 
-                comp = new _ethereumjsUtil2.default.BN(n);
+                console.log("N", n.toString('hex'));
+                comp = new _ethereumjsUtil2.default.BN(n.toString('hex'));
                 diffBN = new _ethereumjsUtil2.default.BN("" + difficulty);
 
-                /*sha256(
+                /*from solidity
+                  sha256(
                     abi.encodePacked(
                       ripemd160(
                         abi.encodePacked(
@@ -119,42 +127,34 @@ var Miner = function () {
                   );
                 */
 
-                /*
-                let hash1 = parseInt('0x'+ n.toString('hex'), 16);
-                console.log("Hash1", hash1);
-                 if(hash1 % difficulty === 0) {
-                  return j;
-                }
-                */
-
-                if (!(comp.mod(diffBN) === 0)) {
-                  _context.next = 14;
+                if (!(comp.mod(diffBN).toString() - 0 === 0)) {
+                  _context.next = 15;
                   break;
                 }
 
                 return _context.abrupt('return', j);
 
-              case 14:
+              case 15:
                 if (!(x % 10000 === 0)) {
-                  _context.next = 28;
+                  _context.next = 29;
                   break;
                 }
 
-                _context.next = 17;
+                _context.next = 18;
                 return this.chain.getBlockNumber();
 
-              case 17:
+              case 18:
                 _block = _context.sent;
 
                 if (!(last_block != _block)) {
-                  _context.next = 28;
+                  _context.next = 29;
                   break;
                 }
 
-                _context.next = 21;
+                _context.next = 22;
                 return this.chain.contract.getCurrentVariables();
 
-              case 21:
+              case 22:
                 _ref3 = _context.sent;
                 _challenge = _ref3._challenge;
                 _requestId = _ref3._requestId;
@@ -162,17 +162,17 @@ var Miner = function () {
                 _queryString = _ref3._queryString;
 
                 if (!(challenge !== _challenge)) {
-                  _context.next = 28;
+                  _context.next = 29;
                   break;
                 }
 
                 return _context.abrupt('return', 0);
 
-              case 28:
+              case 29:
                 _context.next = 4;
                 break;
 
-              case 30:
+              case 31:
               case 'end':
                 return _context.stop();
             }
