@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import abi from 'ethereumjs-abi';
 import util from 'ethereumjs-util';
 
-//import * as ethUtils from 'web3-utils';
+import * as web3Utils from 'web3-utils';
 //var RIPEMD160 = require('ripemd160')
 
 const propsSchema = yup.object().shape({
@@ -39,56 +39,19 @@ export default class Miner {
 
   async mine({challenge, queryString, difficulty}) {
     let last_block = await this.chain.getBlockNumber();
-  	let x = 0;
+    let x = 0;
   	while(true) {
   		x += 1;
   		let j = generate_random_number()
       let jEnc = Buffer.from(""+j);
       let nonce = jEnc.toString("hex")//ethUtils.toHex(jEnc.toString(""));
-      let n =
-        util.sha256(
-          abi.solidityPack(
-            ['bytes20'],
-            [
-              util.ripemd160(
-                abi.solidityPack(
-                  ['bytes32'],
-                  [
-                    util.keccak256(
-                      abi.solidityPack(
-                          ['bytes32', 'address', 'string'],
-                          [challenge, this.account, nonce]
-                      )
-                    )
-                  ]
-                )
-              )
-            ]
-          )
-        );
-
-
-      console.log("N", n.toString('hex'));
-      let comp = new util.BN(n.toString('hex'));
+      let preHashStr = challenge + trim0x(this.account) + trim0x(nonce);
+      let hashHexStr = util.sha3(preHashStr);
+      let rmdOut = util.ripemd160(hashHexStr);
+      let num = new util.BN(util.sha256(rmdOut));
       let diffBN = new util.BN(""+difficulty);
 
-      /*from solidity
-        sha256(
-          abi.encodePacked(
-            ripemd160(
-              abi.encodePacked(
-                keccak256(
-                  abi.encodePacked(
-                    self.currentChallenge,msg.sender,_nonce
-                  )
-                )
-              )
-            )
-          )
-        );
-      */
-
-      if((comp.mod(diffBN).toString()-0) === 0) {
+      if((num.mod(diffBN).toString()-0) === 0) {
         return j;
       }
 
