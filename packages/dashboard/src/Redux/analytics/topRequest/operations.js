@@ -7,22 +7,6 @@ const init = () => async (dispatch,getState) => {
   dispatch(Creators.initStart());
   let con = getState().chain.contract;
 
-  con.events.NewChallenge(null, async (e, evt) => {
-    if(!evt) {
-      return;
-    }
-
-    if(evt.normalize) {
-      evt = evt.normalize();
-    }
-    if(!evt.id) {
-      return;
-    }
-    
-    dispatch(Creators.updateStart());
-    dispatch(Creators.updateSuccess(evt));
-  });
-
   try {
     //read last 50 challenge requests and see which one was called the most
     let r = await Storage.instance.readAll({
@@ -60,9 +44,13 @@ const init = () => async (dispatch,getState) => {
   } catch (e) {
     dispatch(Creators.failure(e));
   }
+}
 
+const challengeIssued = evt => dispatch => {
+  dispatch(Creators.updateSuccess(evt));
 }
 
 export default {
-  init
+  init,
+  challengeIssued
 }

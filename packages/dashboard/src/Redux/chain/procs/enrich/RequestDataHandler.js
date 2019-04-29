@@ -8,6 +8,7 @@ import {
   normalizeChallenge
 } from './utils';
 import * as ethUtils from 'web3-utils';
+import {default as topOps} from 'Redux/analytics/topRequest/operations';
 
 
 export default class RequestDataHandler extends Plugin {
@@ -82,6 +83,7 @@ export default class RequestDataHandler extends Plugin {
           req = normalizeRequest(req);
         }
       }
+
       if(newChallenge) {
         newChallenge = normalizeChallenge(req, newChallenge);
         store({database: dbNames.NewChallenge,
@@ -89,8 +91,9 @@ export default class RequestDataHandler extends Plugin {
           data:newChallenge.toJSON()
         });
         req.challenges[newChallenge.challengeHash] = normalizeChallenge(req,newChallenge);
-
+        dispatch(topOps.challengeIssued(newChallenge));
       }
+
       //update redux with new request or existing request with its added challenge
       dispatch(Creators.addRequest({request: req}));
       if(newChallenge) {
@@ -196,6 +199,7 @@ export default class RequestDataHandler extends Plugin {
         }
         dispatch(Creators.updateRequest({request: req}));
         dispatch(Creators.updateCurrent({challenge: ch}));
+        dispatch(topOps.challengeIssued(ch));
       }
     }
   }
