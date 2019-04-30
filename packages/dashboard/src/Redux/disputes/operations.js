@@ -1,8 +1,5 @@
 import {Creators} from './actions';
 import _ from 'lodash';
-import Storage from 'Storage';
-import * as dbNames from 'Storage/DBNames';
-import eventFactory from 'Chain/LogEvents/EventFactory';
 import {default as chainOps} from 'Redux/chain/operations';
 import {generateDisputeHash} from 'Chain/utils';
 import {toastr} from 'react-redux-toastr';

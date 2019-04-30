@@ -15,7 +15,6 @@ const buildEvent = (payload) => {
 }
 
 const MAX_DISPUTE_TIME = 86400; //1 day
-const MAX_VOTE_TIME = 7 * 86400; //7 days to vote
 
 class Query {
   constructor(props) {
@@ -175,7 +174,6 @@ export default class ContractLogic {
     let challenge = {
       ...this.currentChallenge
     }
-    let details = this.requestsById[challenge.apiId] || {};
     return [
       challenge.challengeChallenge,
       challenge.apiId,
@@ -384,8 +382,7 @@ export default class ContractLogic {
   }
 
   async didVote(disputeId, address) {
-    let disp = this.disputesById[disputeId];
-    //START HERE
+    
   }
 
   async addTip(requestId, tip) {

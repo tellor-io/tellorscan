@@ -3,7 +3,7 @@
  */
 
  import Web3Wrapper from './web3/Web3Wrapper';
- import Mock from './mock/Mock';
+ //import Mock from './mock/Mock';
 
  let inst = null;
  export const init = (props) => {

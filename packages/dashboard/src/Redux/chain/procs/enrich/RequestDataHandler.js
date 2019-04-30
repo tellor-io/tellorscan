@@ -2,12 +2,10 @@ import Plugin from './Plugin';
 import * as dbNames from 'Storage/DBNames';
 import {Creators} from 'Redux/requests/actions';
 import {findRequestById, getCurrentTipForRequest} from 'Chain/utils';
-import _ from 'lodash';
 import {
   normalizeRequest,
   normalizeChallenge
 } from './utils';
-import * as ethUtils from 'web3-utils';
 import {default as topOps} from 'Redux/analytics/topRequest/operations';
 
 

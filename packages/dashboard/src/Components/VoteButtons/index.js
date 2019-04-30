@@ -4,7 +4,6 @@ import {default as dispOps} from 'Redux/disputes/operations';
 
 const s2p = (state,own) => {
   let disp = own.dispute;
-  let con = state.chain.contract;
   let user = state.chain.chain.ethereumAccount || "";
   user = user.toLowerCase();
   let canVote = false;

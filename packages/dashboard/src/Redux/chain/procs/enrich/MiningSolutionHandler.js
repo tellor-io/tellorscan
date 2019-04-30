@@ -1,6 +1,6 @@
 import Plugin from './Plugin';
 import * as dbNames from 'Storage/DBNames';
-import {findRequestById, getCurrentTipForRequest} from 'Chain/utils';
+import {findRequestById} from 'Chain/utils';
 import * as ethUtils from 'web3-utils';
 import {Creators} from 'Redux/requests/actions';
 import {default as miningOps} from 'Redux/analytics/mining/operations';
@@ -200,8 +200,6 @@ export default class MiningSolutionHandler extends Plugin {
 
   process(txn, store) {
     return async (dispatch, getState) => {
-      //get associated challenge
-      let state = getState();
       //we have to update nonces for current challenge if availabe.
 
       let outData = {};

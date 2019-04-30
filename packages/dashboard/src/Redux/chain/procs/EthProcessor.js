@@ -1,7 +1,6 @@
 import * as yup from 'yup';
 import _ from 'lodash';
 import Storage from 'Storage';
-import * as dbNames from 'Storage/DBNames';
 
 const procSchema = yup.object().shape({
   id: yup.string().required("Missing processor id")

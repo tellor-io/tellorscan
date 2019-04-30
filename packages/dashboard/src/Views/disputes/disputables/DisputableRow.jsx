@@ -13,8 +13,6 @@ import Button from 'Components/DisputeButton';
 import _ from 'lodash';
 import {default as dispOps} from 'Redux/disputes/operations';
 
-const DISPUTABLE_PERIOD = 7 * 86400;
-
 const nonceRows = [
   {
     value: (ch,n) => {
@@ -181,12 +179,13 @@ export default class DisputableRow extends React.Component {
           nonces.map((n,i)=>{
             let selected = this.props.selectedNonce === n && this.props.expanded;
             let borderClass = selected?"border border-dark":undefined;
+            let selClass = selected?"bg-tellor-muted":"";
             return (
               <Col key={i} md='2' className={cn(align.leftCenter, align.noMarginPad)}>
                 <span onClick={()=>{
                   this.props.selectForDispute(challenge, n)
                 }}
-                      className={cn("value-tab", "p-1", "rounded", "text-center", "text-1", {["bg-tellor-muted"]: selected}, borderClass)}>
+                      className={cn("value-tab", "p-1", "rounded", "text-center", "text-1", selClass, borderClass)}>
                   {n.value}
                 </span>
               </Col>

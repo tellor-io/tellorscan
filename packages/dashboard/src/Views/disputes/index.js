@@ -1,7 +1,6 @@
 import {connect} from 'react-redux';
 import Disputes from './Disputes';
 import {withRouter} from 'react-router-dom';
-import {default as setOps} from 'Redux/disputes/operations';
 import * as navs from 'Navs';
 
 const s2p = state => {

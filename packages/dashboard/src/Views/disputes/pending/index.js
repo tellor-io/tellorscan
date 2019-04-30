@@ -1,7 +1,6 @@
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import Pending from './Pending';
-import moment from 'moment';
 import * as navs from 'Navs';
 import _ from 'lodash';
 import {default as dispOps} from 'Redux/disputes/operations';
@@ -15,7 +14,6 @@ const s2p = (state,own) => {
   let all = [];
   _.values(reqsById).forEach(r=>{
     let ds = r.disputes.byId || {};
-    let challenges = r.challenges || {};
 
   _.values(ds).forEach(d=>{
     let canVote = true;

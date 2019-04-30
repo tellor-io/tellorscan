@@ -1,14 +1,9 @@
 import EventEmitter from 'events';
 import SubscriptionProvider from '../SubscriptionProvider';
-import eventFactory from 'Chain/LogEvents/EventFactory';
-import Storage from 'Storage';
-import * as ethUtils from 'web3-utils';
 
-let singleton = null;
 export default class Web3Contract {
   constructor({chain, master, tellor, caller}) {
-    singleton = this;
-
+    
     this.chain = chain;
     this.master = master;
     this.caller = caller;

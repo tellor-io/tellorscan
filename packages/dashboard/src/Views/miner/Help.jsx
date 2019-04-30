@@ -3,8 +3,7 @@ import * as align from 'Constants/alignments';
 import cn from 'classnames';
 import {
   Row,
-  Col,
-  Button
+  Col
 } from 'reactstrap';
 import discord from 'Assets/images/Discord-Logo-Color.svg';
 
@@ -22,7 +21,7 @@ export default class Help extends React.Component {
         </Col>
 
         <Col md="12" className={cn("pt-5", align.allCenter, align.noMarginPad)}>
-          <img src={discord} width="75" height="75" alt="discord" />
+          <img className="discord-icon" onClick={()=>this.props.discordHandler()} src={discord} width="75" height="75" alt="discord" />
         </Col>
       </Row>
     )

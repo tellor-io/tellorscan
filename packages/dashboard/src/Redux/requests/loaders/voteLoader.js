@@ -1,6 +1,5 @@
 import * as dbNames from 'Storage/DBNames';
 import Storage from 'Storage';
-import {Creators} from '../actions';
 import _ from 'lodash';
 
 const normalizeVote = (vote) => {

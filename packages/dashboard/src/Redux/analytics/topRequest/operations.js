@@ -5,8 +5,6 @@ import _ from 'lodash';
 
 const init = () => async (dispatch,getState) => {
   dispatch(Creators.initStart());
-  let con = getState().chain.contract;
-
   try {
     //read last 50 challenge requests and see which one was called the most
     let r = await Storage.instance.readAll({

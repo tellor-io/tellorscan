@@ -30,8 +30,7 @@ class Header extends React.Component {
 class MinerDetails extends React.Component {
   render() {
     const {
-      miner,
-      idx
+      miner
     } = this.props;
     return (
       <Row className={cn("detail", "border-bottom", "border-muted", "mb-2", align.topCenter, align.full, align.noMarginPad)}>

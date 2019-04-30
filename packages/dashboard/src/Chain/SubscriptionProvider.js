@@ -1,7 +1,6 @@
 import EventEmitter from 'events';
 import * as eventTypes from './LogEvents';
 import _ from 'lodash';
-import Storage from 'Storage';
 import eventFactory from 'Chain/LogEvents/EventFactory';
 import {Mutex} from 'async-mutex';
 
@@ -51,21 +50,7 @@ export default class SubscriptionProvider {
             }
 
             console.log("Receiving event from chain", actual.event);
-            //store all incoming events
-            /***
-            try {
-              await Storage.instance.create({
-                database: actual.event,//event name === db name
-                key: actual.transactionHash,
-                data: actual.toJSON()
-              });
-            } catch (e) {
-              console.log("Problem storing event", e);
-            }
-
-            console.log("Stored event", actual.event);
-            ***/
-
+            
             if(this.allListeners.length > 0) {
               console.log("Notifying allListener for event", actual.event);
               let norm = actual.normalize();

@@ -1,9 +1,7 @@
 import Plugin from './Plugin';
 import * as dbNames from 'Storage/DBNames';
 import {findRequestById, findDisputedNonce} from 'Chain/utils';
-import * as ethUtils from 'web3-utils';
 import {Creators} from 'Redux/requests/actions';
-import _ from 'lodash';
 import {
   normalizeRequest,
   normalizeDispute
@@ -42,7 +40,7 @@ const addNewDispute = ({txn, store, outData}) => async (dispatch, getState) => {
   d = normalizeDispute(req, d);
   let nonce = await dispatch(findDisputedNonce(req, d));
   d.targetNonce = nonce;
-  
+
   outData.request = {
     ...req,
     disputes: {
@@ -79,7 +77,6 @@ export default class InitDisputeHandler extends Plugin {
 
   process(txn, store) {
     return async (dispatch, getState) => {
-      let state = getState();
       let outData = {};
       await dispatch(addNewDispute({txn, store, outData: outData}));
       if(outData.dispute) {

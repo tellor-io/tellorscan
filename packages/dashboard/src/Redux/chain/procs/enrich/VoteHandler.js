@@ -1,6 +1,5 @@
 import Plugin from './Plugin';
 import * as dbNames from 'Storage/DBNames';
-import {findRequestById, findDisputedNonce} from 'Chain/utils';
 import * as ethUtils from 'web3-utils';
 import {Creators} from 'Redux/requests/actions';
 import _ from 'lodash';
@@ -81,7 +80,6 @@ export default class VoteHandler extends Plugin {
 
     return async (dispatch, getState) => {
       console.log("Getting vote call");
-      let state = getState();
       let outData = {};
       await dispatch(addVote({txn, store, outData: outData}));
       if(outData.dispute) {

@@ -26,10 +26,10 @@ export default class Miner extends React.Component {
           <Col md="6" className={cn("pr-5", align.topCenter, align.noMarginPad)}>
             <Row className={cn("download-col", "rounded", "bg-white", align.topCenter, align.full, align.noMarginPad)}>
               <Col md="12" className={cn("border-bottom", "border-muted", align.allCenter, align.noMarginPad)}>
-                <Download />
+                <Download downloadHandler={this.props.download}/>
               </Col>
               <Col md="12" className={cn(align.topCenter, align.noMarginPad)}>
-                <Help />
+                <Help discordHandler={this.props.discord} />
               </Col>
             </Row>
           </Col>

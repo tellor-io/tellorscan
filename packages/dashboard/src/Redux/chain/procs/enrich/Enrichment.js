@@ -1,4 +1,3 @@
-import eventFactory from 'Chain/LogEvents/EventFactory';
 import MiningHandler from './MiningSolutionHandler';
 import RequestHandler from './RequestDataHandler';
 import InitDispute from './InitDispute';

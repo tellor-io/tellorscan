@@ -28,4 +28,10 @@
       min-height: 60px;
     }
   }
+
+  .discord-icon {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }

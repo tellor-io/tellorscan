@@ -1,5 +1,4 @@
 import {Creators} from './actions';
-import {default as chainOps} from 'Redux/chain/operations';
 
 const init = () => async (dispatch, getState) => {
   dispatch(Creators.initStart());

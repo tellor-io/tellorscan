@@ -19,9 +19,9 @@ export default class Download extends React.Component {
             Click below to download our latest miner
           </div>
         </Col>
-        
+
         <Col md="12" className={cn("pb-5", align.allCenter, align.noMarginPad)}>
-          <Button size="lg" className={cn("bg-tellor-green", "rounded")}>
+          <Button onClick={()=>this.props.downloadHandler()} size="lg" className={cn("bg-tellor-green", "rounded")}>
             Download
           </Button>
         </Col>

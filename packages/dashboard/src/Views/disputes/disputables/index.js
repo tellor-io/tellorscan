@@ -4,7 +4,6 @@ import {withRouter} from 'react-router-dom';
 import _ from 'lodash';
 import * as navs from 'Navs';
 import {default as dispOps} from 'Redux/disputes/operations';
-import {default as chainOps} from 'Redux/chain/operations';
 import {default as disputeOps} from 'Redux/disputes/operations';
 
 const s2p = (state,own) => {
@@ -45,7 +44,6 @@ const s2p = (state,own) => {
 
   let selCh = state.disputes.selectedChallenge || {};
   let selNonce = state.disputes.selectedNonce || {};
-  let nonces = _.values(selCh.nonces) || [];
   return {
     expandedHash: selCh.challengeHash,
     selectedNonce: selNonce,

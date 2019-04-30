@@ -5,7 +5,6 @@ import {default as chainOps} from 'Redux/chain/operations';
 import _ from 'lodash';
 
 import {withRouter} from 'react-router-dom';
-import * as navs from 'Navs';
 
 const ID = "addTip";
 

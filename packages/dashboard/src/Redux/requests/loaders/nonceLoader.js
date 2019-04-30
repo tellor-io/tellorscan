@@ -1,6 +1,5 @@
 import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
-import {Creators} from '../actions';
 import _ from 'lodash';
 
 const normalizeNonce = n => {

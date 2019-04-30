@@ -2,16 +2,13 @@ import {Creators} from './actions';
 import Chain, {init as chainInit} from 'Chain';
 import {toastr} from 'react-redux-toastr';
 import {generateQueryHash, generateDisputeHash} from 'Chain/utils';
-
-import {registerDeps} from 'Redux/DepMiddleware';
-import {Types as settingsTypes} from 'Redux/settings/actions';
 import ethProcs from './procs';
 
 const init = () => async (dispatch,getState) => {
   if(getState().chain.chain) {
     return;
   }
-  
+
   dispatch(Creators.loadRequest());
   chainInit();
   let chain = Chain(); //shared instance of whatever chain source we're using

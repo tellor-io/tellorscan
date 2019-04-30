@@ -1,9 +1,8 @@
 import * as dbNames from 'Storage/DBNames';
 import Storage from 'Storage';
-import {Creators} from '../actions';
 import _ from 'lodash';
 import {default as voteOps} from './voteLoader';
-import {findRequestById, findDisputedNonce} from 'Chain/utils';
+import {findDisputedNonce} from 'Chain/utils';
 
 
 
@@ -58,8 +57,7 @@ const loadAll = (reqMap) => async (dispatch, getState) => {
   let byId = {};
   let dById = {};
 
-  let byHash = restored.reduce((o,d)=>{
-    o[d.disputeHash] = d;
+  restored.forEach(d=>{
     let h = byId[d.requestId] || {};
     let hById = h.byId || {};
     let hByHash = h.byHash || {};
@@ -69,9 +67,8 @@ const loadAll = (reqMap) => async (dispatch, getState) => {
     h.byId = hById;
     h.byHash = hByHash;
     byId[d.requestId] = h;
-    return o;
-  },{});
-  
+  });
+
   let votesById = await dispatch(voteOps.loadAll(dById));
   _.keys(votesById).forEach(id=>{
     let d = dById[id];

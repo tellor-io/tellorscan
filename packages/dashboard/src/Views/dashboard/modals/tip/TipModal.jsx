@@ -61,8 +61,7 @@ export default class TipModal extends React.Component {
       showing,
       loading,
       error,
-      request,
-      tipInfo
+      request
     } = this.props;
 
     return (

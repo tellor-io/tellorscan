@@ -1,7 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
 import * as align from 'Constants/alignments';
-import Loading from 'Components/Loading';
 
 export default class ChallengeValue extends React.Component {
   render() {

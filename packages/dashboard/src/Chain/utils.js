@@ -33,8 +33,6 @@ export const findRequestById = id => async (dispatch, getState) => {
         _totalTips: vars[5]
       }
     };
-
-    let hash = vars[2];
     return eventFactory(payload);
   }
   return null;

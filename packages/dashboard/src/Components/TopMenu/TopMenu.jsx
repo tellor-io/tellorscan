@@ -21,7 +21,6 @@ import miner from 'Assets/images/miner.png';
 export default class TopMenu extends React.Component {
   render() {
     const {
-      loading,
       balance,
       withSearch,
       title,
