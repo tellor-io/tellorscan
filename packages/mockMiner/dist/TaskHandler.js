@@ -294,9 +294,25 @@ var TaskHandler = function () {
                 return _context4.abrupt('return', data[jsonField] - 0);
 
               case 9:
+                if (!isNaN(data)) {
+                  _context4.next = 13;
+                  break;
+                }
+
+                if (!data.price) {
+                  _context4.next = 12;
+                  break;
+                }
+
+                return _context4.abrupt('return', data.price - 0);
+
+              case 12:
+                return _context4.abrupt('return', 0);
+
+              case 13:
                 return _context4.abrupt('return', data - 0);
 
-              case 10:
+              case 14:
               case 'end':
                 return _context4.stop();
             }

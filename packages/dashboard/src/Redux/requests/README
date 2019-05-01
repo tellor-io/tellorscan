@@ -1,0 +1,30 @@
+By far the most complex part of the Tellor dashboard is the Request data structure.
+It represents all known requests and their associated interactions/events.
+
+Requests have challenges, tips, and disputes along with metadata extracted from
+a DataRequested log event coming from the smart contract. Think of this as a
+tree structure:
+
+                               Request
+                           /      |     \
+                          /       |      \
+                    Challenges   Tips   Disputes
+                    /   |   \
+                   /    |    \
+              Nonces  Value   Miners
+                   
+Challenges are a collection of NewChallenge events that also have a nested
+set of Nonces, a final value, and an ordered set of miner addresses based on
+their sorted winning order.
+
+Nonces have information about a miner's submission and once a challenge is
+finalized with a value, nonces are assigned a winning order. Nonces are ultimately
+what can be disputed.
+
+Once a challenge is finished, it is assigned a final value--which is basically
+the NewValue log event from the smart contract. At that time, all its nonces are
+also sorted in the order of winning miner addresses.
+
+Disputes are assigned to a request, and in the dashboard get paired with a
+challenge and a specific Nonce submission. The disputes fall under a request to
+keep everything organized in a tree structure.

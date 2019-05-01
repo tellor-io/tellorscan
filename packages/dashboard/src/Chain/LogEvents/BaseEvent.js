@@ -13,7 +13,7 @@ export default class BaseEvent {
     this.address = props.address;
     this.transactionHash = props.transactionHash;
     this.blockNumber = this._asNum(props.blockNumber);
-    this.transiactionIndex = this._asNum(props.transactionIndex);
+    this.transactionIndex = this._asNum(props.transactionIndex);
     this.logIndex = this._asNum(props.logIndex);
     this.timestamp = this._asNum(props.timestamp);
   }

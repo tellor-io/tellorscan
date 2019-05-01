@@ -1,0 +1,39 @@
+The Redux package contains code to manipulate the redux state tree. Code is
+generally orgnized into "actions", "reducers", and "operations".
+
+Actions represent starting points for state changes. Reducers react to action
+functions being called via redux's "dispatch". Reducers actually change the
+redux state tree.
+
+Operations represent functions that UI or other components can dispatch to in
+order to 1) trigger state changes or 2) execute some complex functional code
+that ultimately triggers state changes. Think of operations as the API into a
+particular module of functionality.
+
+Analytics package represents state around top miner, top request, tip history, etc.
+
+Chain represents state and operations for on-chain activity
+
+Disputes generally hold information about selected disputes for the UI. The
+disputes themselves are held in a requests (more below).
+
+Init kicks of or initializes other Redux operations. This ensures that the state
+of the dashboard is properly initialized in a particular order.
+
+Modals represents various modal dialogues and any captured user input.
+
+Requests is the most widely used state in the dashboard since it represents
+all known data requests happening on chain. See the README inside requests for
+a more detailed description.
+
+Settings currently just handles data clearing but could do a lot more in the future.
+
+Tips represents tipping interactions. Actual tips are held inside requests.
+
+Token represents anything token related.
+
+DepMiddleware is a special-purpose utility that allows any of the above modules
+to subscribe to specific actions of another module. For example, when settings
+clears the history, some other module may need to clear its own data structures
+or re-initialize. The middleware allows any module to subscribe to any other
+module's actions.

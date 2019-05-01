@@ -1,0 +1,10 @@
+Dashboard is broken into 4 main pieces: activities, modals, overview, and search.
+
+Activities represent the current mining activities and request history.
+
+Modals are any dialogue used in the dashboard to gather user info.
+
+Overview is the top section of the dashboard and holds various analytic information
+as well as current requests being mined, etc.
+
+Search is a reusable search box that allows user to view request details by its id.

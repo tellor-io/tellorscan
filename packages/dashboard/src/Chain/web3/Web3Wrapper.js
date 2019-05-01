@@ -1,7 +1,6 @@
 import Web3 from 'web3';
 import {
-  DEFAULT_MASTER_CONTRACT,
-  DEFAULT_TELLOR_CONTRACT
+  DEFAULT_MASTER_CONTRACT
 } from 'Constants/chain/web3Config';
 import abi from 'Chain/abi';
 import Web3Contract from './Web3Contract';
@@ -9,6 +8,9 @@ import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
 import {Creators as ChainCreators} from 'Redux/chain/actions';
 
+//the maximum numbre of blocks we care about. Be careful what to set this
+//to as it impacts how long startup will take when no local storage or
+//event data exists. 8K is generally the number of mainnet blocks per day.
 const MAX_BLOCKS = 8000;
 
 export default class Web3Wrapper {
@@ -35,11 +37,14 @@ export default class Web3Wrapper {
   init() {
     return async (dispatch, getState) => {
       console.log("Chain init called");
+
+      //if we've already been initialized, just ask contract to re-initialize
       if(this.contract) {
         await this.contract.init();
         return;
       }
 
+      //set up web3
       let ethProvider = window.ethereum;
       if(!ethProvider && window.web3){
         ethProvider =  window.web.currentProvider;
@@ -52,30 +57,48 @@ export default class Web3Wrapper {
           //user denied access to app
           acts = [];
         }
+
+        //If the user changes account in metamask
         ethProvider.on('accountsChanged', async (accounts) => {
+          //grab new account and assign as contract default caller address
           this.ethereumAccount = accounts[0];
           this.contract.caller = accounts[0];
           console.log("Accounts changed in MM");
+
+          //check whether the address is currently in dispute
           await this.checkInDispute();
+
+          //re-establish the chain with new account
           dispatch(ChainCreators.loadSuccess(this));
         });
+
+        //establish the latest block number
         this.block = await this.web3.eth.getBlockNumber();
         console.log("Latest block", this.block);
 
+
+        //create eth contract with default address defined in
+        //Constants/chain/web3Config
         let master = new this.web3.eth.Contract(abi, DEFAULT_MASTER_CONTRACT, {
           address: DEFAULT_MASTER_CONTRACT
         });
-        let tellor = new this.web3.eth.Contract(abi, DEFAULT_TELLOR_CONTRACT, {
-          address: DEFAULT_TELLOR_CONTRACT
-        });
-        this.contract = new Web3Contract({chain: this, master, tellor, caller: acts[0]});
+
+        //our contract wrapper
+        this.contract = new Web3Contract({chain: this, master, caller: acts[0]});
+
+        //the default account selected in metamask
         this.ethereumAccount = acts[0];
+
+        //initialize contract
         await this.contract.init();
+
+        //see if selected account is in dispute
         await this.checkInDispute();
       }
     }
   }
 
+  //call on chain to determine if the current account is in dispute
   async checkInDispute() {
     let r = await this.contract.isInDispute(this.ethereumAccount);
     this.isInDispute = r;
@@ -87,6 +110,9 @@ export default class Web3Wrapper {
     await this.contract.unload();
   }
 
+  /**
+   * Get the timestamp of a particular block number
+   */
   async getTime(block) {
 
     let t = this.times[block];
@@ -102,20 +128,34 @@ export default class Web3Wrapper {
     return undefined;
   }
 
+  /**
+   * Get a specific block from chain
+   */
   getBlock(number) {
     console.log("Calling getBlock");
     return this.web3.getBlock(number);
   }
 
+  /**
+   * Get the latest block for the chain
+   */
   async latestBlock() {
     return this.block;
   }
 
+  /**
+   * Get the contract wrapper associated with this chain impl
+   */
   getContract(props) {
     return this.contract;
   }
 
+  /**
+   * Get any gaps in block numbers that need to be restored
+   */
   async getMissingBlockRanges(limit) {
+
+    //read all block metadata stored locally
     let all = await Storage.instance.readAll({
       database: dbNames.Blocks,
       limit: limit || MAX_BLOCKS, //about a day
@@ -127,8 +167,13 @@ export default class Web3Wrapper {
       ]
     });
     let gaps = [];
+
+    //the last locally-known block
     let last = all[0]?all[0].blockNumber-0:0;
+
     //the first gap could be from the latest block back
+    //NOTE: we can't go back to zero as this would scan forever
+    //on test or mainnet. Instead, we limit scans to MAX_BLOCKS
     if(last < this.block) {
       let diff = this.block - last;
       if(diff > MAX_BLOCKS) {
@@ -158,7 +203,9 @@ export default class Web3Wrapper {
     });
 
     //we need to reverse sort the gaps because they are currently
-    //in descending order. They need to be in increasing order
+    //in descending order. They need to be in increasing order so
+    //that replay order is preserved at startup. Otherwise, the latest
+    //state would be overwritten by early state!
     gaps.sort((a,b)=>{
       return a.start - b.start;
     })
@@ -166,6 +213,9 @@ export default class Web3Wrapper {
     return gaps;
   }
 
+  /**
+   * Record that the given gap has been satisfied
+   */
   async fillBlockGap(gap) {
     console.log("Filling block gap", gap);
     for(let i=gap.start;i<=gap.end;++i) {
@@ -180,21 +230,9 @@ export default class Web3Wrapper {
     }
   }
 
-  async _getLastSeenBlock() {
-    let r = await Storage.instance.readAll({
-      database: dbNames.Blocks,
-      limit: 1,
-      sort: [
-        {
-          field: "blockNumber",
-          order: "desc"
-        }
-      ]
-    });
-    let b = r[0];
-    return b?b.blockNumber:0;
-  }
-
+  /**
+   * Store that  block has been received
+   */
   async _storeBlockTime(block) {
     if(!block) {
       return;

@@ -27,7 +27,7 @@ class DisputeInfo extends React.Component {
 
     if(v > 0) { color = "text-success"; prefix = "fa fa-thumbs-up"; leaning = "for disputer";}
     else if(v < 0) {color = "text-danger"; prefix = "fa fa-thumbs-down"; leaning = "against disputer"; }
-    else {color = "text-dark"; prefix = "fa fa-ellipsis-h"; leaning = "no votes yet"}
+    else {color = "text-dark"; prefix = "fa fa-ellipsis-h"; leaning = "neutral"}
     v = Math.abs(v);
     let tally = (
       <div className={cn(align.allCenter, color, "font-weight-bold", "text-1")}>

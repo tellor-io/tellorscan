@@ -113,6 +113,12 @@ export default class TaskHandler {
     if(jsonField) {
       return data[jsonField]-0;
     }
+    if(isNaN(data)) {
+      if(data.price) {
+        return data.price - 0;
+      }
+      return 0;
+    }
     return data-0;
   }
 

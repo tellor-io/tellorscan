@@ -4,23 +4,37 @@ import {toastr} from 'react-redux-toastr';
 import {generateQueryHash, generateDisputeHash} from 'Chain/utils';
 import ethProcs from './procs';
 
+
 const init = () => async (dispatch,getState) => {
   if(getState().chain.chain) {
     return;
   }
 
+
   dispatch(Creators.loadRequest());
+  //initialize the chain class
   chainInit();
-  let chain = Chain(); //shared instance of whatever chain source we're using
+
+  //create the chain instance
+  let chain = Chain();
   try {
+    //initialize the instance
     await dispatch(chain.init());
+
+    //set it on the redux store
     dispatch(Creators.loadSuccess(chain));
+
+    //initialize the eth processing flow
     await dispatch(ethProcs.init());
+
   } catch (e) {
     dispatch(Creators.failure(e));
   }
 }
 
+/**
+ * Startup the flow and any subscriptions
+ */
 const startSubscriptions = () => async (dispatch,getState) => {
   try {
     await dispatch(ethProcs.ready());
@@ -29,6 +43,10 @@ const startSubscriptions = () => async (dispatch,getState) => {
   }
 }
 
+/**
+ * Not guaranteed to be called but is supposed to cleanup
+ * any subscriptions
+ */
 const unload = () => async (dispatch, getState) => {
   try {
 
@@ -39,6 +57,7 @@ const unload = () => async (dispatch, getState) => {
     //have to ignore
   }
 }
+
 
 const lookupQueryByHash = props => async (dispatch,getState) => {
   let state = getState();
@@ -62,6 +81,10 @@ const lookupDisputeByHash = props => async (dispatch, getState) => {
   return ex || 0;
 }
 
+/**
+ * Calls the contract's requestData method after verifying
+ * that the request doesn't already exist
+ */
 const requestData = props => async (dispatch,getState) => {
   let ex = await dispatch(lookupQueryByHash(props));
   if(ex) {
@@ -70,6 +93,10 @@ const requestData = props => async (dispatch,getState) => {
   return dispatch(_doRequestData(props));
 }
 
+/**
+ * Calls beginDispute after verifying that the dispute doesn't
+ * already exist
+ */
 const initDispute = props => async (dispatch, getState) => {
   let ex = await dispatch(lookupDisputeByHash(props));
   if(ex) {
@@ -82,6 +109,7 @@ const initDispute = props => async (dispatch, getState) => {
 const _doRequestData = props => async (dispatch, getState) => {
   let state = getState();
   let con = state.chain.contract;
+  //call on-chain to request data
   await con.requestData(props.queryString, props.symbol, props.apiId, props.multiplier, props.tip)
     .then(()=>{
       return toastr.info("Submitted data request");
@@ -94,6 +122,7 @@ const _doRequestData = props => async (dispatch, getState) => {
 const _doInitDispute = props => async (dispatch, getState) => {
   let state = getState();
   let con = state.chain.contract;
+  //call on-chain to begin a new dispute
   await con.beginDispute(props.requestId, props.timestamp, props.miner.index)
     .then(()=>{
       return toastr.info("Submitted dispute request");
@@ -103,6 +132,9 @@ const _doInitDispute = props => async (dispatch, getState) => {
     })
 }
 
+/**
+ * Calls contract's addTip function
+ */
 const addToTip = (id,tip) => (dispatch, getState) => {
   let state = getState();
   let req = state.requests.byId[id];
@@ -112,6 +144,9 @@ const addToTip = (id,tip) => (dispatch, getState) => {
   }
 }
 
+/**
+ * Calls contract's lazyCoon function to get tokens
+ */
 const getTokens = () => (dispatch, getState) => {
   let state = getState();
   let con = state.chain.contract;

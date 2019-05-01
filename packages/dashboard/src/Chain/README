@@ -1,0 +1,28 @@
+The Chain module is an attempt to abstract the blockchain interactions so that
+the code is isolated from dealing directly with web3 as much as possible. In
+the beginning, a mock blockchain and contract were used to simulate much of
+the dashboard interactions. Once the contract was completed and ready for
+deployment, the UI used the real web3 version instead of the simulation.
+
+If the smart contract function or log event signatures change, the new JSON
+build files must be copied to the abi module. This is used to parse incoming
+transactions.
+
+LogEvents is an attempt to normalize field naming during early development. The
+structures represent basic information for each event context. Most events are
+converted to richer data structures tailored for dashboard interaction.
+
+The mock module holds all mock/simulation code that has not been synchronized
+with changes from smart contract. It is no longer needed but is kept for
+possible extension or use later.
+
+The web3 module holds the web3 implementation of chain and contract.
+
+The SubscriptionProvider class was intended to abstract event subscriptions
+for Redux operations. But during dev, event subscriptions became cumbersome and
+overly complex leading to simplified block-based subscription and EthProcessor
+found in the Redux/chain/proc module. The SubscriptionProvider is still used
+but only to push blockEvent events (which are a set of log events extracted
+from transactions along with their functional context).
+
+The utils lib is intended to make certain reused functions accessible across modules.

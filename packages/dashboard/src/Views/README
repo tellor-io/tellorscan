@@ -1,0 +1,26 @@
+There is a repeating theme throughout the views. Each view module has an 'index.js'
+and one or more other files, usually with a 'jsx' extension. The 'index.js' file
+represents the "container" or connector that connects a React Component with
+redux state. Inside each 'index.js' you'll see "s2p", "d2p", "connect", and
+sometimes "withRouter".
+
+s2p means "stateToProperties". It basically says, "take data from a redux state
+tree and make it a property of a React Component". When you see the React
+Components refer to "this.props.X", "X" can be defined as a state property,
+a property passed in directly from another component, or as a dispatch operation (d2p).
+
+d2p means "dispatchToProperties". It basically says, "expose certain actions to
+the React Component that I can call with the redux dispatch function". This is
+what ties the UI components to the Redux operations that ultimately update the
+redux state tree. The flow is:
+
+UI -> d2p.opName -> Redux/<module>/operations.opName -> Redux/<module>/actions -> Redux/<module>/reducers
+
+Any interaction from the UI that must update the redux state tree does so using
+functions defined in d2p.
+
+The "connect" reference in the index.js is what "connects" or binds the state
+and dispatch properties to the React Component instance.
+
+The "withRouter" reference is used in cases where navigation changes are needed
+as part of a user's interaction (clicking a link to see request details for example).

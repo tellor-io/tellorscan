@@ -8,7 +8,7 @@ import {toastr} from 'react-redux-toastr';
 
 const s2p = state => {
   let byId = state.requests.byId;
-  let events = _.keys(byId).map(k=>byId[k]);
+  let events = _.values(byId);
   events.sort((a,b)=>{
     return b.currentTip - a.currentTip
   });
@@ -28,7 +28,6 @@ const d2p = (dispatch,own) => {
 
     addTip: async (id) => {
       try {
-        //await dispatch(chainOps.addToTip(id, tip));
         dispatch(tipOps.showTipModal(id));
       } catch (e) {
         toastr.error("Error", e.message);

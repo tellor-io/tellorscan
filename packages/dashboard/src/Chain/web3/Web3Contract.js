@@ -1,13 +1,16 @@
 import EventEmitter from 'events';
 import SubscriptionProvider from '../SubscriptionProvider';
 
+/**
+ * Abstraction of smart contract. Dashboard interacts with contract interface
+ * and this implementation deals with txn submissions, etc.
+ */
 export default class Web3Contract {
   constructor({chain, master, tellor, caller}) {
-    
+
     this.chain = chain;
     this.master = master;
     this.caller = caller;
-    this.tellor = tellor;
     this.eventHistory = {};
     this._emitter = new EventEmitter();
 
@@ -26,6 +29,7 @@ export default class Web3Contract {
       'getMinersByRequestIdAndTimestamp',
       'getDisputeIdByDisputeHash',
       'getAllDisputeVars',
+      'getDisputeDetails',
       'beginDispute',
       'didVote',
       'isInDispute',
@@ -39,17 +43,27 @@ export default class Web3Contract {
       this[fn]=this[fn].bind(this);
     });
 
+    //treat a single event emitter as if the blockchain is emitting
+    //events to the subscription provider. Again, abstracting subscriptions
+    //from the rest of the dashboard.
     this._emitter = new EventEmitter();
     this.events = new SubscriptionProvider({
       chain: this._emitter //pretend our emitter is the blockchain
     });
   }
 
+  /**
+   * Called when a new block arrives and all log events have been extracted.
+   */
   emitEvents(events) {
     console.log("Emitting events", events);
     this._emitter.emit("blockEvents", {events});
   }
 
+  /**
+   * Read past events from blockchain. This follows normal web3 interface but adds
+   * additional functionality of retrieving and storing blocks locally for future reference.
+   */
   async getPastEvents(event, opts, callback) {
     console.log("Getting past events");
     let r = await this.master.getPastEvents(event||"allEvents", opts, async (err, events) => {
@@ -89,10 +103,12 @@ export default class Web3Contract {
   }
 
   async startSubscriptions() {
-
-
+    //no-op
   }
 
+  /**
+   * Make a contract call
+   */
   _call(con, method, args) {
     return con.methods[method](...args).call({
       from: this.caller,
@@ -100,6 +116,9 @@ export default class Web3Contract {
     });
   }
 
+  /**
+   * Submit a contract transaction.
+   */
   _send(con, method, args) {
     let tx = con.methods[method](...args);
       return new Promise((done,err)=>{
@@ -118,15 +137,21 @@ export default class Web3Contract {
   }
 
   async init() {
-
+    //nothing to do
   }
 
+  /**
+   * attempt to clean subscriptions. May or may not be called
+   * when page unloads
+   */
   async unload() {
     if(this.sub) {
       await this.sub.unsubscribe();
       this.sub = null;
     }
   }
+
+  //following are all same functions from solidity code
 
   getCurrentVariables() {
     return this._call(this.master, "getCurrentVariables", []);
@@ -172,6 +197,39 @@ export default class Web3Contract {
 
   getAllDisputeVars(id) {
     return this._call(this.master, "getAllDisputeVars", [id]);
+  }
+
+  async getDisputeDetails(id) {
+    let vars = await this.getAllDisputeVars(id);
+    /*  return(
+      disp.hash,                                              0
+      disp.executed,                                          1
+      disp.disputeVotePassed,                                 2
+      disp.isPropFork,                                        3
+      disp.reportedMiner,                                     4
+      disp.reportingParty,                                    5
+      disp.proposedForkAddress,                               6
+      [
+        disp.disputeUintVars[keccak256("requestId")],         7.0
+        disp.disputeUintVars[keccak256("timestamp")],         7.1
+        disp.disputeUintVars[keccak256("value")],             7.2
+        disp.disputeUintVars[keccak256("minExecutionDate")],  7.3
+        disp.disputeUintVars[keccak256("numberOfVotes")],     7.4
+        disp.disputeUintVars[keccak256("blockNumber")],       7.5
+        disp.disputeUintVars[keccak256("minerSlot")],         7.6
+        disp.disputeUintVars[keccak256("quorum")]             7.7
+      ],
+      disp.tally                                              8
+    );
+    */
+    if(!vars[0]) {
+      return null;
+    }
+    return {
+      _disputeId: id,
+      _requestId: vars[7][0],
+      _miner: vars[4]
+    }
   }
 
   beginDispute(requestId, timestamp, minerIndex) {

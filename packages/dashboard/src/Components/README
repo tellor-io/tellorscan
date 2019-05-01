@@ -1,0 +1,12 @@
+Wherever possible, reusable React Components are in the Components module.
+Not all reusable things are in this package, however, and more reuse is
+probably possible with the current codebase. CleanTable, CollapseTable, and
+ChallengeViewer are all a bit inter-tangled but serve specific purposes for
+different views.
+
+Note that Components, in general, do not have a connector "index.js". This is
+because most components depend on other views to provide properties that are
+rendered by the components in a generic way. Having an "index.js" implies that
+specific state is fed to a component and is only the case where the state is
+self-contained to support the component's functionality (such as various button
+types or search).

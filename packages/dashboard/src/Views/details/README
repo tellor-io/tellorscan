@@ -1,0 +1,8 @@
+Details are broken into activities and overview and reuses the Search component
+from dashboard module.
+
+Activities for details are the request-specific mining events and tipping
+activity.
+
+Overview just has basic information about the request such as the query string,
+multiplier, etc.

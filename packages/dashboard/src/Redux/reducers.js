@@ -10,6 +10,9 @@ import {default as disputes} from './disputes/reducers';
 import {default as token} from './token/reducers';
 import {default as requests} from './requests/reducers';
 
+/**
+ * Collection of all dashboard state tree reducers
+ */
 export default combineReducers({
   toastr: toastrReducer,
   init,

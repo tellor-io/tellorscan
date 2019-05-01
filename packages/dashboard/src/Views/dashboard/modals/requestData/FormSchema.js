@@ -37,12 +37,12 @@ export const schema = {
 
 export const uiSchema = {
   queryString: {
-    "ui:placeholder": "https://..."
+    "ui:placeholder": "json(...).price"
   },
   multiplier: {
     "ui:placeholder": "10,100,1000"
   },
   symbol: {
-    "ui:placeholder": "ETH-USD"
+    "ui:placeholder": "ETH/USD"
   }
 }

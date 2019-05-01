@@ -1,0 +1,7 @@
+Disputes are broken down into disputable and pending items.
+
+Disputable items are miner value submissions that anyone can dispute. Disputes
+are accessible for 24 hours after which they are no longer disputable and will
+not be shown.
+
+Pending items are active disputes that can be voted on for 7 days.
