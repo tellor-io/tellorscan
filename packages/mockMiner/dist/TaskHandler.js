@@ -261,18 +261,19 @@ var TaskHandler = function () {
     key: '_getValue',
     value: function () {
       var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(queryString) {
-        var jsonField, s, r, data;
+        var jsonFields, fields, s, r, data, finalVal, d;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                jsonField = null;
+                jsonFields = null;
 
                 if (queryString.startsWith("json")) {
-                  jsonField = queryString.substr(queryString.lastIndexOf(".") + 1);
+                  fields = queryString.substr(queryString.lastIndexOf(")") + 1);
                   s = queryString.substring(queryString.indexOf("(") + 1, queryString.lastIndexOf(")"));
 
                   queryString = s;
+                  jsonFields = fields.split(".");
                 }
                 //console.log("Will query value", queryString, jsonField);
                 _context4.next = 4;
@@ -286,33 +287,41 @@ var TaskHandler = function () {
                   data = JSON.parse(data);
                 }
 
-                if (!jsonField) {
-                  _context4.next = 9;
+                if (!jsonFields) {
+                  _context4.next = 12;
                   break;
                 }
 
-                return _context4.abrupt('return', data[jsonField] - 0);
+                finalVal = null;
+                d = data;
 
-              case 9:
+                jsonFields.forEach(function (f) {
+                  if (f.trim().length > 0) {
+                    d = d[f];
+                  }
+                });
+                return _context4.abrupt('return', d - 0);
+
+              case 12:
                 if (!isNaN(data)) {
-                  _context4.next = 13;
+                  _context4.next = 16;
                   break;
                 }
 
                 if (!data.price) {
-                  _context4.next = 12;
+                  _context4.next = 15;
                   break;
                 }
 
                 return _context4.abrupt('return', data.price - 0);
 
-              case 12:
+              case 15:
                 return _context4.abrupt('return', 0);
 
-              case 13:
+              case 16:
                 return _context4.abrupt('return', data - 0);
 
-              case 14:
+              case 17:
               case 'end':
                 return _context4.stop();
             }

@@ -48,14 +48,12 @@ const startSubscriptions = () => async (dispatch,getState) => {
  * any subscriptions
  */
 const unload = () => async (dispatch, getState) => {
-  try {
+
 
     let chain = getState().chain.chain;
     await dispatch(ethProcs.unload());
     await chain.unload();
-  } catch (e) {
-    //have to ignore
-  }
+  
 }
 
 

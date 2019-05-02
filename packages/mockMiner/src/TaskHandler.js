@@ -98,11 +98,12 @@ export default class TaskHandler {
   }
 
   async _getValue(queryString) {
-    let jsonField = null;
+    let jsonFields = null;
     if(queryString.startsWith("json")) {
-      jsonField = queryString.substr(queryString.lastIndexOf(".")+1);
+      let fields = queryString.substr(queryString.lastIndexOf(")")+1);
       let s = queryString.substring(queryString.indexOf("(")+1, queryString.lastIndexOf(")"));
       queryString = s;
+      jsonFields = fields.split(".");
     }
     //console.log("Will query value", queryString, jsonField);
     let r = await axios.get(queryString);
@@ -110,8 +111,15 @@ export default class TaskHandler {
     if(typeof data === 'string') {
       data = JSON.parse(data);
     }
-    if(jsonField) {
-      return data[jsonField]-0;
+    if(jsonFields) {
+      let finalVal = null;
+      let d = data;
+      jsonFields.forEach(f=>{
+        if(f.trim().length > 0) {
+          d = d[f];
+        }
+      });
+      return d-0;
     }
     if(isNaN(data)) {
       if(data.price) {

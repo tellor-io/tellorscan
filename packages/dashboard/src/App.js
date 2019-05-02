@@ -18,20 +18,28 @@ window.addEventListener("beforeunload", (e)=>{
    * since it interrupts the main UI thread that is also calling the
    * dispatch function in JavaScript's single event loop.
    */
+  let done = [false];
   e.preventDefault();
   store.dispatch(initOps.unload()).then(()=>{
     e.returnValue="finished";
+    done[0] = true;
     return "finished";
+  }).catch(e=>{
+    done[0] = true;
+    e.returnValue = e.message;
+    return e.message;
   });
 
-  /*
+  /**
+   * This doesn't work. For some reason the unsubscribe function in
+   * web3.eth never returns to closeout the final promise. 
+
   let now = Date.now();
-  let sleepTime = now + 5000;
-  while(now < sleepTime) {
+  let max = now + 5000;
+  while(!done[0] && now < max) {
     now = Date.now();
   }
   */
-
 });
 
 const MainApp = () => (<Provider store={store}>

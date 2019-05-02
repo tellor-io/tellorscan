@@ -35,7 +35,7 @@ export default class BlockSource {
       if(this.sub) {
         this.sub.removeListener("data", this.subCallback);
         return new Promise((done,err)=>{
-          this.sub.unsubscribe(async (e,good)=>{
+          this.sub.unsubscribe((e,good)=>{
               let now = Date.now();
               let dtStr = new Date(now).toString();
               console.log("Storing shutdown info....");
