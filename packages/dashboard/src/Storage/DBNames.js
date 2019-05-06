@@ -12,3 +12,4 @@ export const Blocks = "Blocks";
 export const Metadata = "Metadata";
 export const ChainData = "ChainData";
 export const ChainDisputes = "ChainDisputes";
+export const LastBlock = "LastBlock";

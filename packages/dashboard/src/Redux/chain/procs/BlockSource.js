@@ -99,7 +99,7 @@ export default class BlockSource {
 ****/
       //we need to recover events from the last read block
       let r = await Storage.instance.readAll({
-        database: "lastBlock",
+        database: dbNames.LastBlock,
         limit: 1,
         sort: [
           {
@@ -108,7 +108,6 @@ export default class BlockSource {
           }
         ]
       });
-      console.log("last block results", r);
       let start = r[0]?r[0].blockNumber+1:0;
       let last = await web3.eth.getBlockNumber();
       let diff = last - start;
@@ -210,6 +209,9 @@ export default class BlockSource {
 
 
       let events = await con.getPastEvents("allEvents", {fromBlock: startBlock});
+      if(!events) {
+        events = [];
+      }
       console.log("Retrieved", events.length,"events from block",startBlock);
       let txnHistory = {};
       let blockNum = events.length>0?events[0].blockNumber:0;
@@ -229,7 +231,7 @@ export default class BlockSource {
           }
         });
         store({
-          database: "lastBlock",
+          database: dbNames.LastBlock,
           key: "last",
           data: {
             blockNumber: evt.blockNumber,

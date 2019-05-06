@@ -1,7 +1,7 @@
 /**
   * Just manages the instance we're going to use
   */
-import InMemory from './InMemory';
+//import InMemory from './InMemory';
 import LF from './LocalForage';
 
 /*
@@ -14,7 +14,7 @@ new InMemory({
   next: lf
 });
 */
-let lf = new LF({
+new LF({
   querySizeLimit: 50
 });
 export default LF;

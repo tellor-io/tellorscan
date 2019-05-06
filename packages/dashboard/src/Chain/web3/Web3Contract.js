@@ -64,44 +64,52 @@ export default class Web3Contract {
    * Read past events from blockchain. This follows normal web3 interface but adds
    * additional functionality of retrieving and storing blocks locally for future reference.
    */
-  async getPastEvents(event, opts, callback) {
-    console.log("Getting past events");
-    let r = await this.master.getPastEvents(event||"allEvents", opts, async (err, events) => {
-      if(events) {
-
-        //we need to replay the blocks in their ascending time order. So we
-        //first make sure blocks are sorted by blockNumber and logIndex
-        events.sort((a,b)=>{
-          let diff = a.blockNumber - b.blockNumber;
-          if(diff) {
-            return diff;
-          }
-          return a.logIndex = b.logIndex;
-        });
-
-        for(let i=0;i<events.length;++i) {
-          let e = events[i];
-          let b = await this.chain.web3.eth.getBlock(e.blockNumber);
-          if(b) {
-            this[b.blockNumber] = b.timestamp;
-            //apply the time to the event as well
-            e.timestamp = b.timestamp;
-            //await this.chain._storeBlockTime(b);
-          }
+  getPastEvents(event, opts, callback) {
+    return new Promise((done,err)=>{
+      this.master.getPastEvents(event||"allEvents", opts, async (e, events) => {
+        if(e) {
+          console.log("getPastEvents error" ,e);
+          return err(e);
         }
 
-        if(callback) {
-          let p = callback(events);
-          if(p instanceof Promise) {
-            await p;
+        if(events) {
+          console.log("Events returned from master", events);
+
+          //we need to replay the blocks in their ascending time order. So we
+          //first make sure blocks are sorted by blockNumber and logIndex
+          events.sort((a,b)=>{
+            let diff = a.blockNumber - b.blockNumber;
+            if(diff) {
+              return diff;
+            }
+            return a.logIndex = b.logIndex;
+          });
+
+          for(let i=0;i<events.length;++i) {
+            let e = events[i];
+            let b = await this.chain.web3.eth.getBlock(e.blockNumber);
+            if(b) {
+              this[b.blockNumber] = b.timestamp;
+              //apply the time to the event as well
+              e.timestamp = b.timestamp;
+              //await this.chain._storeBlockTime(b);
+            }
           }
+
+          if(callback) {
+            let p = callback(events);
+            if(p instanceof Promise) {
+              await p;
+            }
+          }
+          return done(events);
         }
-        return events;
-      }
-      if(err)
-        throw err;
+        if(err)
+          throw err;
+      });
     });
-    return r;
+
+
   }
 
   async startSubscriptions() {
@@ -123,13 +131,16 @@ export default class Web3Contract {
    */
   _send(con, method, args) {
     let tx = con.methods[method](...args);
+    
       return new Promise((done,err)=>{
         this.chain.web3.eth.sendTransaction({
             to: con.address,
             from: this.caller,
-            data: tx.encodeABI()
+            data: tx.encodeABI(),
+            //chainId: 999
           }, (e, r)=>{
             if(e) {
+              console.log("Caught error immediately", e);
               err(e);
             } else {
               done(r);
