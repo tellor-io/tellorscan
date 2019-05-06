@@ -4,10 +4,10 @@
   "description": "Tellor dashboard",
   "main": "dist/index.js",
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap --scope=dashboard",
     "clean": "lerna clean",
     "build": "lerna run build --scope=dashboard",
-    "postinstall": "npm run bootstrap && npm run builds",
+    "postinstall": "npm run bootstrap && npm run build",
     "test": "lerna run test"
   },
   "repository": {
