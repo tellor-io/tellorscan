@@ -56,16 +56,16 @@ self.__precacheManifest = [
     "url": "/tellor-io/tellorscan/tree/master/packages/dashboard/static/js/11.f7105a02.chunk.js"
   },
   {
+    "revision": "089ab3c11c572362d088083c561cfa55",
+    "url": "/tellor-io/tellorscan/tree/master/packages/dashboard/static/media/CoreUI-Icons-Linear-Free.089ab3c1.eot"
+  },
+  {
     "revision": "1bc3764815bb391a16771c42c6e460ec",
     "url": "/tellor-io/tellorscan/tree/master/packages/dashboard/static/media/CoreUI-Icons-Linear-Free.1bc37648.ttf"
   },
   {
     "revision": "0087dce419a7376eb06c837f740d31eb",
     "url": "/tellor-io/tellorscan/tree/master/packages/dashboard/static/media/CoreUI-Icons-Linear-Free.0087dce4.woff"
-  },
-  {
-    "revision": "089ab3c11c572362d088083c561cfa55",
-    "url": "/tellor-io/tellorscan/tree/master/packages/dashboard/static/media/CoreUI-Icons-Linear-Free.089ab3c1.eot"
   },
   {
     "revision": "4b57c6a5567c9ef09913983f82904faa",

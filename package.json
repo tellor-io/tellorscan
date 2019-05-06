@@ -8,8 +8,7 @@
     "clean": "lerna clean",
     "build": "npm run bootstrap && lerna run build --scope=dashboard",
     "test": "lerna run test",
-    
-    "start": "node ./packages/dashboard/build/server.js"
+    "start": "node ./packages/dashboard/server.js"
   },
   "repository": {
     "type": "git",
