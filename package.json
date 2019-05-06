@@ -8,6 +8,7 @@
     "clean": "lerna clean",
     "build": "lerna run build --scope=dashboard",
     "test": "lerna run test",
+    "postinstall": "npm run bootstrap && npm run build",
     "start": "node packages/dashboard/build/server.js"
   },
   "repository": {
