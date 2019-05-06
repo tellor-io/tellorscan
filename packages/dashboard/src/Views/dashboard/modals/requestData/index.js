@@ -40,7 +40,6 @@ const d2p = (dispatch,own) => {
     onSubmit: async data => {
       let req = {
         queryString: data.queryString,
-        apiId: 0,
         multiplier: data.multiplier,
         tip: data.tip,
         symbol: data.symbol

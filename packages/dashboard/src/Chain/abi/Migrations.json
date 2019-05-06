@@ -189,7 +189,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5922,
+                        "referencedDeclaration": 7236,
                         "src": "146:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -293,7 +293,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5922,
+                        "referencedDeclaration": 7236,
                         "src": "212:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -835,7 +835,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5922,
+                        "referencedDeclaration": 7236,
                         "src": "146:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -939,7 +939,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5922,
+                        "referencedDeclaration": 7236,
                         "src": "212:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -1373,7 +1373,7 @@
     "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
   },
   "networks": {
-    "1556620279524": {
+    "1557129938815": {
       "events": {},
       "links": {},
       "address": "0x42534DE6E0a6F8B5037579A0E9A55a5e8f40ac1d",
@@ -1381,7 +1381,7 @@
     }
   },
   "schemaVersion": "3.0.6",
-  "updatedAt": "2019-04-30T10:31:54.843Z",
+  "updatedAt": "2019-05-06T08:06:37.160Z",
   "devdoc": {
     "methods": {}
   },

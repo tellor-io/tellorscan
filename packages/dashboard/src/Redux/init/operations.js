@@ -8,10 +8,21 @@ import {default as reqOps} from 'Redux/requests/operations';
 
 import {registerDeps} from 'Redux/DepMiddleware';
 import {Types as settingsTypes} from 'Redux/settings/actions';
+import Storage from 'Storage';
 
 const initChain = props => {
   return props.dispatch(chainOps.init())
     .then(()=>props);
+}
+
+const initStorage = async props => {
+  let chain = props.getState().chain.chain;
+
+  console.log("Network", chain.network);
+  await Storage.instance.init({
+    dbPrefix: props.getState().chain.chain.network
+  });
+  return props;
 }
 
 const initRequests = props => {
@@ -67,6 +78,7 @@ const _doStart = () => (dispatch,getState) => {
     getState
   }
   return initChain(props)
+        .then(initStorage)
         .then(initToken)
         .then(initRequests)
         .then(initTips)

@@ -138,6 +138,7 @@ export default class InMemory extends BaseDB {
 
   constructor(props) {
     super(props);
+    console.log("Creating data store instance");
     this.dbs  = {};
     this.highBlock = 0;
     this.maxHistory = props.maxHistory;
@@ -203,7 +204,7 @@ export default class InMemory extends BaseDB {
     createBulkSchema.validateSync(props);
     let db = await this._getDB(props, this.dbFactory);
     db.createBulk(props);
-    this.next.createBulk(props); 
+    this.next.createBulk(props);
   }
 
   async read(props) {

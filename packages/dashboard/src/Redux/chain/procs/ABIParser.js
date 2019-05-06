@@ -3,6 +3,7 @@ import {
   DEFAULT_MASTER_CONTRACT
 } from 'Constants/chain/web3Config';
 import eventFactory from 'Chain/LogEvents/EventFactory';
+import _ from 'lodash';
 
 const createEventMap = logs => {
   return logs.reduce((o,e)=>{
@@ -67,19 +68,22 @@ export default class ABIParser {
       let web3 = getState().chain.chain.web3;
       let txns = block.transactions;
 
+
       //for all transactions in a block
       for(let i=0;i<txns.length;++i) {
         let t = txns[i];
         //tag the transaction as recovery mode. This means
         //past blocks are being re-processed so it might change
         //processor behavior
-        t.__recovering = block.__recovering;
+        t.__recovering = t.__recover || block.__recovering;
+
 
         //if there is input data for the transaction
         if(t.input && t.input.length > 2) {
 
           //get the fn signature (4-bytes plus 0x)
           let sig = t.input.substring(0, 10);
+
 
           //lookup the fn definition by this sig
           let def = this.fnSigs[sig];
@@ -91,35 +95,46 @@ export default class ABIParser {
           }
         }
 
-        //if the txn is giong to our contract
-        if(t.to && t.to.toLowerCase() === DEFAULT_MASTER_CONTRACT) {
+        if(!t.logEvents) {
+          //if the txn is going to our contract
+          if(t.to && t.to.toLowerCase() === DEFAULT_MASTER_CONTRACT) {
 
-          //get the receipt which will contain our logs
-          let rcpt = await web3.eth.getTransactionReceipt(t.hash);
-          if(rcpt) {
-            //if the txn failed, ignore it
-            if(!rcpt.status) {
-              continue;
+            //get the receipt which will contain our logs
+            let rcpt = await web3.eth.getTransactionReceipt(t.hash);
+            if(rcpt) {
+              //if the txn failed, ignore it
+              if(!rcpt.status) {
+                continue;
+              }
+
+              //attach receipt to txn
+              t.receipt = rcpt;
+
+              //add timestamp to each txn for easier ref downstream
+              t.timestamp = block.timestamp;
+
+              //decode log events
+              let logEvents = await dispatch(this._decode(block, t));
+
+              //attach to transaction
+              t.logEvents = logEvents;
+
+              //attach to txn as a map keyed by event name
+              t.logEventMap = createEventMap(logEvents);
             }
-
-            //attach receipt to txn
-            t.receipt = rcpt;
-
-            //add timestamp to each txn for easier ref downstream
-            t.timestamp = block.timestamp;
-
-            //decode log events
-            let logEvents = await dispatch(this._decode(block, t));
-
-            //attach to transaction
-            t.logEvents = logEvents;
-
-            //attach to txn as a map keyed by event name
-            t.logEventMap = createEventMap(logEvents);
           }
+        } else {
+          t.logEventMap = t.logEvents;
+          _.values(t.logEvents).forEach(e=>{
+            let evt = eventFactory(e);
+            if(evt) {
+              t.logEvents[e.event] = evt;
+            }
+          });
         }
-      }//end txn enrichment loop
 
+      }//end txn enrichment loop
+      console.log("Forwarding decoded block", block);
       //can next proc in flow
       return next({block});
     }

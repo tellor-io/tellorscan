@@ -78,6 +78,7 @@ export default class Web3Contract {
           }
           return a.logIndex = b.logIndex;
         });
+
         for(let i=0;i<events.length;++i) {
           let e = events[i];
           let b = await this.chain.web3.eth.getBlock(e.blockNumber);
@@ -85,9 +86,10 @@ export default class Web3Contract {
             this[b.blockNumber] = b.timestamp;
             //apply the time to the event as well
             e.timestamp = b.timestamp;
-            await this.chain._storeBlockTime(b);
+            //await this.chain._storeBlockTime(b);
           }
         }
+
         if(callback) {
           let p = callback(events);
           if(p instanceof Promise) {
@@ -173,8 +175,8 @@ export default class Web3Contract {
     return this._call(this.master, "getMinersByRequestIdAndTimestamp", [requestId, timestamp]);
   }
 
-  requestData(queryString, symbol, requestId, multiplier, tip) {
-    return this._send(this.master, "requestData", [queryString, symbol, requestId, multiplier, tip]);
+  requestData(queryString, symbol, multiplier, tip) {
+    return this._send(this.master, "requestData", [queryString, symbol, multiplier, tip]);
   }
 
   addTip(requestId, tip) {

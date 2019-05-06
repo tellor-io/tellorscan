@@ -72,6 +72,8 @@ export default class Web3Wrapper {
           dispatch(ChainCreators.loadSuccess(this));
         });
 
+        this.network = await this.web3.eth.net.getNetworkType();
+
         //establish the latest block number
         this.block = await this.web3.eth.getBlockNumber();
         console.log("Latest block", this.block);
@@ -100,8 +102,12 @@ export default class Web3Wrapper {
 
   //call on chain to determine if the current account is in dispute
   async checkInDispute() {
-    let r = await this.contract.isInDispute(this.ethereumAccount);
-    this.isInDispute = r;
+    try {
+      let r = await this.contract.isInDispute(this.ethereumAccount);
+      this.isInDispute = r;
+    } catch (e) {
+      console.log("Unsure if in dispute due to call error", e);
+    }
   }
 
   async unload() {

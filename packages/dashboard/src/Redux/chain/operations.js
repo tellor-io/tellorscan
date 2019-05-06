@@ -53,7 +53,7 @@ const unload = () => async (dispatch, getState) => {
     let chain = getState().chain.chain;
     await dispatch(ethProcs.unload());
     await chain.unload();
-  
+
 }
 
 
@@ -108,7 +108,7 @@ const _doRequestData = props => async (dispatch, getState) => {
   let state = getState();
   let con = state.chain.contract;
   //call on-chain to request data
-  await con.requestData(props.queryString, props.symbol, props.apiId, props.multiplier, props.tip)
+  await con.requestData(props.queryString, props.symbol, props.multiplier, props.tip)
     .then(()=>{
       return toastr.info("Submitted data request");
     }).catch(e=>{

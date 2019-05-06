@@ -52,7 +52,15 @@ const _buildSortFn = props => {
   }
 }
 
+let inst = null;
 export default class LocalForage extends BaseDB {
+  static get instance() {
+    if(!inst) {
+      throw new Error("Did not properly construct storage instance");
+    }
+    return inst;
+  }
+  
   constructor(props) {
     super(props);
     this.querySizeLimit = props.querySizeLimit || 50;
@@ -70,18 +78,21 @@ export default class LocalForage extends BaseDB {
     ].forEach(fn=>{
       this[fn]=this[fn].bind(this)
     });
+    inst = this;
   }
 
   async clearAll() {
     _.keys(dbNames).forEach(async k=>{
       if(k !== dbNames.ChainData) {
-        let db = this.dbs[k];
+        let pfx = this.dbPrefix || "";
+        let nm = pfx + k;
+        let db = this.dbs[nm];
         if(!db) {
-          db = await dbFactory({name: k});
+          return;
         }
-        console.log("Dropping DB", k);
+        console.log("Dropping DB", nm);
         db.dropInstance();
-        this.dbs[k] = undefined;
+        this.dbs[nm] = undefined;
       }
     })
   }

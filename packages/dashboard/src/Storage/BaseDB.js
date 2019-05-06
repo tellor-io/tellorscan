@@ -99,19 +99,34 @@ export default class BaseDB {
     if(!this.next) {
       this.next = {}
     };
+    this.dbPrefix = props.dbPrefix || "";
 
     [
+      'init',
       '_getDB'
     ].forEach(fn=>{
       this[fn]=this[fn].bind(this);
     });
   }
 
+  async init(props) {
+    console.log("Initializing with props", props);
+    let pfx = props.dbPrefix;
+    if(pfx) {
+      pfx += "_";
+    }
+    this.dbPrefix = pfx || "";
+  }
+
   async _getDB(props, factory) {
-    let db = this.dbs[props.database];
+    let name = this.dbPrefix + props.database;
+    console.log("Getting DB", name);
+
+    let db = this.dbs[name];
+
     if(!db) {
-      db = await factory({name: props.database});
-      this.dbs[props.database] = db;
+      db = await factory({name});
+      this.dbs[name] = db;
     }
     return db;
   }
