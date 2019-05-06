@@ -119,8 +119,12 @@ export default class BaseDB {
   }
 
   async _getDB(props, factory) {
+    if(!props.database) {
+      console.log("Incoming props", props);
+      throw new Error("No database name provided");
+    }
+
     let name = this.dbPrefix + props.database;
-    console.log("Getting DB", name);
 
     let db = this.dbs[name];
 

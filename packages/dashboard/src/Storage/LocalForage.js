@@ -16,6 +16,7 @@ import * as dbNames from './DBNames';
 extendPrototype(localforage);
 
 const dbFactory = async props => {
+  console.log("Creating DB", props.name);
   var db = await localforage.createInstance({
     name: props.name
   });
@@ -60,7 +61,7 @@ export default class LocalForage extends BaseDB {
     }
     return inst;
   }
-  
+
   constructor(props) {
     super(props);
     this.querySizeLimit = props.querySizeLimit || 50;
@@ -82,19 +83,25 @@ export default class LocalForage extends BaseDB {
   }
 
   async clearAll() {
-    _.keys(dbNames).forEach(async k=>{
+    let dbs = _.keys(dbNames);
+    for(let i=0;i<dbs.length;++i) {
+      let k = dbs[i];
+      if(!k) {
+        continue;
+      }
+
       if(k !== dbNames.ChainData) {
         let pfx = this.dbPrefix || "";
         let nm = pfx + k;
-        let db = this.dbs[nm];
+        let db = await this._getDB({database: k}, dbFactory);
         if(!db) {
           return;
         }
         console.log("Dropping DB", nm);
-        db.dropInstance();
+        await db.dropInstance();
         this.dbs[nm] = undefined;
       }
-    })
+    }
   }
 
   async create(props) {
