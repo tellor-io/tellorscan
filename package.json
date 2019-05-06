@@ -6,10 +6,10 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --scope=dashboard",
     "clean": "lerna clean",
-    "build": "lerna run build --scope=dashboard",
+    "build": "npm run bootstrap && lerna run build --scope=dashboard",
     "test": "lerna run test",
-    "postinstall": "npm run bootstrap && npm run build",
-    "start": "node packages/dashboard/build/server.js"
+    
+    "start": "node ./packages/dashboard/build/server.js"
   },
   "repository": {
     "type": "git",
