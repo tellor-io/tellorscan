@@ -4,7 +4,11 @@
   "description": "Tellor dashboard",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "bootstrap": "lerna bootstrap",
+    "clean": "lerna clean",
+    "build": "lerna run build",
+    "postinstall": "npm run bootstrap && npm run builds",
+    "test": "lerna run test"
   },
   "repository": {
     "type": "git",

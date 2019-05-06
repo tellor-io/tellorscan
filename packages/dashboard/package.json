@@ -51,6 +51,8 @@
     "copy-to-clipboard": "^3.1.0",
     "coreui": "^0.4.2-alpha2",
     "cross-env": "^5.2.0",
+    "express": "^4.16.4",
+    "express-favicon": "^2.0.1",
     "font-awesome": "^4.7.0",
     "localforage": "^1.7.3",
     "localforage-setitems": "^1.4.0",
@@ -81,7 +83,7 @@
   "scripts": {
     "start": "cross-env NODE_PATH=src SASS_PATH=node_modules:src/scss npm run start-js",
     "start-js": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "cross-env NODE_PATH=src react-scripts build",
     "lerna-build": "lerna bootstrap --scope=dashboard",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -94,5 +96,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "engines": {
+    "node": "11.x"
+  }
 }
