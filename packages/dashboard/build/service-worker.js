@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/tellor-io/tellorscan/tree/master/packages/dashboard/precache-manifest.00bd55665c4531420e5e21ff2d20a9a4.js"
+  "/tellor-io/tellorscan/tree/master/packages/dashboard/precache-manifest.00a8f2e5eed4be8253488c5d6c47778b.js"
 );
 
 workbox.clientsClaim();
