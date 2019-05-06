@@ -8,7 +8,6 @@
     "oracle"
   ],
   "author": "mdcoon <mdcoon1@yahoo.com>",
-  "homepage": "https://github.com/tellor-io/tellorscan/tree/master/packages/dashboard#readme",
   "license": "MIT",
   "main": "dist/index.js",
   "repository": {
