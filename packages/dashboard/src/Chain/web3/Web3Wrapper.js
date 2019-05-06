@@ -1,7 +1,5 @@
 import Web3 from 'web3';
-import {
-  DEFAULT_MASTER_CONTRACT
-} from 'Constants/chain/web3Config';
+import {default as conAddresses} from 'Constants/chain/web3Config';
 import abi from 'Chain/abi';
 import Web3Contract from './Web3Contract';
 import Storage from 'Storage';
@@ -78,11 +76,13 @@ export default class Web3Wrapper {
         this.block = await this.web3.eth.getBlockNumber();
         console.log("Latest block", this.block);
 
+        let addrField = this.network + "_address";
+        let addr = conAddresses[addrField];
 
         //create eth contract with default address defined in
         //Constants/chain/web3Config
-        let master = new this.web3.eth.Contract(abi, DEFAULT_MASTER_CONTRACT, {
-          address: DEFAULT_MASTER_CONTRACT
+        let master = new this.web3.eth.Contract(abi, addr, {
+          address: addr
         });
 
         //our contract wrapper
