@@ -6,7 +6,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean",
-    "build": "lerna run build",
+    "build": "lerna run build --scope=dashboard",
     "postinstall": "npm run bootstrap && npm run builds",
     "test": "lerna run test"
   },
