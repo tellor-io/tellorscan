@@ -16,7 +16,7 @@ var _ethereumjsAbi2 = _interopRequireDefault(_ethereumjsAbi);
 
 var _ethereumjsUtil = require('ethereumjs-util');
 
-var _ethereumjsUtil2 = _interopRequireDefault(_ethereumjsUtil);
+var util = _interopRequireWildcard(_ethereumjsUtil);
 
 var _web3Utils = require('web3-utils');
 
@@ -101,10 +101,10 @@ var Miner = function () {
                 nonce = jEnc.toString("hex"); //ethUtils.toHex(jEnc.toString(""));
 
                 preHashStr = challenge + trim0x(this.account) + trim0x(nonce);
-                hashHexStr = _ethereumjsUtil2.default.sha3(preHashStr);
-                rmdOut = _ethereumjsUtil2.default.ripemd160(hashHexStr);
-                num = new _ethereumjsUtil2.default.BN(_ethereumjsUtil2.default.sha256(rmdOut));
-                diffBN = new _ethereumjsUtil2.default.BN("" + difficulty);
+                hashHexStr = util.sha3(preHashStr);
+                rmdOut = util.ripemd160(hashHexStr);
+                num = new util.BN(util.sha256(rmdOut));
+                diffBN = new util.BN("" + difficulty);
 
                 if (!(num.mod(diffBN).toString() - 0 === 0)) {
                   _context.next = 16;

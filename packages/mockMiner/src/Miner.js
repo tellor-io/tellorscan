@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import abi from 'ethereumjs-abi';
-import util from 'ethereumjs-util';
+import * as util from 'ethereumjs-util';
 
 import * as web3Utils from 'web3-utils';
 //var RIPEMD160 = require('ripemd160')
