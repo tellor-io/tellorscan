@@ -33,6 +33,7 @@ export default class ChainWrapper {
 
   async init() {
     try {
+
       this.web3 = new Web3(this.provider || "ws://" + DEFAULT_URL, net);
       await this.wallet.init();
       let master = new this.web3.eth.Contract(abi, this.masterAddress, {address: this.masterAddress});

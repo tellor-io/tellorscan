@@ -76,6 +76,7 @@ var ChainWrapper = function () {
               case 0:
                 _context.prev = 0;
 
+
                 this.web3 = new _web2.default(this.provider || "ws://" + DEFAULT_URL, _net2.default);
                 _context.next = 4;
                 return this.wallet.init();
