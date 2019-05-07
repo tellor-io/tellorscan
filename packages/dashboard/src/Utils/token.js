@@ -3,11 +3,11 @@ import * as util from 'web3-utils';
 const BASE = util.toBN("1000000000");
 const TRIBUTE = util.toBN("1000000000").mul(BASE);
 const REWARDS = [
-          util.toBN("1").mul(TRIBUTE),
           util.toBN("5").mul(TRIBUTE),
-          util.toBN("10").mul(TRIBUTE),
           util.toBN("5").mul(TRIBUTE),
-          util.toBN("1").mul(TRIBUTE)
+          util.toBN("5").mul(TRIBUTE),
+          util.toBN("5").mul(TRIBUTE),
+          util.toBN("5").mul(TRIBUTE)
         ];
 
 export const humanizeTellor = (amt) => {
