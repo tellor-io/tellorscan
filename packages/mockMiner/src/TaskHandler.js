@@ -131,6 +131,10 @@ export default class TaskHandler {
     if(typeof data === 'string') {
       data = JSON.parse(data);
     }
+    if(!data) {
+      return 0;
+    }
+    
     if(jsonFields) {
       let finalVal = null;
       let d = data;
