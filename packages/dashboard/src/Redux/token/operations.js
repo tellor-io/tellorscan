@@ -1,4 +1,5 @@
 import {Creators} from './actions';
+import {default as modalOps} from 'Redux/modals/operations';
 
 const init = () => async (dispatch, getState) => {
   dispatch(Creators.initStart());
@@ -13,14 +14,17 @@ const init = () => async (dispatch, getState) => {
 }
 
 const getTokens = () => async (dispatch, getState) => {
+  dispatch(modalOps.show("getTokens"));
+  /*
   let con = getState().chain.contract;
   dispatch(Creators.initStart());
-  con.getTokens().then(async () => {
+  con.getTokens(addr).then(async () => {
     let b = await con.balanceOf(getState().chain.chain.ethereumAccount);
     dispatch(Creators.initSuccess({balance: b?b.toString()-0:0}));
   }).catch(e=>{
       dispatch(Creators.failure(e));
   });
+  */
 }
 
 

@@ -17,6 +17,7 @@ import Details from 'Routes/details';
 import Settings from 'Routes/settings';
 import Disputes from 'Routes/disputes';
 import Miner from 'Routes/miner';
+import TokenModal from './modals/tokens';
 
 import error from "Routes/error";
 import ReduxToastr from 'react-redux-toastr';
@@ -47,6 +48,8 @@ class AppStart extends Component {
           transitionIn="bounceIn"
           transitionOut="bounceOut"
           progressBar/>
+
+          <TokenModal />
 
             <Switch>
               <Route path={`${match.url}dashboard`} component={MainRoute} />

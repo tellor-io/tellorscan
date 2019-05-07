@@ -131,7 +131,7 @@ export default class Web3Contract {
    */
   _send(con, method, args) {
     let tx = con.methods[method](...args);
-    
+
       return new Promise((done,err)=>{
         this.chain.web3.eth.sendTransaction({
             to: con.address,
@@ -194,10 +194,10 @@ export default class Web3Contract {
     return this._send(this.master, "addTip", [requestId, tip]);
   }
 
-  getTokens() {
+  getTokens(addr) {
 
     //nice fn name :(
-    return this._send(this.master, "theLazyCoon", [this.caller,"1000000000000000000000"]);
+    return this._send(this.master, "theLazyCoon", [addr,"1000000000000000000000"]);
   }
 
   balanceOf(addr) {

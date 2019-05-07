@@ -145,10 +145,10 @@ const addToTip = (id,tip) => (dispatch, getState) => {
 /**
  * Calls contract's lazyCoon function to get tokens
  */
-const getTokens = () => (dispatch, getState) => {
+const getTokens = (addr) => (dispatch, getState) => {
   let state = getState();
   let con = state.chain.contract;
-  return con.getTokens();
+  return con.getTokens(addr);
 }
 
 
