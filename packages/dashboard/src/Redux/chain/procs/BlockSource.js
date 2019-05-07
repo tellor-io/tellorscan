@@ -19,7 +19,8 @@ export default class BlockSource {
       'unload',
       '_restoreBlocks',
       '_restoreEvents',
-      '_pullEvents'
+      '_pullEvents',
+      '_getLastBlockStored'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
   }
 
@@ -81,6 +82,20 @@ export default class BlockSource {
     }
   }
 
+  async _getLastBlockStored() {
+    let r = await Storage.instance.readAll({
+      database: dbNames.LastBlock,
+      limit: 1,
+      sort: [
+        {
+          field: "blockNumber",
+          order: 'DESC'
+        }
+      ]
+    });
+    return r[0]?r[0].blockNumber+1:0;
+  }
+
   start(next, store) {
     return async (dispatch, getState) => {
       let chain = getState().chain.chain;
@@ -98,17 +113,7 @@ export default class BlockSource {
       }
 ****/
       //we need to recover events from the last read block
-      let r = await Storage.instance.readAll({
-        database: dbNames.LastBlock,
-        limit: 1,
-        sort: [
-          {
-            field: "blockNumber",
-            order: 'DESC'
-          }
-        ]
-      });
-      let start = r[0]?r[0].blockNumber+1:0;
+      let start = await this._getLastBlockStored();
       let last = await web3.eth.getBlockNumber();
       let diff = last - start;
       if(diff > MAX_BLOCKS) {
@@ -128,7 +133,8 @@ export default class BlockSource {
       this.subCallback = async (block) => {
         console.log("incoming block");
         if(block) {
-          await dispatch(this._pullEvents({next, store, start: block.number, end: block.number+1, block}));
+          let last = await this._getLastBlockStored();
+          await dispatch(this._pullEvents({next, store, start: last, end: block.number+1, block}));
 
           /*
           //if we get a block, grab the block with txns attached
