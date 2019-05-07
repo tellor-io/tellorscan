@@ -3,6 +3,7 @@ import Chain from './ChainWrapper';
 import TaskHandler from './TaskHandler';
 import Web3 from 'web3';
 
+const DEFAULT_MINE_SLEEP = 65000;
 
 const main = async () => {
   let addr = process.env.CONTRACT_ADDRESS;
@@ -16,6 +17,9 @@ const main = async () => {
   if(!web3Url.startsWith("ws")) {
     throw new Error("Only support websocket based web3 url: " + web3Url);
   }
+  let sleepTime = process.env.MINE_SLEEP_CYCLE || DEFAULT_MINE_SLEEP;
+  sleepTime -= 0;
+
   console.log("Using web3 provider", web3Url);
   let provider = new Web3.providers.WebsocketProvider(web3Url);
 
@@ -34,7 +38,8 @@ const main = async () => {
     chain.init().then(async ()=>{
       let task = new TaskHandler({
         chain,
-        initRequired
+        initRequired,
+        miningSleepTime: sleepTime
       });
       await task.start();
       done();

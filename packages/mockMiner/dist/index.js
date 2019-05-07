@@ -18,9 +18,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+var DEFAULT_MINE_SLEEP = 65000;
+
 var main = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-    var addr, web3Url, provider, initRequired;
+    var addr, web3Url, sleepTime, provider, initRequired;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -53,6 +55,10 @@ var main = function () {
             throw new Error("Only support websocket based web3 url: " + web3Url);
 
           case 8:
+            sleepTime = process.env.MINE_SLEEP_CYCLE || DEFAULT_MINE_SLEEP;
+
+            sleepTime -= 0;
+
             console.log("Using web3 provider", web3Url);
             provider = new _web2.default.providers.WebsocketProvider(web3Url);
             initRequired = process.env.INIT_REQUIRED;
@@ -76,7 +82,8 @@ var main = function () {
                       case 0:
                         task = new _TaskHandler2.default({
                           chain: chain,
-                          initRequired: initRequired
+                          initRequired: initRequired,
+                          miningSleepTime: sleepTime
                         });
                         _context.next = 3;
                         return task.start();
@@ -93,7 +100,7 @@ var main = function () {
               })));
             }));
 
-          case 13:
+          case 15:
           case 'end':
             return _context2.stop();
         }

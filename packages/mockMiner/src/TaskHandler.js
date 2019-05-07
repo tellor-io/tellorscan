@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const NUM_MINERS = 6;
 const SLEEP_BETWEEN_CHECKS = 15000;
-const SLEEP_BETWEEN_MINES = 65000; //10000;
+//const SLEEP_BETWEEN_MINES = 65000; //10000;
 
 const MINER_ADDRESSES = [
                          "0xe010aC6e0248790e08F42d5F697160DEDf97E024",
@@ -25,6 +25,7 @@ export default class TaskHandler {
     this.chain = props.chain;
     this.miners = [];
     this.initRequired = props.initRequired;
+    this.miningSleepTime = props.miningSleepTime;
 
     for(let i=0;i<NUM_MINERS;++i) {
       let m = new Miner({
@@ -57,7 +58,7 @@ export default class TaskHandler {
           console.log("New challenge to be mined: ", next)
           await this._runMiningCycle(next);
           console.log("Waiting for next mining cycle...");
-          await sleep(SLEEP_BETWEEN_MINES);
+          await sleep(this.miningSleepTime);
         } else {
           console.log("Waiting to check for new tasking...");
           await sleep(SLEEP_BETWEEN_CHECKS);
