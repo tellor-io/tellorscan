@@ -134,13 +134,16 @@ export default class TaskHandler {
     if(!data) {
       return 0;
     }
-    
+
     if(jsonFields) {
       let finalVal = null;
       let d = data;
       jsonFields.forEach(f=>{
         if(f.trim().length > 0) {
           d = d[f];
+          if(!d) {
+            return 0;
+          }
         }
       });
       return d-0;
