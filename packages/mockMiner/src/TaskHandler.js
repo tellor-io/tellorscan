@@ -138,14 +138,15 @@ export default class TaskHandler {
     if(jsonFields) {
       let finalVal = null;
       let d = data;
-      jsonFields.forEach(f=>{
+      for(let i=0;i<jsonFields.length;++i) {
+        let f = jsonFields[i];
         if(f.trim().length > 0) {
           d = d[f];
           if(!d) {
             return 0;
           }
         }
-      });
+      }
       return d-0;
     }
     if(isNaN(data)) {
