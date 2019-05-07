@@ -23,16 +23,14 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var NUM_MINERS = 6;
-var SLEEP_BETWEEN_CHECKS = 5000;
+var SLEEP_BETWEEN_CHECKS = 15000;
 var SLEEP_BETWEEN_MINES = 65000; //10000;
 
 var MINER_ADDRESSES = ["0xe010aC6e0248790e08F42d5F697160DEDf97E024", "0xE037EC8EC9ec423826750853899394dE7F024fee", "0xcdd8FA31AF8475574B8909F135d510579a8087d3", "0xb9dD5AfD86547Df817DA2d0Fb89334A6F8eDd891", "0x230570cD052f40E14C14a81038c6f3aa685d712B", "0x3233afA02644CCd048587F8ba6e99b3C00A34DcC"];
 
 var sleep = function sleep(time) {
   return new Promise(function (done) {
-    setTimeout(function () {
-      return done();
-    }, time);
+    setTimeout(done, time);
   });
 };
 
@@ -83,52 +81,63 @@ var TaskHandler = function () {
 
               case 6:
                 if (!this.running) {
-                  _context.next = 23;
+                  _context.next = 30;
                   break;
                 }
 
-                _context.next = 9;
+                _context.prev = 7;
+                _context.next = 10;
                 return this.chain.contract.getCurrentVariables();
 
-              case 9:
+              case 10:
                 next = _context.sent;
 
-                console.log("New challenge to be mined: ", next);
-
                 if (!next._challenge) {
-                  _context.next = 19;
+                  _context.next = 20;
                   break;
                 }
 
-                _context.next = 14;
+                console.log("New challenge to be mined: ", next);
+                _context.next = 15;
                 return this._runMiningCycle(next);
 
-              case 14:
+              case 15:
                 console.log("Waiting for next mining cycle...");
-                _context.next = 17;
+                _context.next = 18;
                 return sleep(SLEEP_BETWEEN_MINES);
 
-              case 17:
-                _context.next = 21;
+              case 18:
+                _context.next = 23;
                 break;
 
-              case 19:
-                _context.next = 21;
+              case 20:
+                console.log("Waiting to check for new tasking...");
+                _context.next = 23;
                 return sleep(SLEEP_BETWEEN_CHECKS);
 
-              case 21:
+              case 23:
+                _context.next = 28;
+                break;
+
+              case 25:
+                _context.prev = 25;
+                _context.t0 = _context['catch'](7);
+
+                console.log("Problem in task run loop", _context.t0);
+
+              case 28:
                 _context.next = 6;
                 break;
 
-              case 23:
+              case 30:
                 console.log("Mining tasker shutting down");
 
-              case 24:
+              case 31:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee, this, [[7, 25]]);
       }));
 
       function start() {

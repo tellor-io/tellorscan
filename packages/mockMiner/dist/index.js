@@ -53,6 +53,7 @@ var main = function () {
             throw new Error("Only support websocket based web3 url: " + web3Url);
 
           case 8:
+            console.log("Using web3 provider", web3Url);
             provider = new _web2.default.providers.WebsocketProvider(web3Url);
             initRequired = process.env.INIT_REQUIRED;
 
@@ -92,7 +93,7 @@ var main = function () {
               })));
             }));
 
-          case 12:
+          case 13:
           case 'end':
             return _context2.stop();
         }

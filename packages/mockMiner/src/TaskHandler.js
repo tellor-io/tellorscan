@@ -2,7 +2,7 @@ import Miner from './Miner';
 import axios from 'axios';
 
 const NUM_MINERS = 6;
-const SLEEP_BETWEEN_CHECKS = 5000;
+const SLEEP_BETWEEN_CHECKS = 15000;
 const SLEEP_BETWEEN_MINES = 65000; //10000;
 
 const MINER_ADDRESSES = [
@@ -16,7 +16,7 @@ const MINER_ADDRESSES = [
 
 const sleep = time => {
   return new Promise((done)=> {
-    setTimeout(()=>done(), time);
+    setTimeout(done, time);
   });
 }
 
@@ -50,14 +50,20 @@ export default class TaskHandler {
       console.log("Contract initialized");
     }
     while(this.running) {
-      let next = await this.chain.contract.getCurrentVariables();
-      console.log("New challenge to be mined: ", next)
-      if(next._challenge) {
-        await this._runMiningCycle(next);
-        console.log("Waiting for next mining cycle...");
-        await sleep(SLEEP_BETWEEN_MINES);
-      } else {
-        await sleep(SLEEP_BETWEEN_CHECKS);
+      try {
+        let next = await this.chain.contract.getCurrentVariables();
+
+        if(next._challenge) {
+          console.log("New challenge to be mined: ", next)
+          await this._runMiningCycle(next);
+          console.log("Waiting for next mining cycle...");
+          await sleep(SLEEP_BETWEEN_MINES);
+        } else {
+          console.log("Waiting to check for new tasking...");
+          await sleep(SLEEP_BETWEEN_CHECKS);
+        }
+      } catch (e) {
+        console.log("Problem in task run loop", e);
       }
     }
     console.log("Mining tasker shutting down");

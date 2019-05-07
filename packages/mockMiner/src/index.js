@@ -16,6 +16,7 @@ const main = async () => {
   if(!web3Url.startsWith("ws")) {
     throw new Error("Only support websocket based web3 url: " + web3Url);
   }
+  console.log("Using web3 provider", web3Url);
   let provider = new Web3.providers.WebsocketProvider(web3Url);
 
   let initRequired = process.env.INIT_REQUIRED;
