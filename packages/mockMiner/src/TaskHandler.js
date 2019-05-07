@@ -112,14 +112,21 @@ export default class TaskHandler {
 
   async _getValue(queryString) {
     let jsonFields = null;
-    if(queryString.startsWith("json")) {
+    if(queryString.startsWith("json") || queryString.startsWith("xjson")) {
       let fields = queryString.substr(queryString.lastIndexOf(")")+1);
       let s = queryString.substring(queryString.indexOf("(")+1, queryString.lastIndexOf(")"));
       queryString = s;
       jsonFields = fields.split(".");
     }
     //console.log("Will query value", queryString, jsonField);
-    let r = await axios.get(queryString);
+    let r = null;
+    try {
+      r = await axios.get(queryString);
+    } catch (e) {
+      console.log("Problem with query string", queryString, e);
+      return 0;
+    }
+
     let data = r.data;
     if(typeof data === 'string') {
       data = JSON.parse(data);
