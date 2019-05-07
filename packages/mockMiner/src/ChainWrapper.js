@@ -19,6 +19,8 @@ export default class ChainWrapper {
 
     this.provider = props.provider;
     this.masterAddress = props.masterAddress;
+    this.initRequired = props.initRequired;
+
     this.wallet = new HDWallet({
       mnemonic: props.mnemonic,
       num_addresses: 10
@@ -38,6 +40,7 @@ export default class ChainWrapper {
       await this.wallet.init();
       let master = new this.web3.eth.Contract(abi, this.masterAddress, {address: this.masterAddress});
       this.contract = new ContractWrapper({chain: this, master, masterAddress: this.masterAddress, wallet: this.wallet});
+      
     } catch (e) {
       console.log("Problem creating Web3", e);
       throw e;

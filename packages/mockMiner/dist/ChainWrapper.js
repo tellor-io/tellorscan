@@ -55,6 +55,8 @@ var ChainWrapper = function () {
 
     this.provider = props.provider;
     this.masterAddress = props.masterAddress;
+    this.initRequired = props.initRequired;
+
     this.wallet = new _HDWallet2.default({
       mnemonic: props.mnemonic,
       num_addresses: 10
@@ -85,6 +87,7 @@ var ChainWrapper = function () {
                 master = new this.web3.eth.Contract(_abi2.default, this.masterAddress, { address: this.masterAddress });
 
                 this.contract = new _ContractWrapper2.default({ chain: this, master: master, masterAddress: this.masterAddress, wallet: this.wallet });
+
                 _context.next = 12;
                 break;
 

@@ -20,7 +20,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var main = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-    var addr, web3Url, provider;
+    var addr, web3Url, provider, initRequired;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -54,6 +54,12 @@ var main = function () {
 
           case 8:
             provider = new _web2.default.providers.WebsocketProvider(web3Url);
+            initRequired = process.env.INIT_REQUIRED;
+
+            if (initRequired && initRequired.trim().length === 0) {
+              initRequired = undefined;
+            }
+
             return _context2.abrupt('return', new Promise(function (done, err) {
               var chain = new _ChainWrapper2.default({
                 mnemonic: "nick lucian brenda kevin sam fiscal patch fly damp ocean produce wish",
@@ -68,7 +74,8 @@ var main = function () {
                     switch (_context.prev = _context.next) {
                       case 0:
                         task = new _TaskHandler2.default({
-                          chain: chain
+                          chain: chain,
+                          initRequired: initRequired
                         });
                         _context.next = 3;
                         return task.start();
@@ -85,7 +92,7 @@ var main = function () {
               })));
             }));
 
-          case 10:
+          case 12:
           case 'end':
             return _context2.stop();
         }

@@ -18,6 +18,11 @@ const main = async () => {
   }
   let provider = new Web3.providers.WebsocketProvider(web3Url);
 
+  let initRequired = process.env.INIT_REQUIRED;
+  if(initRequired && initRequired.trim().length === 0){
+    initRequired = undefined;
+  }
+
   return new Promise((done,err)=>{
     let chain = new Chain({
       mnemonic: "nick lucian brenda kevin sam fiscal patch fly damp ocean produce wish",
@@ -27,7 +32,8 @@ const main = async () => {
 
     chain.init().then(async ()=>{
       let task = new TaskHandler({
-        chain
+        chain,
+        initRequired
       });
       await task.start();
       done();

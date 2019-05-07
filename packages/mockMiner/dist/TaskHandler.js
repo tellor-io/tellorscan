@@ -44,6 +44,8 @@ var TaskHandler = function () {
 
     this.chain = props.chain;
     this.miners = [];
+    this.initRequired = props.initRequired;
+
     for (var i = 0; i < NUM_MINERS; ++i) {
       var m = new _Miner2.default({
         chain: this.chain,
@@ -68,49 +70,60 @@ var TaskHandler = function () {
                 console.log("Mining tasker starting up");
                 this.running = true;
 
-              case 2:
-                if (!this.running) {
-                  _context.next = 19;
+                if (!this.initRequired) {
+                  _context.next = 6;
                   break;
                 }
 
                 _context.next = 5;
-                return this.chain.contract.getCurrentVariables();
+                return this.chain.contract.tellorPostConstructor(MINER_ADDRESSES[0]);
 
               case 5:
+                console.log("Contract initialized");
+
+              case 6:
+                if (!this.running) {
+                  _context.next = 23;
+                  break;
+                }
+
+                _context.next = 9;
+                return this.chain.contract.getCurrentVariables();
+
+              case 9:
                 next = _context.sent;
 
                 console.log("New challenge to be mined: ", next);
 
                 if (!next._challenge) {
-                  _context.next = 15;
+                  _context.next = 19;
                   break;
                 }
 
-                _context.next = 10;
+                _context.next = 14;
                 return this._runMiningCycle(next);
 
-              case 10:
+              case 14:
                 console.log("Waiting for next mining cycle...");
-                _context.next = 13;
+                _context.next = 17;
                 return sleep(SLEEP_BETWEEN_MINES);
 
-              case 13:
-                _context.next = 17;
-                break;
-
-              case 15:
-                _context.next = 17;
-                return sleep(SLEEP_BETWEEN_CHECKS);
-
               case 17:
-                _context.next = 2;
+                _context.next = 21;
                 break;
 
               case 19:
+                _context.next = 21;
+                return sleep(SLEEP_BETWEEN_CHECKS);
+
+              case 21:
+                _context.next = 6;
+                break;
+
+              case 23:
                 console.log("Mining tasker shutting down");
 
-              case 20:
+              case 24:
               case 'end':
                 return _context.stop();
             }

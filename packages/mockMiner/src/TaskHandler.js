@@ -24,6 +24,8 @@ export default class TaskHandler {
   constructor(props) {
     this.chain = props.chain;
     this.miners = [];
+    this.initRequired = props.initRequired;
+
     for(let i=0;i<NUM_MINERS;++i) {
       let m = new Miner({
         chain: this.chain,
@@ -43,6 +45,10 @@ export default class TaskHandler {
   async start() {
     console.log("Mining tasker starting up");
     this.running = true;
+    if(this.initRequired) {
+      await this.chain.contract.tellorPostConstructor(MINER_ADDRESSES[0]);
+      console.log("Contract initialized");
+    }
     while(this.running) {
       let next = await this.chain.contract.getCurrentVariables();
       console.log("New challenge to be mined: ", next)

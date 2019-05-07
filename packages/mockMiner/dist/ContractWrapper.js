@@ -36,7 +36,7 @@ var ContractWrapper = function () {
     this.chain = props.chain;
     this.wallet = props.wallet;
 
-    ['init', 'unload', 'requestData', 'addTip', 'getCurrentVariables', 'getStakerInfo', 'submitMiningSolution', '_call', '_send'].forEach(function (fn) {
+    ['init', 'unload', 'requestData', 'addTip', 'getCurrentVariables', 'getStakerInfo', 'submitMiningSolution', 'tellorPostConstructor', '_call', '_send'].forEach(function (fn) {
       if (!_this[fn]) {
         throw new Error("Web3Contract missing fn: " + fn);
       }
@@ -164,6 +164,11 @@ var ContractWrapper = function () {
 
       return getStakerInfo;
     }()
+  }, {
+    key: 'tellorPostConstructor',
+    value: function tellorPostConstructor(caller) {
+      return this._send(caller, this.master, "tellorPostConstructor", []);
+    }
   }, {
     key: 'requestData',
     value: function requestData(caller, queryString, symbol, requestId, multiplier, tip) {

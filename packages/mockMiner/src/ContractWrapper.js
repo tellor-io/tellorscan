@@ -22,6 +22,7 @@ export default class ContractWrapper {
       'getCurrentVariables',
       'getStakerInfo',
       'submitMiningSolution',
+      'tellorPostConstructor',
       '_call',
       '_send'
     ].forEach(fn=>{
@@ -59,6 +60,10 @@ export default class ContractWrapper {
     return {
       status: vars[0].toString()-0
     }
+  }
+
+  tellorPostConstructor(caller) {
+    return this._send(caller, this.master, "tellorPostConstructor", []);
   }
 
   requestData(caller, queryString, symbol, requestId, multiplier, tip) {

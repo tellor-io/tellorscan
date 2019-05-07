@@ -16,12 +16,12 @@ self.__precacheManifest = [
     "url": "/static/js/3.94dcd586.chunk.js"
   },
   {
-    "revision": "059a89ce27f279e18e72",
+    "revision": "b574101a629587ef3ba4",
     "url": "/static/css/main.8813fef6.chunk.css"
   },
   {
-    "revision": "059a89ce27f279e18e72",
-    "url": "/static/js/main.aa34ca33.chunk.js"
+    "revision": "b574101a629587ef3ba4",
+    "url": "/static/js/main.80803fe2.chunk.js"
   },
   {
     "revision": "8e47771f669479b136a9",
@@ -60,12 +60,12 @@ self.__precacheManifest = [
     "url": "/static/media/CoreUI-Icons-Linear-Free.1bc37648.ttf"
   },
   {
-    "revision": "089ab3c11c572362d088083c561cfa55",
-    "url": "/static/media/CoreUI-Icons-Linear-Free.089ab3c1.eot"
-  },
-  {
     "revision": "0087dce419a7376eb06c837f740d31eb",
     "url": "/static/media/CoreUI-Icons-Linear-Free.0087dce4.woff"
+  },
+  {
+    "revision": "089ab3c11c572362d088083c561cfa55",
+    "url": "/static/media/CoreUI-Icons-Linear-Free.089ab3c1.eot"
   },
   {
     "revision": "4b57c6a5567c9ef09913983f82904faa",
@@ -96,12 +96,12 @@ self.__precacheManifest = [
     "url": "/static/media/Simple-Line-Icons.0cb0b9c5.woff2"
   },
   {
-    "revision": "f33df365d6d0255b586f2920355e94d7",
-    "url": "/static/media/Simple-Line-Icons.f33df365.eot"
-  },
-  {
     "revision": "d2285965fe34b05465047401b8595dd0",
     "url": "/static/media/Simple-Line-Icons.d2285965.ttf"
+  },
+  {
+    "revision": "f33df365d6d0255b586f2920355e94d7",
+    "url": "/static/media/Simple-Line-Icons.f33df365.eot"
   },
   {
     "revision": "78f07e2c2a535c26ef21d95e41bd7175",
@@ -116,7 +116,7 @@ self.__precacheManifest = [
     "url": "/static/media/Discord-Logo-Color.7ea88690.svg"
   },
   {
-    "revision": "7cafc5bef8d20f614f6c968fd244240a",
+    "revision": "cb374abaaab504a9e2a1500bb545739c",
     "url": "/index.html"
   }
 ];

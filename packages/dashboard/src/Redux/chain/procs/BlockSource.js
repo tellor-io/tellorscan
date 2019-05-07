@@ -115,7 +115,7 @@ export default class BlockSource {
         start = last - MAX_BLOCKS;
       }
 
-      await dispatch(this._restoreEvents(next, store, start));
+      await dispatch(this._restoreEvents({next, store, start, end: last}));
 
 
 
@@ -128,7 +128,7 @@ export default class BlockSource {
       this.subCallback = async (block) => {
         console.log("incoming block");
         if(block) {
-          await dispatch(this._pullEvents(next, store, block.number, block));
+          await dispatch(this._pullEvents({next, store, start: block.number, end: block.number+1, block}));
 
           /*
           //if we get a block, grab the block with txns attached
@@ -198,21 +198,20 @@ export default class BlockSource {
     }
   }
 
-  _restoreEvents(next, store, startBlock) {
-    return this._pullEvents(next, store, startBlock, null, true);
+  _restoreEvents({next, store, start, end}) {
+    return this._pullEvents({next, store, start, end, block: null, recovering: true});
   }
 
-  _pullEvents(next, store, startBlock, block, recovering) {
+  _pullEvents({next, store, start, end, block, recovering}) {
     return async (dispatch, getState) => {
       let con = getState().chain.contract;
       let web3 = getState().chain.chain.web3;
 
-
-      let events = await con.getPastEvents("allEvents", {fromBlock: startBlock});
+      let events = await con.getPastEvents("allEvents", {fromBlock: start, toBlock: end});
       if(!events) {
         events = [];
       }
-      console.log("Retrieved", events.length,"events from block",startBlock);
+      console.log("Retrieved", events.length,"events from block",start);
       let txnHistory = {};
       let blockNum = events.length>0?events[0].blockNumber:0;
       let currentBlock = {
@@ -280,7 +279,7 @@ export default class BlockSource {
           let ex = txn.logEvents[evt.event];
           if(ex) {
             if(!Array.isArray(ex)) {
-              let a = [ex];
+              let a = [ex, evt];
               txn.logEvents[evt.event] = a;
             } else {
               ex.push(evt);
