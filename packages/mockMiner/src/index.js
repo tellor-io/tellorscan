@@ -20,7 +20,6 @@ const main = async () => {
   let sleepTime = process.env.MINE_SLEEP_CYCLE || DEFAULT_MINE_SLEEP;
   sleepTime -= 0;
 
-  console.log("Using web3 provider", web3Url);
   let provider = new Web3.providers.WebsocketProvider(web3Url);
 
   let initRequired = process.env.INIT_REQUIRED;

@@ -57,7 +57,7 @@ export default class TaskHandler {
         if(next._challenge) {
           console.log("New challenge to be mined: ", next)
           await this._runMiningCycle(next);
-          console.log("Waiting for next mining cycle...");
+          console.log("Waiting",this.miningSleepTime,"ms for next mining cycle...");
           await sleep(this.miningSleepTime);
         } else {
           console.log("Waiting to check for new tasking...");
