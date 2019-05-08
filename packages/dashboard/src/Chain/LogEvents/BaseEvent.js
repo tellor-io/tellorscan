@@ -6,7 +6,7 @@ export default class BaseEvent {
       '_asNum'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
     this.sender = props.sender;
-    this.fnContext = props.fnContext;
+    this.fnContext = props.fnContext || props.fn;
     this.event = props.event;
     this.name = props.event;
     this.signature = props.signature;

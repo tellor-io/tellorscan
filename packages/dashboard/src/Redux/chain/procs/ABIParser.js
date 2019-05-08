@@ -126,7 +126,10 @@ export default class ABIParser {
         } else {
           t.logEventMap = t.logEvents;
           _.values(t.logEvents).forEach(e=>{
-            let evt = eventFactory(e);
+            let evt = eventFactory({
+              ...t,
+              ...e
+            });
             if(evt) {
               t.logEvents[e.event] = evt;
             }
