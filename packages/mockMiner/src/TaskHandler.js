@@ -85,6 +85,7 @@ export default class TaskHandler {
       console.log("Requesting data...");
       let con = this.chain.contract;
       await con.requestData(MINER_ADDRESSES[0], this.queryString, "BTC/USD", 1000, 0);
+      this.lastQuery= Date.now();
     } catch (e) {
       console.log("Problem requesting data", e);
     }
