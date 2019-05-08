@@ -16,8 +16,9 @@ const PERIODS = {
 const parseDuration = d => {
   let t = '';
   let num = '';
-  for(let i=d.length-1;i>=0;--i) {
+  for(let i=d.length-1;i>=0;i--) {
     let c = d.charAt(i);
+    console.log("Char", c);
     if(isNaN(c)) {
       t = c + t;
     } else {
