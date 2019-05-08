@@ -17,7 +17,6 @@ export default class BlockSource {
       'init',
       'start',
       'unload',
-      '_restoreBlocks',
       '_restoreEvents',
       '_pullEvents',
       '_getLastBlockStored'
@@ -103,7 +102,7 @@ export default class BlockSource {
       if(!web3) {
         throw new Error("Web3 not defined in chain");
       }
-      
+
       //we need to recover events from the last read block
       let start = await this._getLastBlockStored();
       let last = await web3.eth.getBlockNumber();
