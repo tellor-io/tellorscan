@@ -50,7 +50,7 @@ const main = async () => {
 
   console.log("Mining sleep time", sleepTime);
 
-  let requestRate = propcess.env.REQUEST_RATE || '0';
+  let requestRate = process.env.REQUEST_RATE || '0';
   requestRate = parseDuration(requestRate);
   console.log("Request rate", requestRate);
 
