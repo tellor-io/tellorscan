@@ -21,15 +21,16 @@ const parseDuration = d => {
     if(isNaN(c)) {
       t = c + t;
     } else {
-      num = d.substring(0,i)-0;
+      console.log("Ending parse at", i);
+      num = d.substring(0,i);
     }
   }
   let actualPeriod = PERIODS[t];
   if(!actualPeriod) {
     throw new Error("Invalid duration", d);
   }
-  console.log("Duration", d, num, actualPeriod);
-  return moment.duration(num, actualPeriod).asMilliseconds();
+  console.log("Duration", d, num-0, actualPeriod);
+  return moment.duration(num-0, actualPeriod).asMilliseconds();
 }
 
 const main = async () => {
