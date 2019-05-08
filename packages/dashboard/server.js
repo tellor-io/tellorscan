@@ -24,6 +24,9 @@ app.get('/dashboard/*', function (req, res) {
 app.get('/disputes/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+app.get('/details/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 app.get('/miner/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });

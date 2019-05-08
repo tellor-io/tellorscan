@@ -66,8 +66,8 @@ export default class ContractWrapper {
     return this._send(caller, this.master, "tellorPostConstructor", []);
   }
 
-  requestData(caller, queryString, symbol, requestId, multiplier, tip) {
-    return this._send(caller, this.master, "requestData", [queryString, symbol, requestId, multiplier, tip]);
+  requestData(caller, queryString, symbol, multiplier, tip) {
+    return this._send(caller, this.master, "requestData", [queryString, symbol, multiplier, tip]);
   }
 
   addTip(caller, requestId, tip) {

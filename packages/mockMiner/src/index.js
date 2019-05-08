@@ -2,8 +2,9 @@ import "babel-polyfill";
 import Chain from './ChainWrapper';
 import TaskHandler from './TaskHandler';
 import Web3 from 'web3';
+import moment from 'moment';
 
-const DEFAULT_MINE_SLEEP = 65000;
+const DEFAULT_MINE_SLEEP = '65m';
 
 const main = async () => {
   let addr = process.env.CONTRACT_ADDRESS;
@@ -18,7 +19,12 @@ const main = async () => {
     throw new Error("Only support websocket based web3 url: " + web3Url);
   }
   let sleepTime = process.env.MINE_SLEEP_CYCLE || DEFAULT_MINE_SLEEP;
-  sleepTime -= 0;
+  sleepTime = moment.duration(sleepTime);
+
+  let requestRate = propcess.env.REQUEST_RATE || '0';
+  requestRate = moment.duration(requestRate);
+
+  let queryStr = process.env.QUERY_STR;
 
   let provider = new Web3.providers.WebsocketProvider(web3Url);
 
@@ -38,7 +44,9 @@ const main = async () => {
       let task = new TaskHandler({
         chain,
         initRequired,
-        miningSleepTime: sleepTime
+        miningSleepTime: sleepTime,
+        queryString: queryStr,
+        queryRate: requestRate
       });
       await task.start();
       done();

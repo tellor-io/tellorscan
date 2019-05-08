@@ -26,6 +26,9 @@ export default class TaskHandler {
     this.miners = [];
     this.initRequired = props.initRequired;
     this.miningSleepTime = props.miningSleepTime;
+    this.queryString = props.queryString;
+    this.queryRate = props.queryRate;
+    this.lastQuery = 0;
 
     for(let i=0;i<NUM_MINERS;++i) {
       let m = new Miner({
@@ -39,7 +42,8 @@ export default class TaskHandler {
       'stop',
       '_runMiningCycle',
       '_submitNonce',
-      '_getValue'
+      '_getValue',
+      '_requestData'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
   }
 
@@ -60,6 +64,12 @@ export default class TaskHandler {
           console.log("Waiting",this.miningSleepTime,"ms for next mining cycle...");
           await sleep(this.miningSleepTime);
         } else {
+          if(this.queryRate) {
+            let diff = Date.now() - this.lastQuery;
+            if(diff > this.queryRate) {
+              await this._requestData();
+            }
+          }
           console.log("Waiting to check for new tasking...");
           await sleep(SLEEP_BETWEEN_CHECKS);
         }
@@ -68,6 +78,16 @@ export default class TaskHandler {
       }
     }
     console.log("Mining tasker shutting down");
+  }
+
+  async _requestData() {
+    try {
+      console.log("Requesting data...");
+      let con = this.chain.contract;
+      await con.requestData(MINER_ADDRESSES[0], this.queryString, "BTC/USD", 1000, 0);
+    } catch (e) {
+      console.log("Problem requesting data", e);
+    }
   }
 
   async stop() {
