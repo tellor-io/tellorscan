@@ -19,12 +19,12 @@ const main = async () => {
     throw new Error("Only support websocket based web3 url: " + web3Url);
   }
   let sleepTime = process.env.MINE_SLEEP_CYCLE || DEFAULT_MINE_SLEEP;
-  sleepTime = moment.duration(sleepTime);
+  sleepTime = moment.duration(sleepTime).asMilliseconds();
 
   console.log("Mining sleep time", sleepTime);
 
   let requestRate = propcess.env.REQUEST_RATE || '0';
-  requestRate = moment.duration(requestRate);
+  requestRate = moment.duration(requestRate).asMilliseconds();
   console.log("Request rate", requestRate);
 
   let queryStr = process.env.QUERY_STR;
