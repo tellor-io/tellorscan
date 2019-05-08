@@ -6,6 +6,20 @@ import moment from 'moment';
 
 const DEFAULT_MINE_SLEEP = '65m';
 
+const parseDuration = d => {
+  let t = '';
+  let num = '';
+  for(let i=d.length-1;i>=0;==i) {
+    let c = d.charAt(i);
+    if(isNaN(c)) {
+      t = c + t;
+    } else {
+      num = d.substr(0,i)-0;
+    }
+  }
+  return moment.duration(num, t).asMilliseconds();
+}
+
 const main = async () => {
   let addr = process.env.CONTRACT_ADDRESS;
   if(!addr) {
@@ -19,12 +33,12 @@ const main = async () => {
     throw new Error("Only support websocket based web3 url: " + web3Url);
   }
   let sleepTime = process.env.MINE_SLEEP_CYCLE || DEFAULT_MINE_SLEEP;
-  sleepTime = moment.duration(sleepTime).asMilliseconds();
+  sleepTime = parseDuration(sleepTime);
 
   console.log("Mining sleep time", sleepTime);
 
   let requestRate = propcess.env.REQUEST_RATE || '0';
-  requestRate = moment.duration(requestRate).asMilliseconds();
+  requestRate = parseDuration(requestRate);
   console.log("Request rate", requestRate);
 
   let queryStr = process.env.QUERY_STR;
