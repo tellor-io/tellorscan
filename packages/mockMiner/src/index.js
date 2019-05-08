@@ -21,8 +21,11 @@ const main = async () => {
   let sleepTime = process.env.MINE_SLEEP_CYCLE || DEFAULT_MINE_SLEEP;
   sleepTime = moment.duration(sleepTime);
 
+  console.log("Mining sleep time", sleepTime);
+
   let requestRate = propcess.env.REQUEST_RATE || '0';
   requestRate = moment.duration(requestRate);
+  console.log("Request rate", requestRate);
 
   let queryStr = process.env.QUERY_STR;
 
