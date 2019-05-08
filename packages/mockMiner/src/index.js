@@ -18,12 +18,11 @@ const parseDuration = d => {
   let num = '';
   for(let i=d.length-1;i>=0;i--) {
     let c = d.charAt(i);
-    console.log("Char", c);
     if(isNaN(c)) {
       t = c + t;
     } else {
-      console.log("Ending parse at", i);
       num = d.substring(0,i);
+      break;
     }
   }
   let actualPeriod = PERIODS[t];
