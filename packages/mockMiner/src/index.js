@@ -28,6 +28,7 @@ const parseDuration = d => {
   if(!actualPeriod) {
     throw new Error("Invalid duration", d);
   }
+  console.log("Duration", num, actualPeriod);
   return moment.duration(num, actualPeriod).asMilliseconds();
 }
 
