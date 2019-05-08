@@ -6,6 +6,13 @@ import moment from 'moment';
 
 const DEFAULT_MINE_SLEEP = '65m';
 
+const PERIODS = {
+  s: "seconds",
+  m: "minutes",
+  h: "hours",
+  d: "days"
+}
+
 const parseDuration = d => {
   let t = '';
   let num = '';
@@ -17,7 +24,11 @@ const parseDuration = d => {
       num = d.substr(0,i)-0;
     }
   }
-  return moment.duration(num, t).asMilliseconds();
+  let actualPeriod = PERIODS[t];
+  if(!actualPeriod) {
+    throw new Error("Invalid duration", d);
+  }
+  return moment.duration(num, actualPeriod).asMilliseconds();
 }
 
 const main = async () => {
