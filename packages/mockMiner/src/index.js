@@ -3,8 +3,9 @@ import Chain from './ChainWrapper';
 import TaskHandler from './TaskHandler';
 import Web3 from 'web3';
 import moment from 'moment';
+require("dotenv").config();
 
-const DEFAULT_MINE_SLEEP = '65m';
+const DEFAULT_MINE_SLEEP = '65s';
 
 const PERIODS = {
   s: "seconds",

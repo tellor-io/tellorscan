@@ -1,0 +1,23 @@
+There are two environments where mock miner will operate: demo and AWS
+
+Demo
+
+In demo mode, use the 'npm run mockMiner'. This will first build the mock miner
+then run it. There are three environment variables you must define in a
+.env file in the mockMiner project. The file should contain these contents:
+
+WEB3_URL="ws://localhost:8545";
+CONTRACT_ADDRESS="0x2B63d6e98E66C7e9fe11225Ba349B0B33234D9A2";
+
+Change the contract address if it changes for whatever reason.
+
+AWS
+
+In AWS, the EC2 instance as pm2 managing a node app. See the setupEC2.sh script
+to setup a fresh node. Otherwise, all the environment variables are held in
+the ecosystem.config.js file,w hich pm2 uses to run the node app and configure
+the execution environment.
+
+If you need to change the environment variables, change them in the ecosystem.config.js
+file and then run "pm2 restart ecosystem.config.js --update-env". This will stop/start
+the mock miner and reload all environment variables in that config file. s
