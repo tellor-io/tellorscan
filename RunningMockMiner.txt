@@ -20,4 +20,4 @@ the execution environment.
 
 If you need to change the environment variables, change them in the ecosystem.config.js
 file and then run "pm2 restart ecosystem.config.js --update-env". This will stop/start
-the mock miner and reload all environment variables in that config file. s
+the mock miner and reload all environment variables in that config file. 

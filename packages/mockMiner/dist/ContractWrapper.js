@@ -171,8 +171,8 @@ var ContractWrapper = function () {
     }
   }, {
     key: 'requestData',
-    value: function requestData(caller, queryString, symbol, requestId, multiplier, tip) {
-      return this._send(caller, this.master, "requestData", [queryString, symbol, requestId, multiplier, tip]);
+    value: function requestData(caller, queryString, symbol, multiplier, tip) {
+      return this._send(caller, this.master, "requestData", [queryString, symbol, multiplier, tip]);
     }
   }, {
     key: 'addTip',

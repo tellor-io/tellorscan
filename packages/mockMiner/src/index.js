@@ -15,6 +15,10 @@ const PERIODS = {
 }
 
 const parseDuration = d => {
+  if(!d || d.length === 0) {
+    return 0;
+  }
+
   let t = '';
   let num = '';
   for(let i=d.length-1;i>=0;i--) {
@@ -28,7 +32,7 @@ const parseDuration = d => {
   }
   let actualPeriod = PERIODS[t];
   if(!actualPeriod) {
-    throw new Error("Invalid duration", d);
+    return 0;
   }
   console.log("Duration", d, num-0, actualPeriod);
   return moment.duration(num-0, actualPeriod).asMilliseconds();
