@@ -103,15 +103,7 @@ export default class BlockSource {
       if(!web3) {
         throw new Error("Web3 not defined in chain");
       }
-
-/*****
-      //see if there are any gaps in blocks that we have to
-      //recover
-      let gaps = await chain.getMissingBlockRanges();
-      if(gaps.length > 0) {
-        await dispatch(this._restoreBlocks(next, store, gaps));
-      }
-****/
+      
       //we need to recover events from the last read block
       let start = await this._getLastBlockStored();
       let last = await web3.eth.getBlockNumber();
@@ -135,72 +127,10 @@ export default class BlockSource {
         if(block) {
           let last = await this._getLastBlockStored();
           await dispatch(this._pullEvents({next, store, start: last, end: block.number+1, block}));
-
-          /*
-          //if we get a block, grab the block with txns attached
-          let wTxns = await getState().chain.chain.web3.eth.getBlock(block.number, true);
-          console.log("BlockSource Getting new block", wTxns);
-
-          //remember that we've seen the block
-          store({database: dbNames.Blocks, key: ""+block.number, data: {blockNumber: block.number, timestamp: block.timestamp}});
-
-          //pass forward to processors
-          await next({block: wTxns});
-          */
         }
       };
 
       this.sub.on("data", this.subCallback);
-    }
-  }
-
-  /**
-   * Attempt to restore missing blocks
-   */
-  _restoreBlocks(next, store, gaps) {
-    return async (dispatch, getState) => {
-      if(gaps.length === 0) {
-        return;
-      }
-
-      let chain = getState().chain.chain;
-      let web3 = chain.web3;
-      let followons = [];
-
-      //for each gap we need to rebuild
-      for(let i=0;i<gaps.length;++i) {
-        let g = gaps[i];
-        //for the block numbers within the gap
-        for(let j=g.start;j<=g.end;++j) {
-          console.log("Retrieving missing block", j);
-          let start = Date.now();
-
-          //grab the block from chain
-          let block = await web3.eth.getBlock(j, true);
-          console.log("Block retrieved in ", (Date.now()-start),"ms");
-          if(block) {
-            //remember that we've seen the block
-            store({database: dbNames.Blocks, key: ""+block.number, data: {blockNumber: block.number, timestamp: block.timestamp}});
-
-            //and pass the block on to the next processor, flagging it as
-            //recovery since we're actually processing old blocks
-            followons.push(next({block: {
-              ...block,
-              __recovering: true
-            }}));
-          }
-        }
-      }
-      //wait for all blocks to process
-      await Promise.all(followons);
-
-      //We need to try again to capture any events that arrived while
-      //we were recovering gaps. This makes up for lengthy recovery times.
-      //this follow up should capture any remaining items quickly.
-      gaps = await chain.getMissingBlockRanges();
-      if(gaps.length > 0) {
-        return this._restoreBlocks(next, store, gaps);
-      }
     }
   }
 
@@ -212,7 +142,7 @@ export default class BlockSource {
     return async (dispatch, getState) => {
       let con = getState().chain.contract;
       let web3 = getState().chain.chain.web3;
-
+      console.log("Pulling events between blocks",start,"-",end);
       let events = await con.getPastEvents("allEvents", {fromBlock: start, toBlock: end});
       if(!events) {
         events = [];
