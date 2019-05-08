@@ -21,7 +21,7 @@ const parseDuration = d => {
     if(isNaN(c)) {
       t = c + t;
     } else {
-      num = d.substring(0,i);
+      num = d.substring(0,i+1);
       break;
     }
   }
