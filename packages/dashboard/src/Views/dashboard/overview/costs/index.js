@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 const s2p = state => {
   let reqs = _.values(state.requests.byId);
+  
   let recentTips = [];
   reqs.forEach(r=>{
     r.tips.forEach(t=>{
