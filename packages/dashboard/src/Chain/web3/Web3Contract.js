@@ -85,6 +85,7 @@ export default class Web3Contract {
             return a.logIndex = b.logIndex;
           });
 
+          /*
           for(let i=0;i<events.length;++i) {
             let e = events[i];
             let b = await this.chain.web3.eth.getBlock(e.blockNumber);
@@ -95,6 +96,7 @@ export default class Web3Contract {
               //await this.chain._storeBlockTime(b);
             }
           }
+          */
 
           if(callback) {
             let p = callback(events);

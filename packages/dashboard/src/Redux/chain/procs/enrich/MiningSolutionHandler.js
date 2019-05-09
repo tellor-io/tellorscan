@@ -32,8 +32,11 @@ export default class MiningSolutionHandler extends Plugin {
 
       let outData = {};
       //first, handle nonce submission changes
-      await dispatch(handleNonces({txn, store, outData}));
-
+      let noncesOk = await dispatch(handleNonces({txn, store, outData}));
+      if(!noncesOk) {
+        return;
+      }
+      
       //then update nonce order if final value given
       let outOrdered = {};
       await dispatch(changeNonceOrder({txn, store, prevData: outData, outData: outOrdered}));
@@ -114,7 +117,7 @@ const findRequest = ({txn, store, id}) => async (dispatch, getState) => {
 const handleNonces = ({txn, store, outData}) => async (dispatch, getState) => {
   let nonces = txn.logEventMap[dbNames.NonceSubmitted];
   if(!nonces) {
-    return;
+    return false;
   }
 
   //I dont's think this is possible but just in case...treat as an array of submissions
@@ -123,20 +126,21 @@ const handleNonces = ({txn, store, outData}) => async (dispatch, getState) => {
     nonces = a;
   }
   if(nonces.length === 0){
-    return;
+    return false;
   }
   //get the request associated with the submission
   let req = await dispatch(findRequest({id: nonces[0].id, txn, store}));
   if(!req) {
-    return;
+    return false;
   }
 
   //find the challenge within that request associated with the submission
   let ch = req.challenges[nonces[0].challengeHash];
   if(!ch) {
-
+    return false;
     //there is no way to resolve the challenge if we don't know about it.
     //so we have to fabricate one.
+    /***
     ch = {
       blockNumber: txn.blockNumber-1,//fake it out
       timestamp: txn.timestamp,
@@ -155,6 +159,7 @@ const handleNonces = ({txn, store, outData}) => async (dispatch, getState) => {
       key: ch.challengeHash,
       data: ch
     });
+    ***/
   }
 
   ch = {
@@ -189,6 +194,7 @@ const handleNonces = ({txn, store, outData}) => async (dispatch, getState) => {
       [ch.challengeHash]: ch
     }
   };
+  return true;
 }
 
 /**

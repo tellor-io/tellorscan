@@ -137,7 +137,7 @@ export default class ABIParser {
         }
 
       }//end txn enrichment loop
-      console.log("Forwarding decoded block", block);
+      //console.log("Forwarding decoded block", block);
       //can next proc in flow
       return next({block});
     }
