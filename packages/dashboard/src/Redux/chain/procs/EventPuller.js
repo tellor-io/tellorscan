@@ -81,6 +81,11 @@ export default class EventPuller {
 
         if(evt.blockNumber !== block) {
           fromChain = await this.web3.eth.getBlock(evt.blockNumber);
+          if(!fromChain) {
+            fromChain = {
+              timestamp: Math.floor(Date.now()/1000)
+            }
+          }
           //new block, convert what we've built up to transaction set
           currentBlock.transactions = _.values(ctx.history);
           //ordered by txn index
