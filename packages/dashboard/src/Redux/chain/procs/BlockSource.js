@@ -46,7 +46,7 @@ export default class BlockSource {
         }
       ]
     });
-    return r[0]?r[0].blockNumber+1:0;
+    return r[0]?r[0].blockNumber:0;
   }
 
   start(next, store) {
@@ -95,6 +95,8 @@ export default class BlockSource {
   }
 
   _pullEvents(props) {
+    console.log("Pull props", props);
+
     const {next, store, start, end, finalEnd, block, recovering} = props;
     return async (dispatch, getState) => {
       let con = getState().chain.contract;

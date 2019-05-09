@@ -38,11 +38,12 @@ export default class EventPuller {
   }
 
   async _doPull(ctx, cb) {
+    console.log("Querying for logs in range", ctx.start, "-", ctx.end);
     if(ctx.start > ctx.end) {
       throw new Error("Start block is after end block: " + ctx.start + " > " +ctx.end);
     }
     let span = ctx.end - ctx.start;
-    console.log("Querying for logs in range", ctx.start, "-", ctx.end);
+
     let config = {
       ...this.options,
       fromBlock: ctx.start,
@@ -61,6 +62,13 @@ export default class EventPuller {
       //block changes
       let block = events.length>0?events[0].blockNumber:0;
       let fromChain = await this.web3.eth.getBlock(block);
+      if(!fromChain) {
+        console.log("Could not retrieve block info", block);
+        fromChain = {
+          timestamp: Math.floor(Date.now()/1000)
+        }
+      }
+
       let currentBlock = {
         number: block,
         transactions: [],
