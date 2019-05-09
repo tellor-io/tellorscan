@@ -111,11 +111,7 @@ export default class BlockSource {
               console.log("Retrieving txn...", evt.transactionHash);
               let rec = null;
               try {
-                rec = await web3.eth.getTransaction(evt.transactionHash, (e,t)=>{
-                  if(e) {
-                    console.log("txn receipt Callback error", e);
-                  }
-                });
+                 rec = await web3.eth.getTransaction(evt.transactionHash);
               } catch (e) {
                 console.log("Problem retrieving transaction", e);
               }
@@ -130,6 +126,8 @@ export default class BlockSource {
                   logEvents: {}
                 };
                 history[evt.transactionHash] = txn;
+              } else {
+                console.log("No transaction found", evt.transactionHash);
               }
             }
 

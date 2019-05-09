@@ -12,8 +12,7 @@ export default class Chart extends React.Component {
     const {
       data
     } = this.props;
-    console.log("Chart render");
-
+  
     let labels = [];
     let tips = [];
     data.forEach(d=>{

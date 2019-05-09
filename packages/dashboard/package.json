@@ -73,9 +73,9 @@
     "redux-thunk": "^2.3.0",
     "reduxsauce": "^1.0.1",
     "simple-line-icons": "^2.4.1",
-    "web3": "^1.0.0-beta.52",
-    "web3-eth-accounts": "^1.0.0-beta.52",
-    "web3-utils": "^1.0.0-beta.52",
+    "web3": "^1.0.0-beta.55",
+    "web3-eth-accounts": "^1.0.0-beta.55",
+    "web3-utils": "^1.0.0-beta.55",
     "websocket": "^1.0.28",
     "yup": "^0.27.0"
   },
