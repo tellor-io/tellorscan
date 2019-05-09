@@ -49,7 +49,7 @@ const addRequest = (state=INIT, action) => {
 
 const updateRequest = (state=INIT, action) => {
   let data = action.data;
-  let req = data.request;
+  let req = data;
   let byId = {
     ...state.byId,
     [req.id]: req

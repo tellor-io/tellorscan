@@ -45,14 +45,10 @@ export default class LineShadow extends React.Component {
   }
 
   render() {
-    let {
-      height
-    } = this.props;
-    
+
     return (
       <ChartComponent
         className={cn(align.full, align.noMarginPad, "h-100")}
-        height={height}
         ref={ref => (this.chart_instance = ref && ref.chart_instance)}
         type="lineWithShadow"
         {...this.props}

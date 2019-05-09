@@ -10,9 +10,9 @@ const lineColor = "#414141";
 export default class Chart extends React.Component {
   render() {
     const {
-      data,
-      height
+      data
     } = this.props;
+    console.log("Chart render");
 
     let labels = [];
     let tips = [];
@@ -47,7 +47,7 @@ export default class Chart extends React.Component {
       ]
     }
     return (
-      <LineShadow {...configWithData} height={height} />
+      <LineShadow {...configWithData} />
     )
   }
 }

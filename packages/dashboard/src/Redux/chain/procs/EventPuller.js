@@ -60,15 +60,19 @@ export default class EventPuller {
       //assumption is the contract pre-sorts blocks so we can normalize and then announce based on
       //block changes
       let block = events.length>0?events[0].blockNumber:0;
+      let fromChain = await this.web3.eth.getBlock(block);
       let currentBlock = {
         number: block,
-        transactions: []
+        transactions: [],
+        timestamp: fromChain.timestamp
       };
 
       for(let i=0;i<events.length;++i) {
         let evt = events[i];
+        evt.timestamp = currentBlock.timestamp;
 
         if(evt.blockNumber !== block) {
+          fromChain = await this.web3.eth.getBlock(evt.blockNumber);
           //new block, convert what we've built up to transaction set
           currentBlock.transactions = _.values(ctx.history);
           //ordered by txn index
@@ -83,7 +87,8 @@ export default class EventPuller {
           }
           currentBlock = {
             number: evt.blockNumber,
-            transactions: []
+            transactions: [],
+            timestamp: fromChain.timestamp
           };
           ctx.history = {};
           block = evt.blockNumber;
@@ -152,7 +157,7 @@ export default class EventPuller {
         if(newSpan + ctx.start === ctx.start) {
           throw e;
         }
-        
+
         return this._doPull({
           ...ctx,
           increment: newSpan,

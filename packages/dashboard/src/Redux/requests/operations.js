@@ -5,6 +5,7 @@ import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
 import {registerDeps} from 'Redux/DepMiddleware';
 import {Types as settingTypes} from 'Redux/settings/actions';
+import {normalizeRequest} from './utils';
 
 const init = () => async (dispatch, getState) => {
   dispatch(Creators.initStart());
@@ -24,11 +25,14 @@ const findRequestById = id => async (dispatch, getState) => {
   }
   req = await dispatch(findById(id));
   if(req) {
+    req = normalizeRequest(req);
+
     await Storage.instance.create({
       database: dbNames.DataRequested,
       key: ""+req.id,
       data: req.toJSON()
     });
+    dispatch(Creators.updateRequest(req));
   }
 }
 

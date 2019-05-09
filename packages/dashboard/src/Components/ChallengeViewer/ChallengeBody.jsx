@@ -73,7 +73,7 @@ export default class ChallengeBody extends React.Component {
 
     return (
       <Row className={cn(align.topCenter, align.full, align.noMarginPad)}>
-        <Col md="12" className={cn("bg-tellor-charcoal", align.leftCenter, align.noMarginPad)}>
+        <div className={cn("bg-tellor-charcoal", align.full, align.leftCenter, align.noMarginPad)}>
           <Row className={cn(align.allCenter, align.full, align.noMarginPad)}>
             <Col md="2" className={cn(align.allCenter, align.noMarginPad)}>
 
@@ -94,8 +94,8 @@ export default class ChallengeBody extends React.Component {
               </span>
             </Col>
           </Row>
-        </Col>
-        <Col md="12" className={cn(align.topCenter, align.noMarginPad)}>
+        </div>
+        <div className={cn(align.topCenter, align.full, align.noMarginPad)}>
           {
             nonces.map((n,i)=>{
 
@@ -104,7 +104,7 @@ export default class ChallengeBody extends React.Component {
               )
             })
           }
-        </Col>
+        </div>
       </Row>
     )
   }

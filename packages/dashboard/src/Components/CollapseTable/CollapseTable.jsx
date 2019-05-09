@@ -56,7 +56,7 @@ class CollapseVisibleRow extends React.Component {
 
     return (
       <Row className={cn("item-row", "border-bottom", "border-muted", align.topCenter, align.full, "mb-3", align.noMarginPad)}>
-        <Col md="12" className={cn(align.topCenter, align.noMarginPad)}>
+        <div className={cn(align.topCenter, align.full, align.noMarginPad)}>
           {
             rows.map((r, i)=>{
               let fieldData = r.data;
@@ -94,9 +94,9 @@ class CollapseVisibleRow extends React.Component {
               )
             })
           }
-        </Col>
+        </div>
 
-        <Col md="12" className={cn(align.topCenter, align.noMarginPad)}>
+        <div className={cn(align.topCenter, align.full, align.noMarginPad)}>
           <Row className={cn(align.leftCenter, align.full, align.noMarginPad)}>
             <Col md="1" className={cn(align.leftCenter, align.noMarginPad)}>
                {/*empty for expand icon*/}
@@ -107,7 +107,7 @@ class CollapseVisibleRow extends React.Component {
               </Body>
             </Col>
           </Row>
-        </Col>
+        </div>
       </Row>
     )
   }
@@ -135,18 +135,18 @@ export default class CollapseTable extends React.Component {
       return (
         <Row className={cn('collapse-table-container', align.allCenter, align.full, align.noMarginPad)}>
 
-          <Col md="12" className={cn(align.allCenter, align.noMarginPad)}>
+          <div className={cn(align.allCenter, align.full, align.noMarginPad)}>
             <span className={cn("text-center", "font-weight-light")}>
               No Data Yet
             </span>
-          </Col>
+          </div>
         </Row>
       )
     }
 
     return (
       <Row className={cn('collapse-table-container', align.topCenter, align.full, align.noMarginPad)}>
-        <Col md="12" className={cn(align.topCenter, align.noMarginPad)}>
+        <div className={cn(align.topCenter, align.full, align.noMarginPad)}>
           <Header>
             {this.buildHeader(data)}
           </Header>
@@ -157,7 +157,7 @@ export default class CollapseTable extends React.Component {
               </CollapseVisibleRow>
             ))
           }
-        </Col>
+        </div>
       </Row>
     )
   }

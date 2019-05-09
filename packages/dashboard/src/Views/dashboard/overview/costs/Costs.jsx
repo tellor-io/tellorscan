@@ -12,24 +12,23 @@ export default class Costs extends React.Component {
   render() {
     const {
       loading,
-      data,
-      height
+      data
     } = this.props;
 
     return (
-      <Row className={cn("cost-chart-wrapper", "h-100", align.topCenter, align.full, align.noMarginPad)}>
+      <Row className={cn("cost-chart-wrapper", align.topCenter, align.full, align.noMarginPad)}>
         <Loading loading={loading} />
-        <Col md="12" className={cn(align.allCenter, align.noMarginPad)}>
+        <div className={cn(align.allCenter, align.full, align.noMarginPad)}>
           Recent Request Tips
-        </Col>
-        <Col md="12" className={cn("chart", "h-100", align.allCenter)}>
-          <Chart height={height} data={data} />
-        </Col>
-        <Col md="12" className={cn("chart", align.allCenter)}>
+        </div>
+        <div className={cn("chart", align.full, align.allCenter, align.noMarginPad)}>
+          <Chart data={data} />
+        </div>
+        <div className={cn("chart", align.full, align.allCenter, align.noMarginPad)}>
           <span className={cn(align.allCenter, "text-sz-sm", "text-muted")}>
             Time (GMT)
           </span>
-        </Col>
+        </div>
       </Row>
     )
   }

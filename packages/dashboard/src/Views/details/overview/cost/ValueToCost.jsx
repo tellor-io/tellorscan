@@ -15,10 +15,10 @@ export default class ValueToCost extends React.Component {
     } = this.props;
 
     return (
-      <Row className={cn("cost-container", "border", "rounded", "mt-4",  align.topCenter, align.full, align.noMarginPad)}>
-        <Col md="12" className={cn(align.noMarginPad)}>
+      <Row className={cn("cost-container", "border", "rounded", "mt-4", align.topCenter, align.full, align.noMarginPad)}>
+        <div className={cn(align.full, "h-100",align.noMarginPad)}>
           <Chart data={data} loading={loading} height={250}/>
-        </Col>
+        </div>
       </Row>
     )
   }

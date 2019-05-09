@@ -4,26 +4,8 @@ import {Creators} from '../actions';
 import {default as chOps} from './challengeLoader';
 import {default as tipOps} from './tipLoader';
 import {default as dispOps} from './disputeLoader';
+import {normalizeRequest} from '../utils';
 import _ from 'lodash';
-
-const normalizeRequest = req => {
-  let toJS = req.toJSON;
-  if(!toJS) {
-    toJS = () => req
-  }
-  return {
-    ...req,
-    challenges: {
-      ...req.challenges
-    },
-    disputes: {
-      ...req.disputes
-    },
-    tips: [],
-    currentTip: req.currentTip || 0,
-    toJSON: toJS
-  }
-}
 
 const loadAll = () => async (dispatch, getState) => {
   let r = await Storage.instance.readAll({

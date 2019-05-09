@@ -19,6 +19,10 @@ export const findRequestById = id => async (dispatch, getState) => {
 
   let vars = await con.getRequestVars(id);
 
+  //queryString,dataSymbol,queryHash, granularity,requestQPosition,totalTip
+  //const {sender, _query, _querySymbol, _granularity,  _requestId,  _totalTips} = props.returnValues;
+
+
   //order is queryString, symbol, queryHash,_granularity, paypool index, tip
   if(!empty(vars[0])) {
 
@@ -33,7 +37,8 @@ export const findRequestById = id => async (dispatch, getState) => {
         _totalTips: vars[5]
       }
     };
-    return eventFactory(payload);
+    let e = eventFactory(payload);
+    return e;
   }
   return null;
 }

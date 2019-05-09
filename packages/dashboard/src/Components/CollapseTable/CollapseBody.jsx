@@ -21,13 +21,13 @@ export default class CollapseBody extends React.Component {
     };
     return (
       <Row className={cn(align.leftCenter, align.full, tbMargins, align.noMarginPad)}>
-        <Col md="12" className={cn(align.leftCenter, align.noMarginPad)}>
+        <div className={cn(align.leftCenter, align.full, align.noMarginPad)}>
           <Collapse isOpen={expanded} className={cn(align.full, align.noMarginPad)}>
 
             {this.props.children}
 
           </Collapse>
-        </Col>
+        </div>
       </Row>
     )
   }

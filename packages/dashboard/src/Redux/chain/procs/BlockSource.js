@@ -3,7 +3,7 @@ import Storage from 'Storage';
 import _ from 'lodash';
 import Puller from './EventPuller';
 
-const MAX_BLOCKS = 56000;
+const MAX_BLOCKS = 8000; //about a day
 
 /**
  * Block source subscribes to and supplies block data to the
