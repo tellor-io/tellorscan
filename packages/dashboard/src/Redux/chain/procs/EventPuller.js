@@ -61,12 +61,16 @@ export default class EventPuller {
       //assumption is the contract pre-sorts blocks so we can normalize and then announce based on
       //block changes
       let block = events.length>0?events[0].blockNumber:0;
+      console.log("Getting block info", block);
       let fromChain = await this.web3.eth.getBlock(block);
+
       if(!fromChain) {
         console.log("Could not retrieve block info", block);
         fromChain = {
           timestamp: Math.floor(Date.now()/1000)
         }
+      } else {
+        console.log("Retrieved block info");
       }
 
       let currentBlock = {

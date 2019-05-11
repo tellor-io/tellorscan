@@ -133,7 +133,7 @@ export default class HDWallet {
       if (tmp_wallets[from]) {
         pkey = tmp_wallets[from].getPrivateKey();
       } else {
-        cb("Account not found");
+        return cb("Account not found");
       }
       const tx = new Transaction(txParams);
       tx.sign(pkey);

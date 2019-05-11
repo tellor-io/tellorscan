@@ -58,7 +58,7 @@ export default class BlockSource {
       }
 
       //we need to recover events from the last read block
-      let start = await this._getLastBlockStored();
+      let start = await this._getLastBlockStored() + 1;
       let last = await web3.eth.getBlockNumber();
       let diff = last - start;
       if(diff > MAX_BLOCKS) {
@@ -77,7 +77,8 @@ export default class BlockSource {
       this.subCallback = async (block) => {
         console.log("incoming block", block.number);
         if(block) {
-          let last = await this._getLastBlockStored();
+          let last = await this._getLastBlockStored() + 1;
+
           let diff = block.number - last;
           if(diff > MAX_BLOCKS) {
             last = block.number - MAX_BLOCKS;
@@ -95,12 +96,14 @@ export default class BlockSource {
   }
 
   _pullEvents(props) {
-    console.log("Pull props", props);
 
     const {next, store, start, end, finalEnd, block, recovering} = props;
     return async (dispatch, getState) => {
       let con = getState().chain.contract;
       let web3 = getState().chain.chain.web3;
+      if(start > end) {
+        return;
+      }
 
       let puller = new Puller({
         web3,
