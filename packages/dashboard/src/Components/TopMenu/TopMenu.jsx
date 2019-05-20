@@ -18,6 +18,17 @@ import Search from 'Components/Search';
 import Loading from 'Components/Loading';
 import miner from 'Assets/images/miner.png';
 
+/*
+<Col md="3" className={cn(align.allCenter, align.noMarginPad)}>
+    {
+      title &&
+      <h2 className={cn(align.allCenter, "text-muted", "font-weight-bold")}>
+        {title}
+      </h2>
+    }
+</Col>
+*/
+
 export default class TopMenu extends React.Component {
   render() {
     const {
@@ -91,15 +102,8 @@ export default class TopMenu extends React.Component {
             <Col md="4" className={cn(align.leftCenter, align.noMarginPad)}>
               <Logo goHome={this.props.goHome}/>
             </Col>
-            <Col md="3" className={cn(align.allCenter, align.noMarginPad)}>
-                {
-                  title &&
-                  <h2 className={cn(align.allCenter, "text-muted", "font-weight-bold")}>
-                    {title}
-                  </h2>
-                }
-            </Col>
-            <Col md="5" className={cn(align.rightCenter, align.noMarginPad)}>
+
+            <Col md="8" className={cn(align.rightCenter, align.noMarginPad)}>
               <Nav navbar className={cn("ml-auto", "text-md", "font-weight-light", "p-0")}>
                 {navItems}
               </Nav>
