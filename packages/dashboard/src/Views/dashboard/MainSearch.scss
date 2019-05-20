@@ -1,7 +1,12 @@
 .search-wrapper {
-  min-height: 80px;
+  min-height: 98px;
+  max-height: 98px;
   border-radius: 5px;
   background: theme-color("bg-tellor-charcoal");
-  box-shadow: 2px 2px 2px 1px rgba(100,100,100,.3);
+  box-shadow: 0px 1px 10px rgba(171,171,171,.25);
+
+  .text-and-search {
+    margin-top: -7px;
+  }
 
 }

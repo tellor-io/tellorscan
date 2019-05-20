@@ -2,19 +2,21 @@
   background: transparent;
 
   .search-icon {
-    height: 40px;
+    height: 25px;
+    font-size: 18px;
     border-radius: 3px 0 0 3px;
     color: white;
     padding: 10px 20px 10px 20px;
   }
 
   .input-wrapper {
-
+    max-height: 31px;
 
     input {
-      height: 40px;
+      max-height: 30px;
       border: none;
-
+      font-size: 14px;
+      
       &::placeholder {
         color: theme-color("input-placeholder");
       }

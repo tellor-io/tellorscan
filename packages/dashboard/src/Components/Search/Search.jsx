@@ -54,12 +54,12 @@ export default class Search extends React.Component {
     } = this.props;
 
     return (
-      <Row className={cn( "search-box", className, align.allCenter, align.full, "p-1")}>
+      <Row className={cn( "search-box",className, align.allCenter, align.full, )}>
         <Loading loading={loading} size="small" />
         <Col md="12" className={cn(align.leftCenter, "p-0", "m-0", "font-weight-light", "text-muted", "text-sz-md")}>
 
           <div className={cn("rounded",align.full, align.leftCenter)}>
-            <i className={cn("search-icon fa fa-search", "m-0", "bg-tellor-green")} onClick={this.doSearch} />
+            <i className={cn(align.allCenter, "search-icon fa fa-search", "p-3", "m-0", "bg-tellor-green")} onClick={this.doSearch} />
             <div className={cn("input-wrapper", align.full, align.leftCenter, align.noMarginPad)}>
               <input type="number" placeholder="request-ID" className={cn(align.full, "ml-1", "m-0")}
                 onChange={this.updateText}

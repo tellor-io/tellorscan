@@ -8,6 +8,7 @@ export default class LineShadow extends React.Component {
   componentWillMount() {
 
     Chart.defaults.lineWithShadow = Chart.defaults.line;
+    Chart.defaults.height = 100;
     Chart.plugins.register({
       afterDraw: (chart) => {
         let msg = "No data in time range";
@@ -48,7 +49,8 @@ export default class LineShadow extends React.Component {
 
     return (
       <ChartComponent
-        className={cn(align.full, align.noMarginPad, "h-100")}
+        height={100}
+        className={cn("chart-component", align.full, align.noMarginPad)}
         ref={ref => (this.chart_instance = ref && ref.chart_instance)}
         type="lineWithShadow"
         {...this.props}

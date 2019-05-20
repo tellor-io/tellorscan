@@ -91,7 +91,7 @@ export default class TopMenu extends React.Component {
             <Col md="4" className={cn(align.leftCenter, align.noMarginPad)}>
               <Logo goHome={this.props.goHome}/>
             </Col>
-            <Col md="4" className={cn(align.allCenter, align.noMarginPad)}>
+            <Col md="3" className={cn(align.allCenter, align.noMarginPad)}>
                 {
                   title &&
                   <h2 className={cn(align.allCenter, "text-muted", "font-weight-bold")}>
@@ -99,7 +99,7 @@ export default class TopMenu extends React.Component {
                   </h2>
                 }
             </Col>
-            <Col md="4" className={cn(align.rightCenter, align.noMarginPad)}>
+            <Col md="5" className={cn(align.rightCenter, align.noMarginPad)}>
               <Nav navbar className={cn("ml-auto", "text-md", "font-weight-light", "p-0")}>
                 {navItems}
               </Nav>

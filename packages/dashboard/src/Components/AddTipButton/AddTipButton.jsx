@@ -14,7 +14,7 @@ export default class AddTipButton extends React.Component {
     if(!hasTokens) {
       return (
         <div className={cn(align.allCenter, align.full)}>
-          <Button onClick={this.props.getTokens} size="sm" className={cn("bg-secondary", "text-light")}>
+          <Button onClick={this.props.getTokens} className={cn("get-tokens-button")}>
             Get Tokens
           </Button>
         </div>

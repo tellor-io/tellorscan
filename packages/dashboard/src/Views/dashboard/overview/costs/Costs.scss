@@ -1,3 +1,11 @@
 .cost-chart-wrapper {
   min-height: 200px;
+
+  .chart {
+    max-height: 100px;
+  }
+  
+  .chart-component {
+    max-height: 100px;
+  }
 }

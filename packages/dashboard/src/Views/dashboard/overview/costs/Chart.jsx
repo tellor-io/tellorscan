@@ -12,7 +12,7 @@ export default class Chart extends React.Component {
     const {
       data
     } = this.props;
-  
+
     let labels = [];
     let tips = [];
     data.forEach(d=>{
@@ -31,8 +31,8 @@ export default class Chart extends React.Component {
           label: "Tip",
           data: tips,
           borderColor: lineColor,
-          pointBackgroundColor: lineColor,
-          pointBorderColor: lineColor,
+          pointBackgroundColor: "transparent", //lineColor,
+          pointBorderColor: "transparent", //lineColor,
           pointHoverBackgroundColor: lineColor,
           pointHoverBorderColor: lineColor,
           pointRadius: 4,

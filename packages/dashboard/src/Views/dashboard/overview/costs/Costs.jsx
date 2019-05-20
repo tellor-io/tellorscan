@@ -16,7 +16,7 @@ export default class Costs extends React.Component {
     } = this.props;
 
     return (
-      <Row className={cn("cost-chart-wrapper", align.topCenter, align.full, align.noMarginPad)}>
+      <Row className={cn("cost-chart-wrapper", "pt-3", "pb-3", align.topCenter, align.full, align.noMarginPad)}>
         <Loading loading={loading} />
         <div className={cn(align.allCenter, align.full, align.noMarginPad)}>
           Recent Request Tips

@@ -52,7 +52,7 @@ const cols = [
   {
     Header: (
       <span className={cn("text-sz-sm", "text-muted", "text-center", "font-weight-light")}>
-        add to tip
+        add tip
       </span>),
     width: 1,
     accessor: "item",
