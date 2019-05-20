@@ -14,7 +14,7 @@ export default class DisputeButton extends React.Component {
 
     if(!hasTokens) {
       return (
-        <Button size="sm" className={cn("text-light", "text-sz-sm", "bg-secondary")}
+        <Button size="sm" className={cn("need-tokens-button", "text-light", "text-sz-sm")}
                 onClick={this.props.getTokens}>
             Need Tokens
         </Button>
@@ -32,7 +32,7 @@ export default class DisputeButton extends React.Component {
     }
 
     return (
-      <Button size="sm" className={cn("dispute-button", "text-dark", "bg-tellor-green")}
+      <Button size="sm" className={cn("dispute-button", "text-light", "text-sz-sm")}
               onClick={this.props.onClick}>Dispute</Button>
 
     )

@@ -4,17 +4,16 @@ import {withRouter} from 'react-router-dom';
 import _ from 'lodash';
 import * as navs from 'Navs';
 import {default as dispOps} from 'Redux/disputes/operations';
-import {default as disputeOps} from 'Redux/disputes/operations';
+import {default as disputeOps, isDisputable} from 'Redux/disputes/operations';
 
 const s2p = (state,own) => {
+
   let byId = state.requests.byId; //state.events.tree.byId;
   let id = own.match.params['apiID'];
   let reqs = _.values(byId);
   if(id) {
     if(byId[id]) {
       reqs = [byId[id]];
-    } else {
-      reqs = [];
     }
   }
   let challenges = [];
@@ -22,7 +21,7 @@ const s2p = (state,own) => {
     _.keys(r.challenges).forEach(k=>{
 
       let c = r.challenges[k];
-      if(disputeOps.isDisputable(c)) {
+      if(isDisputable(c)) {
         challenges.push(c);
       }
     });

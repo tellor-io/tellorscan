@@ -1,7 +1,7 @@
 .challenges-container {
   max-height: 550px !important;
   min-height: 550px !important;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   .item-row {
     min-height: 50px !important;

@@ -183,7 +183,7 @@
 
     &:hover {
       cursor: pointer;
-      color: theme-color("clickable-icon-hover-text") !important;
-      background: theme-color("clickable-icon-hover-bg");
+      color: white !important;
+      background: theme-color("bg-purple-hover");
     }
 }

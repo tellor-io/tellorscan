@@ -30,15 +30,15 @@ export default class CurrentApi extends React.Component {
     }
 
     return (
-      <Row className={cn("current-api", align.allCenter, align.full, align.noMarginPad)}>
+      <Row className={cn("current-api", align.leftLeft, align.full, align.noMarginPad)}>
         <Loading loading={loading} size="small"/>
-        <Col md="8" className={cn( align.topCenter, "m-0", "p-0")}>
+        <Col md="9" className={cn( align.topCenter, "m-0", "p-0")}>
 
           <Row className={cn(align.leftCenter, align.full, align.noMarginPad)}>
             <Col md="1" className={cn(align.leftCenter, "mr-2")}>
               <i className={cn("icon-link", "text-muted", "font-weight-light")}/>
             </Col>
-            <Col md="10" className={cn(LABEL_CLASS)}>
+            <Col md="9" className={cn(LABEL_CLASS)}>
               Current Request ID
             </Col>
           </Row>
@@ -46,14 +46,14 @@ export default class CurrentApi extends React.Component {
             <Col md="1" className={cn(align.leftCenter, "mr-2")}>
               &nbsp;
             </Col>
-            <Col md="10" className={cn(VALUE_CLASS)}>
+            <Col md="9" className={cn(VALUE_CLASS)}>
               {idText}
             </Col>
           </Row>
 
         </Col>
 
-        <Col md="4" className={cn(align.rightCenter, align.noMarginPad)}>
+        <Col md="3" className={cn(align.rightCenter, align.noMarginPad)}>
 
           <Row className={cn(align.topCenter, align.full, align.noMarginPad)}>
             <Col md="12" className={cn(align.allCenter, align.noMarginPad)}>

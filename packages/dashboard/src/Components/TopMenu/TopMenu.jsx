@@ -43,30 +43,31 @@ export default class TopMenu extends React.Component {
       barClass = cn(barClass, align.topCenter);
     };
 
-    //
+    //<i className={cn("fa fa-gear", "text-dark", "mr-1")} />
+    //<i className={cn("fa fa-commenting-o", "text-dark", "mr-1")} />
+    //<img className={cn("mr-1")} src={miner} width="15" height="15" alt="miner"/>
+    //<i className={cn("icon-wallet", "mr-1")} />
+    
     let navItems = (
       <React.Fragment>
         <NavItem className={cn(align.allCenter,"mr-2")}>
           <NavLink className={cn("text-dark")} href="#" onClick={this.props.toSettings} >
-            <i className={cn("fa fa-gear", "text-dark", "mr-1")} />
+
             Settings
           </NavLink>
         </NavItem>
         <NavItem className={cn(align.allCenter)}>
           <NavLink className={cn("text-dark")} href="#" onClick={this.props.toDisputes} >
-            <i className={cn("fa fa-commenting-o", "text-dark", "mr-1")} />
             Disputes
           </NavLink>
         </NavItem>
         <NavItem className={cn(align.allCenter)}>
           <NavLink className={cn("text-dark")} href="#" onClick={this.props.toMining} >
-            <img className={cn("mr-1")} src={miner} width="15" height="15" alt="miner"/>
             Mining
           </NavLink>
         </NavItem>
         <UncontrolledDropdown nav inNavbar>
           <DropdownToggle nav caret>
-            <i className={cn("icon-wallet", "mr-1")} />
             Wallet
           </DropdownToggle>
           <DropdownMenu>

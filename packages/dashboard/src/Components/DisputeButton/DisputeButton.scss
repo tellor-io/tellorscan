@@ -1,7 +1,20 @@
 .dispute-button {
-  border: none;
+  background: theme-color("bg-tellor-green");
+  border-radius: 15px;
+  border: 1px solid #BDBDBD;
+  line-height: 15px;
+
   &:hover {
-    background: theme-color("highlight-button-bg");
-    cursor: pointer;
+    background: theme-color("bg-purple-hover") !important;
+  }
+}
+
+.need-tokens-button {
+  background: theme-color("bg-tellor-green");
+  border-radius: 15px;
+  border: 1px solid #BDBDBD;
+  line-height: 15px;
+  &:hover {
+    background: theme-color("bg-purple-hover");
   }
 }

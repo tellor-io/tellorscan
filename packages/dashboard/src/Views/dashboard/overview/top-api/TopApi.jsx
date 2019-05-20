@@ -44,7 +44,7 @@ export default class TopApi extends React.Component {
 
 
     return (
-      <Row className={cn(align.topCenter, align.full, "p-1", align.noMarginPad)}>
+      <Row className={cn("top-api", align.topCenter, align.full, "p-1", align.noMarginPad)}>
         <Loading loading={loading} size="small"/>
 
         <Col md="12" className={cn(align.leftCenter, align.full, align.noMarginPad)}>

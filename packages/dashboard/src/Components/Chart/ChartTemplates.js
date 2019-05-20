@@ -36,7 +36,7 @@ export const chartConfig = () => {
       },
       elements: {
           line: {
-              tension: 0
+              //tension: .4
           }
       }
     },

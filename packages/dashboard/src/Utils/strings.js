@@ -26,10 +26,9 @@ export const fixLength = (s, max) => {
     return s;
   }
   if(s.length > max) {
-    let  half = Math.floor(s.length/2);
-    let mid = Math.min(half, 20);
+    let  mid = Math.floor(max/2);
     let start = s.substring(0, mid);
-    let end = s.substring(s.length-10);
+    let end = s.substring(s.length-mid);
     return start + "..." + end;
   }
   return s;

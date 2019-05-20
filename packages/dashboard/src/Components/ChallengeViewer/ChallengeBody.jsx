@@ -50,7 +50,7 @@ class NonceRow extends React.Component {
 
         <Col md="6" className={cn(align.allCenter, align.noMarginPad)}>
           <span className={cn(align.allCenter, "p-1", "text-sz-sm", "rounded", "font-weight-light")}>
-            {fixLength(nonce.miner, 30)}
+            {fixLength(nonce.miner, 10)}
           </span>
         </Col>
 

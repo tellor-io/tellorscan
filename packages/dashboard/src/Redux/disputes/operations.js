@@ -83,7 +83,8 @@ const voteTimeRemaining = (dispute) => {
   return VOTABLE_PERIOD - (now - end);
 }
 
-const isDisputable = (challenge) => {
+export const isDisputable = (challenge) => {
+
   if(!challenge.finalValue) {
       return true;
   }

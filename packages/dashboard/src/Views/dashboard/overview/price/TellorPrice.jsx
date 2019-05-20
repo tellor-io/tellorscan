@@ -17,7 +17,7 @@ export default class TellorPrice extends React.Component {
     } = this.props;
 
     return (
-      <Row className={cn(align.topCenter, align.full, "m-0")}>
+      <Row className={cn("tellor-price", align.topCenter, align.full, "m-0")}>
 
         <Col md="12" className={cn(align.leftCenter, align.full)}>
           <Row className={cn(align.leftCenter, align.full)}>

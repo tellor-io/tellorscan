@@ -25,7 +25,7 @@ export default class CurrentTip extends React.Component {
     </div>
     */
     return (
-      <Row className={cn(align.topCenter, align.full, "p-1", "m-0")}>
+      <Row className={cn("current-tip", align.topCenter, align.full, "p-1", "m-0")}>
         <Col md="12" className={cn(align.leftCenter, align.full)}>
           <Row className={cn(align.leftCenter, align.full)}>
             <Col md="1" className={cn(align.leftCenter, "mr-2")}>

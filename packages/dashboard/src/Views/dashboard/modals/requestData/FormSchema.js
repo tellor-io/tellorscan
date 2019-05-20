@@ -8,14 +8,15 @@ export const schema = {
       maxLength: 200
     },
     multiplier: {
-      type: 'number',
+      type: 'integer',
       title: 'Multiplier',
-
+      multipleOf: 10,
+      minimum: 10
     },
     tip: {
-      type: 'number',
+      type: 'integer',
       title: 'Tip',
-
+      minimum: 0
     },
     symbol: {
       type: "string",
