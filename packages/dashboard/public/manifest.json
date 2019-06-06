@@ -3,9 +3,8 @@
   "name": "Tellorscan",
   "icons": [
     {
-      "src": "/images/favicon.png",
-      "sizes": "1260x1260",
-      "type": "image/png"
+      "src": "/images/favicon.ico",
+      "sizes": "32x32 16x16"
     }
   ],
   "start_url": ".",
