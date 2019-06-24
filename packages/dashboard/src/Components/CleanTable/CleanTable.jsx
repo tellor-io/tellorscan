@@ -21,7 +21,7 @@ class RowHeader extends React.Component {
 
     let defWidth = Math.ceil(12/cols.length);
     return (
-      <Row className={cn( align.allCenter, align.full, "m-0", "p-0")}>
+      <Row className={cn( align.allCenter, align.full, "m-0", "p-0","pt-2")}>
         {
           cols.map((c, i)=>{
             let body = null;
