@@ -7,5 +7,5 @@ export const MAINNET = "0xbAF31Bbbba24AF83c8a7a76e16E109d921E4182a".toLowerCase(
 export default {
   private_address: DEFAULT_MASTER_CONTRACT,
   rinkeby_address: RINKEBY,
-  mainnet_address: MAINNET
+  main_address: MAINNET
 }

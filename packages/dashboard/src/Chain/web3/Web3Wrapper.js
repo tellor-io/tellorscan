@@ -78,6 +78,7 @@ export default class Web3Wrapper {
 
         let addrField = this.network + "_address";
         let addr = conAddresses[addrField];
+        console.log("New Address", addrField, addr);
 
         //create eth contract with default address defined in
         //Constants/chain/web3Config
