@@ -281,11 +281,12 @@ const _doInitDispute = props => async (dispatch, getState) => {
  */
 const addToTip = (id,tip) => (dispatch, getState) => {
   let state = getState();
-  let req = state.requests.byId[id];
+  let req = state.newRequests.byId[id];
   if(req) {
     let con = state.chain.contract;
     return con.addTip(req.id, tip);
   }
+  
 }
 
 /**
