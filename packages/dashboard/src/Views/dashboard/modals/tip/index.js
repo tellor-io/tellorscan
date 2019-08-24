@@ -13,7 +13,7 @@ const s2p = state => {
     request: state.tips.selectedRequest
   };
   let top = 0;
-  _.values(state.requests.byId).forEach(r=>{
+  _.values(state.newRequests.byId).forEach(r=>{
     if(r.currentTip > top) {
       top = r.currentTip
     }

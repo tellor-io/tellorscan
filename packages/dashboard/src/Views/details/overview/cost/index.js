@@ -5,29 +5,19 @@ import _ from 'lodash';
 
 const s2p = (state,own) => {
   let id = own.match.params['apiID'];
-  let reqs = state.requests.byId;
+  
   let recentTips = [];
   if(id) {
-    let tgt = reqs[id-0] || {};
-    let tips = tgt.tips || [];
-    tips.forEach(t=>{
-      recentTips.push(t);
-      recentTips.sort((a,b)=>b.blockNumber-a.blockNumber);
-    });
+    id -= 0;
+    recentTips = state.tips.tips.filter(t=>t.id===id);
   } else {
-    _.values(reqs).forEach(r=>{
-      r.tips.forEach(t=>{
-        recentTips.push(t);
-        recentTips.sort((a,b)=>b.blockNumber-a.blockNumber);
-      });
-    });
+    recentTips = [
+      ...state.tips.tips
+    ]
   }
 
   recentTips.sort((a,b)=>a.blockNumber-b.blockNumber);
-  if(recentTips.length > 50) {
-    recentTips.splice(0,50);
-  }
-
+  console.log("RECENT TIPS", recentTips);
   return {
     loading: state.analytics.loading,
     data: recentTips

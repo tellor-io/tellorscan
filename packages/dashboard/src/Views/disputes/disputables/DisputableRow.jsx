@@ -155,8 +155,9 @@ export default class DisputableRow extends React.Component {
 
   buildNormalCols(challenge) {
 
-    let nonces = _.values(challenge.nonces) || [];
-    nonces.sort((a,b)=>a.winningOrder-b.winningOrder);
+   //let nonces = _.values(challenge.nonces) || [];
+    //nonces.sort((a,b)=>a.winningOrder-b.winningOrder);
+    let nonces = challenge.nonces || [];
 
     let exIcon = this.props.expanded?"fa-caret-up":"fa-caret-down";
     return (

@@ -1,10 +1,12 @@
 import {createReducer} from 'reduxsauce';
 import {Types} from './actions';
+import * as ethUtils from 'web3-utils';
 
 const INIT = {
   loading: false,
   error: null,
   byHash: {},
+  byIdAndTime: {},
   currentChallenge: null
 }
 
@@ -23,8 +25,14 @@ const start = (state=INIT) => {
 const success = (state=INIT, action) => {
   let all = action.challenges;
   let byHash = {};
+  let byIdAndTime = {};
   action.challenges.forEach(c=>{
     byHash[c.challengeHash] = c;
+    if(c.finalValue) {
+      let key = ethUtils.sha3(""+c.id + ""+c.finalValue.mineTime);
+      console.log("Challenge key from", c.id, "and time", c.finalValue.mineTime);
+      byIdAndTime[key] = c;
+    }
   });
   let raw = Object.keys(byHash).map(h=>byHash[h]);
   if(raw.length > MAX_SIZE) {
@@ -43,6 +51,7 @@ const success = (state=INIT, action) => {
     ...state,
     loading: false,
     byHash,
+    byIdAndTime,
     currentChallenge: cHash?cHash.toLowerCase():null
   }
 }
@@ -52,9 +61,16 @@ const add = (state=INIT, action) => {
   let byHash = {
     ...state.byHash
   };
+  let byIdAndTime = {
+    ...state.byIdAndTime
+  }
   let chals = action.challenges || [];
   chals.forEach(c=>{
     byHash[c.challengeHash] = c;
+    if(c.finalValue) {
+      let key = ethUtils.sha3(""+c.id + ""+c.finalValue.mineTime);
+      byIdAndTime[key] = c;
+    }
   });
   let raw = Object.keys(byHash).map(h=>byHash[h]);
   if(raw.length > MAX_SIZE) {
@@ -72,6 +88,7 @@ const add = (state=INIT, action) => {
   return {
     ...state,
     byHash,
+    byIdAndTime,
     currentChallenge: cHash?cHash.toLowerCase():null
   }
 }
@@ -95,9 +112,16 @@ const update = (state=INIT, action) => {
   let byHash = {
     ...state.byHash
   };
+  let byIdAndTime = {
+    ...state.byIdAndTime
+  }
   let chals = action.challenges || [];
   chals.forEach(c=>{
     byHash[c.challengeHash] = c;
+    if(c.finalValue) {
+      let key = ethUtils.sha3(""+c.id + ""+c.finalValue.mineTime);
+      byIdAndTime[key] = c;
+    }
   });
   let raw = Object.keys(byHash).map(h=>byHash[h]);
   if(raw.length > MAX_SIZE) {
@@ -112,7 +136,8 @@ const update = (state=INIT, action) => {
   }
   return {
     ...state,
-    byHash
+    byHash,
+    byIdAndTime
   }
 }
 

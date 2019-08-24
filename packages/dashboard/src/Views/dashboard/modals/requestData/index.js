@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import Modal from './RequestDataModal';
 import {default as modalOps} from 'Redux/modals/operations';
 import {default as chainOps} from 'Redux/chain/operations';
-import {default as reqOps} from 'Redux/requests/operations';
+import {default as reqOps} from 'Redux/newRequests/operations';
 
 import {withRouter} from 'react-router-dom';
 import * as navs from 'Navs';

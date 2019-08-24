@@ -5,6 +5,7 @@ const INIT = {
   loading: false,
   error: null,
   tips: [],
+  byId: {},
   selectedRequest: null
 }
 
@@ -17,10 +18,15 @@ const start = (state=INIT) => {
 }
 
 const success = (state=INIT, action) => {
+  let byId = {
+    ...state.byId
+  }
+  action.tips.forEach(t=>byId[t.id]=t);
   return {
     ...state,
     loading: false,
-    tips: action.tips
+    tips: action.tips,
+    byId
   }
 }
 
@@ -30,12 +36,17 @@ const add = (state=INIT, action) => {
     ...state.tips,
     ...action.tips
   ];
+  let byId = {
+    ...state.byId
+  }
   while(tips.length > 50) {
     tips.shift();
   }
+  tips.forEach(t=>byId[t.id]=t);
   return {
     ...state,
-    tips
+    tips,
+    byId
   }
 }
 

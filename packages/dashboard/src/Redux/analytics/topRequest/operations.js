@@ -6,29 +6,20 @@ import _ from 'lodash';
 const init = () => async (dispatch,getState) => {
   dispatch(Creators.initStart());
   try {
-    //read last 50 challenge requests and see which one was called the most
-    let r = await Storage.instance.readAll({
+
+    let counts = {};
+    await Storage.instance.iterate({
       database: dbNames.NewChallenge,
-      limit: 50,
-      sort: [
-        {
-          field: "blockNumber",
-          order: "desc"
-        }
-      ]
-    });
-    let counts = r.reduce((o, h)=>{
-      if(!h || !h.id) {
-        return o;
+      callback: (v, k) => {
+        let obj = counts[v.id] || {}
+        let cnt = obj.count || 0;
+        counts[v.id] = {
+          ...v,
+          count: cnt+1
+        };
       }
-      let obj = o[h.id] || {};
-      let cnt = obj.count || 0;
-      o[h.id] = {
-        ...h,
-        count: cnt+1
-      };
-      return o;
-    },{});
+    });
+   
     let top = _.values(counts);
     top.sort((a,b)=>{
       return b.count - a.count;

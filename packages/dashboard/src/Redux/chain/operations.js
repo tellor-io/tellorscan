@@ -1,7 +1,7 @@
 import {Creators} from './actions';
 import Chain, {init as chainInit} from 'Chain';
 import {toastr} from 'react-redux-toastr';
-import {generateQueryHash, generateDisputeHash, dedupeNonces} from 'Chain/utils';
+import {generateQueryHash, generateDisputeHash, dedupeNonces, getMiningOrder} from 'Chain/utils';
 import Storage from 'Storage';
 import * as DBNames from 'Storage/DBNames';
 import abi from 'Chain/abi';
@@ -29,6 +29,7 @@ import {Types as setTypes} from 'Redux/settings/actions';
 import {default as reqOps} from 'Redux/newRequests/operations';
 import {registerDeps} from 'Redux/DepMiddleware';
 import _ from 'lodash';
+import DisputeHandler from './handlers/DisputeHandler';
 
 const MAX_BLOCKS = 8000;
 const log = new Logger({component: "ChainOps"});
@@ -114,6 +115,7 @@ const init = () => async (dispatch,getState) => {
     pipeline.use(new NonceSubmitHandler());
     pipeline.use(new NewValueHandler());
     pipeline.use(new NewChallengeHandler());
+    pipeline.use(new DisputeHandler());
     
     //record the last block we've seen for next time
     pipeline.use(new LastBlockHandler());
@@ -248,6 +250,23 @@ const _doInitDispute = props => async (dispatch, getState) => {
   let state = getState();
   let con = state.chain.contract;
   //call on-chain to begin a new dispute
+  if(typeof props.miner.index === 'undefined' || props.miner.index < 0) {
+    let order = await dispatch(getMiningOrder({id: props.requestId, mineTime: props.timestamp}));
+    if(!order) {
+      toastr.error("Could not determine mining index for dispute");
+      throw new Error("Cannot determine mining order to dispute");
+    }
+    order.forEach((m,i)=>{
+      if(m === props.miner.address) {
+        props.miner.index = i;
+      }
+    });
+  }
+  if(props.miner.index < 0) {
+    toastr.error("Could not determine proper mining index to dispute");
+    throw new Error("Cannot determine mining order to dispute");
+  }
+
   await con.beginDispute(props.requestId, props.timestamp, props.miner.index)
     .then(()=>{
       return toastr.info("Submitted dispute request");
@@ -373,9 +392,8 @@ const _initAllEvents = (props) => async (dispatch, getState) => {
       let nonces = mappedEvents[DBNames.NonceSubmitted] || [];
       let values = mappedEvents[DBNames.NewValue] || [];
       let tips = mappedEvents[DBNames.TipAdded] || [];
+      let disputes = mappedEvents[DBNames.NewDispute] || [];
       
-      log.info("Found", values.length,"NewValue items");
-      log.info("Found", nonces.length, "NonceSubmitted items");
       let newChallengeStorage = newChallenges.map(ch=>{
         return {
           key: ch.challengeHash,
@@ -423,6 +441,11 @@ const _initAllEvents = (props) => async (dispatch, getState) => {
         }
       });
 
+      let disputeStorage = disputes.map(d=>({
+        key: d.id,
+        value: d.toJSON()
+      }));
+
       if(newChallengeStorage.length > 0) {
         await _storeItems(DBNames.NewChallenge, newChallengeStorage);
       }
@@ -461,6 +484,10 @@ const _initAllEvents = (props) => async (dispatch, getState) => {
 
       if(tipStorage.length > 0) {
         await _storeItems(DBNames.TipAdded, tipStorage);
+      }
+
+      if(disputeStorage.length > 0) {
+        await _storeItems(DBNames.NewDispute, disputeStorage);
       }
 
       if(toBlock > 0) {

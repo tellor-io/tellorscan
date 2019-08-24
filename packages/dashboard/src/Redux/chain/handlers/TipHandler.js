@@ -4,6 +4,7 @@ import Factory from "Chain/LogEvents/EventFactory"
 import {Logger} from 'buidl-utils';
 import {getCurrentTipForRequest} from 'Chain/utils';
 import {Creators} from 'Redux/tips/actions';
+import {default as reqOps} from 'Redux/newRequests/operations';
 
 const log = new Logger({component: "TipHandler"});
 
@@ -43,6 +44,9 @@ export default class TipHandler extends Handler {
                         tip = await ctx.dispatch(getCurrentTipForRequest(req.id));
                         if(!tip) {
                             tip  = 0;
+                        }
+                        if(tip) {
+                            await ctx.dispatch(reqOps.setCurrentTip(req.id, tip));
                         }
                     }
 

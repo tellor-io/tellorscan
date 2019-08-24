@@ -1,9 +1,9 @@
 import {createActions} from 'reduxsauce';
 const { Types,Creators} = createActions({
   initStart: null,
-  initSuccess: ['data'],
+  initSuccess: ['disputes'],
   failure: ['error'],
-  update: ['data'],
+  addDisputes: ['disputes'],
   selectForDispute: ['challenge', 'nonce']
 },{prefix: "disputes."});
 export {

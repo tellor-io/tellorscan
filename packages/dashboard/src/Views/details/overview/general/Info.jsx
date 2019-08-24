@@ -17,7 +17,7 @@ const rows = [
   },
   {
     label: "Current Tip",
-    value: r => r.tip
+    value: r => r.tip || r.currentTip
   },
   {
     label: "Multiplier",

@@ -123,7 +123,10 @@ export const getMiningOrder = (newVal,con) =>  async (dispatch, getState) => {
       return null;
     }
   }
-  newVal = newVal.normalize();
+  if(typeof newVal.normalize === 'function') {
+    newVal = newVal.normalize();
+  }
+  
   //call on-chain to get miners by mining time and request id
   let miners = await con.getMinersByRequestIdAndTimestamp(newVal.id, newVal.mineTime);
 
@@ -133,9 +136,11 @@ export const getMiningOrder = (newVal,con) =>  async (dispatch, getState) => {
 
 
 const sameMiner = (a, b) => {
-  return a.miner === b.miner;
+  return a.miner.toLowerCase() === b.miner.toLowerCase()
 }
 
 export const dedupeNonces = nonces => {
-  return _.uniq(nonces, sameMiner);
+  let byMiner = {};
+  nonces.forEach(n=>byMiner[n.miner.toLowerCase()]=n);
+  return _.keys(byMiner).map(m=>byMiner[m]);
 }

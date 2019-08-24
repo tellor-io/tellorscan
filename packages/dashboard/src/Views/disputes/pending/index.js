@@ -6,16 +6,14 @@ import _ from 'lodash';
 import {default as dispOps} from 'Redux/disputes/operations';
 
 const s2p = (state,own) => {
-  let reqsById = state.requests.byId; //state.events.tree.byId;
   let chain = state.chain.chain || {};
   let user = chain.ethereumAccount || "";
   user = user.toLowerCase();
+  let reqById = state.newRequests.byId;
 
   let all = [];
-  _.values(reqsById).forEach(r=>{
-    let ds = r.disputes.byId || {};
-
-  _.values(ds).forEach(d=>{
+  _.values(state.disputes.byId).forEach(d=>{
+    
     let canVote = true;
     let voteReason = null;
     if(state.token.balance <= 0) {
@@ -33,12 +31,11 @@ const s2p = (state,own) => {
 
     all.push({
         ...d,
-        request: r,
+        request: reqById[d.requestId],
         timeRemaining: dispOps.voteTimeRemaining,
         canVote,
         voteReason
       });
-    })
   });
   all.sort((a,b)=>{
     let aRem = dispOps.voteTimeRemaining(a);

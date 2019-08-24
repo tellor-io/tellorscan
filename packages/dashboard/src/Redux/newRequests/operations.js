@@ -48,7 +48,23 @@ const findRequestById = (id, con) => async (dispatch, getState) => {
   return req;
 }
 
+const setCurrentTip = (id, tip) => async (dispatch, getState) => {
+  let req = getState().newRequests.byId[id];
+  if(!req) {
+    req = await findRequestById(id);
+    if(!req) {
+      return;
+    }
+  }
+  req =  {
+    ...req,
+    currentTip: tip
+  };
+  dispatch(Creators.addRequest(req));
+}
+
 export default {
   init,
-  findRequestById
+  findRequestById,
+  setCurrentTip
 }

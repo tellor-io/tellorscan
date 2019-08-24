@@ -5,7 +5,7 @@ import copy from 'copy-to-clipboard';
 import {toastr} from 'react-redux-toastr';
 
 const s2p = (state, own) => {
-  let byId = state.requests.byId; //state.events.tree.byId;
+  let byId = state.newRequests.byId; //state.events.tree.byId;
   let id = own.match.params['apiID'];
   let q = byId[id];
 

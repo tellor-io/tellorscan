@@ -2,21 +2,22 @@ import {connect} from 'react-redux';
 import Tip from './CurrentTip';
 
 const s2p = state => {
-  let meta = state.requests.current;
+  let hash = state.challenges.currentChallenge;
   let current = null;
-  if(meta) {
-    let req = state.requests.byId[meta.id];
-    if(req) {
-      current = req.challenges[meta.challengeHash];
-    }
+  if(hash) {
+    current = state.challenges.byHash[hash];
   }
-
+  let req = null;
+  if(current) {
+    req = state.newRequests.byId[current.id];
+  }
+  
   if(!current || current.finalValue) {
     return {
       tip: 0
     }
   }
-  let tip = current.tip || current.value;
+  let tip = current.tip || req.currentTip;
   if(isNaN(tip)) {
     tip = 0;
   }

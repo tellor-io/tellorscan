@@ -3,13 +3,46 @@ import _ from 'lodash';
 import {default as chainOps} from 'Redux/chain/operations';
 import {generateDisputeHash} from 'Chain/utils';
 import {toastr} from 'react-redux-toastr';
+import Storage from 'Storage';
+import * as DBNames from 'Storage/DBNames';
+import * as ethUtils from 'web3-utils';
+import {Logger} from 'buidl-utils';
+import {default as chOps} from 'Redux/challenges/operations';
+
+const log = new Logger({component: "DisputeOps"});
 
 const DISPUTABLE_PERIOD = 86400; //1 day in seconds
 const VOTABLE_PERIOD = 7 * 86400; //7 days to vote
 const init = () => async (dispatch,getState) => {
   dispatch(Creators.initStart());
   //load disputes
-  dispatch(Creators.initSuccess({}));
+  let r =  await Storage.instance.readAll({
+    database: DBNames.NewDispute,
+    limit: 100,
+    sort: [
+      {
+        field: "blockNumber",
+        order: "DESC"
+      }
+    ]
+  });
+  let disputes = [];
+  for(let i=0;i<r.length;++i) {
+    let d = r[i];
+    let nonce = await dispatch(chOps.findDisputedNonce({requestId: d.requestId, 
+                                                        miner: d.miner, 
+                                                        mineTime: d.mineTime}));
+    if(!nonce) {
+      log.warn("Could not find matching nonce for dispute, have to ignore it");
+    } else {
+      disputes.push({
+        ...d,
+        targetNonce: nonce
+      })
+    }
+  }
+  
+  dispatch(Creators.initSuccess(disputes));
 }
 
 const selectForDispute = (ch, nonce) => dispatch => {
@@ -28,7 +61,8 @@ const toggleDisputeSelection = (ch) => (dispatch,getState) => {
   } else {
     let selNonce = state.disputes.selectedNonce;
     if(!selNonce) {
-      selNonce = _.values(ch.nonces).filter(n=>n.winningOrder===0)[0];
+      let nonces = ch.nonces || [];
+      selNonce = nonces[0];
     }
     dispatch(selectForDispute(ch, selNonce));
   }
@@ -39,6 +73,7 @@ const findByDisputeHash = (hash) => (dispatch) => {
 }
 
 const initDispute = props => async (dispatch,getState) => {
+
   let hash = generateDisputeHash({miner: props.miner.address, requestId: props.requestId, timestamp: props.timestamp});
   let ex = await dispatch(findByDisputeHash(hash));
   if(ex) {
@@ -92,10 +127,14 @@ export const isDisputable = (challenge) => {
   return diff > 0;
 }
 
+export const addDisputes = (disputes) => dispatch => {
+  dispatch(Creators.addDisputes(disputes));
+}
+
 export default {
   init,
   initDispute,
-  //findByDisputeHash,
+  addDisputes,
   voteUp,
   voteDown,
   selectForDispute,

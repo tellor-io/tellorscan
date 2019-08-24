@@ -7,23 +7,32 @@ import {default as dispOps} from 'Redux/disputes/operations';
 
 const s2p = (state,own) => {
   let id = own.match.params['apiID'];
-  let req = state.requests.byId[id] || {}; //state.events.tree.byId[id] || {};
-  let current = state.requests.current || {}; //state.current.currentChallenge || {};
+  let req = state.newRequests.byId[id] || {}; //state.events.tree.byId[id] || {};
+  let hash = state.challenges.currentChallenge;
+  let current = null;
+  if(hash) {
+    current = state.challenges.byHash[hash] || {};
+  }
 
-  let challenges = _.values(req.challenges);
+  let challenges = _.values(state.challenges.byHash);
   //put any current challenge on the top
   challenges.sort((a,b)=>{
-    if(a.challengeHash === current.challengeHash) {
+    if(current && a.challengeHash === current.challengeHash) {
       return -1;
     }
-    if(b.challengeHash === current.challengeHash) {
+    if(current && b.challengeHash === current.challengeHash) {
       return -1;
     }
     return b.blockNumber - a.blockNumber;
   });
 
   return {
-    challenges
+    challenges: challenges.map(c=>{
+      return {
+        ...c,
+        symbol: req.symbol
+      }
+    })
   }
 }
 

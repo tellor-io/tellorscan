@@ -3,7 +3,9 @@ import {Types} from './actions';
 
 const INIT = {
   loading: false,
-  error: null
+  error: null,
+  byId: {},
+  byHash: {}
 }
 
 const initStart = (state=INIT) => {
@@ -15,9 +17,17 @@ const initStart = (state=INIT) => {
 }
 
 const initSuccess = (state=INIT, action) => {
+  let byId = {};
+  let byHash = {};
+  action.disputes.forEach(d=>{
+    byId[d.id] = d;
+    byHash[d.disputeHash] = d;
+  })
   return {
     ...state,
-    loading: false
+    loading: false,
+    byId,
+    byHash
   }
 }
 
@@ -37,10 +47,31 @@ const select = (state=INIT, action) => {
   }
 }
 
+const add = (state=INIT, action) => {
+  let byId = {
+    ...state.byId
+  };
+  let byHash = {
+    ...state.byHash
+  };
+  action.disputes.forEach(d=>{
+    byId[d.id] = d;
+    byHash[d.disputeHash] = d;
+  });
+  
+  return {
+    ...state,
+    byId,
+    byHash
+  }
+
+}
+
 const HANDLERS = {
   [Types.INIT_START]: initStart,
   [Types.INIT_SUCCESS]: initSuccess,
   [Types.FAILURE]: fail,
+  [Types.ADD_DISPUTES]: add,
   [Types.SELECT_FOR_DISPUTE]: select
 }
 

@@ -6,7 +6,7 @@ import {getCurrentChallenge, dedupeNonces} from 'Chain/utils';
 import {Logger} from 'buidl-utils';
 import Factory from 'Chain/LogEvents/EventFactory';
 import {default as reqOps} from 'Redux/newRequests/operations';
-
+import * as ethUtils from 'web3-utils';
 
 const log = new Logger({component: "NewChallengeOps"});
 
@@ -43,9 +43,8 @@ const init = () => async (dispatch, getState) => {
     } else if(current) {
       current = current.challengeHash;
     }
-    
+    chals = await dispatch(addNoncesAndValues(chals));
     dispatch(Creators.initSuccess(chals, current));
-    dispatch(addNoncesAndValues());
   } catch (e) {
     log.error("Problem initializing challenges", e);
     dispatch(Creators.failure(e));
@@ -151,73 +150,71 @@ const addValueToChallenge = (ch, value) => async (dispatch, getState) => {
   dispatch(Creators.updateChallenges([ch]))
 }
 
-const addNoncesAndValues = (nonces, values) => async (dispatch, getState) => {
-  let challenges = {
-    ...getState().challenges.byHash
-  }
-
-  log.info("Incoming nonces", nonces?nonces.length:0);
-  log.info("Incoming values", values?values.length:0)
-
-  if(nonces && nonces.length > 0) {
-    await dispatch(_addNonces(nonces));
-  }
-  if(values && values.length > 0) {
-    await dispatch(_addValues(values));
-  }
-
-  if(!nonces && !values) {
-    let hashes = Object.keys(challenges);
-    for(let i=0;i<hashes.length;++i) {
-      let hash = hashes[i];
-      let ch = challenges[hash];
-      if(!ch.nonces || ch.nonces.length < 5) {
-      
-        let nonces = getState().nonces.byHash[hash];
-        if(!nonces) {
-          //log.info("Reading nonces from DB since not in state tree yet: ", hash);
-          
-            nonces = await Storage.instance.read({
-              database: DBNames.NoncesByHash,
-              key: hash.toLocaleLowerCase()
-            });
-            
-           log.debug("DB lookup resolved", hash, "to", nonces.length, "nonces");
-        }
+const addNoncesAndValues = (challenges) => async (dispatch, getState) => {
+  
+  challenges = challenges.reduce((o,c)=>{
+    o[c.challengeHash] = c;
+    return o;
+  },{});
+  
+  let hashes = Object.keys(challenges);
+  for(let i=0;i<hashes.length;++i) {
+    let hash = hashes[i];
+    let ch = challenges[hash];
+    if(!ch.nonces || ch.nonces.length < 5) {
+    
+      let nonces = getState().nonces.byHash[hash];
+      if(!nonces) {
+        //log.info("Reading nonces from DB since not in state tree yet: ", hash);
         
-        if(nonces.length > 0) {
-          if(nonces.length > 5) {
-            log.error("NONCES SHOULD NOT BE > 5", nonces.length);
-          }
-          ch = {
-            ...ch,
-            nonces
-          };
-        }
-      }
-      if(!ch.finalValue) {
-        let value = getState().newValues.byHash[hash];
-        if(!value) {
-          value = await Storage.instance.read({
-            database: DBNames.NewValue,
-            key: hash
+          nonces = await Storage.instance.read({
+            database: DBNames.NoncesByHash,
+            key: hash.toLowerCase()
           });
-          if(!value || value.length === 0) {
-            log.warn("Could not resolve new value for challenge", hash);
-          }  
+          
+          log.debug("DB lookup resolved", hash, "to", nonces.length, "nonces");
+      }
+      
+      if(nonces.length > 0) {
+        if(nonces.length > 5) {
+          log.error("NONCES SHOULD NOT BE > 5", nonces.length);
+          nonces = dedupeNonces(nonces);
+          await Storage.instance.create({
+            database: DBNames.NoncesByHash,
+            key: hash.toLowerCase(),
+            data: nonces
+          });
         }
-        
         ch = {
           ...ch,
-          finalValue: value[0]
-        }
+          nonces
+        };
       }
-      challenges[hash] = ch;
     }
-    let out = hashes.map(h=>challenges[h]);
-    log.info("New challenges size", out.length)
-    dispatch(Creators.updateChallenges(out));
+    if(!ch.finalValue) {
+      let value = getState().newValues.byHash[hash];
+      if(!value) {
+        value = await Storage.instance.read({
+          database: DBNames.NewValue,
+          key: hash
+        });
+        if(!value || value.length === 0) {
+          log.warn("Could not resolve new value for challenge", hash);
+        }  
+      }
+      
+      ch = {
+        ...ch,
+        finalValue: value[0]
+      }
+    }
+    challenges[hash] = ch;
   }
+  let out = hashes.map(h=>challenges[h]);
+  log.info("New challenges size", out.length)
+  return out;
+  //dispatch(Creators.updateChallenges(out));
+  
 }
 
 const _addNonces = (nonces) => async (dispatch, getState) => {
@@ -226,10 +223,14 @@ const _addNonces = (nonces) => async (dispatch, getState) => {
   }
   
   //have to map by miner in case we see duplicate nonce events.
-  let byHashAndMiner = nonces.reduce((o,n)=>{
-    let byMiner= o[n.challengeHash] || {};
-    byMiner[n.miner] = n;
-    o[n.challengeHash] = byMiner;
+  let byHash = nonces.reduce((o,n)=>{
+    let set= o[n.challengeHash] || [];
+    set = [
+      ...set,
+      n
+    ];
+    set = dedupeNonces(set);
+    o[n.challengeHash] = set;
     return o;
   },{});
 
@@ -238,12 +239,11 @@ const _addNonces = (nonces) => async (dispatch, getState) => {
     
     let ch = challenges[n.challengeHash];
     if(ch) {
-      let byMiner = byHashAndMiner[n.challengeHash];
-      if(byMiner) {
-        let cNonces = Object.keys(byMiner).map(m=>byMiner[m]);
+      let set = byHash[n.challengeHash];
+      if(set) {
         ch = {
           ...ch,
-          nonces: cNonces
+          nonces: set
         }
         challenges[ch.challengeHash] = ch;
       }
@@ -271,6 +271,7 @@ const _addValues = (values) => async (dispatch, getState) => {
         finalValue: newVal
       }
 
+        /*
       let nonces = ch.nonces || [];
       if(nonces && nonces.length === 5) {
         let sorted = [];
@@ -290,6 +291,7 @@ const _addValues = (values) => async (dispatch, getState) => {
           }
         }
       }
+      */
 
       challenges[ch.challengeHash] = ch;
     }
@@ -297,11 +299,77 @@ const _addValues = (values) => async (dispatch, getState) => {
   dispatch(Creators.updateChallenges(Object.keys(challenges).map(k=>challenges[k])));
 }
 
+const findDisputedNonce = ({requestId, mineTime, miner}) => async (dispatch, getState) => {
+  let key = ethUtils.sha3(""+requestId+""+mineTime);
+  let ch = getState().challenges.byIdAndTime[key];
+  if(ch && ch.nonces.length > 0) {
+    for(let i=0;i<ch.nonces.length;++i) {
+      let n = ch.nonces[i];
+      if(n.miner === miner) {
+        return n;
+      }
+    }
+  }
+  
+  //long way to do it 
+  /*
+  let matchingHash = await Storage.instance.iterate({
+    database: DBNames.NewValue,
+    callback: (v) => {
+      log.info("Checking mineTime", v.mineTime, "vs", mineTime, "id", v.id, "vs", requestId);
+      if(v.mineTime == mineTime && v.id === requestId) {
+        return v.challengeHash; //short-circuit once we find it
+      }
+    }
+  });
+  */
+  let nv = await Storage.instance.readAll({
+    database: DBNames.NewValue,
+    filterFn: (v) => {
+      if(v.id === requestId && v.mineTime === mineTime) {
+        return true;
+      }
+      return false
+    },
+    limit: 1
+  });
+
+  log.info("Found matching value for dispute", nv);
+  if(nv.length > 0) {
+    nv = nv[0];
+    ch = getState().challenges.byHash[nv.challengeHash];
+    log.info("Matching challenge", ch);
+    let nonces = ch?ch.nonces:null;
+    if(!nonces) {
+      log.info("No matching nonces, have to read from DB");
+      nonces = await Storage.instance.read({
+        database: DBNames.NoncesByHash,
+        key: nv.challengeHash
+      });
+      log.info("Resulting read nonces", nonces);
+    }
+    
+    log.info("Found target nonces to search", nonces);
+    if(nonces && nonces.length > 0) {
+      for(let i=0;i<nonces.length;++i) {
+        let n = nonces[i];
+        if(n.miner === miner) {
+          return n;
+        }
+      }
+    }
+  }
+
+  return null;
+
+}
+
 export default {
   init,
   addChallenges,
   setCurrentChallenge,
   findChallenge,
+  findDisputedNonce,
   createChallenge,
   addNonceToChallenge,
   addValueToChallenge
