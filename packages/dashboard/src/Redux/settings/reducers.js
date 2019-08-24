@@ -3,7 +3,8 @@ import {Types} from './actions';
 
 const INIT = {
   loading: false,
-  error: null
+  error: null,
+  realtimeRunning: true
 }
 
 const clearStart = (state=INIT) => {
@@ -21,6 +22,13 @@ const clearOk = (state=INIT) => {
   }
 }
 
+const toggleRT = (state=INIT) => {
+  return {
+    ...state,
+    realtimeRunning: !state.realtimeRunning
+  }
+}
+
 const fail = (state=INIT, action) => {
   return {
     ...state,
@@ -32,6 +40,7 @@ const fail = (state=INIT, action) => {
 const HANDLERS = {
   [Types.CLEAR_HISTORY_START]: clearStart,
   [Types.CLEAR_HISTORY_SUCCESS]: clearOk,
+  [Types.TOGGLE_REALTIME]: toggleRT,
   [Types.FAILURE]: fail
 }
 

@@ -11,8 +11,41 @@ export const generateDisputeHash = ({requestId, miner, timestamp}) => {
   return ethUtils.soliditySha3({t: 'address', v:miner},{t:'uint256',v:requestId},{t:'uint256',v:timestamp});
 }
 
-export const findRequestById = id => async (dispatch, getState) => {
+export const getCurrentChallenge = () => async (dispatch, getState) => {
   let con = getState().chain.contract;
+  if(!con) {
+    return null;
+  }
+  //current challenge, curretnRequestId, level of difficulty, api/query string, and granularity(number of decimals requested), total tip for the request 
+  
+  let vars = await con.getCurrentVariables();
+  let reqId = vars[1].toString(10)-0;
+  if(reqId === 0) {
+    return null;
+  }
+
+  if(!empty(vars[1])) {
+    let payload = {
+      event: "NewChallenge",
+      blockNumber: 0, //will eventually get replaced by real event
+      returnValues: {
+        _currentChallenge: vars[0],
+        _currentRequestId: vars[1],
+        _difficulty: vars[2],
+        _query: vars[3],
+        _multiplier: vars[4],
+        _totalTips: vars[5]
+      }
+    }
+    return eventFactory(payload);
+  }
+  return null;
+}
+
+export const findRequestById = (id, con) => async (dispatch, getState) => {
+  if(!con) {
+    con = getState().chain.contract;
+  }
   if(!con) {
     return null;
   }
@@ -80,4 +113,29 @@ export const findDisputedNonce = (req, disp) => async (dispatch, getState) => {
     }
   }
   return null;
+}
+
+export const getMiningOrder = (newVal,con) =>  async (dispatch, getState) => {
+  
+  if(!con) {
+    con = getState().chain.contract;
+    if(!con) {
+      return null;
+    }
+  }
+  newVal = newVal.normalize();
+  //call on-chain to get miners by mining time and request id
+  let miners = await con.getMinersByRequestIdAndTimestamp(newVal.id, newVal.mineTime);
+
+  //make sure miner addresses are lower case for comparisons
+  return miners.map(m=>m.toLowerCase());
+}
+
+
+const sameMiner = (a, b) => {
+  return a.miner === b.miner;
+}
+
+export const dedupeNonces = nonces => {
+  return _.uniq(nonces, sameMiner);
 }

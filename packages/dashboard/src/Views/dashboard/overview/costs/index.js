@@ -3,6 +3,7 @@ import Costs from './Costs';
 import _ from 'lodash';
 
 const s2p = state => {
+  /*
   let reqs = _.values(state.requests.byId);
   
   let recentTips = [];
@@ -25,6 +26,14 @@ const s2p = state => {
     loading,
     data: recentTips
   }
+  */
+  let loading = state.tips.loading || state.newRequests.loading || state.init.loading;
+  let tips = state.tips.tips;
+  return {
+    loading,
+    data: tips
+  }
+ 
 }
 
 const d2p = dispatch => {

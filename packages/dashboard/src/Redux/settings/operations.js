@@ -1,5 +1,6 @@
 import {Creators} from './actions';
 import Storage from 'Storage';
+import {default as chainOps} from 'Redux/chain/operations';
 
 const clearHistory = () => async dispatch => {
   dispatch(Creators.clearHistoryStart());
@@ -11,6 +12,11 @@ const clearHistory = () => async dispatch => {
   }
 }
 
+const toggleRealtime = () => dispatch => {
+  dispatch(Creators.toggleRealtime());
+}
+
 export default {
-  clearHistory
+  clearHistory,
+  toggleRealtime
 }

@@ -50,6 +50,8 @@
     "copy-to-clipboard": "^3.1.0",
     "coreui": "^0.4.2-alpha2",
     "cross-env": "^5.2.0",
+    "eth-history": "^0.1.0",
+    "eth-pipeline": "^0.1.10",
     "express": "^4.16.4",
     "express-favicon": "^2.0.1",
     "font-awesome": "^4.7.0",

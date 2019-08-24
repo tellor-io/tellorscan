@@ -65,20 +65,29 @@ class DepManager {
 
   notify(obj, dispatch, getState) {
     let set = this.callbacks[obj.type];
-    setTimeout(()=>{
-    //  console.log("Notifying", _.keys(set).length, "subscribers for update", obj.type);
-      _.keys(set).forEach(id=>{
-        let cb = set[id];
-        try {
-          let r = cb(obj.type, dispatch, getState);
-          if(r instanceof Promise) {
-            r.catch(_err);
+    let setKeys = _.keys(set);
+    
+    return new Promise((done,err)=>{
+      if(setKeys.length === 0) {
+        return done();
+      }
+
+      setTimeout(async ()=>{
+        for(let i=0;i<setKeys.length;++i) {
+          let id = setKeys[i];
+          let cb = set[id];
+          try {
+            let r = await cb(obj, dispatch, getState);
+            if(r instanceof Promise) {
+              r.catch(err);
+            }
+          } catch (e) {
+            console.log("Problem in callback with id: " + id, e);
+            err(e);
           }
-        } catch (e) {
-          console.log("Problem in callback with id: " + id, e);
-          _err(e);
         }
-      })
+        done();
+      },1);
     });
   }
 }
@@ -87,13 +96,13 @@ export const registerDeps = (deps, callback) => {
   DepManager.instance().addDependencies(deps, uuid(), callback);
 }
 
-export default () =>  ({dispatch, getState}) => next => action => {
+export default () =>  ({dispatch, getState}) => next => async action => {
 
     //apply the action
-    let retValue = next(action);
+    let retValue = await next(action);
 
     //call dependent items
-    DepManager.instance().notify(action, dispatch, getState);
+    await DepManager.instance().notify(action, dispatch, getState);
 
     //return orig result
     return retValue;

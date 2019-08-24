@@ -14,15 +14,35 @@ export const createSchema = yup.object().shape({
   key: yup.string().required("Need a key to store data"),
 
   //the data to store
-  data: yup.object().required("Missing data object to store")
+  data: yup.mixed().required("Missing data object to store")
 });
+
+export const listSchema = yup.object().shape({
+  //database where to store the data
+  database: dbBaseSchema,
+
+  //key to use for primary id
+  key: yup.string().required("Need a key to store data"),
+
+  //the data to store
+  //data: yup.object().required("Missing data object to store")
+});
+
+export const bulkListSchema = yup.object().shape({
+  database: dbBaseSchema,
+
+  items: yup.array().of(yup.object({
+    key: yup.string().required("Need a key to store list"),
+    value: yup.array().required("Missing array of items to store")
+  }))
+})
 
 export const createBulkSchema = yup.object().shape({
   database: dbBaseSchema,
 
   items: yup.array().of(yup.object().shape({
     key: yup.string().required("Need a key to store data"),
-    value: yup.object().required("Missing value object to store")
+    value: yup.mixed().required("Missing value object to store")
   }))
 });
 

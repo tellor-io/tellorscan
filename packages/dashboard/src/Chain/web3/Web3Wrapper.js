@@ -87,7 +87,7 @@ export default class Web3Wrapper {
         });
 
         //our contract wrapper
-        this.contract = new Web3Contract({chain: this, master, caller: acts[0]});
+        this.contract = new Web3Contract({chain: this, master, address: addr, caller: acts[0]});
 
         //the default account selected in metamask
         this.ethereumAccount = acts[0];

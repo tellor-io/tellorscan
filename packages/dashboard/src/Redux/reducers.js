@@ -9,6 +9,10 @@ import {default as tips} from './tips/reducers';
 import {default as disputes} from './disputes/reducers';
 import {default as token} from './token/reducers';
 import {default as requests} from './requests/reducers';
+import {default as newRequests} from './newRequests/reducers';
+import {default as challenges} from './challenges/reducers';
+import {default as nonces} from './nonces/reducers';
+import {default as newValues} from './newValues/reducers';
 
 /**
  * Collection of all dashboard state tree reducers
@@ -23,5 +27,9 @@ export default combineReducers({
   tips,
   disputes,
   token,
-  requests
+  requests,
+  newRequests,
+  challenges,
+  nonces,
+  newValues
 });

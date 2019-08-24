@@ -7,12 +7,12 @@ import _ from 'lodash';
 import {toastr} from 'react-redux-toastr';
 
 const s2p = state => {
-  let byId = state.requests.byId;
+  let byId = state.newRequests.byId;
   let events = _.values(byId);
   events.sort((a,b)=>{
     return b.currentTip - a.currentTip
   });
-  let loading = state.requests.loading || state.init.loading;
+  let loading = state.newRequests.loading || state.init.loading;
   return {
     loading,
     onQ: events

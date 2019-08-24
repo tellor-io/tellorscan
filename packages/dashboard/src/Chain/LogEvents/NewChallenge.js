@@ -1,8 +1,30 @@
 import BaseEvent from './BaseEvent';
+import * as yup from 'yup';
+
+
+const _missing = f => {
+  return `NewChallenge is missing field ${f}`;
+}
+
+const fieldSchema = yup.object({
+  _currentChallenge: yup.string().required(_missing("_currentChallenge")),
+  _currentRequestId: yup.number().required(_missing("_currentRequestId")),
+  _difficulty: yup.string(),
+  _multiplier: yup.number().required(_missing("_mulitiplier")),
+  _query: yup.string().required(_missing("_query")),
+  _totalTips: yup.number()
+});
+
+const schema = yup.object({
+  returnValues: fieldSchema,
+  blockNumber: yup.number().required(_missing("blockNumber"))
+});
 
 export default class NewChallenge extends BaseEvent {
   constructor(props) {
     super(props);
+    schema.validateSync(props);
+
     [
       'normalize'
     ].forEach(fn=>this[fn]=this[fn].bind(this));
@@ -10,6 +32,7 @@ export default class NewChallenge extends BaseEvent {
     const {_currentChallenge, _currentRequestId, _difficulty, _multiplier,  _query,  _totalTips} = props.returnValues;
     this._currentChallenge = _currentChallenge;
     this.challengeHash = this._currentChallenge;
+    this.blockNumber = props.blockNumber;
 
     this._multiplier = this._asNum(_multiplier);
     this.multiplier = this._multiplier;
@@ -32,6 +55,7 @@ export default class NewChallenge extends BaseEvent {
     let normalized = {
       ...parent,
       id: this._currentRequestId,
+      blockNubmer: this.blockNumber,
       queryString: this._query,
       difficulty: this._difficulty,
       challengeHash: this._currentChallenge,
@@ -48,6 +72,7 @@ export default class NewChallenge extends BaseEvent {
     return {
       ...parent,
       id: this._currentRequestId,
+      blockNumber: this.blockNumber,
       queryString: this._query,
       difficulty: this._difficulty,
       challengeHash: this._currentChallenge,

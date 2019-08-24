@@ -5,14 +5,12 @@ import _ from 'lodash';
 const TOTAL_SLOTS = 5;
 
 const s2p = state => {
-  let meta = state.requests.current;
+  let hash = state.challenges.currentChallenge;
   let current = null;
-  if(meta) {
-    let req = state.requests.byId[meta.id];
-    if(req) {
-      current = req.challenges[meta.challengeHash];
-    }
+  if(hash) {
+    current = state.challenges.byHash[hash];
   }
+  
   let filled = [];
   let pending = (typeof current !== 'undefined') && current !== null;
 

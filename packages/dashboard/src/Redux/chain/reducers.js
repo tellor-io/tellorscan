@@ -5,6 +5,8 @@ const INIT = {
   loading: false,
   error: null,
   chain: null,
+  pipeline: null,
+  ethHistory: null,
   contract: null
 }
 
@@ -21,6 +23,8 @@ const loadSuccess = (state=INIT, action) => {
     ...state,
     loading: false,
     chain: action.chain,
+    pipeline: action.pipeline,
+    ethHistory: action.ethHistory,
     contract: action.chain.getContract()
   }
 }

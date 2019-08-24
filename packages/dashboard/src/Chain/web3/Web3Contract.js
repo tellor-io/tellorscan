@@ -6,11 +6,12 @@ import SubscriptionProvider from '../SubscriptionProvider';
  * and this implementation deals with txn submissions, etc.
  */
 export default class Web3Contract {
-  constructor({chain, master, tellor, caller}) {
+  constructor({chain, master, tellor, address, caller}) {
 
     this.chain = chain;
     this.master = master;
     this.caller = caller;
+    this.address = address;
     this.eventHistory = {};
     this._emitter = new EventEmitter();
 

@@ -3,6 +3,7 @@ import {extendPrototype} from 'localforage-setitems';
 import BaseDB, {
   createSchema,
   createBulkSchema,
+  bulkListSchema,
   readSchema,
   readAllSchema,
   findSchema,
@@ -12,11 +13,14 @@ import BaseDB, {
 } from './BaseDB';
 import _ from 'lodash';
 import * as dbNames from './DBNames';
+import {Logger} from 'buidl-utils';
 
 extendPrototype(localforage);
 
+const log = new Logger({component: "LocalForageStorage"});
+
 const dbFactory = async props => {
-  console.log("Creating DB", props.name);
+  log.debug("Creating DB", props.name);
   var db = await localforage.createInstance({
     name: props.name
   });
@@ -69,6 +73,7 @@ export default class LocalForage extends BaseDB {
     [
       'create',
       'createBulk',
+      'appendToList',
       'read',
       'readAll',
       'find',
@@ -97,7 +102,7 @@ export default class LocalForage extends BaseDB {
         if(!db) {
           return;
         }
-        console.log("Dropping DB", nm);
+        log.debug("Dropping DB", nm);
         await db.dropInstance();
         this.dbs[nm] = undefined;
       }
@@ -110,7 +115,7 @@ export default class LocalForage extends BaseDB {
     try {
       await db.setItem(props.key, props.data);
     } catch (e) {
-      console.log("Problem storing to", props.database, e);
+      log.error("Problem storing to", props.database, e);
     }
 
   }
@@ -121,7 +126,20 @@ export default class LocalForage extends BaseDB {
     try {
       await db.setItems(props.items);
     } catch (e) {
-      console.log("Problem storing items", props.database, e);
+      log.error("Problem storing items", props.database, e);
+    }
+  }
+
+  async appendToList(props) {
+    //same as create except we're going to append to an existing list of 
+    //items or create a new array of items
+    bulkListSchema.validateSync(props);
+   
+    let db = await this._getDB(props, dbFactory);
+    try {
+      await db.setItems(props.items);
+    } catch (e) {
+      log.error(e);
     }
   }
 
@@ -129,6 +147,13 @@ export default class LocalForage extends BaseDB {
     readSchema.validateSync(props);
     let db = await this._getDB(props, dbFactory);
     let r = await db.getItem(props.key);
+    if(r && r.__contents) {
+      return r.__contents;
+    }
+
+    if(r && Array.isArray(r)) {
+      return r;
+    }
     return r ? [r] : [];
   }
 
@@ -140,7 +165,51 @@ export default class LocalForage extends BaseDB {
     let sortFn = _buildSortFn(props);
     let limit = props.limit || this.querySizeLimit;
     let filterFn = props.filterFn;
+    if(props.sort && props.sort[0].field) {
+      //we first have to sort all sort keys
+      let allKeys = [];
+      await db.iterate((v, k)=>{
+        let fld = v[props.sort[0].field];
+        allKeys.push({
+          field: fld,
+          value: v,
+          key: k
+        });
+      });
+      let isAsc = props.sort[0].order.toLowerCase() !== 'desc';
+      allKeys.sort((a,b)=>{
+        if(a.field > b.field) {
+          return isAsc ? 1 : -1;
+        }
+        if(a.field < b.field) {
+          return isAsc ? -1 : 1;
+        }
+      });
+      //now just get the keys
+      for(let i=0;i<allKeys.length;++i) {
+        let a = allKeys[i];
+        if(a) {
+          if(typeof filterFn === 'function') {
+            if(filterFn(a.value, a.key, i)) {
+              set.push(a.value);
+            }
+          } else {
+            set.push(a.value);
+          }
+        }
+        if(set.length === limit) {
+          return set;
+        }
+      }
+      
+      return set;
+    }
+    
+    
     await db.iterate((v, k, itNum)=>{
+      if(v.__contents) {
+        v = v.__contents;
+      }
       if(itNum > limit) {
         return set;
       }
@@ -181,6 +250,10 @@ export default class LocalForage extends BaseDB {
 
     let total = 0;
     await db.iterate((dbVal, dbKey, itNum)=>{
+      if(dbVal.__contents) {
+        dbVal = dbVal.__contents;
+      }
+
       let allMatch = true;
       //filter based on selectors first. This way we make
       //sure paging and sorting work with the same dataset
@@ -196,6 +269,7 @@ export default class LocalForage extends BaseDB {
         let p = selKeys[i];
         let tgt = props.selector[p];
         let v = dbVal[p];
+
         if(!isNaN(v) && !isNaN(tgt)) {
           v -= 0;
           tgt -= 0;

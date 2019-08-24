@@ -1,6 +1,7 @@
 export const DataRequested = "DataRequested";
 export const RequestMetadata = "RequestMetadata";
 export const NonceSubmitted = "NonceSubmitted";
+export const NoncesByHash = "NoncesByHash";
 export const NewValue = "NewValue";
 export const NewValueWinners = "NewValueWinners";
 export const TipAdded = "TipAdded";

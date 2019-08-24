@@ -35,7 +35,8 @@ export default class TopMenu extends React.Component {
       balance,
       withSearch,
       title,
-      tokenLoading
+      tokenLoading,
+      realtimeRunning
     } = this.props;
 
     let barClass = cn("top-nav", align.full);
@@ -51,8 +52,10 @@ export default class TopMenu extends React.Component {
     let navItems = (
       <React.Fragment>
         <NavItem className={cn(align.allCenter,"mr-2")}>
+          <NavLink className={cn("text-dark")} href="#" onClick={this.props.toggleRealtime} >
+            {realtimeRunning?"Stop Realtime Updates":"Start Realtime Updates"}
+          </NavLink>
           <NavLink className={cn("text-dark")} href="#" onClick={this.props.toSettings} >
-
             Settings
           </NavLink>
         </NavItem>

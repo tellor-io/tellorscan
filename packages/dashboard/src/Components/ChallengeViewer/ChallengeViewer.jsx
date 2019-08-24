@@ -114,6 +114,9 @@ export default class ChallengeViewer extends CollapseTable {
       })
     }
     if(!this.props.noSymbol) {
+      if(!data.symbol || data.symbol.length === 0) {
+        console.log("CHallenge with no symbol", data);
+      }
       fields.push({
         width: 2,
         component: (

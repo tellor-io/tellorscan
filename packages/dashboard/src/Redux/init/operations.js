@@ -4,7 +4,10 @@ import {default as analyticOps} from 'Redux/analytics/operations';
 import {default as tipOps} from 'Redux/tips/operations';
 import {default as disputeOps} from 'Redux/disputes/operations';
 import {default as tokenOps} from 'Redux/token/operations';
-import {default as reqOps} from 'Redux/requests/operations';
+import {default as reqOps} from 'Redux/newRequests/operations';
+import {default as challengeOps} from 'Redux/challenges/operations';
+import {default as nonceOps} from 'Redux/nonces/operations';
+import {default as newValueOps} from 'Redux/newValues/operations';
 
 import {registerDeps} from 'Redux/DepMiddleware';
 import {Types as settingsTypes} from 'Redux/settings/actions';
@@ -28,6 +31,21 @@ const initStorage = async props => {
 const initRequests = props => {
   return props.dispatch(reqOps.init())
   .then(()=>props);
+}
+
+const initChallenges = props => {
+  return props.dispatch(challengeOps.init())
+  .then(()=>props);
+}
+
+const initNewValues = props => {
+  return props.dispatch(newValueOps.init())
+    .then(()=>props);
+}
+
+const initNonces = props => {
+  return props.dispatch(nonceOps.init())
+    .then(()=>props);
 }
 
 const initAnalytics = props => {
@@ -82,6 +100,9 @@ const _doStart = () => (dispatch,getState) => {
         .then(initToken)
         .then(initRequests)
         .then(initTips)
+        .then(initChallenges)
+        .then(initNonces)
+        .then(initNewValues)
         .then(initDisputes)
         .then(initAnalytics)
         .then(startSubscriptions)

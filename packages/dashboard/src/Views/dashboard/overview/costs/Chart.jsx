@@ -16,7 +16,7 @@ export default class Chart extends React.Component {
     let labels = [];
     let tips = [];
     data.forEach(d=>{
-      labels.push(formatTime(d.timestamp, "MM/DD HH:mm"));
+      labels.push(d.blockNumber);
       tips.push(d.tip);
     });
 

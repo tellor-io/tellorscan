@@ -26,7 +26,7 @@ export default class Costs extends React.Component {
         </div>
         <div className={cn("chart", align.full, align.allCenter, align.noMarginPad)}>
           <span className={cn(align.allCenter, "text-sz-sm", "text-muted")}>
-            Time (GMT)
+            Block
           </span>
         </div>
       </Row>
