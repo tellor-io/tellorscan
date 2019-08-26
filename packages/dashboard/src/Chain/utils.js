@@ -2,6 +2,7 @@ import * as ethUtils from 'web3-utils';
 import eventFactory from 'Chain/LogEvents/EventFactory';
 import {empty} from 'Utils/strings';
 import _ from 'lodash';
+const psr = require('./psr.json');
 
 export const generateQueryHash = (queryString, multi) => {
   return ethUtils.soliditySha3({t:'string',v:queryString},{t:'uint256',v:multi})
@@ -52,6 +53,12 @@ export const findRequestById = (id, con) => async (dispatch, getState) => {
 
   let vars = await con.getRequestVars(id);
 
+  let newQuery = vars[1]
+  if(id <= 50){
+    newQuery = psr.prespecifiedRequests[id-1].symbol;
+    console.log("Symbol Found");
+  }
+
   //queryString,dataSymbol,queryHash, granularity,requestQPosition,totalTip
   //const {sender, _query, _querySymbol, _granularity,  _requestId,  _totalTips} = props.returnValues;
 
@@ -64,7 +71,7 @@ export const findRequestById = (id, con) => async (dispatch, getState) => {
       returnValues: {
         sender: "from_contract",
         _query: vars[0],
-        _querySymbol: vars[1],
+        _querySymbol: newQuery,
         _granularity: vars[3],
         _requestId: id,
         _totalTips: vars[5]
