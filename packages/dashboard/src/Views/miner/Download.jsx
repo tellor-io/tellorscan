@@ -16,13 +16,13 @@ export default class Download extends React.Component {
             Interested in mining Tellor Tributes?
           </div>
           <div className={cn("text-center", "text-1", "font-weight-light")}>
-            Click below to download our latest miner
+            Check out our Github for more information
           </div>
         </Col>
 
         <Col md="12" className={cn("pb-5", align.allCenter, align.noMarginPad)}>
           <Button onClick={()=>this.props.downloadHandler()} size="lg" className={cn("bg-tellor-green", "rounded")}>
-            Download
+            Miner Documentation
           </Button>
         </Col>
       </Row>

@@ -33,22 +33,6 @@ export default class Miner extends React.Component {
               </Col>
             </Row>
           </Col>
-
-          <Col md="4" className={cn("top-miner-col", align.topCenter, align.noMarginPad)}>
-            <Row className={cn(align.topCenter, align.full, align.noMarginPad)}>
-              <Col md="12" className={cn(align.topCenter, "bg-white", align.noMarginPad)}>
-                <div className={cn("open-header", "p-2", "bg-tellor-charcoal", "text-white", align.leftCenter, align.full)}>
-                  <span className={cn("pl-4", "font-weight-bold", "text-sz-md", "text-light")}>
-                    Recent Miner Earnings
-                  </span>
-                </div>
-              </Col>
-              <Col md="12" className={cn(align.topCenter, align.noMarginPad)}>
-                <TopMiners miners={miners} />
-              </Col>
-            </Row>
-          </Col>
-
         </Row>
 
 
