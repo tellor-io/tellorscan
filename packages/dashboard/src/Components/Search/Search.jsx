@@ -6,7 +6,7 @@ import {
 import cn from 'classnames';
 import * as align from 'Constants/alignments';
 import {toastr} from 'react-redux-toastr';
-import Loading from 'Components/Loading';
+import MainLoader from 'Components/MainLoader';
 
 export default class Search extends React.Component {
   constructor(props) {
@@ -55,9 +55,8 @@ export default class Search extends React.Component {
 
     return (
       <Row className={cn( "search-box",className, align.allCenter, align.full, )}>
-        <Loading loading={loading} size="small" />
+        <MainLoader loading={loading}/>
         <Col md="12" className={cn(align.leftCenter, "p-0", "m-0", "font-weight-light", "text-muted", "text-sz-md")}>
-
           <div className={cn("rounded",align.full, align.leftCenter)}>
             <i className={cn(align.allCenter, "search-icon fa fa-search", "p-3", "m-0", "bg-tellor-green")} onClick={this.doSearch} />
             <div className={cn("input-wrapper", align.full, align.leftCenter, align.noMarginPad)}>
