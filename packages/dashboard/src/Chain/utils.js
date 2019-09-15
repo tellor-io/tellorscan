@@ -2,6 +2,9 @@ import * as ethUtils from 'web3-utils';
 import eventFactory from 'Chain/LogEvents/EventFactory';
 import {empty} from 'Utils/strings';
 import _ from 'lodash';
+import {Logger} from 'buidl-utils';
+
+const log = new Logger({component: "ChainUtils"});
 const psr = require('./psr.json');
 
 export const generateQueryHash = (queryString, multi) => {
@@ -18,12 +21,27 @@ export const getCurrentChallenge = () => async (dispatch, getState) => {
     return null;
   }
   //current challenge, curretnRequestId, level of difficulty, api/query string, and granularity(number of decimals requested), total tip for the request 
-  
+  log.info("Getting current challenge variables...");
   let vars = await con.getCurrentVariables();
   let reqId = vars[1].toString(10)-0;
   if(reqId === 0) {
     return null;
   }
+
+  let newQuery = vars[3];
+  if(reqId <= 50){
+    log.info("Current challenge is a PSR:", reqId);
+    let req = psr.prespecifiedRequests[reqId-1];
+    if(req) {
+      if(!newQuery || newQuery.length === 0) {
+        log.info("Using query string", req.apis[0], "for new challenge");
+        newQuery = req.apis[0];
+      }
+    } else {
+      newQuery = "Unspecified Query";
+    }
+  }
+
 
   if(!empty(vars[1])) {
     let payload = {
@@ -33,11 +51,12 @@ export const getCurrentChallenge = () => async (dispatch, getState) => {
         _currentChallenge: vars[0],
         _currentRequestId: vars[1],
         _difficulty: vars[2],
-        _query: vars[3],
+        _query: newQuery,
         _multiplier: vars[4],
         _totalTips: vars[5]
       }
     }
+    log.info("Creating new challenge event with payload", payload);
     return eventFactory(payload);
   }
   return null;
@@ -53,12 +72,19 @@ export const findRequestById = (id, con) => async (dispatch, getState) => {
 
   let vars = await con.getRequestVars(id);
 
-  let newQuery = vars[1]
-  if(id <= 5){
-    newQuery = psr.prespecifiedRequests[id-1].symbol;
-    console.log("Symbol Found");
-  }else if(id <= 50){
-    newQuery = "Unspecified PSR";
+  let newSymbol = vars[1]
+  let newQuery = vars[0];
+  if(id <= 50){
+    let req = psr.prespecifiedRequests[id-1];
+    if(req) {
+      newSymbol = req.symbol;
+      if(!newQuery || newQuery.length === 0) {
+        newQuery = req.apis[0];
+      }
+    } else {
+      newSymbol = "Unspecified PSR";
+      newQuery = "Unspecified Query";
+    }
   }
 
   //queryString,dataSymbol,queryHash, granularity,requestQPosition,totalTip
@@ -72,8 +98,8 @@ export const findRequestById = (id, con) => async (dispatch, getState) => {
       event: "DataRequested",
       returnValues: {
         sender: "from_contract",
-        _query: vars[0],
-        _querySymbol: newQuery,
+        _query: newQuery,
+        _querySymbol: newSymbol,
         _granularity: vars[3],
         _requestId: id,
         _totalTips: vars[5]

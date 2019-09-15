@@ -345,6 +345,7 @@ const _initAllEvents = (props) => async (dispatch, getState) => {
           let asEvent = [];
           if(logs && logs.length > 0) {
             logs.forEach(l=>{
+              
               let evt = Factory({
                 event: nm,
                 ...l

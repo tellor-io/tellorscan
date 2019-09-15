@@ -53,8 +53,28 @@ export default class NewChallengeHandler extends Handler {
     }
 
     async _addNewChallenges(ctx, events) {
-       
+       log.info("Adding",events.length,"challenges in pipeline");
         for(let j=0;j<events.length;++j) {
+
+            //challenge may not have query string if PSR based
+            //first, we need to get the request id
+            let rawId = events[j]._returnValues._currentRequestId || 0;
+            if(!rawId) {
+                log.error("Could not find raw request id in txn event", events[j]);
+                continue;
+            }
+            log.info("Looking up request with id", rawId);
+
+            let req = await ctx.helpers.findRequestById(rawId - 0);
+            if(!req) {
+                log.error("Could not resolve data request for new challenge with id", rawId);
+                continue;
+            }
+            log.info("Resolved request", req);
+
+            if(req.id <= 50) {
+                log.info("Resolved request as PSR", req);
+            }
             let ch =  Factory({
                 event: DBNames.NewChallenge, 
                 ...events[j]
@@ -71,7 +91,7 @@ export default class NewChallengeHandler extends Handler {
                 data: ch.toJSON()
             });
             
-            let req = await ctx.helpers.findRequestById(ch.id);
+            
             
             if(!req) {
                 log.warn("Could not find NewChallenge matching data request with id", ch.id);

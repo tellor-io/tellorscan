@@ -1,6 +1,8 @@
 import BaseEvent from './BaseEvent';
 import * as yup from 'yup';
+import {Logger} from 'buidl-utils';
 
+const log = new Logger({component: "NewChallengeEvent"});
 
 const _missing = f => {
   return `NewChallenge is missing field ${f}`;
@@ -11,7 +13,7 @@ const fieldSchema = yup.object({
   _currentRequestId: yup.number().required(_missing("_currentRequestId")),
   _difficulty: yup.string(),
   _multiplier: yup.number().required(_missing("_mulitiplier")),
-  _query: yup.string().required(_missing("_query")),
+  //_query: yup.string().required(_missing("_query")),
   _totalTips: yup.number()
 });
 
@@ -23,7 +25,13 @@ const schema = yup.object({
 export default class NewChallenge extends BaseEvent {
   constructor(props) {
     super(props);
-    schema.validateSync(props);
+    try {
+      schema.validateSync(props);
+    } catch (e) {
+      log.error("Problem with incoming challenge props", e, props);
+      throw e;
+    }
+    
 
     [
       'normalize'
