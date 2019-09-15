@@ -54,9 +54,11 @@ export const findRequestById = (id, con) => async (dispatch, getState) => {
   let vars = await con.getRequestVars(id);
 
   let newQuery = vars[1]
-  if(id <= 50){
+  if(id <= 5){
     newQuery = psr.prespecifiedRequests[id-1].symbol;
     console.log("Symbol Found");
+  }else if(id <= 50){
+    newQuery = "Unspecified PSR";
   }
 
   //queryString,dataSymbol,queryHash, granularity,requestQPosition,totalTip
