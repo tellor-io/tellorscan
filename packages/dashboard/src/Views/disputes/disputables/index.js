@@ -28,10 +28,14 @@ const s2p = (state,own) => {
       }
     });
   });
-  let hash = state.challenges.currentChallenge || {}; //state.current.currentChallenge || {};
+  let hash = state.challenges.currentChallenge;
   let current = {};
   if(hash) {
     current = state.challenges.byHash[hash];
+    if(!current) {
+      console.log("Problem finding current challenges in challenges set by hash", hash);
+      current = {};
+    }
   }
 
   challenges.sort((a,b)=>{

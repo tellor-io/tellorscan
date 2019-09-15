@@ -58,9 +58,13 @@ export default class Web3Wrapper {
 
         //If the user changes account in metamask
         ethProvider.on('accountsChanged', async (accounts) => {
+
           //grab new account and assign as contract default caller address
           this.ethereumAccount = accounts[0];
-          this.contract.caller = accounts[0];
+          if(this.contract) {
+            this.contract.caller = accounts[0];
+          }
+          
           console.log("Accounts changed in MM");
 
           //check whether the address is currently in dispute

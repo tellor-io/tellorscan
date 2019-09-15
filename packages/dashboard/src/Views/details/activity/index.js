@@ -7,6 +7,9 @@ import {default as dispOps} from 'Redux/disputes/operations';
 
 const s2p = (state,own) => {
   let id = own.match.params['apiID'];
+  if(typeof id !== 'undefined') {
+    id -= 0;
+  }
   let req = state.newRequests.byId[id] || {}; //state.events.tree.byId[id] || {};
   let hash = state.challenges.currentChallenge;
   let current = null;
@@ -15,6 +18,12 @@ const s2p = (state,own) => {
   }
 
   let challenges = _.values(state.challenges.byHash);
+  if(id) {
+    challenges = challenges.filter(c=>{
+      return c.id===id
+    });
+  }
+  
   //put any current challenge on the top
   challenges.sort((a,b)=>{
     if(current && a.challengeHash === current.challengeHash) {
