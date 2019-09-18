@@ -23,7 +23,7 @@ export default class LastBlockHandler extends Handler {
         num -= 4; 
         log.debug("This block", block.number, "Last block", this.lastBlock);
         if(num > this.lastBlock) {
-            log.info("Storing last block", num);
+            log.info("Storing last block as", num,"so we can recover with overlapping blocks on restart");
             this.lastBlock = num;
             await ctx.store({
                 database: DBNames.LastBlock,

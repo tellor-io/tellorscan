@@ -54,11 +54,7 @@ class DisputeInfo extends React.Component {
           <i className={cn("fa", exIcon, "text-tellor-green", "text-sz-md")}
              onClick={()=>this.props.toggleExpansion()}/>
         </Col>
-        <Col md='2' className={cn(align.allCenter, align.noMarginPad)}>
-          <span className={cn("p-1", "text-center", "text-1")}>
-            {dispute.targetNonce.winningOrder}
-          </span>
-        </Col>
+        
         <Col md='2' className={cn(align.allCenter, align.noMarginPad)}>
           <span className={cn("p-1", "text-center", "text-1")}>
             {dispute.targetNonce.value}
@@ -89,7 +85,7 @@ const detailRows = [
   },
   {
     label: "Mined at",
-    value: (r, d) => formatTimeLong(d.timestamp)
+    value: (r, d) => formatTimeLong(d.mineTime)
   },
   {
     label: "Disputer",

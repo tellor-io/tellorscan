@@ -67,6 +67,7 @@ export const findRequestById = (id, con) => async (dispatch, getState) => {
     con = getState().chain.contract;
   }
   if(!con) {
+    log.info("No contract established yet, so can't lookup request on-chain");
     return null;
   }
 
@@ -77,11 +78,13 @@ export const findRequestById = (id, con) => async (dispatch, getState) => {
   if(id <= 50){
     let req = psr.prespecifiedRequests[id-1];
     if(req) {
+      log.info("Found PSR request with id", id);
       newSymbol = req.symbol;
       if(!newQuery || newQuery.length === 0) {
         newQuery = req.apis[0];
       }
     } else {
+      log.warn("PSR request did not resolve with id", id);
       newSymbol = "Unspecified PSR";
       newQuery = "Unspecified Query";
     }
@@ -92,7 +95,7 @@ export const findRequestById = (id, con) => async (dispatch, getState) => {
 
 
   //order is queryString, symbol, queryHash,_granularity, paypool index, tip
-  if(!empty(vars[0])) {
+  if(!empty(newQuery)) {
 
     let payload = {
       event: "DataRequested",
@@ -146,6 +149,28 @@ export const findDisputedNonce = (req, disp) => async (dispatch, getState) => {
     if(match) {
       return match;
     }
+  }
+  return null;
+}
+
+export const findDisputeById = (id, con) => async (dispathc, getState) => {
+  if(!con) {
+    con = getState().chain.contract;
+    if(!con) {
+      return null;
+    }
+  }
+
+  let disp = await con.getDisputeDetails(id);
+  if(disp) {
+    let payload = {
+      event: "NewDispute",
+      blockNumber: 0,
+      logIndex: 0,
+      timestamp: disp._timestamp,
+      returnValues: disp
+    };
+    return eventFactory(payload);
   }
   return null;
 }

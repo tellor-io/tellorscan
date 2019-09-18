@@ -5,6 +5,7 @@ import Storage from 'Storage';
 import {Logger} from 'buidl-utils';
 import {default as reqOps} from 'Redux/newRequests/operations';
 import {default as chOps} from 'Redux/challenges/operations';
+import {default as dispOps} from 'Redux/disputes/operations';
 
 const log = new Logger({component: "HelpersHandler"});
 
@@ -79,6 +80,10 @@ export default class Helpers extends Handler {
             
               //make sure miner addresses are lower case for comparisons
               return miners.map(m=>m.toLowerCase());
+            },
+
+            findDisputeForVote: async id => {
+              return ctx.dispatch(dispOps.findDisputeById(id));
             }
         }
 

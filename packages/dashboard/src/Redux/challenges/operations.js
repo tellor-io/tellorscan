@@ -306,23 +306,11 @@ const findDisputedNonce = ({requestId, mineTime, miner}) => async (dispatch, get
     for(let i=0;i<ch.nonces.length;++i) {
       let n = ch.nonces[i];
       if(n.miner === miner) {
-        return n;
+        return {nonce: n, challenge: ch};
       }
     }
   }
   
-  //long way to do it 
-  /*
-  let matchingHash = await Storage.instance.iterate({
-    database: DBNames.NewValue,
-    callback: (v) => {
-      log.info("Checking mineTime", v.mineTime, "vs", mineTime, "id", v.id, "vs", requestId);
-      if(v.mineTime == mineTime && v.id === requestId) {
-        return v.challengeHash; //short-circuit once we find it
-      }
-    }
-  });
-  */
   let nv = await Storage.instance.readAll({
     database: DBNames.NewValue,
     filterFn: (v) => {
@@ -338,7 +326,6 @@ const findDisputedNonce = ({requestId, mineTime, miner}) => async (dispatch, get
   if(nv.length > 0) {
     nv = nv[0];
     ch = getState().challenges.byHash[nv.challengeHash];
-    log.info("Matching challenge", ch);
     let nonces = ch?ch.nonces:null;
     if(!nonces) {
       log.info("No matching nonces, have to read from DB");
@@ -354,7 +341,7 @@ const findDisputedNonce = ({requestId, mineTime, miner}) => async (dispatch, get
       for(let i=0;i<nonces.length;++i) {
         let n = nonces[i];
         if(n.miner === miner) {
-          return n;
+          return {nonce: n, challenge: ch};
         }
       }
     }

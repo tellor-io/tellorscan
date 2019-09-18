@@ -13,6 +13,7 @@ import {default as newRequests} from './newRequests/reducers';
 import {default as challenges} from './challenges/reducers';
 import {default as nonces} from './nonces/reducers';
 import {default as newValues} from './newValues/reducers';
+import {default as votes} from './votes/reducers';
 
 /**
  * Collection of all dashboard state tree reducers
@@ -31,5 +32,6 @@ export default combineReducers({
   newRequests,
   challenges,
   nonces,
-  newValues
+  newValues,
+  votes
 });

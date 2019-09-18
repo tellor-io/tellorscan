@@ -44,6 +44,8 @@ const findRequestById = (id, con) => async (dispatch, getState) => {
       data: req.toJSON()
     });
     dispatch(Creators.addRequest(req));
+  } else {
+    log.warn("Could not find request with id", id);
   }
   return req;
 }

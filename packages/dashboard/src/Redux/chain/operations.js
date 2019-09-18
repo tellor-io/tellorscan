@@ -23,13 +23,14 @@ import LastBlockHandler from './handlers/LastBlockHandler';
 import NewChallengeHandler from './handlers/NewChallengeHandler';
 import NonceSubmitHandler from './handlers/NonceSubmitHandler';
 import NewValueHandler from './handlers/NewValueHandler';
+import DisputeHandler from './handlers/DisputeHandler';
 import {Logger} from 'buidl-utils';
 import * as ethUtils from 'web3-utils';
 import {Types as setTypes} from 'Redux/settings/actions';
 import {default as reqOps} from 'Redux/newRequests/operations';
+import {default as dispOps} from 'Redux/disputes/operations';
 import {registerDeps} from 'Redux/DepMiddleware';
 import _ from 'lodash';
-import DisputeHandler from './handlers/DisputeHandler';
 
 const MAX_BLOCKS = 8000;
 const log = new Logger({component: "ChainOps"});
@@ -65,7 +66,7 @@ const init = () => async (dispatch,getState) => {
 
     //the prefix of the store are based on selected network
     await Storage.instance.init({
-      dbPrefix: chain.network
+      dbPrefix: chain.network + "-tscan"
     });
 
     let start = await _getLastBlockStored();
@@ -127,6 +128,7 @@ const init = () => async (dispatch,getState) => {
     await pipeline.init();
 
     await dispatch(_initAllEvents({
+      web3: chain.web3,
       ethHistory: eh,
       fromBlock: start,
       toBlock: current,
@@ -314,6 +316,7 @@ const _getLastBlockStored = async () => {
 
 const _initAllEvents = (props) => async (dispatch, getState) => {
   const {
+    web3,
     ethHistory,
     fromBlock,
     toBlock,
@@ -345,7 +348,7 @@ const _initAllEvents = (props) => async (dispatch, getState) => {
           let asEvent = [];
           if(logs && logs.length > 0) {
             logs.forEach(l=>{
-              
+
               let evt = Factory({
                 event: nm,
                 ...l
@@ -395,6 +398,7 @@ const _initAllEvents = (props) => async (dispatch, getState) => {
       let values = mappedEvents[DBNames.NewValue] || [];
       let tips = mappedEvents[DBNames.TipAdded] || [];
       let disputes = mappedEvents[DBNames.NewDispute] || [];
+      let votes = mappedEvents[DBNames.Voted] || [];
       
       let newChallengeStorage = newChallenges.map(ch=>{
         return {
@@ -443,9 +447,21 @@ const _initAllEvents = (props) => async (dispatch, getState) => {
         }
       });
 
+      //we may need to resolve dispute sender to make sure current user doesn't vote on 
+      //their own disputes
+      for(let i=0;i<disputes.length;++i) {
+        let d = disputes[i];
+        await dispatch(dispOps.resolveSender(d, web3));
+      }
+
       let disputeStorage = disputes.map(d=>({
         key: d.id,
         value: d.toJSON()
+      }));
+
+      let votedStorage = votes.map(v=>({
+        key: v.id  + "_" + v.voter,
+        value: v.toJSON()
       }));
 
       if(newChallengeStorage.length > 0) {
@@ -490,6 +506,10 @@ const _initAllEvents = (props) => async (dispatch, getState) => {
 
       if(disputeStorage.length > 0) {
         await _storeItems(DBNames.NewDispute, disputeStorage);
+      }
+
+      if(votedStorage.length > 0) {
+        await _storeItems(DBNames.Voted, votedStorage);
       }
 
       if(toBlock > 0) {

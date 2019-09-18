@@ -8,6 +8,7 @@ import {default as reqOps} from 'Redux/newRequests/operations';
 import {default as challengeOps} from 'Redux/challenges/operations';
 import {default as nonceOps} from 'Redux/nonces/operations';
 import {default as newValueOps} from 'Redux/newValues/operations';
+import {default as voteOps} from 'Redux/votes/operations';
 
 import {registerDeps} from 'Redux/DepMiddleware';
 import {Types as settingsTypes} from 'Redux/settings/actions';
@@ -23,7 +24,7 @@ const initStorage = async props => {
 
   console.log("Network", chain.network);
   await Storage.instance.init({
-    dbPrefix: props.getState().chain.chain.network
+    dbPrefix: props.getState().chain.chain.network + "-tscan"
   });
   return props;
 }
@@ -61,6 +62,11 @@ const initTips = props => {
 const initDisputes = props => {
   return props.dispatch(disputeOps.init())
           .then(()=>props);
+}
+
+const initVotes = props => {
+  return props.dispatch(voteOps.init())
+      .then(()=>props);
 }
 
 const initToken = props => {
@@ -103,6 +109,7 @@ const _doStart = () => (dispatch,getState) => {
         .then(initNonces)
         .then(initNewValues)
         .then(initChallenges)
+        .then(initVotes)
         .then(initDisputes)
         .then(initAnalytics)
         .then(startSubscriptions)

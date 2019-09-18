@@ -29,6 +29,23 @@ export default class DisputeHandler extends Handler {
                 event: DBNames.NewDispute,
                 ...dispEvents[0]
             });
+            log.info("Created dispute", dispute);
+
+            if(!dispute.sender && dispute.transactionHash) {
+                log.info("Getting sender for dispute event...");
+                //retrieve txn info 
+                let web3 = ctx.getState().chain.web3;
+                let rec = await web3.eth.getTransactionReceipt(dispute.transactionHash);
+                if(rec) {
+                    log.info("Have receipt for dispute", rec);
+                    dispute.sender = rec.from.toLowerCase();
+                } else {
+                    log.warn("Could not get receipt for txn", dispute.transactionHash);
+                }
+            } else if(!dispute.sender) {
+                log.warn("Dispute event does not have a transaction hash!", dispute);
+            }
+
             ctx.store({
                 database: DBNames.NewDispute,
                 key: ""+dispute.id,
@@ -41,6 +58,7 @@ export default class DisputeHandler extends Handler {
                 matchingChallenge.nonces.forEach(n=>{
                     if(n.miner === dispute.miner) {
                         dispute.targetNonce = n;
+                        dispute.targetChallenge = matchingChallenge;
                     }
                 })
             }

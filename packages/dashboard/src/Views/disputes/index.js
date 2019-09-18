@@ -12,7 +12,10 @@ const s2p = state => {
 const d2p = (dispatch,own) => {
   return {
     filterDisputes: id => {
-      let url = navs.DISPUTE_HOME + "/" + id;
+      let url = navs.DISPUTE_HOME;
+      if(id) {
+        url += "/" + id;
+      }
       own.history.push(url);
     }
   }

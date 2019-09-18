@@ -17,11 +17,7 @@ class Header extends React.Component {
             ID
           </span>
         </Col>
-        <Col md="2" className={cn(align.allCenter, align.noMarginPad)}>
-          <span className={cn("font-weight-bold", "text-1", "text-center")}>
-            Index
-          </span>
-        </Col>
+        
         <Col md="2" className={cn(align.allCenter, align.noMarginPad)}>
           <span className={cn("font-weight-bold", "text-1", "text-center")}>
             Value

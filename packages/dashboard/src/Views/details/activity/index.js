@@ -47,6 +47,7 @@ const s2p = (state,own) => {
 
 const d2p = (dispatch,own) => {
   return {
+    
     selectForDispute: (ch, nonce) => {
       dispatch(dispOps.selectForDispute(ch, nonce));
       let url = navs.DISPUTE_HOME + "/" + ch.id;
