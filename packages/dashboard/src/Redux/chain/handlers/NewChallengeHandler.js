@@ -55,10 +55,14 @@ export default class NewChallengeHandler extends Handler {
     async _addNewChallenges(ctx, events) {
        log.info("Adding",events.length,"challenges in pipeline");
         for(let j=0;j<events.length;++j) {
-
+            let evt = events[j];
+            if(!evt._returnValues) {
+                log.warn("Invalid incoming event", evt);
+                continue;
+            }
             //challenge may not have query string if PSR based
             //first, we need to get the request id
-            let rawId = events[j]._returnValues._currentRequestId || 0;
+            let rawId = evt._returnValues._currentRequestId || 0;
             if(!rawId) {
                 log.error("Could not find raw request id in txn event", events[j]);
                 continue;

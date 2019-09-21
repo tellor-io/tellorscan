@@ -5,6 +5,7 @@ import Web3Contract from './Web3Contract';
 import Storage from 'Storage';
 import * as dbNames from 'Storage/DBNames';
 import {Creators as ChainCreators} from 'Redux/chain/actions';
+import HttpProviderPath from './HttpProviderPath';
 
 //the maximum numbre of blocks we care about. Be careful what to set this
 //to as it impacts how long startup will take when no local storage or
@@ -49,7 +50,9 @@ export default class Web3Wrapper {
       }
       if(ethProvider) {
 
+        HttpProviderPath.patch(ethProvider);
         this.web3 = new Web3(ethProvider);
+       
         let acts = await ethProvider.enable();
         if(!acts) {
           //user denied access to app
