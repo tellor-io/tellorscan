@@ -56,16 +56,18 @@ export default class NewChallengeHandler extends Handler {
        log.info("Adding",events.length,"challenges in pipeline");
         for(let j=0;j<events.length;++j) {
             let evt = events[j];
-            if(!evt._returnValues) {
+            if(!evt.returnValues) {
                 log.warn("Invalid incoming event", evt);
                 continue;
             }
             //challenge may not have query string if PSR based
             //first, we need to get the request id
-            let rawId = evt._returnValues._currentRequestId || 0;
+            let rawId = evt.returnValues._currentRequestId || 0;
             if(!rawId) {
                 log.error("Could not find raw request id in txn event", events[j]);
                 continue;
+            } else if(rawId.toString) {
+                rawId = rawId.toString(10)-0;
             }
             log.info("Looking up request with id", rawId);
 
