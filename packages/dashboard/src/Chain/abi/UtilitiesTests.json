@@ -1,0 +1,2487 @@
+{
+  "contractName": "UtilitiesTests",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "tellorMasterAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_TellorMasterAddress",
+          "type": "address"
+        }
+      ],
+      "name": "setTellorMaster",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "testgetMax",
+      "outputs": [
+        {
+          "name": "_max",
+          "type": "uint256"
+        },
+        {
+          "name": "_index",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "testgetMin",
+      "outputs": [
+        {
+          "name": "_min",
+          "type": "uint256"
+        },
+        {
+          "name": "_index",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"testgetMin\",\"outputs\":[{\"name\":\"_min\",\"type\":\"uint256\"},{\"name\":\"_index\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_TellorMasterAddress\",\"type\":\"address\"}],\"name\":\"setTellorMaster\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"testgetMax\",\"outputs\":[{\"name\":\"_max\",\"type\":\"uint256\"},{\"name\":\"_index\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"tellorMasterAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}],\"devdoc\":{\"details\":\"These are the getter function for the two assembly code functions in the Utilities library\",\"methods\":{\"constructor\":{\"details\":\"The constructor sets the owner\"}},\"title\":\"Utilities Tests\"},\"userdoc\":{\"methods\":{\"setTellorMaster(address)\":{\"notice\":\"dev Set TellorMaster address  param _TellorMasterAddress is the Tellor Master address\"}}}},\"settings\":{\"compilationTarget\":{\"/Users/mdcoon/git/TellorCore/contracts/oldContracts/UtilitiesTests.sol\":\"UtilitiesTests\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/mdcoon/git/TellorCore/contracts/oldContracts/TellorGetters.sol\":{\"keccak256\":\"0x8ed463380ce18c3603328843304771f92ce5050526162e6c29a84216efeeb2fa\",\"urls\":[\"bzzr://5fcb36f424b7abc17ac903b90c719f2a188099034521adb098e0ceb020495313\"]},\"/Users/mdcoon/git/TellorCore/contracts/oldContracts/TellorMaster.sol\":{\"keccak256\":\"0xd305a18aa947d750d4726df98b1cf5d1a0f90aae0cb9bd347cffeccd165af744\",\"urls\":[\"bzzr://0921f78c39b35f7bb5abc9d60e94359d09c22167cb69c48e4e91a68e76225f92\"]},\"/Users/mdcoon/git/TellorCore/contracts/oldContracts/UtilitiesTests.sol\":{\"keccak256\":\"0x48f3f303f64de8763dd9d806c199e9b7f613466adfc25ce218f758652acca6ca\",\"urls\":[\"bzzr://7cf8ea1e8e1a152e5f316276f7109712e2b07357297d0720bec383d7a219abd3\"]},\"/Users/mdcoon/git/TellorCore/contracts/oldContracts/libraries/OldTellorDispute.sol\":{\"keccak256\":\"0x57cd0dc9d42f1eb6aa9fb170cc8f6023eefbf86850936354ebe5db9bd08a4bb6\",\"urls\":[\"bzzr://6858e15fba3f43c694b856a318bdc34d011b2591acf32bfff25589793d9e111a\"]},\"/Users/mdcoon/git/TellorCore/contracts/oldContracts/libraries/OldTellorTransfer.sol\":{\"keccak256\":\"0xbf2c0aca1da2b976aab744ac138644539ead27a3cf07dc8dfa2f3c2c6f4d4477\",\"urls\":[\"bzzr://a6a9a0f559da00cd64f4f4ba3c604564ce97c0a9e4211e58890dc4c3a3c9943a\"]},\"/Users/mdcoon/git/TellorCore/contracts/oldContracts/libraries/SafeMath.sol\":{\"keccak256\":\"0x536b8239017cc14773e30459c671447b3564adca6e0c2ab24d0ee70c85912830\",\"urls\":[\"bzzr://c26363f199291757c3891c37b66deddcf11c2449d5a6a4c376b7aca0922e309f\"]},\"/Users/mdcoon/git/TellorCore/contracts/oldContracts/libraries/TellorGettersLibrary.sol\":{\"keccak256\":\"0x31c8d3c7792ee1a9fac98ec809cc766a500421caff269b9c0c0753d95956732a\",\"urls\":[\"bzzr://e2cbdb3911ef3b9debd03020b8e3465b795f53609eb71703f4b4d201aa805bef\"]},\"/Users/mdcoon/git/TellorCore/contracts/oldContracts/libraries/TellorStake.sol\":{\"keccak256\":\"0x984bb7fc76ec6e7f53065e92eae4aff930f540f683650ed0b79111d1eef301da\",\"urls\":[\"bzzr://c8de88727f95429d9774733e784530756642e4dc339a89d0190bd8cb7c4f4dba\"]},\"/Users/mdcoon/git/TellorCore/contracts/oldContracts/libraries/TellorStorage.sol\":{\"keccak256\":\"0xc4705e47846af08077f685a50eaf01afbbfe9b32f5cdf62fa2489ba6b8ae6d92\",\"urls\":[\"bzzr://9101b29a2e3df0bee696d17b51bac53be3e8ab1c9330db867c1de8f3aac41414\"]},\"/Users/mdcoon/git/TellorCore/contracts/oldContracts/libraries/Utilities.sol\":{\"keccak256\":\"0x85b9b3dc3f792b50a8c256813fc2d6ddeed17253d7ed3fea7d9e8f6ea565224a\",\"urls\":[\"bzzr://c56f21a0920fa10b709188f05647397e442f6363888bb9e878779fdb0766383f\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506104f4806100606000396000f3fe608060405234801561001057600080fd5b506004361061004c5760003560e01c80632893e758146100515780636e51bc9f146100765780637d215ec0146100ba578063b005ccae146100df575b600080fd5b610059610129565b604051808381526020018281526020019250505060405180910390f35b6100b86004803603602081101561008c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101f7565b005b6100c26102d5565b604051808381526020018281526020019250505060405180910390f35b6100e76103a3565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000806101346104a5565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663b54130296040518163ffffffff1660e01b81526004016106606040518083038186803b15801561019d57600080fd5b505afa1580156101b1573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052506106608110156101d757600080fd5b810190809190505090506101ea816103c9565b8093508194505050509091565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161461025057600080fd5b80600260006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555080600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b6000806102e06104a5565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663b54130296040518163ffffffff1660e01b81526004016106606040518083038186803b15801561034957600080fd5b505afa15801561035d573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525061066081101561038357600080fd5b810190809190505090506103968161043c565b8093508194505050509091565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600080600160330390508281603381106103df57fe5b602002015191506000600160330390505b6000811115610436578284826033811061040657fe5b602002015110156104285783816033811061041d57fe5b602002015192508091505b8080600190039150506103f0565b50915091565b6000808260016033811061044c57fe5b602002015191506000600190505b603381101561049f578284826033811061047057fe5b602002015111156104925783816033811061048757fe5b602002015192508091505b808060010191505061045a565b50915091565b60405180610660016040528060339060208202803883398082019150509050509056fea165627a7a723058201f32357c53118f70c66d4d866c7289bcbe39a1c2d90671394ea03a587ba4c8ad0029",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061004c5760003560e01c80632893e758146100515780636e51bc9f146100765780637d215ec0146100ba578063b005ccae146100df575b600080fd5b610059610129565b604051808381526020018281526020019250505060405180910390f35b6100b86004803603602081101561008c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101f7565b005b6100c26102d5565b604051808381526020018281526020019250505060405180910390f35b6100e76103a3565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000806101346104a5565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663b54130296040518163ffffffff1660e01b81526004016106606040518083038186803b15801561019d57600080fd5b505afa1580156101b1573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052506106608110156101d757600080fd5b810190809190505090506101ea816103c9565b8093508194505050509091565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161461025057600080fd5b80600260006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555080600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b6000806102e06104a5565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663b54130296040518163ffffffff1660e01b81526004016106606040518083038186803b15801561034957600080fd5b505afa15801561035d573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525061066081101561038357600080fd5b810190809190505090506103968161043c565b8093508194505050509091565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600080600160330390508281603381106103df57fe5b602002015191506000600160330390505b6000811115610436578284826033811061040657fe5b602002015110156104285783816033811061041d57fe5b602002015192508091505b8080600190039150506103f0565b50915091565b6000808260016033811061044c57fe5b602002015191506000600190505b603381101561049f578284826033811061047057fe5b602002015111156104925783816033811061048757fe5b602002015192508091505b808060010191505061045a565b50915091565b60405180610660016040528060339060208202803883398082019150509050509056fea165627a7a723058201f32357c53118f70c66d4d866c7289bcbe39a1c2d90671394ea03a587ba4c8ad0029",
+  "sourceMap": "270:997:16:-;;;460:54;8:9:-1;5:2;;;30:1;27;20:12;5:2;460:54:16;497:10;489:5;;:18;;;;;;;;;;;;;;;;;;270:997;;;;;;",
+  "deployedSourceMap": "270:997:16:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;270:997:16;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1066:198;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;633:227;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;633:227:16;;;;;;;;;;;;;;;;;;;:::i;:::-;;866:194;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;362:34;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;1066:198;1108:9;1119:11;1141:27;;:::i;:::-;1171:12;;;;;;;;;;;:24;;;:26;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1171:26:16;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1171:26:16;;;;;;;101:4:-1;97:9;90:4;84;80:15;76:31;69:5;65:43;126:6;120:4;113:20;0:138;13:4;8:3;5:13;2:2;;;31:1;28;21:12;2:2;1171:26:16;;;;;;;;1141:56;;1231:26;1248:8;1231:16;:26::i;:::-;1215:42;;;;;;;;1066:198;;;:::o;633:227::-;736:5;;;;;;;;;;;722:19;;:10;:19;;;713:29;;;;;;774:20;752:19;;:42;;;;;;;;;;;;;;;;;;832:20;804:12;;:49;;;;;;;;;;;;;;;;;;633:227;:::o;866:194::-;908:9;919:11;941:27;;:::i;:::-;971:12;;;;;;;;;;;:24;;;:26;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;971:26:16;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;971:26:16;;;;;;;101:4:-1;97:9;90:4;84;80:15;76:31;69:5;65:43;126:6;120:4;113:20;0:138;13:4;8:3;5:13;2:2;;;31:1;28;21:12;2:2;971:26:16;;;;;;;;941:56;;1027:26;1044:8;1027:16;:26::i;:::-;1011:42;;;;;;;;866:194;;;:::o;362:34::-;;;;;;;;;;;;;:::o;681:326:24:-;741:11;753:16;806:1;792:11;:15;781:26;;823:4;828:8;823:14;;;;;;;;;;;817:20;;851:6;872:1;860:11;:13;851:22;;847:156;878:1;874;:5;847:156;;;912:3;902:4;907:1;902:7;;;;;;;;;;;:13;899:94;;;941:4;946:1;941:7;;;;;;;;;;;935:13;;977:1;966:12;;899:94;880:3;;;;;;;;847:156;;;;681:326;;;:::o;309:301::-;369:11;381:16;415:4;420:1;415:7;;;;;;;;;;;409:13;;454:6;461:1;454:8;;450:154;467:11;463:1;:15;450:154;;;510:3;500:4;505:1;500:7;;;;;;;;;;;:13;497:97;;;538:4;543:1;538:7;;;;;;;;;;;532:13;;574:1;563:12;;497:97;479:3;;;;;;;450:154;;;;309:301;;;:::o;270:997:16:-;;;;;;;;;;;29:2:-1;21:6;17:15;117:4;105:10;97:6;88:34;148:4;140:6;136:17;126:27;;0:157;270:997:16;;;;:::o",
+  "source": "pragma solidity ^0.5.0;\n\nimport \"./libraries/Utilities.sol\";\nimport \"./libraries/TellorGettersLibrary.sol\";\nimport \"./TellorMaster.sol\";\n\n/**\n* @title Utilities Tests\n* @dev These are the getter function for the two assembly code functions in the\n* Utilities library\n*/\ncontract UtilitiesTests{\n\taddress internal owner;\n\tTellorMaster internal tellorMaster; \n    address public tellorMasterAddress;\n\n    /**\n    * @dev The constructor sets the owner\n    */\n    constructor ()  public{\n    \towner = msg.sender;\n    }\n\n    /**\n    *@dev Set TellorMaster address \n    *@param _TellorMasterAddress is the Tellor Master address\n    */\n    function setTellorMaster(address payable _TellorMasterAddress) public {\n        require (msg.sender == owner);\n        tellorMasterAddress = _TellorMasterAddress;\n        tellorMaster = TellorMaster(_TellorMasterAddress);\n    }\n\n    function testgetMax() public view returns(uint _max, uint _index){\n        uint256[51] memory requests = tellorMaster.getRequestQ();    \n        (_max,_index) = Utilities.getMax(requests);\n    }\n\n    function testgetMin() public view returns(uint _min, uint _index){\n        uint256[51] memory requests = tellorMaster.getRequestQ();        \n        (_min,_index) = Utilities.getMin(requests);\n    }\n\n}",
+  "sourcePath": "/Users/mdcoon/git/TellorCore/contracts/oldContracts/UtilitiesTests.sol",
+  "ast": {
+    "absolutePath": "/Users/mdcoon/git/TellorCore/contracts/oldContracts/UtilitiesTests.sol",
+    "exportedSymbols": {
+      "UtilitiesTests": [
+        6745
+      ]
+    },
+    "id": 6746,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 6651,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:16"
+      },
+      {
+        "absolutePath": "/Users/mdcoon/git/TellorCore/contracts/oldContracts/libraries/Utilities.sol",
+        "file": "./libraries/Utilities.sol",
+        "id": 6652,
+        "nodeType": "ImportDirective",
+        "scope": 6746,
+        "sourceUnit": 11467,
+        "src": "25:35:16",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/mdcoon/git/TellorCore/contracts/oldContracts/libraries/TellorGettersLibrary.sol",
+        "file": "./libraries/TellorGettersLibrary.sol",
+        "id": 6653,
+        "nodeType": "ImportDirective",
+        "scope": 6746,
+        "sourceUnit": 10813,
+        "src": "61:46:16",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/mdcoon/git/TellorCore/contracts/oldContracts/TellorMaster.sol",
+        "file": "./TellorMaster.sol",
+        "id": 6654,
+        "nodeType": "ImportDirective",
+        "scope": 6746,
+        "sourceUnit": 6650,
+        "src": "108:28:16",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Utilities Tests\n@dev These are the getter function for the two assembly code functions in the\nUtilities library",
+        "fullyImplemented": true,
+        "id": 6745,
+        "linearizedBaseContracts": [
+          6745
+        ],
+        "name": "UtilitiesTests",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 6656,
+            "name": "owner",
+            "nodeType": "VariableDeclaration",
+            "scope": 6745,
+            "src": "296:22:16",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 6655,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "296:7:16",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 6658,
+            "name": "tellorMaster",
+            "nodeType": "VariableDeclaration",
+            "scope": 6745,
+            "src": "321:34:16",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_TellorMaster_$6649",
+              "typeString": "contract TellorMaster"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 6657,
+              "name": "TellorMaster",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 6649,
+              "src": "321:12:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_TellorMaster_$6649",
+                "typeString": "contract TellorMaster"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 6660,
+            "name": "tellorMasterAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 6745,
+            "src": "362:34:16",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 6659,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "362:7:16",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 6668,
+              "nodeType": "Block",
+              "src": "482:32:16",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6666,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 6663,
+                      "name": "owner",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6656,
+                      "src": "489:5:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 6664,
+                        "name": "msg",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 12914,
+                        "src": "497:3:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_magic_message",
+                          "typeString": "msg"
+                        }
+                      },
+                      "id": 6665,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "sender",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "497:10:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address_payable",
+                        "typeString": "address payable"
+                      }
+                    },
+                    "src": "489:18:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 6667,
+                  "nodeType": "ExpressionStatement",
+                  "src": "489:18:16"
+                }
+              ]
+            },
+            "documentation": "@dev The constructor sets the owner",
+            "id": 6669,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6661,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "472:2:16"
+            },
+            "returnParameters": {
+              "id": 6662,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "482:0:16"
+            },
+            "scope": 6745,
+            "src": "460:54:16",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 6691,
+              "nodeType": "Block",
+              "src": "703:157:16",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        "id": 6678,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 6675,
+                            "name": "msg",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 12914,
+                            "src": "722:3:16",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_magic_message",
+                              "typeString": "msg"
+                            }
+                          },
+                          "id": 6676,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "sender",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": null,
+                          "src": "722:10:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address_payable",
+                            "typeString": "address payable"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "==",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "id": 6677,
+                          "name": "owner",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6656,
+                          "src": "736:5:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "src": "722:19:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 6674,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        12917,
+                        12918
+                      ],
+                      "referencedDeclaration": 12917,
+                      "src": "713:7:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 6679,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "713:29:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 6680,
+                  "nodeType": "ExpressionStatement",
+                  "src": "713:29:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6683,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 6681,
+                      "name": "tellorMasterAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6660,
+                      "src": "752:19:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 6682,
+                      "name": "_TellorMasterAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6671,
+                      "src": "774:20:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address_payable",
+                        "typeString": "address payable"
+                      }
+                    },
+                    "src": "752:42:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 6684,
+                  "nodeType": "ExpressionStatement",
+                  "src": "752:42:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6689,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 6685,
+                      "name": "tellorMaster",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6658,
+                      "src": "804:12:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_TellorMaster_$6649",
+                        "typeString": "contract TellorMaster"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "id": 6687,
+                          "name": "_TellorMasterAddress",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6671,
+                          "src": "832:20:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address_payable",
+                            "typeString": "address payable"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_address_payable",
+                            "typeString": "address payable"
+                          }
+                        ],
+                        "id": 6686,
+                        "name": "TellorMaster",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 6649,
+                        "src": "819:12:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_TellorMaster_$6649_$",
+                          "typeString": "type(contract TellorMaster)"
+                        }
+                      },
+                      "id": 6688,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "819:34:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_TellorMaster_$6649",
+                        "typeString": "contract TellorMaster"
+                      }
+                    },
+                    "src": "804:49:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_TellorMaster_$6649",
+                      "typeString": "contract TellorMaster"
+                    }
+                  },
+                  "id": 6690,
+                  "nodeType": "ExpressionStatement",
+                  "src": "804:49:16"
+                }
+              ]
+            },
+            "documentation": "dev Set TellorMaster address \nparam _TellorMasterAddress is the Tellor Master address",
+            "id": 6692,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setTellorMaster",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6672,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6671,
+                  "name": "_TellorMasterAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6692,
+                  "src": "658:36:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address_payable",
+                    "typeString": "address payable"
+                  },
+                  "typeName": {
+                    "id": 6670,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "658:15:16",
+                    "stateMutability": "payable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address_payable",
+                      "typeString": "address payable"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "657:38:16"
+            },
+            "returnParameters": {
+              "id": 6673,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "703:0:16"
+            },
+            "scope": 6745,
+            "src": "633:227:16",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 6717,
+              "nodeType": "Block",
+              "src": "931:129:16",
+              "statements": [
+                {
+                  "assignments": [
+                    6703
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 6703,
+                      "name": "requests",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 6717,
+                      "src": "941:27:16",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                        "typeString": "uint256[51]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 6701,
+                          "name": "uint256",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "941:7:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 6702,
+                        "length": {
+                          "argumentTypes": null,
+                          "hexValue": "3531",
+                          "id": 6700,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "949:2:16",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_51_by_1",
+                            "typeString": "int_const 51"
+                          },
+                          "value": "51"
+                        },
+                        "nodeType": "ArrayTypeName",
+                        "src": "941:11:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_uint256_$51_storage_ptr",
+                          "typeString": "uint256[51]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 6707,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 6704,
+                        "name": "tellorMaster",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 6658,
+                        "src": "971:12:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_TellorMaster_$6649",
+                          "typeString": "contract TellorMaster"
+                        }
+                      },
+                      "id": 6705,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "getRequestQ",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 6381,
+                      "src": "971:24:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$__$returns$_t_array$_t_uint256_$51_memory_ptr_$",
+                        "typeString": "function () view external returns (uint256[51] memory)"
+                      }
+                    },
+                    "id": 6706,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "971:26:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                      "typeString": "uint256[51] memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "941:56:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6715,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "components": [
+                        {
+                          "argumentTypes": null,
+                          "id": 6708,
+                          "name": "_max",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6695,
+                          "src": "1012:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        {
+                          "argumentTypes": null,
+                          "id": 6709,
+                          "name": "_index",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6697,
+                          "src": "1017:6:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        }
+                      ],
+                      "id": 6710,
+                      "isConstant": false,
+                      "isInlineArray": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "TupleExpression",
+                      "src": "1011:13:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_tuple$_t_uint256_$_t_uint256_$",
+                        "typeString": "tuple(uint256,uint256)"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "id": 6713,
+                          "name": "requests",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6703,
+                          "src": "1044:8:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                            "typeString": "uint256[51] memory"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                            "typeString": "uint256[51] memory"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 6711,
+                          "name": "Utilities",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 11466,
+                          "src": "1027:9:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Utilities_$11466_$",
+                            "typeString": "type(library Utilities)"
+                          }
+                        },
+                        "id": 6712,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "getMax",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 11408,
+                        "src": "1027:16:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_internal_pure$_t_array$_t_uint256_$51_memory_ptr_$returns$_t_uint256_$_t_uint256_$",
+                          "typeString": "function (uint256[51] memory) pure returns (uint256,uint256)"
+                        }
+                      },
+                      "id": 6714,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1027:26:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_tuple$_t_uint256_$_t_uint256_$",
+                        "typeString": "tuple(uint256,uint256)"
+                      }
+                    },
+                    "src": "1011:42:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 6716,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1011:42:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 6718,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "testgetMax",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6693,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "885:2:16"
+            },
+            "returnParameters": {
+              "id": 6698,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6695,
+                  "name": "_max",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6718,
+                  "src": "908:9:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6694,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "908:4:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6697,
+                  "name": "_index",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6718,
+                  "src": "919:11:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6696,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "919:4:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "907:24:16"
+            },
+            "scope": 6745,
+            "src": "866:194:16",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 6743,
+              "nodeType": "Block",
+              "src": "1131:133:16",
+              "statements": [
+                {
+                  "assignments": [
+                    6729
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 6729,
+                      "name": "requests",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 6743,
+                      "src": "1141:27:16",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                        "typeString": "uint256[51]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 6727,
+                          "name": "uint256",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "1141:7:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 6728,
+                        "length": {
+                          "argumentTypes": null,
+                          "hexValue": "3531",
+                          "id": 6726,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "1149:2:16",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_51_by_1",
+                            "typeString": "int_const 51"
+                          },
+                          "value": "51"
+                        },
+                        "nodeType": "ArrayTypeName",
+                        "src": "1141:11:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_uint256_$51_storage_ptr",
+                          "typeString": "uint256[51]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 6733,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 6730,
+                        "name": "tellorMaster",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 6658,
+                        "src": "1171:12:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_TellorMaster_$6649",
+                          "typeString": "contract TellorMaster"
+                        }
+                      },
+                      "id": 6731,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "getRequestQ",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 6381,
+                      "src": "1171:24:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$__$returns$_t_array$_t_uint256_$51_memory_ptr_$",
+                        "typeString": "function () view external returns (uint256[51] memory)"
+                      }
+                    },
+                    "id": 6732,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1171:26:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                      "typeString": "uint256[51] memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1141:56:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6741,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "components": [
+                        {
+                          "argumentTypes": null,
+                          "id": 6734,
+                          "name": "_min",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6721,
+                          "src": "1216:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        {
+                          "argumentTypes": null,
+                          "id": 6735,
+                          "name": "_index",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6723,
+                          "src": "1221:6:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        }
+                      ],
+                      "id": 6736,
+                      "isConstant": false,
+                      "isInlineArray": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "TupleExpression",
+                      "src": "1215:13:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_tuple$_t_uint256_$_t_uint256_$",
+                        "typeString": "tuple(uint256,uint256)"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "id": 6739,
+                          "name": "requests",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6729,
+                          "src": "1248:8:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                            "typeString": "uint256[51] memory"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                            "typeString": "uint256[51] memory"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 6737,
+                          "name": "Utilities",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 11466,
+                          "src": "1231:9:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Utilities_$11466_$",
+                            "typeString": "type(library Utilities)"
+                          }
+                        },
+                        "id": 6738,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "getMin",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 11465,
+                        "src": "1231:16:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_internal_pure$_t_array$_t_uint256_$51_memory_ptr_$returns$_t_uint256_$_t_uint256_$",
+                          "typeString": "function (uint256[51] memory) pure returns (uint256,uint256)"
+                        }
+                      },
+                      "id": 6740,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1231:26:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_tuple$_t_uint256_$_t_uint256_$",
+                        "typeString": "tuple(uint256,uint256)"
+                      }
+                    },
+                    "src": "1215:42:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 6742,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1215:42:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 6744,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "testgetMin",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6719,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1085:2:16"
+            },
+            "returnParameters": {
+              "id": 6724,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6721,
+                  "name": "_min",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6744,
+                  "src": "1108:9:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6720,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1108:4:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6723,
+                  "name": "_index",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6744,
+                  "src": "1119:11:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6722,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1119:4:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1107:24:16"
+            },
+            "scope": 6745,
+            "src": "1066:198:16",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 6746,
+        "src": "270:997:16"
+      }
+    ],
+    "src": "0:1267:16"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/mdcoon/git/TellorCore/contracts/oldContracts/UtilitiesTests.sol",
+    "exportedSymbols": {
+      "UtilitiesTests": [
+        6745
+      ]
+    },
+    "id": 6746,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 6651,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:16"
+      },
+      {
+        "absolutePath": "/Users/mdcoon/git/TellorCore/contracts/oldContracts/libraries/Utilities.sol",
+        "file": "./libraries/Utilities.sol",
+        "id": 6652,
+        "nodeType": "ImportDirective",
+        "scope": 6746,
+        "sourceUnit": 11467,
+        "src": "25:35:16",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/mdcoon/git/TellorCore/contracts/oldContracts/libraries/TellorGettersLibrary.sol",
+        "file": "./libraries/TellorGettersLibrary.sol",
+        "id": 6653,
+        "nodeType": "ImportDirective",
+        "scope": 6746,
+        "sourceUnit": 10813,
+        "src": "61:46:16",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/mdcoon/git/TellorCore/contracts/oldContracts/TellorMaster.sol",
+        "file": "./TellorMaster.sol",
+        "id": 6654,
+        "nodeType": "ImportDirective",
+        "scope": 6746,
+        "sourceUnit": 6650,
+        "src": "108:28:16",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Utilities Tests\n@dev These are the getter function for the two assembly code functions in the\nUtilities library",
+        "fullyImplemented": true,
+        "id": 6745,
+        "linearizedBaseContracts": [
+          6745
+        ],
+        "name": "UtilitiesTests",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 6656,
+            "name": "owner",
+            "nodeType": "VariableDeclaration",
+            "scope": 6745,
+            "src": "296:22:16",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 6655,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "296:7:16",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 6658,
+            "name": "tellorMaster",
+            "nodeType": "VariableDeclaration",
+            "scope": 6745,
+            "src": "321:34:16",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_TellorMaster_$6649",
+              "typeString": "contract TellorMaster"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 6657,
+              "name": "TellorMaster",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 6649,
+              "src": "321:12:16",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_TellorMaster_$6649",
+                "typeString": "contract TellorMaster"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 6660,
+            "name": "tellorMasterAddress",
+            "nodeType": "VariableDeclaration",
+            "scope": 6745,
+            "src": "362:34:16",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 6659,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "362:7:16",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 6668,
+              "nodeType": "Block",
+              "src": "482:32:16",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6666,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 6663,
+                      "name": "owner",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6656,
+                      "src": "489:5:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 6664,
+                        "name": "msg",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 12914,
+                        "src": "497:3:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_magic_message",
+                          "typeString": "msg"
+                        }
+                      },
+                      "id": 6665,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "sender",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "497:10:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address_payable",
+                        "typeString": "address payable"
+                      }
+                    },
+                    "src": "489:18:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 6667,
+                  "nodeType": "ExpressionStatement",
+                  "src": "489:18:16"
+                }
+              ]
+            },
+            "documentation": "@dev The constructor sets the owner",
+            "id": 6669,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6661,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "472:2:16"
+            },
+            "returnParameters": {
+              "id": 6662,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "482:0:16"
+            },
+            "scope": 6745,
+            "src": "460:54:16",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 6691,
+              "nodeType": "Block",
+              "src": "703:157:16",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        "id": 6678,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 6675,
+                            "name": "msg",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 12914,
+                            "src": "722:3:16",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_magic_message",
+                              "typeString": "msg"
+                            }
+                          },
+                          "id": 6676,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "sender",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": null,
+                          "src": "722:10:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address_payable",
+                            "typeString": "address payable"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "==",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "id": 6677,
+                          "name": "owner",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6656,
+                          "src": "736:5:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "src": "722:19:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 6674,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        12917,
+                        12918
+                      ],
+                      "referencedDeclaration": 12917,
+                      "src": "713:7:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 6679,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "713:29:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 6680,
+                  "nodeType": "ExpressionStatement",
+                  "src": "713:29:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6683,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 6681,
+                      "name": "tellorMasterAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6660,
+                      "src": "752:19:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 6682,
+                      "name": "_TellorMasterAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6671,
+                      "src": "774:20:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address_payable",
+                        "typeString": "address payable"
+                      }
+                    },
+                    "src": "752:42:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 6684,
+                  "nodeType": "ExpressionStatement",
+                  "src": "752:42:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6689,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 6685,
+                      "name": "tellorMaster",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6658,
+                      "src": "804:12:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_TellorMaster_$6649",
+                        "typeString": "contract TellorMaster"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "id": 6687,
+                          "name": "_TellorMasterAddress",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6671,
+                          "src": "832:20:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address_payable",
+                            "typeString": "address payable"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_address_payable",
+                            "typeString": "address payable"
+                          }
+                        ],
+                        "id": 6686,
+                        "name": "TellorMaster",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 6649,
+                        "src": "819:12:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_TellorMaster_$6649_$",
+                          "typeString": "type(contract TellorMaster)"
+                        }
+                      },
+                      "id": 6688,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "819:34:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_TellorMaster_$6649",
+                        "typeString": "contract TellorMaster"
+                      }
+                    },
+                    "src": "804:49:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_TellorMaster_$6649",
+                      "typeString": "contract TellorMaster"
+                    }
+                  },
+                  "id": 6690,
+                  "nodeType": "ExpressionStatement",
+                  "src": "804:49:16"
+                }
+              ]
+            },
+            "documentation": "dev Set TellorMaster address \nparam _TellorMasterAddress is the Tellor Master address",
+            "id": 6692,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setTellorMaster",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6672,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6671,
+                  "name": "_TellorMasterAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6692,
+                  "src": "658:36:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address_payable",
+                    "typeString": "address payable"
+                  },
+                  "typeName": {
+                    "id": 6670,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "658:15:16",
+                    "stateMutability": "payable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address_payable",
+                      "typeString": "address payable"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "657:38:16"
+            },
+            "returnParameters": {
+              "id": 6673,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "703:0:16"
+            },
+            "scope": 6745,
+            "src": "633:227:16",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 6717,
+              "nodeType": "Block",
+              "src": "931:129:16",
+              "statements": [
+                {
+                  "assignments": [
+                    6703
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 6703,
+                      "name": "requests",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 6717,
+                      "src": "941:27:16",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                        "typeString": "uint256[51]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 6701,
+                          "name": "uint256",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "941:7:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 6702,
+                        "length": {
+                          "argumentTypes": null,
+                          "hexValue": "3531",
+                          "id": 6700,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "949:2:16",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_51_by_1",
+                            "typeString": "int_const 51"
+                          },
+                          "value": "51"
+                        },
+                        "nodeType": "ArrayTypeName",
+                        "src": "941:11:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_uint256_$51_storage_ptr",
+                          "typeString": "uint256[51]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 6707,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 6704,
+                        "name": "tellorMaster",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 6658,
+                        "src": "971:12:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_TellorMaster_$6649",
+                          "typeString": "contract TellorMaster"
+                        }
+                      },
+                      "id": 6705,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "getRequestQ",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 6381,
+                      "src": "971:24:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$__$returns$_t_array$_t_uint256_$51_memory_ptr_$",
+                        "typeString": "function () view external returns (uint256[51] memory)"
+                      }
+                    },
+                    "id": 6706,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "971:26:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                      "typeString": "uint256[51] memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "941:56:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6715,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "components": [
+                        {
+                          "argumentTypes": null,
+                          "id": 6708,
+                          "name": "_max",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6695,
+                          "src": "1012:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        {
+                          "argumentTypes": null,
+                          "id": 6709,
+                          "name": "_index",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6697,
+                          "src": "1017:6:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        }
+                      ],
+                      "id": 6710,
+                      "isConstant": false,
+                      "isInlineArray": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "TupleExpression",
+                      "src": "1011:13:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_tuple$_t_uint256_$_t_uint256_$",
+                        "typeString": "tuple(uint256,uint256)"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "id": 6713,
+                          "name": "requests",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6703,
+                          "src": "1044:8:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                            "typeString": "uint256[51] memory"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                            "typeString": "uint256[51] memory"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 6711,
+                          "name": "Utilities",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 11466,
+                          "src": "1027:9:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Utilities_$11466_$",
+                            "typeString": "type(library Utilities)"
+                          }
+                        },
+                        "id": 6712,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "getMax",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 11408,
+                        "src": "1027:16:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_internal_pure$_t_array$_t_uint256_$51_memory_ptr_$returns$_t_uint256_$_t_uint256_$",
+                          "typeString": "function (uint256[51] memory) pure returns (uint256,uint256)"
+                        }
+                      },
+                      "id": 6714,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1027:26:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_tuple$_t_uint256_$_t_uint256_$",
+                        "typeString": "tuple(uint256,uint256)"
+                      }
+                    },
+                    "src": "1011:42:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 6716,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1011:42:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 6718,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "testgetMax",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6693,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "885:2:16"
+            },
+            "returnParameters": {
+              "id": 6698,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6695,
+                  "name": "_max",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6718,
+                  "src": "908:9:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6694,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "908:4:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6697,
+                  "name": "_index",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6718,
+                  "src": "919:11:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6696,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "919:4:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "907:24:16"
+            },
+            "scope": 6745,
+            "src": "866:194:16",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 6743,
+              "nodeType": "Block",
+              "src": "1131:133:16",
+              "statements": [
+                {
+                  "assignments": [
+                    6729
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 6729,
+                      "name": "requests",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 6743,
+                      "src": "1141:27:16",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                        "typeString": "uint256[51]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "id": 6727,
+                          "name": "uint256",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "1141:7:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "id": 6728,
+                        "length": {
+                          "argumentTypes": null,
+                          "hexValue": "3531",
+                          "id": 6726,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "1149:2:16",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_51_by_1",
+                            "typeString": "int_const 51"
+                          },
+                          "value": "51"
+                        },
+                        "nodeType": "ArrayTypeName",
+                        "src": "1141:11:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_uint256_$51_storage_ptr",
+                          "typeString": "uint256[51]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 6733,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 6730,
+                        "name": "tellorMaster",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 6658,
+                        "src": "1171:12:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_TellorMaster_$6649",
+                          "typeString": "contract TellorMaster"
+                        }
+                      },
+                      "id": 6731,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "getRequestQ",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 6381,
+                      "src": "1171:24:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$__$returns$_t_array$_t_uint256_$51_memory_ptr_$",
+                        "typeString": "function () view external returns (uint256[51] memory)"
+                      }
+                    },
+                    "id": 6732,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1171:26:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                      "typeString": "uint256[51] memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1141:56:16"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 6741,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "components": [
+                        {
+                          "argumentTypes": null,
+                          "id": 6734,
+                          "name": "_min",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6721,
+                          "src": "1216:4:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        {
+                          "argumentTypes": null,
+                          "id": 6735,
+                          "name": "_index",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6723,
+                          "src": "1221:6:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        }
+                      ],
+                      "id": 6736,
+                      "isConstant": false,
+                      "isInlineArray": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "TupleExpression",
+                      "src": "1215:13:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_tuple$_t_uint256_$_t_uint256_$",
+                        "typeString": "tuple(uint256,uint256)"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "id": 6739,
+                          "name": "requests",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 6729,
+                          "src": "1248:8:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                            "typeString": "uint256[51] memory"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_array$_t_uint256_$51_memory_ptr",
+                            "typeString": "uint256[51] memory"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 6737,
+                          "name": "Utilities",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 11466,
+                          "src": "1231:9:16",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Utilities_$11466_$",
+                            "typeString": "type(library Utilities)"
+                          }
+                        },
+                        "id": 6738,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "getMin",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 11465,
+                        "src": "1231:16:16",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_internal_pure$_t_array$_t_uint256_$51_memory_ptr_$returns$_t_uint256_$_t_uint256_$",
+                          "typeString": "function (uint256[51] memory) pure returns (uint256,uint256)"
+                        }
+                      },
+                      "id": 6740,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1231:26:16",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_tuple$_t_uint256_$_t_uint256_$",
+                        "typeString": "tuple(uint256,uint256)"
+                      }
+                    },
+                    "src": "1215:42:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 6742,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1215:42:16"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 6744,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "testgetMin",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6719,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1085:2:16"
+            },
+            "returnParameters": {
+              "id": 6724,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6721,
+                  "name": "_min",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6744,
+                  "src": "1108:9:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6720,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1108:4:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6723,
+                  "name": "_index",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6744,
+                  "src": "1119:11:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6722,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1119:4:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1107:24:16"
+            },
+            "scope": 6745,
+            "src": "1066:198:16",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 6746,
+        "src": "270:997:16"
+      }
+    ],
+    "src": "0:1267:16"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-09-29T18:14:30.909Z",
+  "devdoc": {
+    "details": "These are the getter function for the two assembly code functions in the Utilities library",
+    "methods": {
+      "constructor": {
+        "details": "The constructor sets the owner"
+      }
+    },
+    "title": "Utilities Tests"
+  },
+  "userdoc": {
+    "methods": {
+      "setTellorMaster(address)": {
+        "notice": "dev Set TellorMaster address  param _TellorMasterAddress is the Tellor Master address"
+      }
+    }
+  }
+}

@@ -4,6 +4,8 @@ import TellorGetters from './TellorGetters.json';
 import TellorGettersLibrary from './TellorGettersLibrary.json';
 import TellorMaster from './TellorMaster.json';
 import Utilities from './Utilities.json';
+import TellorStake from './TellorStake.json';
+import TellorTransfer from './TellorTransfer.json';
 
 export default [
   ...Tellor.abi,
@@ -11,5 +13,7 @@ export default [
   ...TellorGetters.abi,
   ...TellorGettersLibrary.abi,
   ...TellorMaster.abi,
-  ...Utilities.abi
+  ...Utilities.abi,
+  ...TellorStake.abi,
+  ...TellorTransfer.abi
 ]
