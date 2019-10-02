@@ -12,8 +12,9 @@ import {
   PollingDataSource,
   FilterAddressHandler,
   AddReceiptsHandler,
-  ABIDecodeHandler
+  //ABIDecodeHandler
 } from 'eth-pipeline';
+import ABIDecodeHandler from './handlers/ABIDecodeHandler';
 import TipHandler from './handlers/TipHandler';
 import InjectRedux from './handlers/InjectRedux';
 import StorageHandler from './handlers/StorageHandler';
