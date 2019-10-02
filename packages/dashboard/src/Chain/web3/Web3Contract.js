@@ -83,7 +83,7 @@ export default class Web3Contract {
             if(diff) {
               return diff;
             }
-            return a.logIndex = b.logIndex;
+            return a.logIndex - b.logIndex;
           });
 
           /*

@@ -324,60 +324,115 @@ const _initAllEvents = (props) => async (dispatch, getState) => {
   } = props;
 
   log.info("Scanning history in range", fromBlock, toBlock);
-
   let mappedEvents = {};
-    let metadata = {};
+  let metadata = {};
+  let processLogEvents = async logEvents => {
+    Object.keys(DBNames).forEach(nm=>{
+      let logs = logEvents[nm];
+      let asEvent = [];
+      if(logs && logs.length > 0) {
+        logs.forEach(l=>{
+
+          let evt = Factory({
+            event: nm,
+            ...l
+          });
+          if(evt) {
+            asEvent.push(evt); 
+            let reqId = evt.id || evt.requestId;
+            if(reqId) {
+              let reqs = metadata[DBNames.DataRequested] || [];
+              reqs.push(reqId);
+              reqs = _.uniq(reqs);
+              metadata[DBNames.DataRequested] = reqs;
+            }
+          } else {
+            log.debug("Unknown event", JSON.stringify(l, null, 2));
+          }
+        });
+        if(asEvent.length > 0) {
+          let a = mappedEvents[nm] || [];
+          a = [
+            ...a,
+            ...asEvent
+          ];
+          mappedEvents[nm] = a;
+        }
+      }
+    })
+  }
+
+  let txnHandler = async (e, evts)=>{
+    if(e) {
+      log.err("Problem getting events", e);
+      return;
+    } 
+    if(!evts || evts.length === 0) {
+      return;
+    }
+      
+    for(let i=0;i<evts.length;++i) {
+      let txn = evts[i];
+
+      let logEvents = txn.logEvents;
+      await processLogEvents(logEvents)
+    }
+    
+  };
+
+  let abiHandler = new ABIDecodeHandler(abi);
+  let OLD_NONCE_SIG = "0xe6d63a2aee0aaed2ab49702313ce54114f2145af219d7db30d6624af9e6dffc4";
+  let NEW_NONCE_SIG = "0x1ee3d451df05cadde22b879c6fdf6c14b6c7942c3d858e01c60fdc2d1ad03207";
+  let badHandler = async (bads) => {
+    if(bads.length > 0) {
+      let ctx = {
+        web3
+      };
+
+      let block = {
+        number: -1,
+        transactions: []
+      };
+      for(let i=0;i<bads.length;++i) {
+        let bad = bads[i];
+        if(bad.raw.topics && bad.raw.topics[0] === OLD_NONCE_SIG) {
+          bad.raw.topics[0] = NEW_NONCE_SIG;
+          let t = {
+            receipt: {
+              logs: [
+                {
+                  topics: bad.raw.topics,
+                  data: bad.raw.data
+                }
+              ]
+            }
+          };
+          block.transactions.push(t);
+        } else {
+          log.error("Bad TXN", bad);
+          continue; //leg
+        }
+      }
+      
+      await abiHandler.newBlock(ctx, block, async ()=>{
+        for(let i=0;i<block.transactions.length;++i) {
+          let txn = block.transactions[i];
+          let logEvents = txn.logEvents;
+          if(logEvents && logEvents[DBNames.NonceSubmitted]) {
+            await processLogEvents(logEvents);
+          }
+        }
+        //log.info("Bad txn as decoded", block.transactions[0].logEvents);
+      });
+      //
+    }
+  }
+
+  
     await ethHistory.recoverEvents({
       fromBlock,
       toBlock
-    }, async (e, evts)=>{
-      if(e) {
-        log.err("Problem getting events", e);
-        return;
-      } 
-      if(!evts || evts.length === 0) {
-        return;
-      }
-        
-      for(let i=0;i<evts.length;++i) {
-        let txn = evts[i];
-
-        let logEvents = txn.logEvents;
-        Object.keys(DBNames).forEach(nm=>{
-          let logs = logEvents[nm];
-          let asEvent = [];
-          if(logs && logs.length > 0) {
-            logs.forEach(l=>{
-
-              let evt = Factory({
-                event: nm,
-                ...l
-              });
-              if(evt) {
-                asEvent.push(evt); 
-                let reqId = evt.id || evt.requestId;
-                if(reqId) {
-                  let reqs = metadata[DBNames.DataRequested] || [];
-                  reqs.push(reqId);
-                  reqs = _.uniq(reqs);
-                  metadata[DBNames.DataRequested] = reqs;
-                }
-              }
-            });
-            if(asEvent.length > 0) {
-              let a = mappedEvents[nm] || [];
-              a = [
-                ...a,
-                ...asEvent
-              ];
-              mappedEvents[nm] = a;
-            }
-            
-          }
-        })
-      }
-      
-    }).then(async ()=>{
+    }, txnHandler, badHandler ).then(async ()=>{
 
       //have to resolve all ref'd IDs
       let ids = metadata[DBNames.DataRequested] || [];
