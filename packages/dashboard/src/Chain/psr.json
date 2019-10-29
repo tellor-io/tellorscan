@@ -355,45 +355,36 @@
         },
         {
             "requestID":40,
-            "symbol":"STEEM/BTC - Binance",
+            "symbol":"LTC/USD- Bitfinex",
             "apis":[
-                "json(https://api.binance.com/api/v1/klines?symbol=STEEMBTC&interval=1d&limit=1).0.4"
+                "json(https://api-pub.bitfinex.com/v2/ticker/tLTCUSD).6"
             ],
             "transformation" : "value",
             "granularity" : 1000000
         },
         {
             "requestID":41,
-            "symbol":"LINK/USDT - Binance",
+            "symbol":"ETH/USD- Bitfinex",
             "apis":[
-                "json(https://api.binance.com/api/v1/klines?symbol=LINKUSDT&interval=1d&limit=1).0.4"
+                "json(https://api-pub.bitfinex.com/v2/ticker/tETHUSD).6"
             ],
             "transformation" : "value",
             "granularity" : 1000000
         },
         {
             "requestID":42,
-            "symbol":"WAN/BTC - Binance",
+            "symbol":"BTC/JPY- Bitfinex",
             "apis":[
-                "json(https://api.binance.com/api/v1/klines?symbol=WANBTC&interval=1d&limit=1).0.4"
+                "json(https://api-pub.bitfinex.com/v2/ticker/tBTCJPY).6"
             ],
             "transformation" : "value",
             "granularity" : 1000000
         },
         {
             "requestID":43,
-            "symbol":"GNT/ETH - Binance",
+            "symbol":"BTC/EUR- Bitfinex",
             "apis":[
-                "json(https://api.binance.com/api/v1/klines?symbol=GNTETH&interval=1d&limit=1).0.4"
-            ],
-            "transformation" : "value",
-            "granularity" : 1000000
-        },
-        {
-            "requestID":44,
-            "symbol":"BTC/USD - Bitfinex",
-            "apis":[
-                "json(https://api-pub.bitfinex.com/v2/ticker/tBTCUSD).6"
+                "json(https://api-pub.bitfinex.com/v2/ticker/tBTCEUR).6"
             ],
             "transformation" : "value",
             "granularity" : 1000000
