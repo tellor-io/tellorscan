@@ -2,9 +2,7 @@ import {Handler} from 'eth-pipeline';
 import * as DBNames from 'Storage/DBNames';
 import Factory from "Chain/LogEvents/EventFactory"
 import {Logger} from 'buidl-utils';
-import {default as dispOps} from 'Redux/disputes/operations';
-import {default as voteOps} from 'Redus/votes/operations';
-import * as ethUtils from 'web3-utils';
+import {default as voteOps} from 'Redux/votes/operations';
 
 const log = new Logger({component: "VoteHandler"});
 
@@ -20,6 +18,7 @@ export default class VoteHandler extends Handler {
             let logEvents = t.logEvents || {};
             let vtEvents = logEvents[DBNames.Voted] || [];
             if(vtEvents.length === 0) {
+                log.info("No votes in log", t);
                 continue;
             }
 

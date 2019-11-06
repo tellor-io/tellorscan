@@ -16,7 +16,7 @@ import * as align from 'Constants/alignments';
 import Logo from './LogoBlock';
 import Search from 'Components/Search';
 import Loading from 'Components/Loading';
-import miner from 'Assets/images/miner.png';
+import Toggle from 'react-toggle';
 
 /*
 <Col md="3" className={cn(align.allCenter, align.noMarginPad)}>
@@ -44,17 +44,22 @@ export default class TopMenu extends React.Component {
       barClass = cn(barClass, align.topCenter);
     };
 
-    //<i className={cn("fa fa-gear", "text-dark", "mr-1")} />
-    //<i className={cn("fa fa-commenting-o", "text-dark", "mr-1")} />
-    //<img className={cn("mr-1")} src={miner} width="15" height="15" alt="miner"/>
-    //<i className={cn("icon-wallet", "mr-1")} />
-    
+    //{realtimeRunning?"Stop Realtime Updates":"Start Realtime Updates"}
     let navItems = (
       <React.Fragment>
+        <div className={cn(align.topCenter, "pr-3", align.noMarginPad)}>
+          <div className={cn(align.full, "text-right", "text-sz-sm", "font-weight-light", "text-muted")}>
+            auto-refresh
+          </div>
+          <div className={cn(align.rightCenter, align.full, align.noMarginPad)}>
+              {
+                realtimeRunning &&
+                <i className={cn("fa fa-spinner fa-spin text-sz-md mr-1 text-dark")} />
+              }
+              <Toggle icons={false} checked={realtimeRunning} onChange={()=>{this.props.toggleRealtime()}} />
+          </div>
+        </div>
         <NavItem className={cn(align.allCenter,"mr-2")}>
-          <NavLink className={cn("text-dark")} href="#" onClick={this.props.toggleRealtime} >
-            {realtimeRunning?"Stop Realtime Updates":"Start Realtime Updates"}
-          </NavLink>
           <NavLink className={cn("text-dark")} href="#" onClick={this.props.toSettings} >
             Settings
           </NavLink>
@@ -99,20 +104,40 @@ export default class TopMenu extends React.Component {
         </Row>
       )
     }
+    /**
+     *  <Col xs="4" className={cn(align.rightCenter, align.noMarginPad)}>
+                  <div className={cn(align.topCenter,  align.noMarginPad)}>
+                    <div className={cn(align.full, "text-right", "text-sz-sm", "font-weight-light", "text-muted")}>
+                      auto-refresh
+                    </div>
+                    <div className={cn(align.rightCenter, align.full, "border", "border-warning", align.noMarginPad)}>
+                        {
+                          realtimeRunning &&
+                          <i className={cn("fa fa-spinner fa-spin text-sz-md mr-1 text-dark")} />
+                        }
+                        <Toggle icons={false} checked={realtimeRunning} onChange={()=>{this.props.toggleRealtime()}} />
+                    </div>
+                  </div>
+              </Col>
+     */
     let body = (
       <Row className={cn(align.allCenter, align.full, align.noMarginPad)}>
         <Col md="10" className={cn(align.leftCenter, align.noMarginPad)}>
-          <Row className={cn(align.allCenter, align.noMarginPad, align.full)}>
-            <Col md="4" className={cn(align.leftCenter, align.noMarginPad)}>
-              <Logo goHome={this.props.goHome}/>
-            </Col>
-
-            <Col md="8" className={cn(align.rightCenter, align.noMarginPad)}>
-              <Nav navbar className={cn("ml-auto", "text-md", "font-weight-light", "p-0")}>
-                {navItems}
-              </Nav>
-            </Col>
-          </Row>
+          <div className={cn(align.full, align.noMarginPad)}>
+            <Row className={cn(align.allCenter, align.noMarginPad, align.full)}>
+              <Col md="4" className={cn(align.leftCenter, align.noMarginPad)}>
+                <Logo goHome={this.props.goHome}/>
+              </Col>
+             
+              
+              <Col md="8" className={cn(align.rightCenter, align.noMarginPad)}>
+                
+                  <Nav navbar className={cn("ml-auto","text-md", "font-weight-light", "p-0")}>
+                    {navItems}
+                  </Nav>
+              </Col>
+            </Row>
+          </div>
         </Col>
       </Row>
     )

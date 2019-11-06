@@ -3,6 +3,8 @@ import {Logger} from 'buidl-utils';
 
 const logger = new Logger({component: "ABIDecodeHandler"});
 
+const CONFLICTING_SIG = "0xe6d63a2aee0aaed2ab49702313ce54114f2145af219d7db30d6624af9e6dffc4";
+const REPLACE_SIG = "0x1ee3d451df05cadde22b879c6fdf6c14b6c7942c3d858e01c60fdc2d1ad03207";
 export default class ABIDecodeHandler extends Handler {
     constructor(abis) {
         super({name: "ABIDecodeHandler"});
@@ -36,6 +38,7 @@ export default class ABIDecodeHandler extends Handler {
         block.transactions.forEach(t=>{
           if(!t.logEvents) {
             let events = this._decode(ctx, block, t);
+            logger.debug("Decoded events", events, "from", t);
             if(events.length > 0) {
                 t.logEvents = events.reduce((o,e)=>{
                     let a = o[e.event] || [];
@@ -88,6 +91,14 @@ export default class ABIDecodeHandler extends Handler {
   
           //see if we know about it
           let def = this.evtDefs[sig];
+          if(!def && sig === CONFLICTING_SIG) {
+            sig = REPLACE_SIG;
+            def = this.evtDefs[sig];
+            if(def) {
+              logger.warn("Found new sig that did not match ABI. Replaced with new sig to decode");
+            }
+          }
+
           if(def) {
             let fields = null;
             try {
@@ -99,7 +110,7 @@ export default class ABIDecodeHandler extends Handler {
               logger.error("Problem decoding", e);
               //ignore
             }
-            logger.info("FIELDS", fields);
+            //logger.info("FIELDS", fields);
             if(fields) {
               
               //if we have field data, we create a new event locally. This format

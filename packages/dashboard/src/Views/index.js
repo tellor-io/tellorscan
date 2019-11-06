@@ -6,7 +6,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import 'simple-line-icons/css/simple-line-icons.css';
 // Import Main styles for this application
 import 'scss/style.scss'
-
+import "react-toggle/style.css"
 import "react-table/react-table.css";
 
 import React, { Fragment, Component } from "react";

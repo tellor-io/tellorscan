@@ -28,6 +28,7 @@ const s2p = (state,own) => {
       }
     });
   });
+  
   let hash = state.challenges.currentChallenge;
   let current = {};
   if(hash) {
@@ -74,7 +75,6 @@ const d2p = (dispatch,own) => {
       dispatch(dispOps.toggleDisputeSelection(ch));
     },
     initiateDispute: (ch, nonce) => {
-      console.log("Incoming nonce", nonce);
       
       let props = {
         miner: {

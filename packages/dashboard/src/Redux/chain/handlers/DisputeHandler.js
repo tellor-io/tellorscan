@@ -48,8 +48,8 @@ export default class DisputeHandler extends Handler {
 
             ctx.store({
                 database: DBNames.NewDispute,
-                key: ""+dispute.id,
-                data: dispute
+                key: dispute.id,
+                data: dispute.toJSON()
             });
             let key = ethUtils.sha3(""+dispute.requestId + ""+dispute.mineTime);
             log.info("Challenge-match key", key);

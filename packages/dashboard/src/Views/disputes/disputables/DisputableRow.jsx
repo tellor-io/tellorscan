@@ -159,7 +159,7 @@ export default class DisputableRow extends React.Component {
     //nonces.sort((a,b)=>a.winningOrder-b.winningOrder);
     let nonces = challenge.nonces || [];
 
-    let exIcon = this.props.expanded?"fa-caret-up":"fa-caret-down";
+    let exIcon = this.props.expanded?"fa-caret-down":"fa-caret-right";
     return (
       <React.Fragment>
         <Col md="1" className={cn(align.allCenter, align.noMarginPad)}>
@@ -186,7 +186,7 @@ export default class DisputableRow extends React.Component {
                 <span onClick={()=>{
                   this.props.selectForDispute(challenge, n)
                 }}
-                      className={cn("value-tab", "p-1", "rounded", "text-center", "text-1", selClass, borderClass)}>
+                      className={cn("value-tab", "p-1", "rounded", "text-center", "text-sz-sm", selClass, borderClass)}>
                   {n.value}
                 </span>
               </Col>

@@ -30,7 +30,6 @@ const success = (state=INIT, action) => {
     byHash[c.challengeHash] = c;
     if(c.finalValue) {
       let key = ethUtils.sha3(""+c.id + ""+c.finalValue.mineTime);
-      console.log("Challenge key from", c.id, "and time", c.finalValue.mineTime);
       byIdAndTime[key] = c;
     }
   });

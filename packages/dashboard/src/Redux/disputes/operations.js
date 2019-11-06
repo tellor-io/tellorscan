@@ -5,9 +5,10 @@ import {generateDisputeHash, findDisputeById as findDispute} from 'Chain/utils';
 import {toastr} from 'react-redux-toastr';
 import Storage from 'Storage';
 import * as DBNames from 'Storage/DBNames';
-import * as ethUtils from 'web3-utils';
 import {Logger} from 'buidl-utils';
 import {default as chOps} from 'Redux/challenges/operations';
+import {Types as voteTypes} from 'Redux/votes/actions';
+import {registerDeps} from 'Redux/DepMiddleware';
 
 const log = new Logger({component: "DisputeOps"});
 
@@ -26,7 +27,23 @@ const init = () => async (dispatch,getState) => {
       }
     ]
   });
-  log.info("Read", r.length, "disputes from DB");
+  registerDeps([voteTypes.ADD_VOTES], action => {
+    action.votes.forEach(v=>{
+      let d = dispatch(findDisputeById(v.id));
+      let user = getState().chain.chain.ethereumAccount;
+      let tally = d.voteCount || 0;
+      tally += v.agreesWithDisputer?1:-1;
+      if(d) {
+        d = {
+          ...d,
+          userVoted: v.voter.toLowerCase() === user,
+          voteCount: tally
+        }
+        dispatch(Creators.update(d));
+      }
+    })
+  });
+
   let disputes = [];
   for(let i=0;i<r.length;++i) {
     let d = r[i];
@@ -39,7 +56,7 @@ const init = () => async (dispatch,getState) => {
     let user = getState().chain.chain.ethereumAccount;
     if(votes) {
       votes.forEach(v=>{
-        tally += (v.aggreesWithDisputer?1:-1);
+        tally += (v.agreesWithDisputer?1:-1);
         if(v.voter.toLowerCase() === user) {
           userVoted = true;
         }
@@ -183,6 +200,10 @@ const resolveSender = (dispute,web3) => async (dispatch,getState) => {
   }
 }
 
+const findDisputeById = id => (dispatch, getState) => {
+  return getState().disputes.byId[id];
+}
+
 export default {
   init,
   initDispute,
@@ -195,6 +216,6 @@ export default {
   isDisputable,
   timeRemaining,
   voteTimeRemaining,
-  resolveSender
-
+  resolveSender,
+  findDisputeById
 }
