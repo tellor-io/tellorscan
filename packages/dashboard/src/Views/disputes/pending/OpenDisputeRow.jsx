@@ -23,7 +23,7 @@ class DisputeInfo extends React.Component {
     let color = "text-dark";
     let leaning = "";
     let prefix = "";
-    let exIcon = expanded?"fa-caret-up":"fa-caret-down";
+    let exIcon = expanded?"fa-caret-down":"fa-caret-right";
 
     if(v > 0) { color = "text-success"; prefix = "fa fa-thumbs-up"; leaning = "for disputer";}
     else if(v < 0) {color = "text-danger"; prefix = "fa fa-thumbs-down"; leaning = "against disputer"; }
@@ -227,7 +227,7 @@ export default class OpenDisputeRow extends React.Component {
       <Row className={cn("open-dispute-row", "border-bottom", "border-muted", "mb-2", align.topCenter, align.full, align.noMarginPad)}>
 
         <Col md="12" className={cn(align.allCenter, align.noMarginPad)}>
-          <DisputeInfo {...this.props} toggleExpansion={this.toggle}/>
+          <DisputeInfo {...this.props} expanded={this.state.expanded} toggleExpansion={this.toggle}/>
         </Col>
         <Col md="12" className={cn(align.allCenter, align.noMarginPad)}>
           <DisputeBody {...this.props} expanded={this.state.expanded}/>

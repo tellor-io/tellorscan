@@ -4,6 +4,7 @@ const { Types,Creators} = createActions({
   initSuccess: ['disputes'],
   failure: ['error'],
   addDisputes: ['disputes'],
+  update: ['dispute'],
   selectForDispute: ['challenge', 'nonce']
 },{prefix: "disputes."});
 export {

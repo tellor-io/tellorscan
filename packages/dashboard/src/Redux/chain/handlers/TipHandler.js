@@ -77,9 +77,9 @@ export default class TipHandler extends Handler {
                 }
             }
         }
-        log.info("Getting cached tips...");
+        log.debug("Getting cached tips...");
         let tips = ctx.cache.get(DBNames.TipAdded);
-        log.info("Tips retrieved",tips?tips.length:0);
+        log.debug("Tips retrieved",tips?tips.length:0);
         if(tips && tips.length > 0) {
             ctx.dispatch(Creators.addTips(tips));
         }

@@ -25,6 +25,8 @@ import NewChallengeHandler from './handlers/NewChallengeHandler';
 import NonceSubmitHandler from './handlers/NonceSubmitHandler';
 import NewValueHandler from './handlers/NewValueHandler';
 import DisputeHandler from './handlers/DisputeHandler';
+import VoteHandler from './handlers/VoteHandler';
+
 import {Logger} from 'buidl-utils';
 import * as ethUtils from 'web3-utils';
 import {Types as setTypes} from 'Redux/settings/actions';
@@ -74,6 +76,12 @@ const init = () => async (dispatch,getState) => {
     log.info("Last stored block", start);
 
     let current = chain.block;
+    current -= 4; //stay behind head by a few blocks 
+
+    if(start > current) {
+      start = current;
+    }
+    
     let diff = current - start;
     if(diff > MAX_BLOCKS) {
       start = current - MAX_BLOCKS;
@@ -88,7 +96,8 @@ const init = () => async (dispatch,getState) => {
     let poller = new PollingDataSource({
       web3: chain.web3,
       interval: 5000,
-      lastKnownBlock: start
+      lastKnownBlock: start,
+      lagBlocks: 4 //stay behind head by a few blocks to get consistent data
     });
     let pipeline = new Pipeline({
       web3: chain.web3,
@@ -118,6 +127,7 @@ const init = () => async (dispatch,getState) => {
     pipeline.use(new NewValueHandler());
     pipeline.use(new NewChallengeHandler());
     pipeline.use(new DisputeHandler());
+    pipeline.use(new VoteHandler());
     
     //record the last block we've seen for next time
     pipeline.use(new LastBlockHandler());
@@ -228,6 +238,7 @@ const requestData = props => async (dispatch,getState) => {
  * already exist
  */
 const initDispute = props => async (dispatch, getState) => {
+  
   let ex = await dispatch(lookupDisputeByHash(props));
   if(ex) {
     toastr.error("Error", "Dispute already active for miner,requestId,timestamp combination");

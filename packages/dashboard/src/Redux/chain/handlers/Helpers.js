@@ -1,7 +1,6 @@
 import {Handler} from 'eth-pipeline';
 import {getCurrentChallenge as getChallenge} from 'Chain/utils';
 import * as DBNames from 'Storage/DBNames';
-import Storage from 'Storage';
 import {Logger} from 'buidl-utils';
 import {default as reqOps} from 'Redux/newRequests/operations';
 import {default as chOps} from 'Redux/challenges/operations';

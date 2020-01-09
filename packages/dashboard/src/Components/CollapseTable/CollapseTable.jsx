@@ -16,7 +16,7 @@ class Controls extends React.Component {
     let fontClass = cn("font-weight-bold", "text-sz-md");
     let clickableClass = cn("clickable-icon");
     let upDownColor = "text-tellor-green";
-    let upDownIcon = expanded?"fa fa-caret-up":"fa fa-caret-down";
+    let upDownIcon = expanded?"fa fa-caret-down":"fa fa-caret-right";
     let upDownClass = cn(fontClass, clickableClass, upDownIcon, upDownColor);
 
     return (

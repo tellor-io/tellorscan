@@ -112,6 +112,8 @@ export default class Web3Wrapper {
   async checkInDispute() {
     try {
       let r = await this.contract.isInDispute(this.ethereumAccount);
+      console.log("Result from dispute check", this.ethereumAccount, r);
+
       this.isInDispute = r;
     } catch (e) {
       console.log("Unsure if in dispute due to call error", e);

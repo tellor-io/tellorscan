@@ -151,7 +151,10 @@ const addValueToChallenge = (ch, value) => async (dispatch, getState) => {
 }
 
 const addNoncesAndValues = (challenges) => async (dispatch, getState) => {
-  
+  if(!challenges) {
+    challenges = {};
+  }
+
   challenges = challenges.reduce((o,c)=>{
     o[c.challengeHash] = c;
     return o;
@@ -198,20 +201,21 @@ const addNoncesAndValues = (challenges) => async (dispatch, getState) => {
           database: DBNames.NewValue,
           key: hash
         });
-        if(!value || value.length === 0) {
-          log.warn("Could not resolve new value for challenge", hash);
+        if( (!value || value.length === 0) && ch.nonces && ch.nonces.length === 5) {
+          log.warn("Could not resolve new value for completed challenge", hash);
         }  
       }
-      
-      ch = {
-        ...ch,
-        finalValue: value[0]
+      if(value) {
+        ch = {
+          ...ch,
+          finalValue: value[0]
+        }
       }
     }
     challenges[hash] = ch;
   }
   let out = hashes.map(h=>challenges[h]);
-  log.info("New challenges size", out.length)
+  //log.info("New challenges size", out.length)
   return out;
   //dispatch(Creators.updateChallenges(out));
   

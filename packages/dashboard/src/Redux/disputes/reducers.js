@@ -31,6 +31,24 @@ const initSuccess = (state=INIT, action) => {
   }
 }
 
+const update = (state=INIT, action) => {
+  let d = action.dispute;
+  let byId = {
+    ...state.byId,
+    [d.id]: d
+  };
+
+  let byHash = {
+    ...state.byHash,
+    [d.disputeHash]: d
+  };
+  return {
+    ...state,
+    byId,
+    byHash
+  }
+}
+
 const fail = (state=INIT, action) => {
   return {
     ...state,
@@ -72,6 +90,7 @@ const HANDLERS = {
   [Types.INIT_SUCCESS]: initSuccess,
   [Types.FAILURE]: fail,
   [Types.ADD_DISPUTES]: add,
+  [Types.UPDATE]: update,
   [Types.SELECT_FOR_DISPUTE]: select
 }
 

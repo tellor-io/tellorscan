@@ -49,10 +49,12 @@
     "classnames": "^2.2.6",
     "copy-to-clipboard": "^3.2.0",
     "coreui": "^0.4.2-alpha2",
+
     "cross-env": "^5.2.1",
     "eth-history": "^0.1.6",
     "eth-pipeline": "^0.1.16",
     "express": "^4.17.1",
+
     "express-favicon": "^2.0.1",
     "font-awesome": "^4.7.0",
     "localforage": "^1.7.3",

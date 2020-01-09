@@ -10,6 +10,7 @@ const s2p = (state,own) => {
   let user = chain.ethereumAccount || "";
   user = user.toLowerCase();
   let reqById = state.newRequests.byId;
+  let isInDispute = chain.isInDispute;
 
   let all = [];
   _.values(state.disputes.byId).forEach(d=>{
@@ -20,6 +21,10 @@ const s2p = (state,own) => {
       canVote = false;
       voteReason = "need tokens";
     }
+    if(isInDispute) {
+      canVote = false;
+      voteReason = "you are in dispute";
+    }
     if(d.userVoted) {
       canVote = false;
       voteReason = "already voted"
@@ -28,9 +33,10 @@ const s2p = (state,own) => {
       canVote = false;
       voteReason = "dispute owner";
     }
-
+    
     all.push({
         ...d,
+        voteCount: d.voteCount || 0,
         request: reqById[d.requestId],
         timeRemaining: dispOps.voteTimeRemaining,
         canVote,

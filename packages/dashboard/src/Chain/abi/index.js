@@ -6,6 +6,7 @@ import TellorMaster from './TellorMaster.json';
 import Utilities from './Utilities.json';
 import TellorStake from './TellorStake.json';
 import TellorTransfer from './TellorTransfer.json';
+import TellorDispute from './TellorDispute.json';
 
 export default [
   ...Tellor.abi,
@@ -15,5 +16,6 @@ export default [
   ...TellorMaster.abi,
   ...Utilities.abi,
   ...TellorStake.abi,
-  ...TellorTransfer.abi
+  ...TellorTransfer.abi,
+  ...TellorDispute.abi
 ]

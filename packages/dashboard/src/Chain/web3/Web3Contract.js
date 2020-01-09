@@ -262,6 +262,6 @@ export default class Web3Contract {
 
   async isInDispute(address) {
     let vars = await this._call(this.master, "getStakerInfo", [address]);
-    return (vars[0].toString()-0)!==3;
+    return (vars[0].toString()-0)===3;
   }
 }
