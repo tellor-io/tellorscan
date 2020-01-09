@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Row,
   Col
@@ -11,11 +11,22 @@ import {
 } from 'Views/dashboard/overview/common';
 
 export default class TellorPrice extends React.Component {
-  render() {
-    const {
-      price
-    } = this.props;
+    state ={
+      price : 1
+    }
 
+    componentWillMount(){
+        fetch('https://api.coingecko.com/api/v3/simple/price?ids=tellor&vs_currencies=usd')
+        .then(res => res.json())
+        .then((data) => {
+         console.log("this is the data", data['tellor']['usd']);
+           let d = data['tellor']['usd'].toFixed(2)
+           console.log(d)
+          this.setState({price:d})
+        }).catch("error in api call")
+    }
+
+    render(){
     return (
       <Row className={cn("tellor-price", align.topCenter, align.full, "m-0")}>
 
@@ -35,7 +46,7 @@ export default class TellorPrice extends React.Component {
               &nbsp;
             </Col>
             <Col md="10" className={cn(VALUE_CLASS)}>
-              {price}
+              {this.state.price}
             </Col>
           </Row>
         </Col>

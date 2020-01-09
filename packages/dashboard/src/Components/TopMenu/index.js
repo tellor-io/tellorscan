@@ -4,11 +4,12 @@ import {withRouter} from 'react-router-dom';
 import * as navs from 'Navs';
 import {default as tokenOps} from 'Redux/token/operations';
 import {default as setOps} from 'Redux/settings/operations';
+import {humanizeTellor, toFixed} from 'Utils/token';
 
 const s2p = state => {
   return {
     loading: state.requests.loading || state.init.loading,
-    balance: state.token.balance,
+    balance: humanizeTellor(toFixed(state.token.balance)),
     tokenLoading: state.token.loading,
     realtimeRunning: state.settings.realtimeRunning
   }

@@ -18,6 +18,7 @@ import Search from 'Components/Search';
 import Loading from 'Components/Loading';
 import miner from 'Assets/images/miner.png';
 
+
 /*
 <Col md="3" className={cn(align.allCenter, align.noMarginPad)}>
     {
