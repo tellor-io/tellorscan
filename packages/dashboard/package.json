@@ -49,12 +49,10 @@
     "classnames": "^2.2.6",
     "copy-to-clipboard": "^3.2.0",
     "coreui": "^0.4.2-alpha2",
-
     "cross-env": "^5.2.1",
     "eth-history": "^0.1.6",
     "eth-pipeline": "^0.1.16",
     "express": "^4.17.1",
-
     "express-favicon": "^2.0.1",
     "font-awesome": "^4.7.0",
     "localforage": "^1.7.3",
@@ -72,6 +70,7 @@
     "react-scripts": "^2.1.5",
     "react-select": "^2.4.4",
     "react-table": "^6.11.5",
+    "react-toggle": "^4.1.1",
     "reactstrap": "^7.1.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
