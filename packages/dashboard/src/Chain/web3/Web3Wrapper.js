@@ -45,18 +45,23 @@ export default class Web3Wrapper {
 
       //set up web3
       let ethProvider = window.ethereum;
+
       if(!ethProvider && window.web3){
         ethProvider =  window.web.currentProvider;
+
       }
       if(ethProvider) {
 
         HttpProviderPath.patch(ethProvider);
         this.web3 = new Web3(ethProvider);
        
-        let acts = await ethProvider.enable();
+        let acts = await ethProvider.send({method: 'eth_requestAccounts', params: []});
         if(!acts) {
           //user denied access to app
           acts = [];
+        }
+        else if(!ethProvider){
+          console.log('Please install MetaMask.')
         }
 
         //If the user changes account in metamask
@@ -78,6 +83,10 @@ export default class Web3Wrapper {
         });
 
         this.network = await this.web3.eth.net.getNetworkType();
+          if(this.network != 'main' && this.network != 'rinkeby'){
+            console.log("must be on Mainnet or Rinkeby");
+            window.alert("Must be on Mainnet or Rinkeby")
+          }
 
         //establish the latest block number
         this.block = await this.web3.eth.getBlockNumber();
