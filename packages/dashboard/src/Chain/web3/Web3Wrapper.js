@@ -55,10 +55,19 @@ export default class Web3Wrapper {
         HttpProviderPath.patch(ethProvider);
         this.web3 = new Web3(ethProvider);
        
-        let acts = await ethProvider.send({method: 'eth_requestAccounts', params: []});
+        let acts = await ethProvider.enable();
+        console.log('acts',acts[0])
+        if(acts.length > 0){
+          this.ethereumAccount = acts[0];
+          if(this.contract) {
+            this.contract.caller = acts[0];
+          }
+        }
         if(!acts) {
           //user denied access to app
           acts = [];
+
+          console.log('initialized')
         }
         else if(!ethProvider){
           console.log('Please install MetaMask.')
