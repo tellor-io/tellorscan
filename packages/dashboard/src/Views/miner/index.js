@@ -19,7 +19,7 @@ const s2p = state => {
 const d2p = dispatch => {
   return {
     download: () => {
-      window.open("https://github.com/tellor-io/TellorMiner", "_blank");
+      window.open("https://tellor.readthedocs.io/en/latest/MinerSetup/", "_blank");
     },
     discord: () => {
       window.open("https://discord.gg/n7drGjh", "_blank");
