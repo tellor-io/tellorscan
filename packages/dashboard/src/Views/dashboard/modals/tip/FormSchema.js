@@ -5,6 +5,7 @@ export const schema = {
     tip: {
       type: 'number',
       title: 'Tip',
+      minimum: 0
 
     }
   }

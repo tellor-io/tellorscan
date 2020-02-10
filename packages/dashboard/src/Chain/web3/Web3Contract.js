@@ -136,8 +136,9 @@ export default class Web3Contract {
     let tx = con.methods[method](...args);
 
       return new Promise((done,err)=>{
+        console.log("calling this: ",this.address, this.caller)
         this.chain.web3.eth.sendTransaction({
-            to: con.address,
+            to: this.address,
             from: this.caller,
             data: tx.encodeABI(),
             //chainId: 999
@@ -194,6 +195,7 @@ export default class Web3Contract {
   }
 
   addTip(requestId, tip) {
+    console.log("in the contract file")
     return this._send(this.master, "addTip", [requestId, tip]);
   }
 

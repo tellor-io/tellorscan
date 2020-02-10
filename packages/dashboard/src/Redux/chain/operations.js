@@ -298,6 +298,7 @@ const addToTip = (id,tip) => (dispatch, getState) => {
   let req = state.newRequests.byId[id];
   if(req) {
     let con = state.chain.contract;
+    console.log("contract",con)
     return con.addTip(req.id, tip);
   }
   
