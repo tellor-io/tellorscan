@@ -1,23 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import EventsFetch from 'components/mining-events/EventsFetch';
 
-const StyledHeader = styled.label`
-  font-size: 36px;
-  color: white;
-`;
+import { GET_LATEST_EVENTS, GET_LATEST_DISPUTES } from 'utils/queries';
+import CurrentMiningEvent from 'components/mining-events/CurrentMiningEvent';
+import RecentMingingEvents from 'components/mining-events/RecentMiningEvents';
+import GraphFetch from 'components/shared/GraphFetch';
+import RecentDisputes from 'components/disputes/RecentDisputes';
 
 const StyledContainer = styled.div`
   display: flex;
-  align-items: center;
+  align-items: left;
   flex-direction: column;
+  padding: 50px;
 `;
 
 const Home = () => {
+  const [events, setEvents] = useState();
+  const [disputes, setDisputes] = useState();
+
   return (
     <StyledContainer>
-      <StyledHeader>HOME</StyledHeader>
-      <EventsFetch />
+      <GraphFetch query={GET_LATEST_EVENTS} setRecords={setEvents} />
+      <GraphFetch
+        query={GET_LATEST_DISPUTES}
+        setRecords={setDisputes}
+        suppressLoading={true}
+      />
+      {events ? (
+        <>
+          <CurrentMiningEvent event={events[0]} />
+          <RecentMingingEvents events={events} />
+        </>
+      ) : null}
+      {disputes ? <RecentDisputes disputes={disputes} /> : null}
     </StyledContainer>
   );
 };

@@ -24,7 +24,7 @@ const HeaderNav = () => {
     <Header>
       <StyledHeaderTellor>tellor</StyledHeaderTellor>
       <StyledHeaderData>disputes</StyledHeaderData>
-      <Link to="/">Home</Link>
+      <Link to="/">Mining</Link>
       <Link to="/disputes">Disputes</Link>
 
       {!currentUser ? (

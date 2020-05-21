@@ -16,3 +16,23 @@ export const GET_LATEST_EVENTS = gql`
     }
   }
 `;
+
+export const GET_LATEST_DISPUTES = gql`
+  query {
+    disputes(first: 3, orderBy: timestamp, orderDirection: desc) {
+      id
+      timestamp
+      reportedMiner
+      miner
+      result
+      reportingParty
+      active
+      votes {
+        id
+        position
+        voter
+        timestamp
+      }
+    }
+  }
+`;

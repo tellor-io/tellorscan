@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from 'react-apollo';
 
-import { GET_LATEST_EVENTS } from 'utils/queries';
-
-const EventsFetch = () => {
-  // const { loading, error, data, fetchMore } = useQuery(GET_LATEST_EVENTS, {
-  const { loading, error, data, fetchMore } = useQuery(GET_LATEST_EVENTS, {
+const GraphFetch = ({ query, setRecords, suppressLoading }) => {
+  // const { loading, error, data, fetchMore } = useQuery(query, {
+  const { loading, error, data } = useQuery(query, {
     fetchPolicy: 'network-only',
   });
 
-  if (loading) return <p className="View">Loading</p>;
-  if (error) return <p className="View">Sorry there's been an error</p>;
+  useEffect(() => {
+    console.log('data', data);
+    if (data) {
+      setRecords(data);
+    }
+  }, [data]);
 
-  console.log('data', data);
+  if (loading)
+    return <>{!suppressLoading ? <p className="View">Loading</p> : null}</>;
+  if (error) return <p className="View">Sorry there's been an error</p>;
 
   // fetchMore({
   //   variables: { skip: data.moloches.length },
@@ -27,11 +31,7 @@ const EventsFetch = () => {
   //   },
   // });
 
-  return (
-    <>
-      <div>yolo</div>
-    </>
-  );
+  return <></>;
 };
 
-export default EventsFetch;
+export default GraphFetch;

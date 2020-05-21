@@ -10,7 +10,7 @@ import Store from './contexts/Store';
 import './style/index.scss';
 
 const client = new ApolloClient({
-  uri: 'https://api.thegraph.com/subgraphs/name/skuhlmann/tellor-playground',
+  uri: process.env.REACT_APP_GRAPH_URL,
 });
 
 ReactDOM.render(
