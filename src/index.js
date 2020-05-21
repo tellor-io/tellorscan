@@ -4,15 +4,13 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import * as serviceWorker from './serviceWorker';
 
-// import Routes from 'containers/App'
-
 import App from './App';
 import Store from './contexts/Store';
 
 import './style/index.scss';
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_GRAPH_URL,
+  uri: 'https://api.thegraph.com/subgraphs/name/skuhlmann/tellor-playground',
 });
 
 ReactDOM.render(
