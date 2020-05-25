@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const RecentMingingEvents = ({ events }) => {
+import MiningEventsTable from './MiningEventsTable';
+
+const RecentMiningEvents = ({ events }) => {
   return (
     <div>
       <h2>Recent Mining Events</h2>
+      <Link to="/mining">View All</Link>
+      <MiningEventsTable pagination={false} events={events} />
     </div>
   );
 };
 
-export default RecentMingingEvents;
+export default RecentMiningEvents;

@@ -7,15 +7,6 @@ import styled from 'styled-components';
 import Routes from './Routes';
 import HeaderNav from 'components/shared/HeaderNav';
 
-const StyledHeaderTellor = styled.span`
-  color: white;
-  font-size: 36px;
-`;
-const StyledHeaderData = styled.span`
-  color: #53f1b6;
-  font-size: 36px;
-`;
-
 const StyledLayout = styled(Layout)`
   height: 100%;
 `;

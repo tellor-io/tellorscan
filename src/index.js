@@ -6,11 +6,15 @@ import * as serviceWorker from './serviceWorker';
 
 import App from './App';
 import Store from './contexts/Store';
+import { resolvers } from './utils/resolvers';
 
 import './style/index.scss';
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPH_URL,
+  clientState: {
+    resolvers,
+  },
 });
 
 ReactDOM.render(

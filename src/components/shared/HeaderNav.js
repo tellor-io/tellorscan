@@ -22,10 +22,12 @@ const HeaderNav = () => {
 
   return (
     <Header>
-      <StyledHeaderTellor>tellor</StyledHeaderTellor>
-      <StyledHeaderData>disputes</StyledHeaderData>
-      <Link to="/">Mining</Link>
+      <Link to="/">
+        <StyledHeaderTellor>tellor</StyledHeaderTellor>
+        <StyledHeaderData>dispute center</StyledHeaderData>
+      </Link>
       <Link to="/disputes">Disputes</Link>
+      <Link to="/mining">Mining</Link>
 
       {!currentUser ? (
         <Web3SignIn setCurrentUser={setCurrentUser} />

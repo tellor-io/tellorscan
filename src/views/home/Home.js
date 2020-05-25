@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { GET_LATEST_EVENTS, GET_LATEST_DISPUTES } from 'utils/queries';
 import CurrentMiningEvent from 'components/mining-events/CurrentMiningEvent';
-import RecentMingingEvents from 'components/mining-events/RecentMiningEvents';
+import RecentMiningEvents from 'components/mining-events/RecentMiningEvents';
 import GraphFetch from 'components/shared/GraphFetch';
 import RecentDisputes from 'components/disputes/RecentDisputes';
 
@@ -28,11 +28,11 @@ const Home = () => {
       />
       {events ? (
         <>
-          <CurrentMiningEvent event={events[0]} />
-          <RecentMingingEvents events={events} />
+          <CurrentMiningEvent event={events.miningEvents[0]} />
+          <RecentMiningEvents events={events.miningEvents.slice(1)} />
         </>
       ) : null}
-      {disputes ? <RecentDisputes disputes={disputes} /> : null}
+      {disputes ? <RecentDisputes disputes={disputes.disputes} /> : null}
     </StyledContainer>
   );
 };
