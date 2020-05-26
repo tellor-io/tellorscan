@@ -6,8 +6,10 @@ import DisputesTable from './DisputesTable';
 const RecentDisputes = ({ disputes }) => {
   return (
     <div>
-      <h2>Recent Disputes</h2>
-      <Link to="/disputes">View All</Link>
+      <div className="TableHeader">
+        <h2>Recent Disputes</h2>
+        <Link to="/disputes">View All</Link>
+      </div>
       <DisputesTable pagination={false} disputes={disputes} />
     </div>
   );

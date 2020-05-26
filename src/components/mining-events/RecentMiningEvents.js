@@ -6,8 +6,10 @@ import MiningEventsTable from './MiningEventsTable';
 const RecentMiningEvents = ({ events }) => {
   return (
     <div>
-      <h2>Recent Mining Events</h2>
-      <Link to="/mining">View All</Link>
+      <div className="TableHeader">
+        <h2>Recent Mining Events</h2>
+        <Link to="/mining">View All</Link>
+      </div>
       <MiningEventsTable pagination={false} events={events} />
     </div>
   );

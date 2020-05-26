@@ -8,10 +8,13 @@ import GraphFetch from 'components/shared/GraphFetch';
 import RecentDisputes from 'components/disputes/RecentDisputes';
 
 const StyledContainer = styled.div`
-  display: flex;
-  align-items: left;
-  flex-direction: column;
-  padding: 50px;
+  // display: flex;
+  // align-items: center;
+  // flex-direction: column;
+  width: calc(100%);
+  max-width: 1200px;
+  position: relative;
+  margin: 0 auto;
 `;
 
 const Home = () => {
