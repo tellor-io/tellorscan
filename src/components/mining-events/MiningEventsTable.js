@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
+import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import MinerValues from './MinerValues';
 
 const columns = [
@@ -25,7 +26,15 @@ const MiningEventsTable = ({ events, pagination }) => {
       )}
       expandIconColumnIndex={5}
       expandIcon={({ expanded, onExpand, record }) =>
-        expanded ? <span>-</span> : <span>+</span>
+        expanded ? (
+          <span>
+            <MinusOutlined />
+          </span>
+        ) : (
+          <span>
+            <PlusOutlined />
+          </span>
+        )
       }
       expandRowByClick={true}
       pagination={pagination}

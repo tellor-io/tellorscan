@@ -1,5 +1,203 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap');
+@import 'variables';
 
 body {
-  background: #252525 !important;
+  background: $background;
+  color: $green-1;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 100;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 1em;
+}
+
+// Specific Elements
+
+.TableHeader {
+  h2 {
+    margin: 0px;
+    padding-left: 16px;
+  }
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  a {
+    margin-left: 15px;
+    margin-top: 4px;
+  }
+}
+
+// Ant overrides
+
+// Header
+
+.ant-layout-header {
+  background: #000;
+  height: auto;
+  margin-bottom: 50px;
+}
+
+// Buttons
+
+button {
+  border-radius: 50px;
+}
+
+.ant-btn {
+  border-radius: 50px;
+  color: $tellor-green;
+  // background: transparent;
+  &:hover {
+    // background: transparent;
+  }
+  &-primary {
+    // background: $tellor-green;
+    color: #444444;
+    &:hover,
+    &:focus {
+      // background: $tellor-green;
+      color: #444444;
+    }
+  }
+  &-default {
+    background: transparent;
+    &:hover,
+    &:focus {
+      background: transparent;
+    }
+  }
+}
+
+// Tables
+
+.ant-table {
+  color: $green-1;
+  background: transparent;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.ant-table-thead > tr > th {
+  color: $hot-green;
+  background: transparent;
+}
+
+tr.ant-table-expanded-row,
+tr.ant-table-expanded-row:hover {
+  background: transparent;
+}
+
+.ant-table-thead > tr > th {
+  border-bottom: 1px solid #000;
+}
+
+.ant-table-tbody > tr > td {
+  border-bottom: 1px solid #000;
+}
+
+.ant-table-thead
+  > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
+  > td,
+.ant-table-tbody
+  > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
+  > td,
+.ant-table-thead
+  > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
+  > td,
+.ant-table-tbody
+  > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
+  > td {
+  background: rgba(153, 255, 209, 0.1);
+  color: $green-1;
+}
+
+.ant-table-row-expand-icon-cell {
+  cursor: pointer;
+  span {
+    pointer-events: none;
+    color: $hot-green;
+  }
+}
+
+tr.ant-table-expanded-row > td,
+tr.ant-table-expanded-row:hover > td {
+  background: rgba(153, 255, 209, 0.1);
+}
+
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td,
+.ant-table tfoot > tr > th,
+.ant-table tfoot > tr > td {
+  padding: 16px 0px;
+}
+
+// Expanded Table Row
+
+.ant-table-tbody > tr .ant-table-wrapper:only-child .ant-table {
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td,
+.ant-table tfoot > tr > th,
+.ant-table tfoot > tr > td {
+  padding: 16px 16px;
+}
+
+.ant-table-expanded-row
+  .ant-table-tbody
+  .ant-table-row
+  .ant-table-cell:last-child {
+  text-align: right;
+}
+
+// Modal
+
+.ant-modal-mask {
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.ant-modal-content {
+  background-color: #444444;
+  p {
+    font-size: 21px;
+  }
+}
+
+.ant-modal-header {
+  background-color: #444444;
+  border-bottom: 1px solid #000;
+  .ant-modal-title {
+    font-size: 24px;
+  }
+}
+
+.ant-modal-close {
+  color: $tellor-green;
+}
+
+// Responsive Adjustments
+
+@media all and (max-width: 800px) {
+  .ant-table-expanded-row
+    .ant-table-tbody
+    .ant-table-row
+    .ant-table-cell:first-child {
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }

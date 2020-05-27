@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'antd';
+import { LoadingOutlined, CheckCircleOutlined } from '@ant-design/icons';
 
 const VoteButton = ({ value }) => {
   const [visible, setVisible] = useState(false);
@@ -35,7 +36,7 @@ const VoteButton = ({ value }) => {
 
   return (
     <>
-      <Button type="primary" onClick={() => setVisible(true)}>
+      <Button type="default" onClick={() => setVisible(true)}>
         Vote
       </Button>
       <Modal
@@ -48,15 +49,16 @@ const VoteButton = ({ value }) => {
         {!processing && !processed ? (
           <>
             <p>Stake some TRB to dispute a value</p>
-            <p>Symbol</p>
+            <h6>Symbol</h6>
             <p>temp</p>
-            <p>Value</p>
+            <h6>Value</h6>
             <p>{value.value}</p>
-            <p>Your Voting Power</p>
+            <h6>Your Voting Power</h6>
             <p>temp</p>
             <Button
               key="support"
               type="primary"
+              size="large"
               // loading={loading}
               onClick={handleSubmit}
             >
@@ -65,7 +67,8 @@ const VoteButton = ({ value }) => {
             ,
             <Button
               key="challenge"
-              type="secondary"
+              type="danger"
+              size="large"
               // loading={loading}
               onClick={handleSubmit}
             >
@@ -76,14 +79,14 @@ const VoteButton = ({ value }) => {
 
         {processing ? (
           <>
-            <p>loading</p>
+            <LoadingOutlined />
             <p>View on Etherscan</p>
           </>
         ) : null}
 
         {processed ? (
           <>
-            <p>big checkmark</p>
+            <CheckCircleOutlined />
             <p>View on Etherscan</p>
           </>
         ) : null}

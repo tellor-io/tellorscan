@@ -19,6 +19,11 @@
   resolved "https://registry.yarnpkg.com/@ant-design/css-animation/-/css-animation-1.7.2.tgz#4ee5d2ec0fb7cc0a78b44e1c82628bd4621ac7e3"
   integrity sha512-bvVOe7A+r7lws58B7r+fgnQDK90cV45AXuvGx6i5CCSX1W/M3AJnHsNggDANBxEtWdNdFWcDd5LorB+RdSIlBw==
 
+"@ant-design/dark-theme@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@ant-design/dark-theme/-/dark-theme-2.0.2.tgz#90de9b78b68fdbb577be629a45d39eca3f06d6e9"
+  integrity sha512-wDzyDA8hky26PKMZ2pcqGq1rfprObGRbZcdh8C+aYH9JA7dzeQvKJ5CctOdjQKl/YyyR7HW5nFUcZfNOayfORw==
+
 "@ant-design/icons-svg@^4.0.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@ant-design/icons-svg/-/icons-svg-4.1.0.tgz#480b025f4b20ef7fe8f47d4a4846e4fee84ea06c"
