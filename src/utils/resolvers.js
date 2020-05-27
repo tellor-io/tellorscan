@@ -3,6 +3,11 @@ import psrLookup from './psrLookup';
 
 export const resolvers = (() => {
   return {
+    Request: {
+      requestSymbol: async (request, _args) => {
+        return psrLookup[request.requestId - 1];
+      },
+    },
     MiningEvent: {
       requestSymbol: async (miningEvent, _args) => {
         return psrLookup[miningEvent.requestId - 1];

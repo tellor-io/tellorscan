@@ -2,12 +2,22 @@ import React, { useEffect } from 'react';
 import { useQuery } from 'react-apollo';
 import Loader from './Loader';
 
-const GraphFetch = ({ query, setRecords, suppressLoading }) => {
+const GraphFetch = ({
+  query,
+  setRecords,
+  variables,
+  suppressLoading,
+  entity,
+}) => {
   // const { loading, error, data, fetchMore } = useQuery(query, {
   const { loading, error, data } = useQuery(query, {
+    variables,
     fetchPolicy: 'network-only',
-    // pollInterval: 500,
+    // pollInterval: 1000,
   });
+
+  // TODO: Need better poll managment to trigger the useEffect
+  console.log('data', data);
 
   useEffect(() => {
     console.log('data', data);

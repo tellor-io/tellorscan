@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import {
-  GET_LATEST_EVENTS,
-  GET_LATEST_DISPUTES,
-  GET_CURRENT_EVENT,
-} from 'utils/queries';
+import { GET_LATEST_EVENTS, GET_LATEST_DISPUTES } from 'utils/queries';
 import CurrentMiningEvent from 'components/mining-events/CurrentMiningEvent';
 import RecentMiningEvents from 'components/mining-events/RecentMiningEvents';
 import GraphFetch from 'components/shared/GraphFetch';
 import RecentDisputes from 'components/disputes/RecentDisputes';
+import CurrentEventFetch from 'components/mining-events/CurrentEventFetch';
 
 const StyledContainer = styled.div`
   // display: flex;
@@ -22,13 +19,15 @@ const StyledContainer = styled.div`
 `;
 
 const Home = () => {
-  const [currentEvents, setCurrentEvents] = useState();
+  const [currentEvent, setCurrentEvent] = useState();
   const [events, setEvents] = useState();
   const [disputes, setDisputes] = useState();
 
   return (
     <StyledContainer>
-      <GraphFetch query={GET_CURRENT_EVENT} setRecords={setCurrentEvents} />
+      {/* <GraphFetch query={GET_CURRENT_EVENT} setRecords={setCurrentEvents} />
+       */}
+      <CurrentEventFetch setCurrentEvent={setCurrentEvent} />
       <GraphFetch query={GET_LATEST_EVENTS} setRecords={setEvents} />
       <GraphFetch
         query={GET_LATEST_DISPUTES}
@@ -36,9 +35,7 @@ const Home = () => {
         suppressLoading={true}
       />
 
-      {currentEvents ? (
-        <CurrentMiningEvent values={currentEvents.minerValues} />
-      ) : null}
+      {currentEvent ? <CurrentMiningEvent currentEvent={currentEvent} /> : null}
 
       {events ? (
         <RecentMiningEvents events={events.miningEvents.slice(1)} />
