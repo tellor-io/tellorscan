@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Modal, Button } from 'antd';
 
-const VoteButton = ({ value }) => {
+const DisputeForm = ({ value }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
@@ -25,18 +25,18 @@ const VoteButton = ({ value }) => {
 
   const renderTitle = () => {
     if (processing) {
-      return 'Sending Vote';
+      return 'Sending Dispute';
     } else if (processed) {
-      return 'Sent Vote';
+      return 'Sent Dispute';
     } else {
-      return 'Vote';
+      return 'Dispute';
     }
   };
 
   return (
     <>
       <Button type="primary" onClick={() => setVisible(true)}>
-        Vote
+        Dispute
       </Button>
       <Modal
         visible={visible}
@@ -50,26 +50,15 @@ const VoteButton = ({ value }) => {
             <p>Stake some TRB to dispute a value</p>
             <p>Symbol</p>
             <p>temp</p>
+
             <p>Value</p>
             <p>{value.value}</p>
-            <p>Your Voting Power</p>
+
+            <p>Stake required to Dispute this value *</p>
             <p>temp</p>
-            <Button
-              key="support"
-              type="primary"
-              // loading={loading}
-              onClick={handleSubmit}
-            >
-              Support
-            </Button>
-            ,
-            <Button
-              key="challenge"
-              type="secondary"
-              // loading={loading}
-              onClick={handleSubmit}
-            >
-              Challenge
+
+            <Button key="submit" type="primary" onClick={handleSubmit}>
+              Submit Dispute
             </Button>
           </>
         ) : null}
@@ -92,4 +81,4 @@ const VoteButton = ({ value }) => {
   );
 };
 
-export default VoteButton;
+export default DisputeForm;
