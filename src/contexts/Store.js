@@ -3,12 +3,15 @@ import Web3Modal from 'web3modal';
 
 import { w3connect, providerOptions, createWeb3User } from '../utils/auth';
 import { getChainData } from '../utils/chains';
+import TellorService from 'utils/tellorService';
 
+export const ContractContext = createContext();
+export const CurrentUserContext = createContext();
 export const LoaderContext = createContext(false);
 export const Web3ModalContext = createContext();
-export const CurrentUserContext = createContext();
 
 const Store = ({ children }) => {
+  const [contract, setContract] = useState();
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(false);
   const [web3Modal, setWeb3Modal] = useState(
@@ -24,11 +27,9 @@ const Store = ({ children }) => {
       let user;
       try {
         const w3c = await w3connect(web3Modal);
-
-        const [account] = await w3c.web3.eth.getAccounts();
         setWeb3Modal(w3c);
 
-        console.log(account);
+        const [account] = await w3c.web3.eth.getAccounts();
         user = createWeb3User(account);
         setCurrentUser(user);
       } catch (e) {
@@ -41,11 +42,29 @@ const Store = ({ children }) => {
     }
   }, [web3Modal, currentUser]);
 
+  useEffect(() => {
+    const initContract = async () => {
+      try {
+        const tellorService = new TellorService(web3Modal.web3);
+        await tellorService.initContract();
+        setContract(tellorService);
+      } catch (e) {
+        console.error(`Could not init contract`);
+      }
+    };
+    if (web3Modal.web3) {
+      initContract();
+    }
+    // eslint-disable-next-line
+  }, [web3Modal.web3]);
+
   return (
     <LoaderContext.Provider value={[loading, setLoading]}>
       <Web3ModalContext.Provider value={[web3Modal, setWeb3Modal]}>
         <CurrentUserContext.Provider value={[currentUser, setCurrentUser]}>
-          {children}
+          <ContractContext.Provider value={[contract, setContract]}>
+            {children}
+          </ContractContext.Provider>
         </CurrentUserContext.Provider>
       </Web3ModalContext.Provider>
     </LoaderContext.Provider>

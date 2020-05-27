@@ -1,5 +1,15 @@
 import { gql } from 'apollo-boost';
 
+export const GET_CURRENT_EVENT = gql`
+  query {
+    minerValues(first: 6, orderBy: timestamp, orderDirection: desc) {
+      id
+      miningEventId
+      currentChallenge
+    }
+  }
+`;
+
 const eventFields = `
   id
   timestamp

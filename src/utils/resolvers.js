@@ -1,3 +1,5 @@
+import { getEventStatus } from './helpers';
+
 export const resolvers = (() => {
   return {
     MiningEvent: {
@@ -5,7 +7,7 @@ export const resolvers = (() => {
         return miningEvent.request.querySymbol;
       },
       status: async (miningEvent, _args) => {
-        return 'temp';
+        return getEventStatus(miningEvent);
       },
     },
     MinerValue: {
