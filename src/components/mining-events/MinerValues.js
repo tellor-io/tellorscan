@@ -1,13 +1,13 @@
 import React from 'react';
 import { Table } from 'antd';
-import DisputeButton from 'components/disputes/DisputeButton';
+import DisputeForm from 'components/disputes/DisputeForm';
 
 const columns = [
   { title: 'Miner', dataIndex: 'miner', key: 'miner' },
   { title: 'Value', dataIndex: 'value', key: 'value' },
   { title: 'Status', dataIndex: 'status', key: 'status' },
   {
-    render: (record) => <DisputeButton value={record} />,
+    render: (record) => <DisputeForm value={record} />,
   },
 ];
 
