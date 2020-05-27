@@ -17,9 +17,16 @@ const CurrentMiningEvent = ({ values }) => {
 
         console.log('currentDetails', currentDetails);
 
-        // const groupedValues = _.groupBy(values, 'currentChallenge');
+        const groupedValues = _.groupBy(values, 'currentChallenge');
 
-        // console.log('groupedValues', groupedValues);
+        console.log('groupedValues', groupedValues[currentDetails[0]]);
+
+        //set up and object with request symbol, no value, tip and the values
+        // if no values for current we need to get from graph i think
+
+        // const latest = {
+
+        // }
       } catch (e) {
         console.error('error', e);
       }

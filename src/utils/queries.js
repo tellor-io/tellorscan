@@ -55,6 +55,7 @@ const disputeFields = `
   result
   reportingParty
   active
+  requestId
   relatedMiningEventData
   value @client
   requestSymbol @client

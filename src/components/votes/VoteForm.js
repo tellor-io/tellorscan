@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal } from 'antd';
 import { LoadingOutlined, CheckCircleOutlined } from '@ant-design/icons';
 
-const VoteButton = ({ value }) => {
+const VoteForm = ({ value }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
@@ -20,9 +20,9 @@ const VoteButton = ({ value }) => {
     setVisible(false);
   };
 
-  const showModal = () => {
-    setVisible(true);
-  };
+  // const showModal = () => {
+  //   setVisible(true);
+  // };
 
   const renderTitle = () => {
     if (processing) {
@@ -95,4 +95,4 @@ const VoteButton = ({ value }) => {
   );
 };
 
-export default VoteButton;
+export default VoteForm;

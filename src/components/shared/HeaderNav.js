@@ -58,7 +58,7 @@ const HeaderNav = () => {
       <StyledHeader>
         <StyledBrandLink>
           <Link to="/">
-            <img src={tellorLogoDark} />
+            <img alt="tellor-logo" src={tellorLogoDark} />
             <span>dispute center</span>
           </Link>
         </StyledBrandLink>
