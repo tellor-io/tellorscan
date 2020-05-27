@@ -14,11 +14,20 @@ h4 {
   font-weight: 100;
 }
 
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 1em;
+}
+
 // Specific Elements
 
 .TableHeader {
   h2 {
     margin: 0px;
+    padding-left: 16px;
   }
   margin-top: 50px;
   display: flex;
@@ -49,9 +58,25 @@ button {
 .ant-btn {
   border-radius: 50px;
   color: $tellor-green;
-  background: transparent;
+  // background: transparent;
   &:hover {
+    // background: transparent;
+  }
+  &-primary {
+    // background: $tellor-green;
+    color: #444444;
+    &:hover,
+    &:focus {
+      // background: $tellor-green;
+      color: #444444;
+    }
+  }
+  &-default {
     background: transparent;
+    &:hover,
+    &:focus {
+      background: transparent;
+    }
   }
 }
 
@@ -97,6 +122,14 @@ tr.ant-table-expanded-row:hover {
   color: $green-1;
 }
 
+.ant-table-row-expand-icon-cell {
+  cursor: pointer;
+  span {
+    pointer-events: none;
+    color: $hot-green;
+  }
+}
+
 tr.ant-table-expanded-row > td,
 tr.ant-table-expanded-row:hover > td {
   background: rgba(153, 255, 209, 0.1);
@@ -109,7 +142,7 @@ tr.ant-table-expanded-row:hover > td {
   padding: 16px 0px;
 }
 
-// Expanded Margin
+// Expanded Table Row
 
 .ant-table-tbody > tr .ant-table-wrapper:only-child .ant-table {
   margin-left: -16px;
@@ -121,4 +154,50 @@ tr.ant-table-expanded-row:hover > td {
 .ant-table tfoot > tr > th,
 .ant-table tfoot > tr > td {
   padding: 16px 16px;
+}
+
+.ant-table-expanded-row
+  .ant-table-tbody
+  .ant-table-row
+  .ant-table-cell:last-child {
+  text-align: right;
+}
+
+// Modal
+
+.ant-modal-mask {
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.ant-modal-content {
+  background-color: #444444;
+  p {
+    font-size: 21px;
+  }
+}
+
+.ant-modal-header {
+  background-color: #444444;
+  border-bottom: 1px solid #000;
+  .ant-modal-title {
+    font-size: 24px;
+  }
+}
+
+.ant-modal-close {
+  color: $tellor-green;
+}
+
+// Responsive Adjustments
+
+@media all and (max-width: 800px) {
+  .ant-table-expanded-row
+    .ant-table-tbody
+    .ant-table-row
+    .ant-table-cell:first-child {
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }

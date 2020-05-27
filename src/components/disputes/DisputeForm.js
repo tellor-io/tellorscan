@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'antd';
+import { LoadingOutlined, CheckCircleOutlined } from '@ant-design/icons';
 
 const DisputeForm = ({ value }) => {
   const [visible, setVisible] = useState(false);
@@ -35,7 +36,7 @@ const DisputeForm = ({ value }) => {
 
   return (
     <>
-      <Button type="primary" onClick={() => setVisible(true)}>
+      <Button type="default" onClick={() => setVisible(true)}>
         Dispute
       </Button>
       <Modal
@@ -48,16 +49,21 @@ const DisputeForm = ({ value }) => {
         {!processing && !processed ? (
           <>
             <p>Stake some TRB to dispute a value</p>
-            <p>Symbol</p>
+            <h6>Symbol</h6>
             <p>temp</p>
 
-            <p>Value</p>
+            <h6>Value</h6>
             <p>{value.value}</p>
 
-            <p>Stake required to Dispute this value *</p>
+            <h6>Stake required to Dispute this value *</h6>
             <p>temp</p>
 
-            <Button key="submit" type="primary" onClick={handleSubmit}>
+            <Button
+              key="submit"
+              type="primary"
+              size="large"
+              onClick={handleSubmit}
+            >
               Submit Dispute
             </Button>
           </>
@@ -65,14 +71,14 @@ const DisputeForm = ({ value }) => {
 
         {processing ? (
           <>
-            <p>loading</p>
+            <LoadingOutlined />
             <p>View on Etherscan</p>
           </>
         ) : null}
 
         {processed ? (
           <>
-            <p>big checkmark</p>
+            <CheckCircleOutlined />
             <p>View on Etherscan</p>
           </>
         ) : null}

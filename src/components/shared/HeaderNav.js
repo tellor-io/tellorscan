@@ -40,6 +40,12 @@ const StyledHeaderNav = styled.div`
   > * {
     margin-left: 25px;
     font-size: 1.5em;
+    &:last-child {
+      border: 2px solid #5cfcb6;
+      color: #5cfcb6;
+      border-radius: 50px;
+      padding: 10px 15px;
+    }
   }
 `;
 

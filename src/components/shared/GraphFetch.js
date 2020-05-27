@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useQuery } from 'react-apollo';
+import Loader from './Loader';
 
 const GraphFetch = ({ query, setRecords, suppressLoading }) => {
   // const { loading, error, data, fetchMore } = useQuery(query, {
@@ -15,8 +16,7 @@ const GraphFetch = ({ query, setRecords, suppressLoading }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  if (loading)
-    return <>{!suppressLoading ? <p className="View">Loading</p> : null}</>;
+  if (loading) return <>{!suppressLoading ? <Loader /> : null}</>;
   if (error) return <p className="View">Sorry there's been an error</p>;
 
   // fetchMore({
