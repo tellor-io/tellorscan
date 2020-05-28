@@ -64,12 +64,14 @@ const DisputeForm = ({ value, miningEvent }) => {
 
             <h6>Stake required to Dispute this value *</h6>
 
-            <p>
+            <p className="BalanceStatus">
               {canDispute ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
               {contract.service.fromWei(contract.disputeFee)} TRB
             </p>
 
-            {!canDispute && <p>You need TRB to submit a dispute</p>}
+            {!canDispute && (
+              <p className="ErrorMsg">You need TRB to submit a dispute</p>
+            )}
 
             <Button
               key="submit"

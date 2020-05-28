@@ -62,12 +62,12 @@ const VoteForm = ({ dispute }) => {
             {currentUser ? (
               <>
                 <h6>Your Voting Power</h6>
-                <p>
+                <p className="BalanceStatus">
                   {canVote ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
                   {currentUser.balance} TRB
                 </p>
 
-                {!canVote && <p>You need TRB to vote</p>}
+                {!canVote && <p className="ErrorMsg">You need TRB to vote</p>}
               </>
             ) : null}
             <Button
@@ -79,7 +79,6 @@ const VoteForm = ({ dispute }) => {
             >
               Support
             </Button>
-            ,
             <Button
               key="challenge"
               type="danger"

@@ -16,6 +16,7 @@ const StyledContainer = styled.div`
   max-width: 1200px;
   position: relative;
   margin: 0 auto;
+  padding-bottom: 75px;
 `;
 
 const Home = () => {

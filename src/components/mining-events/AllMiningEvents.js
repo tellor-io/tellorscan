@@ -4,10 +4,12 @@ import MiningEventsTable from './MiningEventsTable';
 
 const AllMiningEvents = ({ events }) => {
   return (
-    <div>
-      <h2>All Mining Events</h2>
+    <>
+      <div className="TableHeader">
+        <h2>All Mining Events</h2>
+      </div>
       <MiningEventsTable pagination={true} events={events} />
-    </div>
+    </>
   );
 };
 
