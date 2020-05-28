@@ -43,11 +43,16 @@ const Store = ({ children }) => {
   }, [web3Modal, currentUser]);
 
   useEffect(() => {
+    //TODO: Need to connect with infura provider
+    // console.log('connecting contract', web3Modal);
+
     const initContract = async () => {
       try {
         const tellorService = new TellorService(web3Modal.web3);
         await tellorService.initContract();
-        setContract(tellorService);
+        const disputeFee = await tellorService.getDisputeFee();
+
+        setContract({ service: tellorService, disputeFee });
       } catch (e) {
         console.error(`Could not init contract`);
       }
@@ -57,6 +62,23 @@ const Store = ({ children }) => {
     }
     // eslint-disable-next-line
   }, [web3Modal.web3]);
+
+  useEffect(() => {
+    const initCurrentUserBalance = async () => {
+      let user;
+      try {
+        const balance = await contract.service.getBalance(currentUser.username);
+        const updatedUser = { ...currentUser, balance };
+        setCurrentUser(updatedUser);
+      } catch (e) {
+        console.error(`Could not get balance`);
+      }
+    };
+
+    if (contract && currentUser && !currentUser.hasOwnProperty('balance')) {
+      initCurrentUserBalance();
+    }
+  }, [currentUser, contract]);
 
   return (
     <LoaderContext.Provider value={[loading, setLoading]}>

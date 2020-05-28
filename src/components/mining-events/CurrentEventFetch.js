@@ -1,20 +1,19 @@
 import React, { useEffect, useContext, useState } from 'react';
 import _ from 'lodash';
 
-import { GET_LATEST_MINER_VALUES, GET_REQUEST } from 'utils/queries';
+import { GET_LATEST_MINER_VALUES } from 'utils/queries';
 import { ContractContext } from 'contexts/Store';
 import GraphFetch from 'components/shared/GraphFetch';
 
 const CurrentEventFetch = ({ setCurrentEvent }) => {
   const [latestValues, setLatestValues] = useState();
   const [currentDetails, setCurrentDetails] = useState();
-  const [noChallenge, setNoChallenge] = useState();
   const [contract] = useContext(ContractContext);
 
   useEffect(() => {
     const initCurrentEvent = async () => {
       try {
-        const currentDetails = await contract.getCurrentVariables();
+        const currentDetails = await contract.service.getCurrentVariables();
         setCurrentDetails(currentDetails);
       } catch (e) {
         console.error('error', e);
