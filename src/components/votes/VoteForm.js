@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Modal } from 'antd';
-import { LoadingOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import {
+  LoadingOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+} from '@ant-design/icons';
+import { CurrentUserContext, ContractContext } from 'contexts/Store';
 
-const VoteForm = ({ value }) => {
+const VoteForm = ({ dispute }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
+  const [contract] = useContext(ContractContext);
+  const [currentUser] = useContext(CurrentUserContext);
 
   const handleSubmit = async () => {
     setProcessing(true);
@@ -20,10 +27,6 @@ const VoteForm = ({ value }) => {
     setVisible(false);
   };
 
-  // const showModal = () => {
-  //   setVisible(true);
-  // };
-
   const renderTitle = () => {
     if (processing) {
       return 'Sending Vote';
@@ -33,6 +36,9 @@ const VoteForm = ({ value }) => {
       return 'Vote';
     }
   };
+
+  const canVote = currentUser && +currentUser.balance > 0;
+  // const canVote = true;
 
   return (
     <>
@@ -50,17 +56,26 @@ const VoteForm = ({ value }) => {
           <>
             <p>Stake some TRB to dispute a value</p>
             <h6>Symbol</h6>
-            <p>temp</p>
+            <p>{dispute.requestSymbol}</p>
             <h6>Value</h6>
-            <p>{value.value}</p>
-            <h6>Your Voting Power</h6>
-            <p>temp</p>
+            <p>{dispute.value}</p>
+            {currentUser ? (
+              <>
+                <h6>Your Voting Power</h6>
+                <p>
+                  {canVote ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
+                  {currentUser.balance} TRB
+                </p>
+
+                {!canVote && <p>You need TRB to vote</p>}
+              </>
+            ) : null}
             <Button
               key="support"
               type="primary"
               size="large"
-              // loading={loading}
               onClick={handleSubmit}
+              disabled={!canVote}
             >
               Support
             </Button>
@@ -69,8 +84,8 @@ const VoteForm = ({ value }) => {
               key="challenge"
               type="danger"
               size="large"
-              // loading={loading}
               onClick={handleSubmit}
+              disabled={!canVote}
             >
               Challenge
             </Button>

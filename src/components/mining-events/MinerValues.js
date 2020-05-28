@@ -30,7 +30,7 @@ const MinerValues = ({ miningEvent }) => {
         if (record.status === 'Mined') {
           return <DisputeForm value={record} miningEvent={miningEvent} />;
         } else {
-          return <VoteForm value={record} />;
+          return <VoteForm dispute={record} />;
         }
       },
     },

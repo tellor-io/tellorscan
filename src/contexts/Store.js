@@ -43,13 +43,14 @@ const Store = ({ children }) => {
   }, [web3Modal, currentUser]);
 
   useEffect(() => {
+    //TODO: Need to connect with infura provider
+    // console.log('connecting contract', web3Modal);
+
     const initContract = async () => {
       try {
         const tellorService = new TellorService(web3Modal.web3);
         await tellorService.initContract();
         const disputeFee = await tellorService.getDisputeFee();
-
-        console.log('disputFee', disputeFee);
 
         setContract({ service: tellorService, disputeFee });
       } catch (e) {

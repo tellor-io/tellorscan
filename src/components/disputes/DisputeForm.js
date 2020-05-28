@@ -1,6 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { Modal, Button } from 'antd';
-import { LoadingOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import {
+  LoadingOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+} from '@ant-design/icons';
 import { ContractContext, CurrentUserContext } from 'contexts/Store';
 
 const DisputeForm = ({ value, miningEvent }) => {
@@ -61,7 +65,7 @@ const DisputeForm = ({ value, miningEvent }) => {
             <h6>Stake required to Dispute this value *</h6>
 
             <p>
-              {canDispute && <CheckCircleOutlined />}{' '}
+              {canDispute ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
               {contract.service.fromWei(contract.disputeFee)} TRB
             </p>
 
