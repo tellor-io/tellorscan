@@ -24,6 +24,10 @@ h6 {
 
 // Specific Elements
 
+.CurrentEvent {
+  // background-color: black;
+}
+
 .TableHeader {
   h2 {
     margin: 0px;
@@ -37,6 +41,19 @@ h6 {
     margin-left: 15px;
     margin-top: 4px;
   }
+}
+
+.BalanceStatus {
+  span {
+    margin-right: 10px;
+  }
+}
+
+.ErrorMsg {
+  color: red;
+  font-size: 0.75em !important;
+  margin-top: -15px;
+  margin-bottom: 15px;
 }
 
 // Ant overrides
@@ -161,6 +178,10 @@ tr.ant-table-expanded-row:hover > td {
   .ant-table-row
   .ant-table-cell:last-child {
   text-align: right;
+}
+
+.expanded {
+  background-color: $hot-green;
 }
 
 // Modal

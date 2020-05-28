@@ -8,10 +8,14 @@ import GraphFetch from 'components/shared/GraphFetch';
 import CurrentEventFetch from 'components/mining-events/CurrentEventFetch';
 
 const StyledContainer = styled.div`
-  display: flex;
-  align-items: left;
-  flex-direction: column;
-  padding: 50px;
+  // display: flex;
+  // align-items: center;
+  // flex-direction: column;
+  width: calc(100%);
+  max-width: 1200px;
+  position: relative;
+  margin: 0 auto;
+  padding-bottom: 75px;
 `;
 
 const Mining = () => {

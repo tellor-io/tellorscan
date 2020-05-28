@@ -1,26 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import MinerValues from './MinerValues';
 
-const columns = [
-  { title: 'ID', dataIndex: 'requestId', key: 'requestId' },
-  {
-    title: 'Symbol',
-    dataIndex: 'requestSymbol',
-    key: 'requestSymbol',
-  },
-  { title: 'Value', dataIndex: 'minedValue', key: 'minedValue' },
-  { title: 'Tip (TRB)', dataIndex: 'totalTips', key: 'totalTips' },
-  { title: 'Status', dataIndex: 'status', key: 'status' },
-];
-
 const MiningEventsTable = ({ events, pagination }) => {
+  const columns = [
+    { title: 'ID', dataIndex: 'requestId', key: 'requestId' },
+    {
+      title: 'Symbol',
+      dataIndex: 'requestSymbol',
+      key: 'requestSymbol',
+    },
+    { title: 'Value', dataIndex: 'minedValue', key: 'minedValue' },
+    { title: 'Tip (TRB)', dataIndex: 'totalTips', key: 'totalTips' },
+    { title: 'Status', dataIndex: 'status', key: 'status' },
+  ];
+
+  const [expandedKeys, setExpandedKeys] = useState([]);
+  const onRow = ({ id }) =>
+    expandedKeys.includes(id) && { className: 'expanded' };
+  const onExpand = (expanded, record) => {
+    const keys = expandedKeys;
+    const moreKeys = expanded
+      ? keys.concat(record.id)
+      : keys.filter((k) => k !== record.id);
+
+    setExpandedKeys(moreKeys);
+  };
+
   return (
     <Table
       columns={columns}
       rowKey={'id'}
       dataSource={events}
+      onRow={onRow}
+      onExpand={onExpand}
       expandedRowRender={(record) => <MinerValues miningEvent={record} />}
       expandIconColumnIndex={5}
       expandIcon={({ expanded, onExpand, record }) =>

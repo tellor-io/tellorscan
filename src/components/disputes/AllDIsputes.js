@@ -4,10 +4,12 @@ import DisputesTable from './DisputesTable';
 
 const AllDisputes = ({ disputes }) => {
   return (
-    <div>
-      <h2>All Disputes</h2>
+    <>
+      <div className="TableHeader">
+        <h2>All Disputes</h2>
+      </div>
       <DisputesTable pagination={true} disputes={disputes} />
-    </div>
+    </>
   );
 };
 

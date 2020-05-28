@@ -19,7 +19,8 @@ const StyledBrandLink = styled.div`
   a {
     display: flex;
     justify-content: flex-end;
-    align-items: bottom;
+    align-items: center;
+
     img {
       height: 60px;
       width: auto;
@@ -29,7 +30,7 @@ const StyledBrandLink = styled.div`
       color: #5cfcb6;
       font-size: 21px;
       font-weight: 300;
-      vertical-align: baseline;
+      margin-bottom: -11px;
     }
   }
 `;
@@ -40,6 +41,7 @@ const StyledHeaderNav = styled.div`
   > * {
     margin-left: 25px;
     font-size: 1.5em;
+    color: #5cfcb6;
     &:last-child {
       border: 2px solid #5cfcb6;
       color: #5cfcb6;
