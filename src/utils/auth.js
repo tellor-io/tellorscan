@@ -61,6 +61,7 @@ export const w3connect = async (web3Modal) => {
 };
 
 export const signInWithWeb3 = async () => {
+  //TODO: now get it to cache in lcoal storage
   // const infuraId = process.env.INFURA_URI.split('/').pop();
 
   console.log(
@@ -97,7 +98,9 @@ export const signInWithWeb3 = async () => {
     );
   }
 
-  return { user: createWeb3User(account), provider };
+  // return { user: createWeb3User(account), provider };
+  // return { user: createWeb3User(account), provider };
+  return { web3Modal, web3, provider };
 };
 
 export const createWeb3User = (accountAddress) => {
