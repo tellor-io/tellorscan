@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createContext } from 'react';
 import Web3Modal from 'web3modal';
+import Web3 from 'web3';
 
 import { w3connect, providerOptions, createWeb3User } from '../utils/auth';
 import { getChainData } from '../utils/chains';
@@ -27,6 +28,7 @@ const Store = ({ children }) => {
       let user;
       try {
         const w3c = await w3connect(web3Modal);
+
         setWeb3Modal(w3c);
 
         const [account] = await w3c.web3.eth.getAccounts();
@@ -43,12 +45,9 @@ const Store = ({ children }) => {
   }, [web3Modal, currentUser]);
 
   useEffect(() => {
-    //TODO: Need to connect with infura provider
-    // console.log('connecting contract', web3Modal);
-
-    const initContract = async () => {
+    const initContract = async (web3) => {
       try {
-        const tellorService = new TellorService(web3Modal.web3);
+        const tellorService = new TellorService(web3);
         await tellorService.initContract();
         const disputeFee = await tellorService.getDisputeFee();
 
@@ -57,11 +56,14 @@ const Store = ({ children }) => {
         console.error(`Could not init contract`);
       }
     };
+
+    // TODO why does this blow up the modal later
+    // initContract(web3Modal.web3 || new Web3(process.env.REACT_APP_INFURA_URI));
     if (web3Modal.web3) {
-      initContract();
+      initContract(web3Modal.web3);
     }
     // eslint-disable-next-line
-  }, [web3Modal.web3]);
+  }, [web3Modal]);
 
   useEffect(() => {
     const initCurrentUserBalance = async () => {

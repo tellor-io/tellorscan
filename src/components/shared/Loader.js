@@ -1,5 +1,4 @@
 import React from 'react';
-import LoadingOutlined from '@ant-design/icons';
 import styled from 'styled-components';
 import Lottie from 'react-lottie';
 import animationData from '../../assets/Tellor__Loader.json';

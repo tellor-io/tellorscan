@@ -15,6 +15,8 @@ export const Web3SignIn = () => {
       onClick={async () => {
         try {
           const w3c = await w3connect(web3Modal);
+
+          console.log('after w3connect', w3connect);
           const [account] = await w3c.web3.eth.getAccounts();
           setWeb3Modal(w3c);
           const user = createWeb3User(account);

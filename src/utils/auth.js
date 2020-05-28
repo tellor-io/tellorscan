@@ -33,7 +33,10 @@ export const providerOptions = {
 };
 
 export const w3connect = async (web3Modal) => {
+  console.log('connecting', web3Modal);
   const provider = await web3Modal.connect();
+
+  console.log('provider', provider);
 
   const web3 = new Web3(provider);
 

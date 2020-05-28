@@ -180,6 +180,10 @@ tr.ant-table-expanded-row:hover > td {
   text-align: right;
 }
 
+.expanded {
+  background-color: $hot-green;
+}
+
 // Modal
 
 .ant-modal-mask {

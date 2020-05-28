@@ -5,13 +5,13 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from '@ant-design/icons';
-import { CurrentUserContext, ContractContext } from 'contexts/Store';
+import { CurrentUserContext } from 'contexts/Store';
 
 const VoteForm = ({ dispute }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
-  const [contract] = useContext(ContractContext);
+  // const [contract] = useContext(ContractContext);
   const [currentUser] = useContext(CurrentUserContext);
 
   const handleSubmit = async () => {
