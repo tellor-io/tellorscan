@@ -1,6 +1,8 @@
 import React from 'react';
 import LoadingOutlined from '@ant-design/icons';
 import styled from 'styled-components';
+import Lottie from 'react-lottie';
+import animationData from '../../assets/Tellor__Loader.json';
 
 const LoadingDiv = styled.div`
   display: flex;
@@ -14,18 +16,17 @@ const LoadingDiv = styled.div`
 `;
 
 const Loader = () => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
   return (
     <LoadingDiv>
-      <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-      <lottie-player
-        src="https://assets6.lottiefiles.com/packages/lf20_QTYe4e.json"
-        background="transparent"
-        speed="1"
-        style={{ width: '300px', height: '300px' }}
-        loop
-        controls
-        autoplay
-      ></lottie-player>
+      <Lottie options={defaultOptions} height={150} width={150} />
     </LoadingDiv>
   );
 };

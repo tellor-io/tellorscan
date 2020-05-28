@@ -25,6 +25,7 @@
     "react-dom": "^16.9.0",
     "react-helmet": "^5.2.1",
     "react-loading": "^2.0.3",
+    "react-lottie": "^1.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
     "reactide-config": "^1.0.2",
