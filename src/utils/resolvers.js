@@ -1,4 +1,8 @@
-import { getEventStatus } from './helpers';
+import {
+  getEventStatus,
+  getMinerValueStatus,
+  getDisputeStatus,
+} from './helpers';
 import psrLookup from './psrLookup';
 
 export const resolvers = (() => {
@@ -18,7 +22,7 @@ export const resolvers = (() => {
     },
     MinerValue: {
       status: async (minerValue, _args) => {
-        return 'temp';
+        return getMinerValueStatus(minerValue);
       },
     },
     Dispute: {
@@ -29,7 +33,7 @@ export const resolvers = (() => {
         return psrLookup[dispute.requestId - 1];
       },
       status: async (dispute, _args) => {
-        return 'temp';
+        return getDisputeStatus(dispute);
       },
     },
   };

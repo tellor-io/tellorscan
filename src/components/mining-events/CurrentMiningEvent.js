@@ -4,7 +4,6 @@ import _ from 'lodash';
 import MiningEventsTable from './MiningEventsTable';
 
 const CurrentMiningEvent = ({ currentEvent }) => {
-  console.log('currentEvent', currentEvent);
   return (
     <>
       <div className="TableHeader">

@@ -56,7 +56,6 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
       }
     };
 
-    console.log('latestValues', latestValues);
     if (latestValues && currentDetails) {
       initValues();
     }

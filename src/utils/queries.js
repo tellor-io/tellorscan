@@ -70,6 +70,9 @@ const disputeFields = `
   active
   requestId
   relatedMiningEventData
+  tally
+  result
+  disputeVotePassed
   value @client
   requestSymbol @client
   status @client

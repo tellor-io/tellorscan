@@ -25,7 +25,6 @@ export default class TellorService {
       await this.initContract();
     }
 
-    console.log('this.contract', this.contract);
     let variables = await this.contract.methods.getCurrentVariables().call();
     return variables;
   }
