@@ -13,7 +13,7 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
   useEffect(() => {
     const initCurrentEvent = async () => {
       try {
-        const currentDetails = await contract.getCurrentVariables();
+        const currentDetails = await contract.service.getCurrentVariables();
         setCurrentDetails(currentDetails);
       } catch (e) {
         console.error('error', e);

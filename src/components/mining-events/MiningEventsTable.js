@@ -21,9 +21,7 @@ const MiningEventsTable = ({ events, pagination }) => {
       columns={columns}
       rowKey={'id'}
       dataSource={events}
-      expandedRowRender={(record) => (
-        <MinerValues values={record.minerValues} />
-      )}
+      expandedRowRender={(record) => <MinerValues miningEvent={record} />}
       expandIconColumnIndex={5}
       expandIcon={({ expanded, onExpand, record }) =>
         expanded ? (
