@@ -1,5 +1,28 @@
 import { gql } from 'apollo-boost';
 
+export const GET_LATEST_MINER_VALUES = gql`
+  query request($requestId: String!) {
+    minerValues(first: 6, orderBy: timestamp, orderDirection: desc) {
+      id
+      miningEventId
+      currentChallenge
+      miner
+      value
+      status @client
+    }
+    request(id: $requestId) {
+      id
+      timestamp
+      sender
+      query
+      querySymbol
+      totalTips
+      requestId
+      requestSymbol @client
+    }
+  }
+`;
+
 const eventFields = `
   id
   timestamp
@@ -45,7 +68,11 @@ const disputeFields = `
   result
   reportingParty
   active
+  requestId
   relatedMiningEventData
+  tally
+  result
+  disputeVotePassed
   value @client
   requestSymbol @client
   status @client

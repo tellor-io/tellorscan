@@ -20,9 +20,9 @@ const DisputeForm = ({ value }) => {
     setVisible(false);
   };
 
-  const showModal = () => {
-    setVisible(true);
-  };
+  // const showModal = () => {
+  //   setVisible(true);
+  // };
 
   const renderTitle = () => {
     if (processing) {

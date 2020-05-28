@@ -6,6 +6,7 @@ import CurrentMiningEvent from 'components/mining-events/CurrentMiningEvent';
 import RecentMiningEvents from 'components/mining-events/RecentMiningEvents';
 import GraphFetch from 'components/shared/GraphFetch';
 import RecentDisputes from 'components/disputes/RecentDisputes';
+import CurrentEventFetch from 'components/mining-events/CurrentEventFetch';
 
 const StyledContainer = styled.div`
   // display: flex;
@@ -18,23 +19,26 @@ const StyledContainer = styled.div`
 `;
 
 const Home = () => {
+  const [currentEvent, setCurrentEvent] = useState();
   const [events, setEvents] = useState();
   const [disputes, setDisputes] = useState();
 
   return (
     <StyledContainer>
+      <CurrentEventFetch setCurrentEvent={setCurrentEvent} />
       <GraphFetch query={GET_LATEST_EVENTS} setRecords={setEvents} />
       <GraphFetch
         query={GET_LATEST_DISPUTES}
         setRecords={setDisputes}
         suppressLoading={true}
       />
+
+      {currentEvent ? <CurrentMiningEvent currentEvent={currentEvent} /> : null}
+
       {events ? (
-        <>
-          <CurrentMiningEvent event={events.miningEvents[0]} />
-          <RecentMiningEvents events={events.miningEvents.slice(1)} />
-        </>
+        <RecentMiningEvents events={events.miningEvents.slice(1)} />
       ) : null}
+
       {disputes ? <RecentDisputes disputes={disputes.disputes} /> : null}
     </StyledContainer>
   );

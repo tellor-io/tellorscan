@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
-import VoteButton from 'components/votes/VoteButton';
+import VoteForm from 'components/votes/VoteForm';
 
 const columns = [
   { title: 'ID', dataIndex: 'id', key: 'id' },
@@ -15,7 +15,7 @@ const columns = [
   { title: 'Status', dataIndex: 'status', key: 'status' },
   {
     render: (record) => {
-      return <>{record.id === '28' ? <VoteButton value={record} /> : null}</>;
+      return <>{record.id === '28' ? <VoteForm value={record} /> : null}</>;
     },
   },
 ];

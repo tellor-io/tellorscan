@@ -15,14 +15,13 @@ const StyledContainer = styled.div`
 
 const Disputes = () => {
   const [disputes, setDisputes] = useState();
-  //TODO: Really get open disputes
 
   return (
     <StyledContainer>
       <GraphFetch query={GET_ALL_DISPUTES} setRecords={setDisputes} />
       {disputes ? (
         <>
-          <OpenDisputes disputes={[disputes.disputes[0]]} />
+          <OpenDisputes disputes={disputes.disputes} />
           <AllDisputes disputes={disputes.disputes} />
         </>
       ) : null}

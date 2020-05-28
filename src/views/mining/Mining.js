@@ -5,6 +5,7 @@ import { GET_ALL_EVENTS } from 'utils/queries';
 import CurrentMiningEvent from 'components/mining-events/CurrentMiningEvent';
 import AllMiningEvents from 'components/mining-events/AllMiningEvents';
 import GraphFetch from 'components/shared/GraphFetch';
+import CurrentEventFetch from 'components/mining-events/CurrentEventFetch';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -14,16 +15,18 @@ const StyledContainer = styled.div`
 `;
 
 const Mining = () => {
+  const [currentEvent, setCurrentEvent] = useState();
   const [events, setEvents] = useState();
 
   return (
     <StyledContainer>
+      <CurrentEventFetch setCurrentEvent={setCurrentEvent} />
       <GraphFetch query={GET_ALL_EVENTS} setRecords={setEvents} />
+
+      {currentEvent ? <CurrentMiningEvent currentEvent={currentEvent} /> : null}
+
       {events ? (
-        <>
-          <CurrentMiningEvent event={events.miningEvents[0]} />
-          <AllMiningEvents events={events.miningEvents.slice(1)} />
-        </>
+        <AllMiningEvents events={events.miningEvents.slice(1)} />
       ) : null}
     </StyledContainer>
   );
