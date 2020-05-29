@@ -2,13 +2,7 @@ import React, { useEffect } from 'react';
 import { useQuery } from 'react-apollo';
 import Loader from './Loader';
 
-const GraphFetch = ({
-  query,
-  setRecords,
-  variables,
-  suppressLoading,
-  entity,
-}) => {
+const GraphFetch = ({ query, setRecords, variables, suppressLoading }) => {
   const { loading, error, data } = useQuery(query, {
     variables,
     fetchPolicy: 'network-only',

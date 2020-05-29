@@ -53,27 +53,54 @@ export default class TellorService {
     return this.web3.utils.fromWei(value);
   }
 
-  async submitVote(from, proposalIndex, uintVote, encodedPayload) {
-    // if (!this.contract) {
-    //   await this.initContract();
-    // }
-    // if (encodedPayload) {
-    //   const data = this.contract.methods
-    //     .submitVote(proposalIndex, uintVote)
-    //     .encodeABI();
-    //   return data;
-    // }
-    // let vote = this.contract.methods
-    //   .submitVote(proposalIndex, uintVote)
-    //   .send({ from })
-    //   .once('transactionHash', (txHash) => {})
-    //   .then((resp) => {
-    //     return resp;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     return { error: 'rejected transaction' };
-    //   });
-    // return vote;
+  async beginDispute(from, requestId, timestamp, minderIndex) {
+    // uint256 _requestId, uint256 _timestamp, uint256 _minerIndex
+    if (!this.contract) {
+      await this.initContract();
+    }
+
+    let dispute = this.contract.methods
+      .beginDispute(requestId, timestamp, minderIndex)
+      .send({ from })
+      .once('transactionHash', (txHash) => {
+        //todo return to component for etherscan link
+      })
+      .then((resp) => {
+        console.log('resp', resp);
+        return resp;
+      })
+      .catch((err) => {
+        console.log('err', err);
+        return { error: 'rejected transaction' };
+      });
+
+    console.log('dispute', dispute);
+
+    return dispute;
+  }
+
+  async vote(from, disputeId, supportsDispute) {
+    // uint256 _disputeId, bool _supportsDispute
+    if (!this.contract) {
+      await this.initContract();
+    }
+
+    let vote = this.contract.methods
+      .submitVote(disputeId, supportsDispute)
+      .send({ from })
+      .once('transactionHash', (txHash) => {
+        //todo return to component for etherscan link
+      })
+      .then((resp) => {
+        console.log('resp', resp);
+        return resp;
+      })
+      .catch((err) => {
+        console.log('err', err);
+        return { error: 'rejected transaction' };
+      });
+
+    console.log('vote', vote);
+    return vote;
   }
 }
