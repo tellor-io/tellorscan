@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 
 import { Web3ModalContext, CurrentUserContext } from '../../contexts/Store';
-import { createWeb3User, w3connect, signInWithWeb3 } from '../../utils/auth';
+import { createWeb3User, signInWithWeb3 } from '../../utils/auth';
 import { Button } from 'antd';
 
 export const Web3SignIn = () => {
-  const [web3Modal, setWeb3Modal] = useContext(Web3ModalContext);
+  const [, setWeb3Modal] = useContext(Web3ModalContext);
   const [, setCurrentUser] = useContext(CurrentUserContext);
 
   return (

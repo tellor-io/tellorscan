@@ -5,6 +5,7 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from '@ant-design/icons';
+
 import { ContractContext, CurrentUserContext } from 'contexts/Store';
 
 const DisputeForm = ({ value, miningEvent }) => {

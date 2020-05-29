@@ -25,13 +25,12 @@ const Store = ({ children }) => {
 
   useEffect(() => {
     const initCurrentUser = async () => {
-      let user;
       try {
         const w3c = await w3connect(web3Modal);
         setWeb3Modal(w3c);
 
         const [account] = await w3c.web3.eth.getAccounts();
-        user = createWeb3User(account);
+        let user = createWeb3User(account);
         setCurrentUser(user);
       } catch (e) {
         console.error(`Could not log in with web3`);
@@ -60,7 +59,6 @@ const Store = ({ children }) => {
 
   useEffect(() => {
     const initCurrentUserBalance = async () => {
-      let user;
       try {
         const balance = await contract.service.getBalance(currentUser.username);
         const updatedUser = { ...currentUser, balance };
