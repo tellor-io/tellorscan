@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Table } from 'antd';
 import VoteForm from 'components/votes/VoteForm';
+import { ContractContext } from 'contexts/Store';
 
 const DisputesTable = ({ disputes, pagination }) => {
+  const [contract] = useContext(ContractContext);
+
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id' },
     {
@@ -11,12 +14,20 @@ const DisputesTable = ({ disputes, pagination }) => {
       key: 'requestSymbol',
     },
     { title: 'Value', dataIndex: 'value', key: 'value' },
-    { title: 'Challenged (TRB)', dataIndex: 'challenged', key: 'challenged' },
-    { title: 'Supported (TRB)', dataIndex: 'supported', key: 'supported' },
+    {
+      title: 'Result (TRB)',
+      dataIndex: 'tally',
+      key: 'tally',
+      render: (text) => {
+        return contract ? parseInt(+contract.service.fromWei(text)) : '';
+      },
+    },
     { title: 'Status', dataIndex: 'status', key: 'status' },
     {
       render: (record) => {
-        return <>{record.id === '28' ? <VoteForm dispute={record} /> : null}</>;
+        // const openDispute = record.id === '28';
+        const openDispute = record.inVoteWindow;
+        return <>{openDispute ? <VoteForm dispute={record} /> : null}</>;
       },
     },
   ];

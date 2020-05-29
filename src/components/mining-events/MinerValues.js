@@ -10,27 +10,33 @@ const WarningP = styled.div`
 `;
 
 const MinerValues = ({ miningEvent }) => {
+  const checkWarning = (text, record) => {
+    if (record.status === 'Mined') {
+      return <p>{text}</p>;
+    } else {
+      return <WarningP>{text}</WarningP>;
+    }
+  };
   const columns = [
     { title: 'Miner', dataIndex: 'miner', key: 'miner' },
     {
       title: 'Value',
       dataIndex: 'value',
       key: 'value',
-      render: (text, record) => {
-        if (record.status === 'Mined') {
-          return <p>{text}</p>;
-        } else {
-          return <WarningP>{text}</WarningP>;
-        }
-      },
+      render: checkWarning,
     },
-    { title: 'Status', dataIndex: 'status', key: 'status' },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: checkWarning,
+    },
     {
       render: (record) => {
-        if (record.status === 'Mined') {
-          return <DisputeForm value={record} miningEvent={miningEvent} />;
-        } else {
+        if (record.status === 'Open Dispute') {
           return <VoteForm dispute={record} />;
+        } else if (miningEvent.inDisputeWindow) {
+          return <DisputeForm value={record} miningEvent={miningEvent} />;
         }
       },
     },
