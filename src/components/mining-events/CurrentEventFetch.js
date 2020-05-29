@@ -11,16 +11,8 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
   const [contract] = useContext(ContractContext);
 
   useEffect(() => {
-    const initCurrentEvent = async () => {
-      try {
-        const currentDetails = await contract.service.getCurrentVariables();
-        setCurrentDetails(currentDetails);
-      } catch (e) {
-        console.error('error', e);
-      }
-    };
     if (contract) {
-      initCurrentEvent();
+      getCurrentDetails();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contract]);
@@ -42,6 +34,13 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
             minedValue: 'Pending',
             status: `Mining (${minerValues.length}/5)`,
           });
+
+          if (minerValues.length === 5) {
+            setTimeout(() => {
+              console.log('5 of 5, looking for new challenge');
+              getCurrentDetails();
+            }, 2000);
+          }
         } else {
           setCurrentEvent({
             ...currentDetails,
@@ -49,6 +48,11 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
             minerValues: groupedValues[currentDetails[0]],
             noPending: true,
           });
+
+          setTimeout(() => {
+            console.log('no current variables, refetching');
+            getCurrentDetails();
+          }, 2000);
         }
       } catch (e) {
         console.error('error', e);
@@ -60,6 +64,17 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [latestValues]);
+
+  const getCurrentDetails = async () => {
+    try {
+      const currentDetails = await contract.service.getCurrentVariables();
+
+      console.log('currentDetails', currentDetails);
+      setCurrentDetails(currentDetails);
+    } catch (e) {
+      console.error('error', e);
+    }
+  };
 
   if (currentDetails) {
     return (

@@ -37,7 +37,6 @@ const DisputeForm = ({ value, miningEvent }) => {
     }
   };
 
-  //todo: check if already disputed
   const canDispute = currentUser && +currentUser.balance > contract.disputeFee;
   // const canDispute = true;
 
@@ -69,8 +68,18 @@ const DisputeForm = ({ value, miningEvent }) => {
               {contract.service.fromWei(contract.disputeFee)} TRB
             </p>
 
-            {!canDispute && (
-              <p className="ErrorMsg">You need TRB to submit a dispute</p>
+            {!currentUser ? (
+              <>
+                <p className="ErrorMsg">
+                  You need to sign in with MetaMask to submit a dispute
+                </p>
+              </>
+            ) : (
+              <>
+                {!canDispute && (
+                  <p className="ErrorMsg">You need TRB to submit a dispute</p>
+                )}
+              </>
             )}
 
             <Button

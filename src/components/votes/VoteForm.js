@@ -69,7 +69,11 @@ const VoteForm = ({ dispute }) => {
 
                 {!canVote && <p className="ErrorMsg">You need TRB to vote</p>}
               </>
-            ) : null}
+            ) : (
+              <p className="ErrorMsg">
+                You need to sign in with MetaMask to vote
+              </p>
+            )}
             <Button
               key="support"
               type="primary"
