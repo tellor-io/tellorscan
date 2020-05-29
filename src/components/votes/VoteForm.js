@@ -5,22 +5,37 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from '@ant-design/icons';
-import { CurrentUserContext } from 'contexts/Store';
+import { CurrentUserContext, ContractContext } from 'contexts/Store';
 
 const VoteForm = ({ dispute }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
-  // const [contract] = useContext(ContractContext);
+  const [contract] = useContext(ContractContext);
   const [currentUser] = useContext(CurrentUserContext);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (supportsDispute) => {
     setProcessing(true);
-    setTimeout(() => {
-      // setVisible(false);
+    // setTimeout(() => {
+    //   // setVisible(false);
+    //   setProcessing(false);
+    //   setProcessed(true);
+    // }, 3000);
+
+    try {
+      await contract.service.vote(
+        currentUser.username,
+        dispute.disputeId,
+        supportsDispute,
+      );
+    } catch (e) {
+      console.error(`Error submitting vote: ${e.toString()}`);
+    } finally {
+      console.log('vote submitted');
+
       setProcessing(false);
       setProcessed(true);
-    }, 3000);
+    }
   };
 
   const handleCancel = () => {
@@ -78,7 +93,7 @@ const VoteForm = ({ dispute }) => {
               key="support"
               type="primary"
               size="large"
-              onClick={handleSubmit}
+              onClick={() => handleSubmit(true)}
               disabled={!canVote}
             >
               Support
@@ -87,7 +102,7 @@ const VoteForm = ({ dispute }) => {
               key="challenge"
               type="danger"
               size="large"
-              onClick={handleSubmit}
+              onClick={() => handleSubmit(false)}
               disabled={!canVote}
             >
               Challenge

@@ -16,11 +16,30 @@ const DisputeForm = ({ value, miningEvent }) => {
 
   const handleSubmit = async () => {
     setProcessing(true);
-    setTimeout(() => {
-      // setVisible(false);
+    // setTimeout(() => {
+    //   // setVisible(false);
+    //   setProcessing(false);
+    //   setProcessed(true);
+    // }, 3000);
+
+    //TODO get the minerIndex - pass from above or indexOf it
+    const minerIndex = 1;
+
+    try {
+      await contract.service.beginDsipute(
+        currentUser.username,
+        miningEvent.requestId,
+        miningEvent.time,
+        minerIndex,
+      );
+    } catch (e) {
+      console.error(`Error submitting dispute: ${e.toString()}`);
+    } finally {
+      console.log('dispute submitted');
+
       setProcessing(false);
       setProcessed(true);
-    }, 3000);
+    }
   };
 
   const handleCancel = () => {
