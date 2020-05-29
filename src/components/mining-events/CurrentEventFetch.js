@@ -14,6 +14,8 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
     const initCurrentEvent = async () => {
       try {
         const currentDetails = await contract.service.getCurrentVariables();
+
+        console.log('currentDetails', currentDetails);
         setCurrentDetails(currentDetails);
       } catch (e) {
         console.error('error', e);
@@ -32,6 +34,8 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
           latestValues.minerValues,
           'currentChallenge',
         );
+
+        //todo: might watch here for minerValue.length === 5 || currentDetails is nothing
 
         if (latestValues.request) {
           const minerValues = groupedValues[currentDetails[0]] || [];
