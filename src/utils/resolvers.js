@@ -2,6 +2,8 @@ import {
   getEventStatus,
   getMinerValueStatus,
   getDisputeStatus,
+  inDisputeWindow,
+  inVoteWindow,
 } from './helpers';
 import psrLookup from './psrLookup';
 
@@ -19,6 +21,9 @@ export const resolvers = (() => {
       status: async (miningEvent, _args) => {
         return getEventStatus(miningEvent);
       },
+      inDisputeWindow: async (miningEvent, _args) => {
+        return inDisputeWindow(miningEvent.timestamp);
+      },
     },
     MinerValue: {
       status: async (minerValue, _args) => {
@@ -34,6 +39,12 @@ export const resolvers = (() => {
       },
       status: async (dispute, _args) => {
         return getDisputeStatus(dispute);
+      },
+      inVoteWindow: async (dispute, _args) => {
+        return (
+          getDisputeStatus(dispute) === 'Open Dispute' &&
+          inVoteWindow(dispute.timestamp)
+        );
       },
     },
   };

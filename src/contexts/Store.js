@@ -44,7 +44,6 @@ const Store = ({ children }) => {
   }, [web3Modal, currentUser]);
 
   useEffect(() => {
-    console.log('web3Modal', web3Modal);
     const initContract = async (web3) => {
       try {
         const tellorService = new TellorService(web3);
@@ -56,12 +55,7 @@ const Store = ({ children }) => {
       }
     };
 
-    // TODO why does this blow up the modal later
     initContract(web3Modal.web3 || new Web3(process.env.REACT_APP_INFURA_URI));
-    // if (web3Modal.web3) {
-    //   initContract(web3Modal.web3);
-    // }
-    // eslint-disable-next-line
   }, [web3Modal]);
 
   useEffect(() => {

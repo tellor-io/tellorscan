@@ -32,6 +32,7 @@ const eventFields = `
   totalTips
   requestSymbol @client
   status @client
+  inDisputeWindow @client
   request {
     id
     querySymbol
@@ -76,6 +77,7 @@ const disputeFields = `
   value @client
   requestSymbol @client
   status @client
+  inVoteWindow @client
   votes {
     id
     position

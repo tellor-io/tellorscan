@@ -27,7 +27,11 @@ const Home = () => {
   return (
     <StyledContainer>
       <CurrentEventFetch setCurrentEvent={setCurrentEvent} />
-      <GraphFetch query={GET_LATEST_EVENTS} setRecords={setEvents} />
+      <GraphFetch
+        query={GET_LATEST_EVENTS}
+        setRecords={setEvents}
+        suppressLoading={true}
+      />
       <GraphFetch
         query={GET_LATEST_DISPUTES}
         setRecords={setDisputes}

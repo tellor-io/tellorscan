@@ -25,7 +25,11 @@ const Mining = () => {
   return (
     <StyledContainer>
       <CurrentEventFetch setCurrentEvent={setCurrentEvent} />
-      <GraphFetch query={GET_ALL_EVENTS} setRecords={setEvents} />
+      <GraphFetch
+        query={GET_ALL_EVENTS}
+        setRecords={setEvents}
+        suppressLoading={true}
+      />
 
       {currentEvent ? <CurrentMiningEvent currentEvent={currentEvent} /> : null}
 
