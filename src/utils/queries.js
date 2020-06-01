@@ -68,6 +68,7 @@ const disputeFields = `
   reportingParty
   active
   requestId
+  disputeId
   relatedMiningEventData
   tally
   result

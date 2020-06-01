@@ -3,7 +3,7 @@ import { Table } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import MinerValues from './MinerValues';
 
-const MiningEventsTable = ({ events, pagination }) => {
+const MiningEventsTable = ({ events, pagination, current }) => {
   const columns = [
     { title: 'ID', dataIndex: 'requestId', key: 'requestId' },
     {
@@ -13,7 +13,18 @@ const MiningEventsTable = ({ events, pagination }) => {
     },
     { title: 'Value', dataIndex: 'minedValue', key: 'minedValue' },
     { title: 'Tip (TRB)', dataIndex: 'totalTips', key: 'totalTips' },
-    { title: 'Status', dataIndex: 'status', key: 'status' },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (text) => {
+        if (current) {
+          return <p>{text} loading</p>;
+        } else {
+          return <p>{text}</p>;
+        }
+      },
+    },
   ];
 
   const [expandedKeys, setExpandedKeys] = useState([]);
