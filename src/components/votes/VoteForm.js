@@ -21,7 +21,7 @@ const VoteForm = ({ dispute }) => {
   useEffect(() => {
     const getHasVoted = async () => {
       const res = await contract.service.didVote(
-        dispute.id,
+        dispute.disputeId,
         currentUser.username,
       );
 
@@ -49,7 +49,7 @@ const VoteForm = ({ dispute }) => {
     try {
       await contract.service.vote(
         currentUser.username,
-        dispute.id,
+        dispute.disputeId,
         supportsDispute,
         getTx,
         getError,

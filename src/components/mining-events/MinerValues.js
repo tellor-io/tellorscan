@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import DisputeForm from 'components/disputes/DisputeForm';
 import VoteForm from 'components/votes/VoteForm';
-import { getMinerValueStatus } from 'utils/helpers';
+import { getMinerValueStatus, getMatchingDispute } from 'utils/helpers';
 import { OpenDisputesContext } from 'contexts/Store';
 
 const WarningP = styled.div`
@@ -43,7 +43,9 @@ const MinerValues = ({ miningEvent }) => {
           getMinerValueStatus(record, openDisputes, miningEvent) ===
           'Open Dispute'
         ) {
-          return <VoteForm dispute={record} />;
+          return (
+            <VoteForm dispute={getMatchingDispute(openDisputes, miningEvent)} />
+          );
         } else if (miningEvent.inDisputeWindow) {
           return (
             <DisputeForm

@@ -12,15 +12,19 @@ export const getEventStatus = (event) => {
   }
 };
 
-export const getMinerValueStatus = (value, openDisputes, miningEvent) => {
-  // console.log('status', openDisputes[0], miningEvent);
-
-  const matchingDispute = openDisputes.find((dispute) => {
+export const getMatchingDispute = (openDisputes, miningEvent) => {
+  return openDisputes.find((dispute) => {
     return (
       dispute.requestId === miningEvent.requestId &&
       dispute.timestamp === miningEvent.time
     );
   });
+};
+
+export const getMinerValueStatus = (value, openDisputes, miningEvent) => {
+  // console.log('status', openDisputes[0], miningEvent);
+
+  const matchingDispute = getMatchingDispute(openDisputes, miningEvent);
 
   if (matchingDispute && matchingDispute.miner === value.miner) {
     return 'Open Dispute';
