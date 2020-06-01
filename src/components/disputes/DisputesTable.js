@@ -19,14 +19,18 @@ const DisputesTable = ({ disputes, pagination }) => {
       dataIndex: 'tally',
       key: 'tally',
       render: (text) => {
-        return contract ? parseInt(+contract.service.fromWei(text)) : '';
+        if (text) {
+          return contract ? parseInt(+contract.service.fromWei(text)) : '';
+        } else {
+          return 'Pending';
+        }
       },
     },
     { title: 'Status', dataIndex: 'status', key: 'status' },
     {
       render: (record) => {
-        const openDispute = record.id === '28';
-        // const openDispute = record.inVoteWindow;
+        // const openDispute = record.id === '28';
+        const openDispute = record.inVoteWindow;
         return <>{openDispute ? <VoteForm dispute={record} /> : null}</>;
       },
     },

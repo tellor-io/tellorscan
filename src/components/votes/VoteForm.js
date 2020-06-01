@@ -1,34 +1,80 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button, Modal } from 'antd';
 import {
   LoadingOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from '@ant-design/icons';
-import { CurrentUserContext } from 'contexts/Store';
+import { CurrentUserContext, ContractContext } from 'contexts/Store';
+import EtherscanLink from 'components/shared/EtherscanlLnk';
 
 const VoteForm = ({ dispute }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
-  // const [contract] = useContext(ContractContext);
+  const [currentTx, setCurrentTx] = useState();
+  const [hasVoted, setHasVoted] = useState();
+  const [error, setError] = useState();
+  const [contract] = useContext(ContractContext);
   const [currentUser] = useContext(CurrentUserContext);
 
-  const handleSubmit = async () => {
+  useEffect(() => {
+    const getHasVoted = async () => {
+      const res = await contract.service.didVote(
+        dispute.id,
+        currentUser.username,
+      );
+
+      setHasVoted(res);
+    };
+
+    if (currentUser) {
+      getHasVoted();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
+
+  const getTx = (tx) => {
+    setCurrentTx(tx);
+  };
+
+  const getError = (err) => {
+    setError(err);
+  };
+
+  const handleSubmit = async (supportsDispute) => {
     setProcessing(true);
-    setTimeout(() => {
-      // setVisible(false);
+
+    try {
+      await contract.service.vote(
+        currentUser.username,
+        dispute.id,
+        supportsDispute,
+        getTx,
+        getError,
+      );
+    } catch (e) {
+      console.error(`Error submitting vote: ${e.toString()}`);
+      setError(e);
+    } finally {
       setProcessing(false);
       setProcessed(true);
-    }, 3000);
+    }
   };
 
   const handleCancel = () => {
+    setProcessed(false);
+    setProcessing(false);
+    setError();
+    setCurrentTx();
     setVisible(false);
   };
 
   const renderTitle = () => {
-    if (processing) {
+    if (error) {
+      return 'Transaction Error';
+    } else if (processing) {
       return 'Sending Vote';
     } else if (processed) {
       return 'Sent Vote';
@@ -37,7 +83,7 @@ const VoteForm = ({ dispute }) => {
     }
   };
 
-  const canVote = currentUser && +currentUser.balance > 0;
+  const canVote = currentUser && +currentUser.balance > 0 && !hasVoted;
   // const canVote = true;
 
   return (
@@ -52,6 +98,8 @@ const VoteForm = ({ dispute }) => {
         onCancel={handleCancel}
         footer={null}
       >
+        {error && <p className="ErrorMsg">Error Submitting Transaction</p>}
+
         {!processing && !processed ? (
           <>
             <p>Stake some TRB to dispute a value</p>
@@ -64,10 +112,19 @@ const VoteForm = ({ dispute }) => {
                 <h6>Your Voting Power</h6>
                 <p className="BalanceStatus">
                   {canVote ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
-                  {currentUser.balance} TRB
+                  {currentUser.balance &&
+                    contract.service.fromWei(
+                      currentUser.balance.toString(),
+                    )}{' '}
+                  TRB
                 </p>
 
-                {!canVote && <p className="ErrorMsg">You need TRB to vote</p>}
+                {!canVote && !hasVoted ? (
+                  <p className="ErrorMsg">You need TRB to vote</p>
+                ) : null}
+                {!canVote && hasVoted ? (
+                  <p className="ErrorMsg">You already voted on this dispute</p>
+                ) : null}
               </>
             ) : (
               <p className="ErrorMsg">
@@ -78,7 +135,7 @@ const VoteForm = ({ dispute }) => {
               key="support"
               type="primary"
               size="large"
-              onClick={handleSubmit}
+              onClick={() => handleSubmit(true)}
               disabled={!canVote}
             >
               Support
@@ -87,7 +144,7 @@ const VoteForm = ({ dispute }) => {
               key="challenge"
               type="danger"
               size="large"
-              onClick={handleSubmit}
+              onClick={() => handleSubmit(false)}
               disabled={!canVote}
             >
               Challenge
@@ -95,17 +152,17 @@ const VoteForm = ({ dispute }) => {
           </>
         ) : null}
 
-        {processing ? (
+        {processing && !error ? (
           <>
             <LoadingOutlined />
-            <p>View on Etherscan</p>
+            {currentTx && <EtherscanLink txHash={currentTx} />}
           </>
         ) : null}
 
-        {processed ? (
+        {processed && !error ? (
           <>
             <CheckCircleOutlined />
-            <p>View on Etherscan</p>
+            {currentTx && <EtherscanLink txHash={currentTx} />}
           </>
         ) : null}
       </Modal>

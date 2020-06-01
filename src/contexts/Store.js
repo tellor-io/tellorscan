@@ -7,12 +7,14 @@ import { getChainData } from '../utils/chains';
 import TellorService from 'utils/tellorService';
 
 export const ContractContext = createContext();
+export const OpenDisputesContext = createContext();
 export const CurrentUserContext = createContext();
 export const LoaderContext = createContext(false);
 export const Web3ModalContext = createContext();
 
 const Store = ({ children }) => {
   const [contract, setContract] = useState();
+  const [openDisputes, setOpenDisputes] = useState();
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(false);
   const [web3Modal, setWeb3Modal] = useState(
@@ -25,13 +27,12 @@ const Store = ({ children }) => {
 
   useEffect(() => {
     const initCurrentUser = async () => {
-      let user;
       try {
         const w3c = await w3connect(web3Modal);
         setWeb3Modal(w3c);
 
         const [account] = await w3c.web3.eth.getAccounts();
-        user = createWeb3User(account);
+        let user = createWeb3User(account);
         setCurrentUser(user);
       } catch (e) {
         console.error(`Could not log in with web3`);
@@ -60,7 +61,6 @@ const Store = ({ children }) => {
 
   useEffect(() => {
     const initCurrentUserBalance = async () => {
-      let user;
       try {
         const balance = await contract.service.getBalance(currentUser.username);
         const updatedUser = { ...currentUser, balance };
@@ -80,7 +80,11 @@ const Store = ({ children }) => {
       <Web3ModalContext.Provider value={[web3Modal, setWeb3Modal]}>
         <CurrentUserContext.Provider value={[currentUser, setCurrentUser]}>
           <ContractContext.Provider value={[contract, setContract]}>
-            {children}
+            <OpenDisputesContext.Provider
+              value={[openDisputes, setOpenDisputes]}
+            >
+              {children}
+            </OpenDisputesContext.Provider>
           </ContractContext.Provider>
         </CurrentUserContext.Provider>
       </Web3ModalContext.Provider>

@@ -7,6 +7,7 @@ import RecentMiningEvents from 'components/mining-events/RecentMiningEvents';
 import GraphFetch from 'components/shared/GraphFetch';
 import RecentDisputes from 'components/disputes/RecentDisputes';
 import CurrentEventFetch from 'components/mining-events/CurrentEventFetch';
+import OpenDisputesFetch from 'components/disputes/OpenDiputesFetch';
 
 const StyledContainer = styled.div`
   // display: flex;
@@ -27,6 +28,7 @@ const Home = () => {
   return (
     <StyledContainer>
       <CurrentEventFetch setCurrentEvent={setCurrentEvent} />
+      <OpenDisputesFetch />
       <GraphFetch
         query={GET_LATEST_EVENTS}
         setRecords={setEvents}

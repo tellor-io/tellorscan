@@ -68,8 +68,6 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
   const getCurrentDetails = async () => {
     try {
       const currentDetails = await contract.service.getCurrentVariables();
-
-      console.log('currentDetails', currentDetails);
       setCurrentDetails(currentDetails);
     } catch (e) {
       console.error('error', e);

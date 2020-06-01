@@ -5,6 +5,7 @@ import { GET_ALL_DISPUTES } from 'utils/queries';
 import GraphFetch from 'components/shared/GraphFetch';
 import AllDisputes from 'components/disputes/AllDIsputes';
 import OpenDisputes from 'components/disputes/OpenDisputes';
+import OpenDisputesFetch from 'components/disputes/OpenDiputesFetch';
 
 const StyledContainer = styled.div`
   // display: flex;
@@ -22,10 +23,11 @@ const Disputes = () => {
 
   return (
     <StyledContainer>
+      <OpenDisputesFetch />
       <GraphFetch query={GET_ALL_DISPUTES} setRecords={setDisputes} />
       {disputes ? (
         <>
-          <OpenDisputes disputes={disputes.disputes} />
+          <OpenDisputes />
           <AllDisputes disputes={disputes.disputes} />
         </>
       ) : null}

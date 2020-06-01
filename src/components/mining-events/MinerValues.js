@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Table } from 'antd';
 import styled from 'styled-components';
 
 import DisputeForm from 'components/disputes/DisputeForm';
 import VoteForm from 'components/votes/VoteForm';
+import { getMinerValueStatus } from 'utils/helpers';
+import { OpenDisputesContext } from 'contexts/Store';
 
 const WarningP = styled.div`
   color: #faad14;
 `;
 
 const MinerValues = ({ miningEvent }) => {
+  const [openDisputes] = useContext(OpenDisputesContext);
+
   const checkWarning = (text, record) => {
-    if (record.status === 'Mined') {
-      return <p>{text}</p>;
+    const status = getMinerValueStatus(record, openDisputes, miningEvent);
+    if (status === 'Mined') {
+      return <p>{text || status}</p>;
     } else {
-      return <WarningP>{text}</WarningP>;
+      return <WarningP>{text || status}</WarningP>;
     }
   };
+
   const columns = [
     { title: 'Miner', dataIndex: 'miner', key: 'miner' },
     {
@@ -32,11 +38,20 @@ const MinerValues = ({ miningEvent }) => {
       render: checkWarning,
     },
     {
-      render: (record) => {
-        if (record.status === 'Open Dispute') {
+      render: (record, event, index) => {
+        if (
+          getMinerValueStatus(record, openDisputes, miningEvent) ===
+          'Open Dispute'
+        ) {
           return <VoteForm dispute={record} />;
         } else if (miningEvent.inDisputeWindow) {
-          return <DisputeForm value={record} miningEvent={miningEvent} />;
+          return (
+            <DisputeForm
+              value={record}
+              miningEvent={miningEvent}
+              minerIndex={index}
+            />
+          );
         }
       },
     },

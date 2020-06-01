@@ -8,7 +8,6 @@ export const GET_LATEST_MINER_VALUES = gql`
       currentChallenge
       miner
       value
-      status @client
     }
     request(id: $requestId) {
       id
@@ -41,7 +40,6 @@ const eventFields = `
     id
     miner
     value
-    status @client
   }
 `;
 
@@ -55,7 +53,7 @@ export const GET_LATEST_EVENTS = gql`
 
 export const GET_ALL_EVENTS = gql`
   query {
-    miningEvents(first: 100, orderBy: timestamp, orderDirection: desc) {
+    miningEvents(first: 50, orderBy: timestamp, orderDirection: desc) {
       ${eventFields}
     }
   }

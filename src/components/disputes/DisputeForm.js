@@ -5,30 +5,60 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from '@ant-design/icons';
+
 import { ContractContext, CurrentUserContext } from 'contexts/Store';
+import EtherscanLink from 'components/shared/EtherscanlLnk';
 
 const DisputeForm = ({ value, miningEvent }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
+  const [currentTx, setCurrentTx] = useState();
+  const [error, setError] = useState();
   const [contract] = useContext(ContractContext);
   const [currentUser] = useContext(CurrentUserContext);
 
+  const getTx = (tx) => {
+    setCurrentTx(tx);
+  };
+
+  const getError = (err) => {
+    setError(err);
+  };
+
   const handleSubmit = async () => {
     setProcessing(true);
-    setTimeout(() => {
-      // setVisible(false);
+
+    try {
+      await contract.service.beginDispute(
+        currentUser.username,
+        miningEvent.requestId,
+        miningEvent.time,
+        value.miner,
+        getTx,
+        getError,
+      );
+    } catch (e) {
+      console.error(`Error submitting dispute: ${e.toString()}`);
+      setError(e);
+    } finally {
       setProcessing(false);
       setProcessed(true);
-    }, 3000);
+    }
   };
 
   const handleCancel = () => {
+    setProcessed(false);
+    setProcessing(false);
+    setError();
+    setCurrentTx();
     setVisible(false);
   };
 
   const renderTitle = () => {
-    if (processing) {
+    if (error) {
+      return 'Transaction Error';
+    } else if (processing) {
       return 'Sending Dispute';
     } else if (processed) {
       return 'Sent Dispute';
@@ -52,6 +82,8 @@ const DisputeForm = ({ value, miningEvent }) => {
         onCancel={handleCancel}
         footer={null}
       >
+        {error && <p className="ErrorMsg">Error Submitting Transaction</p>}
+
         {!processing && !processed ? (
           <>
             <p>Stake some TRB to dispute a value</p>
@@ -94,17 +126,17 @@ const DisputeForm = ({ value, miningEvent }) => {
           </>
         ) : null}
 
-        {processing ? (
+        {processing && !error ? (
           <>
             <LoadingOutlined />
-            <p>View on Etherscan</p>
+            {currentTx && <EtherscanLink txHash={currentTx} />}
           </>
         ) : null}
 
-        {processed ? (
+        {processed && !error ? (
           <>
             <CheckCircleOutlined />
-            <p>View on Etherscan</p>
+            {currentTx && <EtherscanLink txHash={currentTx} />}
           </>
         ) : null}
       </Modal>

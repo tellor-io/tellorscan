@@ -1,26 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 
 import DisputesTable from './DisputesTable';
+import { OpenDisputesContext } from 'contexts/Store';
 
-const OpenDisputes = ({ disputes }) => {
-  const [openDisputes, setOpenDisputes] = useState([]);
-
-  useEffect(() => {
-    const initOpenDisputes = async () => {
-      setOpenDisputes(
-        disputes.filter((dispute) => dispute.status === 'Open Dispute'),
-      );
-    };
-
-    if (disputes) {
-      initOpenDisputes();
-    }
-  }, [disputes]);
+const OpenDisputes = () => {
+  const [openDisputes] = useContext(OpenDisputesContext);
 
   return (
     <div>
       <h2>Open Disputes</h2>
-      <DisputesTable pagination={false} disputes={openDisputes} open={true} />
+      {openDisputes && (
+        <DisputesTable pagination={false} disputes={openDisputes} open={true} />
+      )}
     </div>
   );
 };

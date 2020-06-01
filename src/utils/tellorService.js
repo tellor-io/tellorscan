@@ -49,31 +49,93 @@ export default class TellorService {
     return disputeFee;
   }
 
-  fromWei(value) {
-    return this.web3.utils.fromWei(value);
+  async didVote(disputeId, address) {
+    if (!this.contract) {
+      await this.initContract();
+    }
+
+    let didVote = await this.contract.methods
+      .didVote(disputeId, address)
+      .call();
+    return didVote;
   }
 
-  async submitVote(from, proposalIndex, uintVote, encodedPayload) {
-    // if (!this.contract) {
-    //   await this.initContract();
-    // }
-    // if (encodedPayload) {
-    //   const data = this.contract.methods
-    //     .submitVote(proposalIndex, uintVote)
-    //     .encodeABI();
-    //   return data;
-    // }
-    // let vote = this.contract.methods
-    //   .submitVote(proposalIndex, uintVote)
-    //   .send({ from })
-    //   .once('transactionHash', (txHash) => {})
-    //   .then((resp) => {
-    //     return resp;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     return { error: 'rejected transaction' };
-    //   });
-    // return vote;
+  async getMiners(requestId, timestamp) {
+    if (!this.contract) {
+      await this.initContract();
+    }
+
+    let miners = await this.contract.methods
+      .getMinersByRequestIdAndTimestamp(requestId, timestamp)
+      .call();
+    return miners;
+  }
+
+  async beginDispute(
+    from,
+    requestId,
+    timestamp,
+    minerAddress,
+    setTx,
+    setError,
+  ) {
+    // uint256 _requestId, uint256 _timestamp, uint256 _minerIndex
+    if (!this.contract) {
+      await this.initContract();
+    }
+
+    const miners = await this.getMiners(requestId, timestamp);
+    const lcMiners = miners.map((m) => m.toLowerCase());
+    const minerIndex = lcMiners.indexOf(minerAddress.toLowerCase());
+
+    console.log('dispute service', from, requestId, timestamp, minerIndex);
+
+    let dispute = this.contract.methods
+      .beginDispute(requestId, timestamp, minerIndex)
+      .send({ from })
+      .once('transactionHash', (txHash) => {
+        console.log('txHash', txHash);
+        setTx(txHash);
+      })
+      .then((resp) => {
+        console.log('resp', resp);
+        return resp;
+      })
+      .catch((err) => {
+        console.log('err', err);
+        setError({ error: 'rejected transaction', message: err });
+      });
+
+    return dispute;
+  }
+
+  async vote(from, disputeId, supportsDispute, setTx, setError) {
+    // uint256 _disputeId, bool _supportsDispute
+    if (!this.contract) {
+      await this.initContract();
+    }
+
+    console.log('vote service', from, disputeId, supportsDispute);
+
+    let vote = this.contract.methods
+      .vote(disputeId, supportsDispute)
+      .send({ from })
+      .once('transactionHash', (txHash) => {
+        setTx(txHash);
+      })
+      .then((resp) => {
+        console.log('resp', resp);
+        return resp;
+      })
+      .catch((err) => {
+        console.log('err', err);
+        setError({ error: 'rejected transaction', message: err });
+      });
+
+    return vote;
+  }
+
+  fromWei(value) {
+    return this.web3.utils.fromWei(value);
   }
 }
