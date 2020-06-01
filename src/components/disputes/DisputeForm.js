@@ -9,8 +9,7 @@ import {
 import { ContractContext, CurrentUserContext } from 'contexts/Store';
 import EtherscanLink from 'components/shared/EtherscanlLnk';
 
-const DisputeForm = ({ value, miningEvent, minerIndex }) => {
-  console.log('disputeForm', value, miningEvent, minerIndex);
+const DisputeForm = ({ value, miningEvent }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
@@ -30,7 +29,7 @@ const DisputeForm = ({ value, miningEvent, minerIndex }) => {
         currentUser.username,
         miningEvent.requestId,
         miningEvent.time,
-        minerIndex,
+        value.miner,
         getTx,
       );
     } catch (e) {
@@ -55,8 +54,8 @@ const DisputeForm = ({ value, miningEvent, minerIndex }) => {
     }
   };
 
-  const canDispute = currentUser && +currentUser.balance > contract.disputeFee;
-  // const canDispute = true;
+  // const canDispute = currentUser && +currentUser.balance > contract.disputeFee;
+  const canDispute = true;
 
   return (
     <>

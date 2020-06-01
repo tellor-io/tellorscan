@@ -12,12 +12,19 @@ export const getEventStatus = (event) => {
   }
 };
 
-export const getMinerValueStatus = (value) => {
-  // todo: check if open dispute
-  // return 'Open Dispute';
-  // else
-  // can we conditionally do this if the miningValue is in dispute only to cut down on web3 calls?
-  return 'Mined';
+export const getMinerValueStatus = (value, openDisputes, miningEvent) => {
+  const matchingDispute = openDisputes.find((dispute) => {
+    return (
+      dispute.requestId === miningEvent.requestId &&
+      dispute.timestamp === miningEvent.time
+    );
+  });
+
+  if (matchingDispute && matchingDispute.miner === value.miner) {
+    return 'Open Dispute';
+  } else {
+    return 'Mined';
+  }
 };
 
 export const getDisputeStatus = (dispute) => {

@@ -2,13 +2,12 @@ import { gql } from 'apollo-boost';
 
 export const GET_LATEST_MINER_VALUES = gql`
   query request($requestId: String!) {
-    minerValues(first: 6, orderBy: timestamp, orderDirection: desc) {
+    minerValues(first: 6, orderBy: timestamp, orderDirection: asc) {
       id
       miningEventId
       currentChallenge
       miner
       value
-      status @client
     }
     request(id: $requestId) {
       id
@@ -41,7 +40,6 @@ const eventFields = `
     id
     miner
     value
-    status @client
   }
 `;
 
