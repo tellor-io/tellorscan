@@ -5,13 +5,9 @@ import animationData from '../../assets/Tellor__Loader.json';
 
 const LoadingDiv = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  svg {
-    width: 200px;
-    height: 200px;
-  }
+  justify-content: center
+  padding: 50px;
 `;
 
 const Loader = () => {
@@ -25,7 +21,7 @@ const Loader = () => {
   };
   return (
     <LoadingDiv>
-      <Lottie options={defaultOptions} height={150} width={150} />
+      <Lottie options={defaultOptions} height={120} width={120} />
     </LoadingDiv>
   );
 };

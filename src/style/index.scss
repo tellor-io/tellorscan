@@ -24,8 +24,17 @@ h6 {
 
 // Specific Elements
 
-.CurrentEvent {
-  // background-color: black;
+.Hero {
+  padding-top: 25px;
+  background-color: black;
+}
+
+.View {
+  width: calc(100%);
+  max-width: 1200px;
+  position: relative;
+  margin: 0 auto;
+  padding-bottom: 75px;
 }
 
 .TableHeader {
@@ -43,6 +52,17 @@ h6 {
   }
 }
 
+.LoaderSmall {
+  > div {
+    position: absolute;
+    display: inline-block;
+    height: 36px;
+    width: 36px;
+    margin-top: -8px !important;
+    margin-left: 5px !important;
+  }
+}
+
 .BalanceStatus {
   span {
     margin-right: 10px;
@@ -50,7 +70,7 @@ h6 {
 }
 
 .ErrorMsg {
-  color: red;
+  color: #dd5858;
   font-size: 0.75em !important;
   margin-top: -15px;
   margin-bottom: 15px;
@@ -63,7 +83,6 @@ h6 {
 .ant-layout-header {
   background: #000;
   height: auto;
-  margin-bottom: 50px;
 }
 
 // Buttons
@@ -100,9 +119,11 @@ button {
 // Tables
 
 .ant-table {
-  color: $green-1;
   background: transparent;
   font-family: 'Roboto Mono', monospace;
+  &:not(.expanded) {
+    color: $green-1;
+  }
 }
 
 .ant-table-thead > tr > th {
@@ -180,8 +201,23 @@ tr.ant-table-expanded-row:hover > td {
   text-align: right;
 }
 
-.expanded {
-  background-color: $hot-green;
+.ant-table-cell p {
+  margin: 0;
+}
+
+.ant-table-row.expanded {
+  background-color: $tellor-green;
+  color: #151515 !important;
+  &:hover .ant-table-cell {
+    color: #151515 !important;
+  }
+  .ant-table-row-expand-icon-cell {
+    cursor: pointer;
+    span {
+      pointer-events: none;
+      color: #151515;
+    }
+  }
 }
 
 // Modal

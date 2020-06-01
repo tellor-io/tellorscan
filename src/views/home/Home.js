@@ -9,24 +9,13 @@ import RecentDisputes from 'components/disputes/RecentDisputes';
 import CurrentEventFetch from 'components/mining-events/CurrentEventFetch';
 import OpenDisputesFetch from 'components/disputes/OpenDiputesFetch';
 
-const StyledContainer = styled.div`
-  // display: flex;
-  // align-items: center;
-  // flex-direction: column;
-  width: calc(100%);
-  max-width: 1200px;
-  position: relative;
-  margin: 0 auto;
-  padding-bottom: 75px;
-`;
-
 const Home = () => {
   const [currentEvent, setCurrentEvent] = useState();
   const [events, setEvents] = useState();
   const [disputes, setDisputes] = useState();
 
   return (
-    <StyledContainer>
+    <>
       <CurrentEventFetch setCurrentEvent={setCurrentEvent} />
       <OpenDisputesFetch />
       <GraphFetch
@@ -40,14 +29,26 @@ const Home = () => {
         suppressLoading={true}
       />
 
-      {currentEvent ? <CurrentMiningEvent currentEvent={currentEvent} /> : null}
-
-      {events ? (
-        <RecentMiningEvents events={events.miningEvents.slice(1)} />
+      {currentEvent ? (
+        <div className="Hero">
+          <div className="View">
+            <CurrentMiningEvent currentEvent={currentEvent} />
+          </div>
+        </div>
       ) : null}
 
-      {disputes ? <RecentDisputes disputes={disputes.disputes} /> : null}
-    </StyledContainer>
+      {events ? (
+        <div className="View">
+          <RecentMiningEvents events={events.miningEvents.slice(1)} />
+        </div>
+      ) : null}
+
+      {disputes ? (
+        <div className="View">
+          <RecentDisputes disputes={disputes.disputes} />
+        </div>
+      ) : null}
+    </>
   );
 };
 
