@@ -6,27 +6,31 @@ import {
   CloseCircleOutlined,
 } from '@ant-design/icons';
 import { CurrentUserContext, ContractContext } from 'contexts/Store';
+import EtherscanLink from 'components/shared/EtherscanlLnk';
 
 const VoteForm = ({ dispute }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
+  const [currentTx, setCurrentTx] = useState();
   const [contract] = useContext(ContractContext);
   const [currentUser] = useContext(CurrentUserContext);
 
+  const getTx = (tx) => {
+    console.log('calling getTx', tx);
+    setCurrentTx(tx);
+  };
+
   const handleSubmit = async (supportsDispute) => {
     setProcessing(true);
-    // setTimeout(() => {
-    //   // setVisible(false);
-    //   setProcessing(false);
-    //   setProcessed(true);
-    // }, 3000);
 
+    console.log('dispute form', dispute);
     try {
       await contract.service.vote(
         currentUser.username,
-        dispute.disputeId,
+        dispute.id,
         supportsDispute,
+        getTx,
       );
     } catch (e) {
       console.error(`Error submitting vote: ${e.toString()}`);
@@ -79,7 +83,11 @@ const VoteForm = ({ dispute }) => {
                 <h6>Your Voting Power</h6>
                 <p className="BalanceStatus">
                   {canVote ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
-                  {currentUser.balance} TRB
+                  {currentUser.balance &&
+                    contract.service.fromWei(
+                      currentUser.balance.toString(),
+                    )}{' '}
+                  TRB
                 </p>
 
                 {!canVote && <p className="ErrorMsg">You need TRB to vote</p>}
@@ -113,14 +121,14 @@ const VoteForm = ({ dispute }) => {
         {processing ? (
           <>
             <LoadingOutlined />
-            <p>View on Etherscan</p>
+            <EtherscanLink txHash={currentTx} />
           </>
         ) : null}
 
         {processed ? (
           <>
             <CheckCircleOutlined />
-            <p>View on Etherscan</p>
+            <EtherscanLink txHash={currentTx} />
           </>
         ) : null}
       </Modal>

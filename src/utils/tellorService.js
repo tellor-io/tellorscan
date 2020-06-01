@@ -53,16 +53,22 @@ export default class TellorService {
     return this.web3.utils.fromWei(value);
   }
 
-  async beginDispute(from, requestId, timestamp, minderIndex) {
+  async beginDispute(from, requestId, timestamp, minderIndex, setTx) {
     // uint256 _requestId, uint256 _timestamp, uint256 _minerIndex
+
+    //0x83aB8e31df35AA3281d630529C6F4bf5AC7f7aBF 50 1590963300 1
+
     if (!this.contract) {
       await this.initContract();
     }
+
+    console.log('dispute service', from, requestId, timestamp, minderIndex);
 
     let dispute = this.contract.methods
       .beginDispute(requestId, timestamp, minderIndex)
       .send({ from })
       .once('transactionHash', (txHash) => {
+        console.log('txHash', txHash);
         //todo return to component for etherscan link
       })
       .then((resp) => {
@@ -74,13 +80,14 @@ export default class TellorService {
         return { error: 'rejected transaction' };
       });
 
-    console.log('dispute', dispute);
-
     return dispute;
   }
 
-  async vote(from, disputeId, supportsDispute) {
+  async vote(from, disputeId, supportsDispute, setTx) {
     // uint256 _disputeId, bool _supportsDispute
+
+    console.log('vote service', from, disputeId, supportsDispute);
+
     if (!this.contract) {
       await this.initContract();
     }
@@ -90,6 +97,7 @@ export default class TellorService {
       .send({ from })
       .once('transactionHash', (txHash) => {
         //todo return to component for etherscan link
+        setTx(txHash);
       })
       .then((resp) => {
         console.log('resp', resp);
@@ -102,5 +110,20 @@ export default class TellorService {
 
     console.log('vote', vote);
     return vote;
+  }
+
+  async fakeVote(from, disputeId, supportsDispute, setTx) {
+    // uint256 _disputeId, bool _supportsDispute
+
+    console.log('fake vote service', from, disputeId, supportsDispute);
+
+    setTimeout(() => {
+      // setVisible(false);
+
+      console.log('calling', setTx);
+      setTx(
+        '0xffc2af059807646ea6756bea0f88f60f05ef108ea7698490559b13d3e878b925',
+      );
+    }, 3000);
   }
 }

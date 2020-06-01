@@ -32,11 +32,17 @@ const MinerValues = ({ miningEvent }) => {
       render: checkWarning,
     },
     {
-      render: (record) => {
+      render: (record, event, index) => {
         if (record.status === 'Open Dispute') {
           return <VoteForm dispute={record} />;
         } else if (miningEvent.inDisputeWindow) {
-          return <DisputeForm value={record} miningEvent={miningEvent} />;
+          return (
+            <DisputeForm
+              value={record}
+              miningEvent={miningEvent}
+              minerIndex={index}
+            />
+          );
         }
       },
     },

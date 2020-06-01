@@ -7,37 +7,35 @@ import {
 } from '@ant-design/icons';
 
 import { ContractContext, CurrentUserContext } from 'contexts/Store';
+import EtherscanLink from 'components/shared/EtherscanlLnk';
 
-const DisputeForm = ({ value, miningEvent }) => {
+const DisputeForm = ({ value, miningEvent, minerIndex }) => {
+  console.log('disputeForm', value, miningEvent, minerIndex);
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
+  const [currentTx, setCurrentTx] = useState();
   const [contract] = useContext(ContractContext);
   const [currentUser] = useContext(CurrentUserContext);
 
+  const getTx = (tx) => {
+    setCurrentTx(tx);
+  };
+
   const handleSubmit = async () => {
     setProcessing(true);
-    // setTimeout(() => {
-    //   // setVisible(false);
-    //   setProcessing(false);
-    //   setProcessed(true);
-    // }, 3000);
-
-    //TODO get the minerIndex - pass from above or indexOf it
-    const minerIndex = 1;
 
     try {
-      await contract.service.beginDsipute(
+      await contract.service.beginDispute(
         currentUser.username,
         miningEvent.requestId,
         miningEvent.time,
         minerIndex,
+        getTx,
       );
     } catch (e) {
       console.error(`Error submitting dispute: ${e.toString()}`);
     } finally {
-      console.log('dispute submitted');
-
       setProcessing(false);
       setProcessed(true);
     }
@@ -117,14 +115,14 @@ const DisputeForm = ({ value, miningEvent }) => {
         {processing ? (
           <>
             <LoadingOutlined />
-            <p>View on Etherscan</p>
+            <EtherscanLink txHash={currentTx} />
           </>
         ) : null}
 
         {processed ? (
           <>
             <CheckCircleOutlined />
-            <p>View on Etherscan</p>
+            <EtherscanLink txHash={currentTx} />
           </>
         ) : null}
       </Modal>
