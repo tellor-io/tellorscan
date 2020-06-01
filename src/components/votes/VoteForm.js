@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import Loader from '../shared/Loader';
 import { Button, Modal } from 'antd';
 import {
   LoadingOutlined,
@@ -154,7 +155,7 @@ const VoteForm = ({ dispute }) => {
 
         {processing && !error ? (
           <>
-            <LoadingOutlined />
+            <Loader />
             {currentTx && <EtherscanLink txHash={currentTx} />}
           </>
         ) : null}

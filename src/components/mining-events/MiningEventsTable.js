@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
+import Loader from '../shared/Loader';
 import { Table } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import MinerValues from './MinerValues';
+import Lottie from 'react-lottie';
+import animationData from '../../assets/Tellor__Loader.json';
 
 const MiningEventsTable = ({ events, pagination, current }) => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
+
   const columns = [
     { title: 'ID', dataIndex: 'requestId', key: 'requestId' },
     {
@@ -19,7 +31,11 @@ const MiningEventsTable = ({ events, pagination, current }) => {
       key: 'status',
       render: (text) => {
         if (current) {
-          return <p>{text} loading</p>;
+          return (
+            <span className="LoaderSmall">
+              {text} <Lottie options={defaultOptions} height={36} width={36} />
+            </span>
+          );
         } else {
           return <p>{text}</p>;
         }

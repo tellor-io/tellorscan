@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import Loader from '../shared/Loader';
 import { Modal, Button } from 'antd';
 import {
   LoadingOutlined,
@@ -128,7 +129,7 @@ const DisputeForm = ({ value, miningEvent }) => {
 
         {processing && !error ? (
           <>
-            <LoadingOutlined />
+            <Loader />
             {currentTx && <EtherscanLink txHash={currentTx} />}
           </>
         ) : null}

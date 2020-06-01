@@ -8,7 +8,9 @@ const OpenDisputes = () => {
 
   return (
     <div>
-      <h2>Open Disputes</h2>
+      <div className="TableHeader">
+        <h2>Open Disputes</h2>
+      </div>
       {openDisputes && (
         <DisputesTable pagination={false} disputes={openDisputes} open={true} />
       )}
