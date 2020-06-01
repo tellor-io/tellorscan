@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button, Modal } from 'antd';
 import {
   LoadingOutlined,
@@ -13,41 +13,68 @@ const VoteForm = ({ dispute }) => {
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
   const [currentTx, setCurrentTx] = useState();
+  const [hasVoted, setHasVoted] = useState();
+  const [error, setError] = useState();
   const [contract] = useContext(ContractContext);
   const [currentUser] = useContext(CurrentUserContext);
 
+  useEffect(() => {
+    const getHasVoted = async () => {
+      const res = await contract.service.didVote(
+        dispute.id,
+        currentUser.username,
+      );
+
+      setHasVoted(res);
+    };
+
+    if (currentUser) {
+      getHasVoted();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
+
   const getTx = (tx) => {
-    console.log('calling getTx', tx);
     setCurrentTx(tx);
+  };
+
+  const getError = (err) => {
+    setError(err);
   };
 
   const handleSubmit = async (supportsDispute) => {
     setProcessing(true);
 
-    console.log('dispute form', dispute);
     try {
       await contract.service.vote(
         currentUser.username,
         dispute.id,
         supportsDispute,
         getTx,
+        getError,
       );
     } catch (e) {
       console.error(`Error submitting vote: ${e.toString()}`);
+      setError(e);
     } finally {
-      console.log('vote submitted');
-
       setProcessing(false);
       setProcessed(true);
     }
   };
 
   const handleCancel = () => {
+    setProcessed(false);
+    setProcessing(false);
+    setError();
+    setCurrentTx();
     setVisible(false);
   };
 
   const renderTitle = () => {
-    if (processing) {
+    if (error) {
+      return 'Transaction Error';
+    } else if (processing) {
       return 'Sending Vote';
     } else if (processed) {
       return 'Sent Vote';
@@ -56,7 +83,7 @@ const VoteForm = ({ dispute }) => {
     }
   };
 
-  const canVote = currentUser && +currentUser.balance > 0;
+  const canVote = currentUser && +currentUser.balance > 0 && !hasVoted;
   // const canVote = true;
 
   return (
@@ -71,6 +98,8 @@ const VoteForm = ({ dispute }) => {
         onCancel={handleCancel}
         footer={null}
       >
+        {error && <p className="ErrorMsg">Error Submitting Transaction</p>}
+
         {!processing && !processed ? (
           <>
             <p>Stake some TRB to dispute a value</p>
@@ -90,7 +119,12 @@ const VoteForm = ({ dispute }) => {
                   TRB
                 </p>
 
-                {!canVote && <p className="ErrorMsg">You need TRB to vote</p>}
+                {!canVote && !hasVoted ? (
+                  <p className="ErrorMsg">You need TRB to vote</p>
+                ) : null}
+                {!canVote && hasVoted ? (
+                  <p className="ErrorMsg">You already voted on this dispute</p>
+                ) : null}
               </>
             ) : (
               <p className="ErrorMsg">
@@ -118,17 +152,17 @@ const VoteForm = ({ dispute }) => {
           </>
         ) : null}
 
-        {processing ? (
+        {processing && !error ? (
           <>
             <LoadingOutlined />
-            <EtherscanLink txHash={currentTx} />
+            {currentTx && <EtherscanLink txHash={currentTx} />}
           </>
         ) : null}
 
-        {processed ? (
+        {processed && !error ? (
           <>
             <CheckCircleOutlined />
-            <EtherscanLink txHash={currentTx} />
+            {currentTx && <EtherscanLink txHash={currentTx} />}
           </>
         ) : null}
       </Modal>

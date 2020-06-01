@@ -14,11 +14,16 @@ const DisputeForm = ({ value, miningEvent }) => {
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
   const [currentTx, setCurrentTx] = useState();
+  const [error, setError] = useState();
   const [contract] = useContext(ContractContext);
   const [currentUser] = useContext(CurrentUserContext);
 
   const getTx = (tx) => {
     setCurrentTx(tx);
+  };
+
+  const getError = (err) => {
+    setError(err);
   };
 
   const handleSubmit = async () => {
@@ -31,9 +36,11 @@ const DisputeForm = ({ value, miningEvent }) => {
         miningEvent.time,
         value.miner,
         getTx,
+        getError,
       );
     } catch (e) {
       console.error(`Error submitting dispute: ${e.toString()}`);
+      setError(e);
     } finally {
       setProcessing(false);
       setProcessed(true);
@@ -41,11 +48,17 @@ const DisputeForm = ({ value, miningEvent }) => {
   };
 
   const handleCancel = () => {
+    setProcessed(false);
+    setProcessing(false);
+    setError();
+    setCurrentTx();
     setVisible(false);
   };
 
   const renderTitle = () => {
-    if (processing) {
+    if (error) {
+      return 'Transaction Error';
+    } else if (processing) {
       return 'Sending Dispute';
     } else if (processed) {
       return 'Sent Dispute';
@@ -54,8 +67,8 @@ const DisputeForm = ({ value, miningEvent }) => {
     }
   };
 
-  // const canDispute = currentUser && +currentUser.balance > contract.disputeFee;
-  const canDispute = true;
+  const canDispute = currentUser && +currentUser.balance > contract.disputeFee;
+  // const canDispute = true;
 
   return (
     <>
@@ -69,6 +82,8 @@ const DisputeForm = ({ value, miningEvent }) => {
         onCancel={handleCancel}
         footer={null}
       >
+        {error && <p className="ErrorMsg">Error Submitting Transaction</p>}
+
         {!processing && !processed ? (
           <>
             <p>Stake some TRB to dispute a value</p>
@@ -111,17 +126,17 @@ const DisputeForm = ({ value, miningEvent }) => {
           </>
         ) : null}
 
-        {processing ? (
+        {processing && !error ? (
           <>
             <LoadingOutlined />
-            <EtherscanLink txHash={currentTx} />
+            {currentTx && <EtherscanLink txHash={currentTx} />}
           </>
         ) : null}
 
-        {processed ? (
+        {processed && !error ? (
           <>
             <CheckCircleOutlined />
-            <EtherscanLink txHash={currentTx} />
+            {currentTx && <EtherscanLink txHash={currentTx} />}
           </>
         ) : null}
       </Modal>

@@ -6,7 +6,7 @@ const GraphFetch = ({ query, setRecords, variables, suppressLoading }) => {
   const { loading, error, data } = useQuery(query, {
     variables,
     fetchPolicy: 'network-only',
-    pollInterval: 1000,
+    pollInterval: 5000,
   });
 
   useEffect(() => {

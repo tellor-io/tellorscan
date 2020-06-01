@@ -13,6 +13,8 @@ export const getEventStatus = (event) => {
 };
 
 export const getMinerValueStatus = (value, openDisputes, miningEvent) => {
+  // console.log('status', openDisputes[0], miningEvent);
+
   const matchingDispute = openDisputes.find((dispute) => {
     return (
       dispute.requestId === miningEvent.requestId &&
