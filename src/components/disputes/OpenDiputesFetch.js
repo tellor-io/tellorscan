@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, useState } from 'react';
-import _ from 'lodash';
 
 import { GET_LATEST_DISPUTES } from 'utils/queries';
 import GraphFetch from 'components/shared/GraphFetch';
