@@ -257,4 +257,9 @@ tr.ant-table-expanded-row:hover > td {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+  .ant-layout-header {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 }

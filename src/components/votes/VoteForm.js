@@ -108,7 +108,11 @@ const VoteForm = ({ dispute }) => {
               <>
                 <h6>Your Voting Power</h6>
                 <p className="BalanceStatus">
-                  {canVote ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
+                  {canVote ? (
+                    <CheckCircleOutlined />
+                  ) : (
+                    <CloseCircleOutlined style={{ color: '#dd5858' }} />
+                  )}
                   {currentUser.balance &&
                     contract.service.fromWei(
                       currentUser.balance.toString(),
@@ -134,6 +138,7 @@ const VoteForm = ({ dispute }) => {
               size="large"
               onClick={() => handleSubmit(true)}
               disabled={!canVote}
+              style={{ marginRight: '15px' }}
             >
               Support
             </Button>
