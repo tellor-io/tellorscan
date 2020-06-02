@@ -1,13 +1,9 @@
 import React, { useState, useContext } from 'react';
-import Loader from '../shared/Loader';
 import { Modal, Button } from 'antd';
-import {
-  LoadingOutlined,
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-} from '@ant-design/icons';
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 import { ContractContext, CurrentUserContext } from 'contexts/Store';
+import Loader from '../shared/Loader';
 import EtherscanLink from 'components/shared/EtherscanlLnk';
 
 const DisputeForm = ({ value, miningEvent }) => {

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Loader from '../shared/Loader';
 import { Table } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import MinerValues from './MinerValues';

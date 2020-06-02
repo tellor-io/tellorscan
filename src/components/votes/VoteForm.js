@@ -1,11 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Loader from '../shared/Loader';
 import { Button, Modal } from 'antd';
-import {
-  LoadingOutlined,
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-} from '@ant-design/icons';
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { CurrentUserContext, ContractContext } from 'contexts/Store';
 import EtherscanLink from 'components/shared/EtherscanlLnk';
 
