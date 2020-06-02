@@ -20,7 +20,7 @@ const StyledBrandLink = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: center;
-
+    flex-wrap: wrap;
     img {
       height: 60px;
       width: auto;
@@ -32,12 +32,23 @@ const StyledBrandLink = styled.div`
       font-weight: 300;
       margin-bottom: -11px;
     }
+    @media (max-width: 800px) {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      span {
+        display: none;
+      }
+    }
   }
 `;
 
 const StyledHeaderNav = styled.div`
   display: inline-block;
   margin-left: auto;
+  > button {
+    padding: 0px 15px !important;
+  }
   > * {
     margin-left: 25px;
     font-size: 1.5em;
@@ -47,6 +58,12 @@ const StyledHeaderNav = styled.div`
       color: #5cfcb6;
       border-radius: 50px;
       padding: 10px 15px;
+      vertical-align: middle;
+    }
+
+    @media (max-width: 800px) {
+      font-size: 1em;
+      margin-left: 15px;
     }
   }
 `;
