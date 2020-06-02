@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 
 import { GET_ALL_DISPUTES } from 'utils/queries';
 import GraphFetch from 'components/shared/GraphFetch';
