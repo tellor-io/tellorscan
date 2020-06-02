@@ -97,7 +97,11 @@ const DisputeForm = ({ value, miningEvent }) => {
             <h6>Stake required to Dispute this value *</h6>
 
             <p className="BalanceStatus">
-              {canDispute ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
+              {canDispute ? (
+                <CheckCircleOutlined />
+              ) : (
+                <CloseCircleOutlined style={{ color: '#dd5858' }} />
+              )}
               {contract.service.fromWei(contract.disputeFee)} TRB
             </p>
 

@@ -8,23 +8,12 @@ import GraphFetch from 'components/shared/GraphFetch';
 import CurrentEventFetch from 'components/mining-events/CurrentEventFetch';
 import OpenDisputesFetch from 'components/disputes/OpenDiputesFetch';
 
-const StyledContainer = styled.div`
-  // display: flex;
-  // align-items: center;
-  // flex-direction: column;
-  width: calc(100%);
-  max-width: 1200px;
-  position: relative;
-  margin: 0 auto;
-  padding-bottom: 75px;
-`;
-
 const Mining = () => {
   const [currentEvent, setCurrentEvent] = useState();
   const [events, setEvents] = useState();
 
   return (
-    <StyledContainer>
+    <>
       <OpenDisputesFetch />
       <CurrentEventFetch setCurrentEvent={setCurrentEvent} />
       <GraphFetch
@@ -33,12 +22,20 @@ const Mining = () => {
         suppressLoading={true}
       />
 
-      {currentEvent ? <CurrentMiningEvent currentEvent={currentEvent} /> : null}
+      {currentEvent ? (
+        <div className="Hero">
+          <div className="View">
+            <CurrentMiningEvent currentEvent={currentEvent} />
+          </div>
+        </div>
+      ) : null}
 
       {events ? (
-        <AllMiningEvents events={events.miningEvents.slice(1)} />
+        <div className="View">
+          <AllMiningEvents events={events.miningEvents.slice(1)} />
+        </div>
       ) : null}
-    </StyledContainer>
+    </>
   );
 };
 
