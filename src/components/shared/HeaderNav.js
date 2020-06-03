@@ -18,7 +18,7 @@ const StyledHeader = styled.div`
 const StyledBrandLink = styled.div`
   a {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
     img {

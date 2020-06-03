@@ -220,6 +220,38 @@ tr.ant-table-expanded-row:hover > td {
   }
 }
 
+// Pagination
+
+.ant-pagination {
+  &.ant-table-pagination {
+    margin: 16px;
+  }
+  .ant-pagination-item:not(.ant-pagination-item-active) {
+    background-color: transparent;
+    border: none;
+    &.ant-pagination-item-active {
+      background-color: transparent;
+    }
+  }
+  .ant-pagination-item {
+    background-color: transparent;
+    border-radius: 50px;
+  }
+  .ant-pagination-prev,
+  .ant-pagination-next {
+    .ant-pagination-item-link {
+      border: none;
+      background-color: transparent;
+    }
+  }
+  .ant-pagination-disabled {
+    .ant-pagination-item-link {
+      border: none;
+      background-color: transparent;
+    }
+  }
+}
+
 // Modal
 
 .ant-modal-mask {
