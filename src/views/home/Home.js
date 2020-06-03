@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 
 import { GET_LATEST_EVENTS, GET_LATEST_DISPUTES } from 'utils/queries';
 import CurrentMiningEvent from 'components/mining-events/CurrentMiningEvent';
