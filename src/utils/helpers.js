@@ -22,8 +22,6 @@ export const getMatchingDispute = (openDisputes, miningEvent) => {
 };
 
 export const getMinerValueStatus = (value, openDisputes, miningEvent) => {
-  // console.log('status', openDisputes[0], miningEvent);
-
   const matchingDispute = getMatchingDispute(openDisputes, miningEvent);
 
   if (matchingDispute && matchingDispute.miner === value.miner) {

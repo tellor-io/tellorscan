@@ -9,7 +9,6 @@ import TellorService from 'utils/tellorService';
 export const ContractContext = createContext();
 export const OpenDisputesContext = createContext();
 export const CurrentUserContext = createContext();
-export const LoaderContext = createContext(false);
 export const Web3ModalContext = createContext();
 
 const Store = ({ children }) => {
@@ -76,19 +75,15 @@ const Store = ({ children }) => {
   }, [currentUser, contract]);
 
   return (
-    <LoaderContext.Provider value={[loading, setLoading]}>
-      <Web3ModalContext.Provider value={[web3Modal, setWeb3Modal]}>
-        <CurrentUserContext.Provider value={[currentUser, setCurrentUser]}>
-          <ContractContext.Provider value={[contract, setContract]}>
-            <OpenDisputesContext.Provider
-              value={[openDisputes, setOpenDisputes]}
-            >
-              {children}
-            </OpenDisputesContext.Provider>
-          </ContractContext.Provider>
-        </CurrentUserContext.Provider>
-      </Web3ModalContext.Provider>
-    </LoaderContext.Provider>
+    <Web3ModalContext.Provider value={[web3Modal, setWeb3Modal]}>
+      <CurrentUserContext.Provider value={[currentUser, setCurrentUser]}>
+        <ContractContext.Provider value={[contract, setContract]}>
+          <OpenDisputesContext.Provider value={[openDisputes, setOpenDisputes]}>
+            {children}
+          </OpenDisputesContext.Provider>
+        </ContractContext.Provider>
+      </CurrentUserContext.Provider>
+    </Web3ModalContext.Provider>
   );
 };
 
