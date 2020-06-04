@@ -88,8 +88,6 @@ export default class TellorService {
     const lcMiners = miners.map((m) => m.toLowerCase());
     const minerIndex = lcMiners.indexOf(minerAddress.toLowerCase());
 
-    console.log('dispute service', from, requestId, timestamp, minerIndex);
-
     let dispute = this.contract.methods
       .beginDispute(requestId, timestamp, minerIndex)
       .send({ from })
@@ -114,8 +112,6 @@ export default class TellorService {
     if (!this.contract) {
       await this.initContract();
     }
-
-    console.log('vote service', from, disputeId, supportsDispute);
 
     let vote = this.contract.methods
       .vote(disputeId, supportsDispute)
