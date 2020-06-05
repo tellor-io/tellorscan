@@ -17,7 +17,7 @@ const GraphFetch = ({ query, setRecords, variables, suppressLoading }) => {
   }, [data]);
 
   if (loading) return <>{!suppressLoading ? <Loader /> : null}</>;
-  if (error) return <p className="View">Sorry there's been an error</p>;
+  if (error) return <></>;
 
   return <></>;
 };
