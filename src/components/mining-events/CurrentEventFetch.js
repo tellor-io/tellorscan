@@ -8,6 +8,8 @@ import GraphFetch from 'components/shared/GraphFetch';
 const CurrentEventFetch = ({ setCurrentEvent }) => {
   const [latestValues, setLatestValues] = useState();
   const [currentDetails, setCurrentDetails] = useState();
+  const [findNextDetails, setFindNextDetails] = useState();
+
   const [contract] = useContext(ContractContext);
 
   useEffect(() => {
@@ -36,10 +38,8 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
           });
 
           if (minerValues.length === 5) {
-            setTimeout(() => {
-              console.log('5 of 5, looking for new challenge');
-              getCurrentDetails();
-            }, 2000);
+            console.log('5 of 5, looking for new challenge');
+            setFindNextDetails(true);
           }
         } else {
           setCurrentEvent({
@@ -49,8 +49,11 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
             noPending: true,
           });
 
+          // console.log('no current variables, refetching');
+          // setFindNextDetails(true);
+          // TODO: if graph doesn't have the current we need to build it and display until it shows
+
           setTimeout(() => {
-            console.log('no current variables, refetching');
             getCurrentDetails();
           }, 2000);
         }
@@ -65,10 +68,27 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [latestValues]);
 
+  useEffect(() => {
+    if (findNextDetails) {
+      const interval = setInterval(() => {
+        console.log('refetch');
+        getCurrentDetails();
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [findNextDetails]);
+
   const getCurrentDetails = async () => {
     try {
       const currentDetails = await contract.service.getCurrentVariables();
-      setCurrentDetails(currentDetails);
+
+      console.log('currentDetails', currentDetails);
+
+      if (currentDetails[1]) {
+        setCurrentDetails(currentDetails);
+        setFindNextDetails(false);
+      }
     } catch (e) {
       console.error('error', e);
     }
