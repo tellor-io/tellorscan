@@ -16,14 +16,20 @@ const MiningEventsTable = ({ events, pagination, current }) => {
   };
 
   const columns = [
-    { title: 'ID', dataIndex: 'requestId', key: 'requestId' },
+    { title: 'ID', dataIndex: 'requestId', key: 'requestId', width: 100 },
     {
       title: 'Symbol',
       dataIndex: 'requestSymbol',
       key: 'requestSymbol',
+      width: 300,
     },
-    { title: 'Value', dataIndex: 'minedValue', key: 'minedValue' },
-    { title: 'Tip (TRB)', dataIndex: 'totalTips', key: 'totalTips' },
+    { title: 'Value', dataIndex: 'minedValue', key: 'minedValue', width: 300 },
+    {
+      title: 'Tip (TRB)',
+      dataIndex: 'totalTips',
+      key: 'totalTips',
+      width: 200,
+    },
     {
       title: 'Status',
       dataIndex: 'status',
