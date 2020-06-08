@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Layout } from 'antd';
+import { RightCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 import { CurrentUserContext } from '../../contexts/Store';
@@ -31,6 +32,7 @@ const StyledBrandLink = styled.div`
       font-size: 21px;
       font-weight: 300;
       margin-bottom: -11px;
+      font-weight: 500;
     }
     @media (max-width: 800px) {
       flex-direction: column;
@@ -84,6 +86,13 @@ const HeaderNav = () => {
         <StyledHeaderNav>
           <Link to="/disputes">Disputes</Link>
           <Link to="/mining">Mining</Link>
+          <a
+            href="https://tellorpriceviewer.herokuapp.com/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Price Viewer <RightCircleOutlined />
+          </a>
           {!currentUser ? (
             <Web3SignIn setCurrentUser={setCurrentUser} />
           ) : (

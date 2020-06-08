@@ -10,7 +10,7 @@ const CurrentMiningEvent = ({ currentEvent }) => {
       </div>
 
       {currentEvent.noPending ? (
-        <p style={{ paddingLeft: '16px' }}>No current requests</p>
+        <p style={{ paddingLeft: '16px' }}>Fetching next request</p>
       ) : (
         <MiningEventsTable
           pagination={false}
