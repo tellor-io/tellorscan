@@ -87,7 +87,7 @@ const HeaderNav = () => {
           <Link to="/disputes">Disputes</Link>
           <Link to="/mining">Mining</Link>
           <a
-            href="https://tellorpriceviewer.herokuapp.com/"
+            href="https://prices.tellorscan.com/"
             rel="noopener noreferrer"
             target="_blank"
           >
