@@ -12,6 +12,7 @@ const WarningP = styled.div`
 `;
 
 const MinerValues = ({ miningEvent }) => {
+  console.log('miningEvent', miningEvent);
   const [openDisputes] = useContext(OpenDisputesContext);
 
   const checkWarning = (text, record) => {
@@ -60,12 +61,18 @@ const MinerValues = ({ miningEvent }) => {
   ];
 
   return (
-    <Table
-      columns={columns}
-      rowKey={'id'}
-      dataSource={miningEvent.minerValues}
-      pagination={false}
-    />
+    <>
+      {miningEvent.minerValues.length ? (
+        <Table
+          columns={columns}
+          rowKey={'id'}
+          dataSource={miningEvent.minerValues}
+          pagination={false}
+        />
+      ) : (
+        <p>No Pending Miner Values</p>
+      )}
+    </>
   );
 };
 

@@ -6,6 +6,7 @@ import Lottie from 'react-lottie';
 import animationData from '../../assets/Tellor__Loader.json';
 
 const MiningEventsTable = ({ events, pagination, current }) => {
+  console.log('events', events);
   const defaultOptions = {
     loop: true,
     autoplay: true,
