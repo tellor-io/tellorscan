@@ -14,9 +14,7 @@ const OpenDisputesFetch = () => {
         (dispute) => dispute.status === 'Open Dispute',
       );
 
-      if (openDisputes.length) {
-        setOpenDisputes(openDisputes);
-      }
+      setOpenDisputes(openDisputes);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [latestValues]);

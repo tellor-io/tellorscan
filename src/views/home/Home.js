@@ -38,7 +38,7 @@ const Home = () => {
 
       {events ? (
         <div className="View">
-          <RecentMiningEvents events={events.miningEvents.slice(1)} />
+          <RecentMiningEvents events={events.miningEvents} />
         </div>
       ) : null}
 

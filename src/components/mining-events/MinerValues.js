@@ -60,12 +60,18 @@ const MinerValues = ({ miningEvent }) => {
   ];
 
   return (
-    <Table
-      columns={columns}
-      rowKey={'id'}
-      dataSource={miningEvent.minerValues}
-      pagination={false}
-    />
+    <>
+      {miningEvent.minerValues.length ? (
+        <Table
+          columns={columns}
+          rowKey={'id'}
+          dataSource={miningEvent.minerValues}
+          pagination={false}
+        />
+      ) : (
+        <p>No Pending Miner Values</p>
+      )}
+    </>
   );
 };
 

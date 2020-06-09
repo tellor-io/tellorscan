@@ -15,7 +15,6 @@ const Store = ({ children }) => {
   const [contract, setContract] = useState();
   const [openDisputes, setOpenDisputes] = useState();
   const [currentUser, setCurrentUser] = useState();
-  const [loading, setLoading] = useState(false);
   const [web3Modal, setWeb3Modal] = useState(
     new Web3Modal({
       network: getChainData(+process.env.REACT_APP_CHAIN_ID).network, // optional

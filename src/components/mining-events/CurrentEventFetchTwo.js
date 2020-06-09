@@ -5,7 +5,7 @@ import { GET_LATEST_MINER_VALUES } from 'utils/queries';
 import { ContractContext } from 'contexts/Store';
 import GraphFetch from 'components/shared/GraphFetch';
 
-const CurrentEventFetch = ({ setCurrentEvent }) => {
+const CurrentEventFetchTwo = ({ setCurrentEvent }) => {
   const [latestValues, setLatestValues] = useState();
   const [currentDetails, setCurrentDetails] = useState();
   const [findNextDetails, setFindNextDetails] = useState();
@@ -27,33 +27,35 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
           'currentChallenge',
         );
 
-        if (+currentDetails[1]) {
+        if (latestValues.request) {
           const minerValues = groupedValues[currentDetails[0]] || [];
-
-          const event = {
+          setCurrentEvent({
             ...currentDetails,
             ...latestValues.request,
             minerValues,
             minedValue: 'Pending',
             status: `Mining (${minerValues.length}/5)`,
-          };
-          if (!latestValues.request) {
-            event.id = '0';
-          }
-          setCurrentEvent(event);
+          });
 
           if (minerValues.length === 5) {
             console.log('5 of 5, looking for new challenge');
             setFindNextDetails(true);
           }
         } else {
-          console.log('No pending challenge');
           setCurrentEvent({
             ...currentDetails,
             ...latestValues.request,
             minerValues: groupedValues[currentDetails[0]],
             noPending: true,
           });
+
+          // console.log('no current variables, refetching');
+          // setFindNextDetails(true);
+          // TODO: if graph doesn't have the current we need to build it and display until it shows
+
+          setTimeout(() => {
+            getCurrentDetails();
+          }, 2000);
         }
       } catch (e) {
         console.error('error', e);
@@ -71,23 +73,21 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
       const interval = setInterval(() => {
         console.log('refetch');
         getCurrentDetails();
-      }, 2000);
+      }, 1000);
 
       return () => clearInterval(interval);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [findNextDetails]);
 
   const getCurrentDetails = async () => {
     try {
       const currentDetails = await contract.service.getCurrentVariables();
-      setCurrentDetails(currentDetails);
+
       console.log('currentDetails', currentDetails);
 
-      if (+currentDetails[1]) {
+      if (currentDetails[1]) {
+        setCurrentDetails(currentDetails);
         setFindNextDetails(false);
-      } else {
-        setFindNextDetails(true);
       }
     } catch (e) {
       console.error('error', e);
@@ -106,7 +106,8 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
       </>
     );
   }
+
   return <></>;
 };
 
-export default CurrentEventFetch;
+export default CurrentEventFetchTwo;

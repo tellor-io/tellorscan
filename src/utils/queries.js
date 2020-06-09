@@ -45,7 +45,7 @@ const eventFields = `
 
 export const GET_LATEST_EVENTS = gql`
   query {
-    miningEvents(first: 7, orderBy: timestamp, orderDirection: desc) {
+    miningEvents(first: 6, orderBy: timestamp, orderDirection: desc) {
       ${eventFields}
     }
   }
