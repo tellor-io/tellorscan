@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import DisputeForm from 'components/disputes/DisputeForm';
 import VoteForm from 'components/votes/VoteForm';
+import Loader from 'components/shared/Loader';
 import { getMinerValueStatus, getMatchingDispute } from 'utils/helpers';
 import { OpenDisputesContext } from 'contexts/Store';
 
@@ -69,7 +70,7 @@ const MinerValues = ({ miningEvent }) => {
           pagination={false}
         />
       ) : (
-        <p>No Pending Miner Values</p>
+        <Loader />
       )}
     </>
   );
