@@ -31,7 +31,7 @@ const Mining = () => {
 
       {events ? (
         <div className="View">
-          <AllMiningEvents events={events.miningEvents.slice(1)} />
+          <AllMiningEvents events={events.miningEvents} />
         </div>
       ) : null}
     </>

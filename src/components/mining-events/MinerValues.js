@@ -12,7 +12,6 @@ const WarningP = styled.div`
 `;
 
 const MinerValues = ({ miningEvent }) => {
-  console.log('miningEvent', miningEvent);
   const [openDisputes] = useContext(OpenDisputesContext);
 
   const checkWarning = (text, record) => {

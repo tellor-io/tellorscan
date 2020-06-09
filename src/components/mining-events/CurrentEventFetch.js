@@ -29,13 +29,18 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
 
         if (+currentDetails[1]) {
           const minerValues = groupedValues[currentDetails[0]] || [];
-          setCurrentEvent({
+
+          const event = {
             ...currentDetails,
             ...latestValues.request,
             minerValues,
             minedValue: 'Pending',
             status: `Mining (${minerValues.length}/5)`,
-          });
+          };
+          if (!latestValues.request) {
+            event.id = '0';
+          }
+          setCurrentEvent(event);
 
           if (minerValues.length === 5) {
             console.log('5 of 5, looking for new challenge');
