@@ -4,6 +4,7 @@ import VoteForm from 'components/votes/VoteForm';
 import { ContractContext } from 'contexts/Store';
 
 const DisputesTable = ({ disputes, pagination }) => {
+  console.log('disputes', disputes);
   const [contract] = useContext(ContractContext);
 
   const columns = [
@@ -14,6 +15,7 @@ const DisputesTable = ({ disputes, pagination }) => {
       key: 'requestSymbol',
     },
     { title: 'Value', dataIndex: 'value', key: 'value' },
+    { title: 'Price', dataIndex: 'granPrice', key: 'granPrice' },
     {
       title: 'Result (TRB)',
       dataIndex: 'tally',

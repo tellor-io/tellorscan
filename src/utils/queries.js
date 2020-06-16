@@ -32,9 +32,11 @@ const eventFields = `
   requestSymbol @client
   status @client
   inDisputeWindow @client
+  granPrice @client
   request {
     id
     querySymbol
+    granularity
   }
   minerValues {
     id
@@ -77,11 +79,15 @@ const disputeFields = `
   requestSymbol @client
   status @client
   inVoteWindow @client
+  granPrice @client
   votes {
     id
     position
     voter
     timestamp
+  }
+  request {
+    granularity
   }
 `;
 
