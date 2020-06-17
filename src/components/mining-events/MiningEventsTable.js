@@ -23,12 +23,18 @@ const MiningEventsTable = ({ events, pagination, current }) => {
       key: 'requestSymbol',
       width: 300,
     },
-    { title: 'Value', dataIndex: 'minedValue', key: 'minedValue', width: 300 },
+    {
+      title: 'Value',
+      dataIndex: 'minedValue',
+      key: 'minedValue',
+      width: current ? 300 : 200,
+    },
+    { title: 'Price', dataIndex: 'granPrice', key: 'granPrice', width: 200 },
     {
       title: 'Tip (TRB)',
       dataIndex: 'totalTips',
       key: 'totalTips',
-      width: 200,
+      width: current ? 200 : 100,
     },
     {
       title: 'Status',
@@ -47,6 +53,10 @@ const MiningEventsTable = ({ events, pagination, current }) => {
       },
     },
   ];
+
+  if (current) {
+    columns.splice(3, 1);
+  }
 
   const [expandedKeys, setExpandedKeys] = useState([]);
   const onRow = ({ id }) =>
@@ -68,7 +78,7 @@ const MiningEventsTable = ({ events, pagination, current }) => {
       onRow={onRow}
       onExpand={onExpand}
       expandedRowRender={(record) => <MinerValues miningEvent={record} />}
-      expandIconColumnIndex={5}
+      expandIconColumnIndex={current ? 5 : 6}
       expandIcon={({ expanded, onExpand, record }) =>
         expanded ? (
           <span>

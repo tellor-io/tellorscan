@@ -24,6 +24,9 @@ export const resolvers = (() => {
       inDisputeWindow: async (miningEvent, _args) => {
         return inDisputeWindow(miningEvent.timestamp);
       },
+      granPrice: (miningEvent, _args) => {
+        return +miningEvent.minedValue / +miningEvent.request.granularity;
+      },
     },
     MinerValue: {
       status: async (minerValue, _args) => {
@@ -44,6 +47,11 @@ export const resolvers = (() => {
         return (
           getDisputeStatus(dispute) === 'Open Dispute' &&
           inVoteWindow(dispute.timestamp)
+        );
+      },
+      granPrice: (dispute, _args) => {
+        return (
+          +dispute.relatedMiningEventData[2] / +dispute.request.granularity
         );
       },
     },

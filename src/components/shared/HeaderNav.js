@@ -62,6 +62,9 @@ const StyledHeaderNav = styled.div`
       padding: 10px 15px;
       vertical-align: middle;
     }
+    &:last-child:hover {
+      color: black;
+    }
 
     @media (max-width: 800px) {
       font-size: 1em;
