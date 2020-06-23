@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { Layout } from 'antd';
 import { RightCircleOutlined } from '@ant-design/icons';
@@ -8,6 +8,7 @@ import { CurrentUserContext } from '../../contexts/Store';
 import { Web3SignIn } from './Web3SignIn';
 import { truncateAddr } from '../../utils/helpers';
 import tellorLogoDark from '../../assets/Tellor__Logo--Dark.png';
+import ModeSwitcher from './ModeSwitcher';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -76,17 +77,19 @@ const StyledHeaderNav = styled.div`
 const HeaderNav = () => {
   const { Header } = Layout;
   const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
+  const [logo, setLogo] = useState(tellorLogoDark);
 
   return (
     <Header>
       <StyledHeader>
         <StyledBrandLink>
           <Link to="/">
-            <img alt="tellor-logo" src={tellorLogoDark} />
+            <img alt="tellor-logo" src={logo} />
             <span>dispute center</span>
           </Link>
         </StyledBrandLink>
         <StyledHeaderNav>
+          <ModeSwitcher setLogo={setLogo} />
           <Link to="/disputes">Disputes</Link>
           <Link to="/mining">Mining</Link>
           <a

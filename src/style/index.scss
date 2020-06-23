@@ -4,7 +4,7 @@
 
 body {
   background: $background;
-  color: $green-1;
+  color: var(--color-primary-2);
 }
 
 h1,
@@ -12,6 +12,10 @@ h2,
 h3,
 h4 {
   font-weight: 100;
+}
+
+h1 {
+  color: var(--color-heading);
 }
 
 h5 {
@@ -81,7 +85,7 @@ h6 {
 // Header
 
 .ant-layout-header {
-  background: #000;
+  background: var(--background);
   height: auto;
 }
 
@@ -93,22 +97,22 @@ button {
 
 .ant-btn {
   border-radius: 50px;
-  color: $tellor-green;
+  color: var(--color-primary-1);
   &:hover {
   }
   &-primary {
-    color: #444444;
+    color: var(--color-secondary-2);
     &:hover,
     &:focus {
-      color: #444444;
+      color: var(--color-secondary-2);
     }
   }
   &-default {
     background: transparent;
     &:hover,
     &:focus {
-      background: $hot-green;
-      color: #444444;
+      background: var(--color-primary-5);
+      color: var(--color-secondary-2);
     }
   }
   &:disabled {
@@ -122,12 +126,12 @@ button {
   background: transparent;
   font-family: 'Roboto Mono', monospace;
   &:not(.expanded) {
-    color: $green-1;
+    color: var(--color-primary-2);
   }
 }
 
 .ant-table-thead > tr > th {
-  color: $hot-green;
+  color: var(--color-table-thead);
   background: transparent;
 }
 
@@ -137,11 +141,11 @@ tr.ant-table-expanded-row:hover {
 }
 
 .ant-table-thead > tr > th {
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid solid var(--background);
 }
 
 .ant-table-tbody > tr > td {
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid solid var(--background);
 }
 
 .ant-table-thead
@@ -157,14 +161,14 @@ tr.ant-table-expanded-row:hover {
   > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
   > td {
   background: rgba(153, 255, 209, 0.1);
-  color: $green-1;
+  color: var(--color-primary-2);
 }
 
 .ant-table-row-expand-icon-cell {
   cursor: pointer;
   span {
     pointer-events: none;
-    color: $hot-green;
+    color: var(--color-primary-5);
   }
 }
 

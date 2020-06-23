@@ -25,7 +25,9 @@ export const resolvers = (() => {
         return inDisputeWindow(miningEvent.timestamp);
       },
       granPrice: (miningEvent, _args) => {
-        return +miningEvent.minedValue / +miningEvent.request.granularity;
+        return (
+          +miningEvent.minedValue / +miningEvent.request.granularity
+        ).toFixed(2);
       },
     },
     MinerValue: {
@@ -52,7 +54,7 @@ export const resolvers = (() => {
       granPrice: (dispute, _args) => {
         return (
           +dispute.relatedMiningEventData[2] / +dispute.request.granularity
-        );
+        ).toFixed(2);
       },
     },
   };
