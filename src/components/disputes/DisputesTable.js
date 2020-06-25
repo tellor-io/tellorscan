@@ -15,7 +15,6 @@ const DisputesTable = ({ disputes, pagination }) => {
       key: 'requestSymbol',
     },
     { title: 'Value', dataIndex: 'value', key: 'value' },
-    { title: 'Price', dataIndex: 'granPrice', key: 'granPrice' },
     {
       title: 'Result (TRB)',
       dataIndex: 'tally',

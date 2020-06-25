@@ -79,7 +79,6 @@ const disputeFields = `
   requestSymbol @client
   status @client
   inVoteWindow @client
-  granPrice @client
   votes {
     id
     position

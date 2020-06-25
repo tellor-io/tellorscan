@@ -69,7 +69,6 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
   useEffect(() => {
     if (findNextDetails) {
       const interval = setInterval(() => {
-        console.log('refetch');
         getCurrentDetails();
       }, 2000);
 
@@ -82,7 +81,6 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
     try {
       const currentDetails = await contract.service.getCurrentVariables();
       setCurrentDetails(currentDetails);
-      console.log('currentDetails', currentDetails);
 
       if (+currentDetails[1]) {
         setFindNextDetails(false);
