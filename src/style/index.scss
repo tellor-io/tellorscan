@@ -3,7 +3,7 @@
 @import 'variables';
 
 body {
-  background: $background;
+  background: var(--background-2);
   color: var(--color-primary-2);
 }
 
@@ -14,7 +14,8 @@ h4 {
   font-weight: 100;
 }
 
-h1 {
+h1,
+h2 {
   color: var(--color-heading);
 }
 
@@ -30,7 +31,7 @@ h6 {
 
 .Hero {
   padding-top: 25px;
-  background-color: black;
+  background-color: var(--background);
 }
 
 .View {
@@ -80,13 +81,42 @@ h6 {
   margin-bottom: 15px;
 }
 
-// Ant overrides
+.Footer {
+  width: 100%;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-secondary-1);
+  &__Links {
+    display: flex;
+    > * {
+      font-size: 1.5em;
+      svg {
+        fill: var(--color-secondary-1);
+        transition: all 0.15s linear;
+        &:hover {
+          fill: #00ff8f;
+        }
+      }
+    }
+    > *:not(:last-child) {
+      margin-right: 15px;
+    }
+  }
+}
+
+// --- Ant Overrides ---
 
 // Header
 
 .ant-layout-header {
   background: var(--background);
   height: auto;
+  padding: 0px 50px;
 }
 
 // Buttons
@@ -122,9 +152,17 @@ button {
 
 // Tables
 
+.ant-table-wrapper {
+  max-width: 1200px;
+  width: 100%;
+}
+
 .ant-table {
   background: transparent;
   font-family: 'Roboto Mono', monospace;
+  table {
+    border: none !important;
+  }
   &:not(.expanded) {
     color: var(--color-primary-2);
   }
@@ -141,11 +179,12 @@ tr.ant-table-expanded-row:hover {
 }
 
 .ant-table-thead > tr > th {
-  border-bottom: 1px solid solid var(--background);
+  border-bottom: 1px solid var(--background);
 }
 
 .ant-table-tbody > tr > td {
-  border-bottom: 1px solid solid var(--background);
+  border-bottom: 1px solid var(--background);
+  transition: all 0.3s, border 0s, color 0ms;
 }
 
 .ant-table-thead
@@ -198,6 +237,11 @@ tr.ant-table-expanded-row:hover > td {
   padding: 16px 16px;
 }
 
+.ant-table-bordered .ant-table-thead > tr > th,
+.ant-table-bordered .ant-table-tbody > tr > td {
+  border-right: none;
+}
+
 .ant-table-expanded-row
   .ant-table-tbody
   .ant-table-row
@@ -210,7 +254,7 @@ tr.ant-table-expanded-row:hover > td {
 }
 
 .ant-table-row.expanded {
-  background-color: $tellor-green;
+  background-color: var(--color-primary-1);
   color: #151515 !important;
   &:hover .ant-table-cell {
     color: #151515 !important;
@@ -256,6 +300,12 @@ tr.ant-table-expanded-row:hover > td {
   }
 }
 
+// Notification
+
+.ant-notification-notice {
+  background: var(--color-secondary-2);
+}
+
 // Modal
 
 .ant-modal-mask {
@@ -263,22 +313,41 @@ tr.ant-table-expanded-row:hover > td {
 }
 
 .ant-modal-content {
-  background-color: #444444;
+  background-color: var(--modal-color-background);
   p {
     font-size: 21px;
   }
 }
 
 .ant-modal-header {
-  background-color: #444444;
-  border-bottom: 1px solid #000;
+  background-color: var(--modal-color-background);
+  border-bottom: 1px solid var(--background);
   .ant-modal-title {
     font-size: 24px;
   }
 }
 
+.ant-modal-footer {
+  background-color: var(--modal-color-background);
+
+  .ant-btn {
+    &-default {
+      color: var(--modal-color-btn-default);
+
+      &:focus,
+      &:hover {
+        color: var(--color-secondary-2);
+      }
+    }
+  }
+}
+
 .ant-modal-close {
-  color: $tellor-green;
+  color: var(--color-primary-1);
+}
+
+.ant-layout-content {
+  background-color: var(--background-2);
 }
 
 // Responsive Adjustments

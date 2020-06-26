@@ -6,7 +6,7 @@ import animationData from '../../assets/Tellor__Loader.json';
 const LoadingDiv = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center
+  justify-content: center;
   padding: 50px;
 `;
 
