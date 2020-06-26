@@ -5,18 +5,18 @@ import {
   inDisputeWindow,
   inVoteWindow,
 } from './helpers';
-import psrLookup from './psrLookup';
+import { psrLookup } from './psrLookup';
 
 export const resolvers = (() => {
   return {
     Request: {
       requestSymbol: async (request, _args) => {
-        return psrLookup[request.requestId - 1];
+        return psrLookup[request.requestId].name;
       },
     },
     MiningEvent: {
       requestSymbol: async (miningEvent, _args) => {
-        return psrLookup[miningEvent.requestId - 1];
+        return psrLookup[miningEvent.requestId].name;
       },
       status: async (miningEvent, _args) => {
         return getEventStatus(miningEvent);
@@ -25,7 +25,10 @@ export const resolvers = (() => {
         return inDisputeWindow(miningEvent.timestamp);
       },
       granPrice: (miningEvent, _args) => {
-        return +miningEvent.minedValue / +miningEvent.request.granularity;
+        return (
+          +miningEvent.minedValue /
+          +psrLookup[miningEvent.requestId].granularity
+        );
       },
     },
     MinerValue: {
@@ -38,7 +41,7 @@ export const resolvers = (() => {
         return dispute.relatedMiningEventData[2];
       },
       requestSymbol: async (dispute, _args) => {
-        return psrLookup[dispute.requestId - 1];
+        return psrLookup[dispute.requestId].name;
       },
       status: async (dispute, _args) => {
         return getDisputeStatus(dispute);
@@ -47,11 +50,6 @@ export const resolvers = (() => {
         return (
           getDisputeStatus(dispute) === 'Open Dispute' &&
           inVoteWindow(dispute.timestamp)
-        );
-      },
-      granPrice: (dispute, _args) => {
-        return (
-          +dispute.relatedMiningEventData[2] / +dispute.request.granularity
         );
       },
     },

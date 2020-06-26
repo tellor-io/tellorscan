@@ -37,7 +37,7 @@ export const getDisputeStatus = (dispute) => {
   } else if (dispute.tally === null) {
     return 'Open Dispute';
   } else {
-    return 'Resolved';
+    return 'Passed';
   }
 };
 
