@@ -30,7 +30,6 @@ const DisputesTable = ({ disputes, pagination }) => {
     { title: 'Status', dataIndex: 'status', key: 'status' },
     {
       render: (record) => {
-        // const openDispute = record.id === '28';
         const openDispute = record.inVoteWindow;
         return <>{openDispute ? <VoteForm dispute={record} /> : null}</>;
       },

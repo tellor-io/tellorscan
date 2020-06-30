@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
-import ModeContext from '../../contexts/Store.js';
 import styled from 'styled-components';
 import Lottie from 'react-lottie';
+import { ModeContext } from 'contexts/Store';
 
 const LoadingDiv = styled.div`
   display: flex;
