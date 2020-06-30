@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BulbOutlined } from '@ant-design/icons';
-
+import ModeContext from '../../contexts/Store.js';
 import tellorLogoDark from '../../assets/Tellor__Logo--Dark.png';
 import tellorLogoLight from '../../assets/Tellor__Logo--Light.png';
+import tellorLoaderDark from '../../assets/Tellor__Loader--Dark.json';
+import tellorLoaderLight from '../../assets/Tellor__Loader--Light.json';
 
 const darkThemePropertiesMap = {
   background: '#000',
@@ -33,7 +35,7 @@ const lightThemePropertiesMap = {
   'color-secondary-2': '#444444',
   'color-table-thead': '#000',
   'color-heading': '#000',
-  'color-link': '#000',
+  'color-link': '#37F3A1',
   'modal-color-background': '#fff',
   'modal-color-btn-default': '#000',
 };
@@ -43,6 +45,7 @@ const ModeSwitcher = ({ setLogo }) => {
     theme: 'dark',
     themePropertiesMap: darkThemePropertiesMap,
   });
+  const [mode, setMode] = useContext(ModeContext);
 
   useEffect(() => {
     const defaultTheme = localStorage.getItem('viewMode');
@@ -75,6 +78,7 @@ const ModeSwitcher = ({ setLogo }) => {
     });
 
     setLogo(isDarkTheme ? tellorLogoLight : tellorLogoDark);
+    setMode(isDarkTheme ? tellorLoaderDark : tellorLoaderLight);
 
     window.localStorage.setItem('viewMode', newTheme);
   };

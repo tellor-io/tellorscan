@@ -81,14 +81,14 @@ const HeaderNav = () => {
 
   return (
     <Header>
-      <StyledHeader>
-        <StyledBrandLink>
+      <div className="Header">
+        <div className="BrandLink">
           <Link to="/">
             <img alt="tellor-logo" src={logo} />
             <span>dispute center</span>
           </Link>
-        </StyledBrandLink>
-        <StyledHeaderNav>
+        </div>
+        <div className="Header__Nav">
           <ModeSwitcher setLogo={setLogo} />
           <Link to="/disputes">Disputes</Link>
           <Link to="/mining">Mining</Link>
@@ -104,8 +104,8 @@ const HeaderNav = () => {
           ) : (
             <span>{truncateAddr(currentUser.username)}</span>
           )}
-        </StyledHeaderNav>
-      </StyledHeader>
+        </div>
+      </div>
     </Header>
   );
 };

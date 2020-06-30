@@ -27,7 +27,79 @@ h6 {
   font-size: 1em;
 }
 
+a {
+  color: var(--color-link);
+}
+
 // Specific Elements
+
+.Header {
+  display: flex;
+  width: 100%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  @media (max-width: 800px) {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+  .BrandLink {
+    a {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+      img {
+        height: 60px;
+        width: auto;
+        display: inline-block;
+      }
+      span {
+        color: var(--color-link);
+        font-size: 21px;
+        font-weight: 300;
+        margin-bottom: -11px;
+        font-weight: 500;
+      }
+      @media (max-width: 800px) {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        span {
+          display: none;
+        }
+      }
+    }
+  }
+  &__Nav {
+    display: inline-block;
+    margin-left: auto;
+    @media (max-width: 800px) {
+      margin-left: 0px;
+    }
+    > button {
+      padding: 0px 15px !important;
+    }
+    > * {
+      margin-left: 25px;
+      font-size: 1.5em;
+      color: var(--color-link);
+      &:last-child {
+        border: 2px solid var(--color-link);
+        color: var(--color-link);
+        border-radius: 50px;
+        padding: 10px 15px;
+        vertical-align: middle;
+        transition: all 0.15s linear;
+        cursor: pointer;
+      }
+      @media (max-width: 800px) {
+        font-size: 1em;
+        margin-left: 15px;
+      }
+    }
+  }
+}
 
 .Hero {
   padding-top: 25px;

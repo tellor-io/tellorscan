@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import ModeContext from '../../contexts/Store.js';
 import styled from 'styled-components';
 import Lottie from 'react-lottie';
-import animationData from '../../assets/Tellor__Loader.json';
 
 const LoadingDiv = styled.div`
   display: flex;
@@ -11,10 +11,12 @@ const LoadingDiv = styled.div`
 `;
 
 const Loader = () => {
+  const [mode] = useContext(ModeContext);
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    animationData: animationData,
+    animationData: mode,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice',
     },
