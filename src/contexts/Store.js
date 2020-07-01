@@ -6,6 +6,7 @@ import { w3connect, providerOptions, createWeb3User } from '../utils/auth';
 import { getChainData } from '../utils/chains';
 import TellorService from 'utils/tellorService';
 import tellorLoaderDark from '../assets/Tellor__Loader--Dark.json';
+import tellorLoaderLight from '../assets/Tellor__Loader--Light.json';
 
 export const ContractContext = createContext();
 export const OpenDisputesContext = createContext();
@@ -17,7 +18,11 @@ const Store = ({ children }) => {
   const [contract, setContract] = useState();
   const [openDisputes, setOpenDisputes] = useState();
   const [currentUser, setCurrentUser] = useState();
-  const [mode, setMode] = useState(tellorLoaderDark);
+  const [mode, setMode] = useState(
+    window.localStorage.getItem('viewMode') === 'light'
+      ? tellorLoaderLight
+      : tellorLoaderDark,
+  );
   const [web3Modal, setWeb3Modal] = useState(
     new Web3Modal({
       network: getChainData(+process.env.REACT_APP_CHAIN_ID).network, // optional

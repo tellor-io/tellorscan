@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Lottie from 'react-lottie';
 import { ModeContext } from 'contexts/Store';
