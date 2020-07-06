@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Lottie from 'react-lottie';
-import animationData from '../../assets/Tellor__Loader.json';
+import { ModeContext } from 'contexts/Store';
 
 const LoadingDiv = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center
+  justify-content: center;
   padding: 50px;
 `;
 
 const Loader = () => {
+  const [mode] = useContext(ModeContext);
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    animationData: animationData,
+    animationData: mode,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice',
     },
