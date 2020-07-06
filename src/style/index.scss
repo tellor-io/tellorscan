@@ -243,15 +243,12 @@ button {
 .ant-table-thead > tr > th {
   color: var(--color-table-thead);
   background: transparent;
+  border-bottom: 1px solid var(--background);
 }
 
 tr.ant-table-expanded-row,
 tr.ant-table-expanded-row:hover {
   background: transparent;
-}
-
-.ant-table-thead > tr > th {
-  border-bottom: 1px solid var(--background);
 }
 
 .ant-table-tbody > tr > td {
@@ -386,8 +383,12 @@ tr.ant-table-expanded-row:hover > td {
 
 .ant-modal-content {
   background-color: var(--modal-color-background);
+  h6 {
+    color: var(--color-table-thead);
+  }
   p {
     font-size: 21px;
+    color: var(--color-primary-2);
   }
 }
 
@@ -396,6 +397,7 @@ tr.ant-table-expanded-row:hover > td {
   border-bottom: 1px solid var(--background);
   .ant-modal-title {
     font-size: 24px;
+    color: var(--color-heading);
   }
 }
 
