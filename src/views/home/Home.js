@@ -13,12 +13,10 @@ const Home = () => {
   const [events, setEvents] = useState();
   const [disputes, setDisputes] = useState();
 
-  console.log('events', events);
-
   return (
     <>
       {/* <CurrentEventFetch setCurrentEvent={setCurrentEvent} /> */}
-      {/* <OpenDisputesFetch /> */}
+      <OpenDisputesFetch />
       <GraphFetch
         query={GET_LATEST_EVENTS}
         setRecords={setEvents}

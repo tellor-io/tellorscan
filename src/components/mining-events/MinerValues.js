@@ -12,7 +12,7 @@ const WarningP = styled.div`
   color: #faad14;
 `;
 
-const MinerValues = ({ miningEvent }) => {
+const MinerValues = ({ miningEvent, valueIndex, closeMinerValuesModal }) => {
   const [openDisputes] = useContext(OpenDisputesContext);
 
   const checkWarning = (text, record) => {
@@ -24,13 +24,14 @@ const MinerValues = ({ miningEvent }) => {
     }
   };
 
+  const getValue = (text, record, index) => {
+    return record.values[valueIndex];
+  };
+
   const columns = [
-    { title: 'Miner', dataIndex: 'miner', key: 'miner' },
     {
       title: 'Value',
-      dataIndex: 'value',
-      key: 'value',
-      render: checkWarning,
+      render: getValue,
     },
     {
       title: 'Status',
@@ -48,11 +49,13 @@ const MinerValues = ({ miningEvent }) => {
             <VoteForm dispute={getMatchingDispute(openDisputes, miningEvent)} />
           );
         } else if (miningEvent.inDisputeWindow) {
+          const value = getValue(record, event, index);
           return (
             <DisputeForm
-              value={record}
+              value={value}
               miningEvent={miningEvent}
               minerIndex={index}
+              closeMinerValuesModal={closeMinerValuesModal}
             />
           );
         }

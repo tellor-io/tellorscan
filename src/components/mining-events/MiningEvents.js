@@ -5,6 +5,8 @@ import Lottie from 'react-lottie';
 
 import Loader from 'components/shared/Loader';
 import { ModeContext } from 'contexts/Store';
+import { getMedianValue, getGranPrice } from 'utils/helpers';
+import DisputeModal from 'components/disputes/DisputeModal';
 
 const WarningP = styled.div`
   color: #faad14;
@@ -21,16 +23,18 @@ const MiningEvents = ({ miningEvent, valueIndex, current }) => {
     },
   };
 
-  console.log('valueIndex', valueIndex);
-  console.log('miningEvent in subtable', miningEvent);
   const tableValues = miningEvent.requestIds.map((requestId, i) => {
+    const medianValue = getMedianValue(miningEvent.minerValues, i);
     return {
       requestId,
       requestSymbol: miningEvent.requestSymbols[i],
-      minedValue: miningEvent.minedValues[i],
-      granPrice: miningEvent.granPrices[i],
+      minedValue: medianValue,
+      granPrice: getGranPrice(medianValue, requestId),
       totalTips: miningEvent.totalTips,
       status: miningEvent.status,
+      minerValues: miningEvent.minerValues,
+      inDisputeWindow: miningEvent.inDisputeWindow,
+      time: miningEvent.time,
     };
   });
 
@@ -73,7 +77,7 @@ const MiningEvents = ({ miningEvent, valueIndex, current }) => {
     },
     {
       render: (record, event, index) => {
-        return <Button>View Miner Values</Button>;
+        return <DisputeModal miningEvent={record} valueIndex={index} />;
       },
     },
   ];

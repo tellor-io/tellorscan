@@ -22,7 +22,6 @@ const MiningEventsTable = ({ events, pagination, current }) => {
       title: 'Block',
       dataIndex: 'blockNumber',
       key: 'blockNumber',
-      // width: 100,
     },
     {
       title: 'Symbols',
@@ -30,7 +29,6 @@ const MiningEventsTable = ({ events, pagination, current }) => {
         const symbols = text.requestSymbols.join(', ');
         return <p>{symbols}</p>;
       },
-      // width: 300,
     },
     {
       title: 'Status',
@@ -76,8 +74,6 @@ const MiningEventsTable = ({ events, pagination, current }) => {
       expandedRowRender={(record, index) => (
         <MiningEvents miningEvent={record} valueIndex={index} />
       )}
-      // expandedRowRender={(record) => <MinerValues miningEvents={record} />}
-
       expandIconColumnIndex={current ? 5 : 6}
       expandIcon={({ expanded, onExpand, record }) =>
         expanded ? (
