@@ -12,8 +12,6 @@ const DisputeForm = ({
   closeMinerValuesModal,
   minerIndex,
 }) => {
-  console.log('DisputeForm miningEvent, value', miningEvent, value, minerIndex);
-
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);

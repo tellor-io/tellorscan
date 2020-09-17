@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { Table } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
-import MinerValues from './MinerValues';
 import Lottie from 'react-lottie';
 import { ModeContext } from '../../contexts/Store';
 import MiningEvents from './MiningEvents';
+import CurrentMiningEvents from './CurrentMiningEvents';
 
 const MiningEventsTable = ({ events, pagination, current }) => {
   const [mode] = useContext(ModeContext);
@@ -22,11 +22,23 @@ const MiningEventsTable = ({ events, pagination, current }) => {
       title: 'Block',
       dataIndex: 'blockNumber',
       key: 'blockNumber',
+      render: (text) => {
+        if (current) {
+          return <p>-</p>;
+        } else {
+          return <p>{text}</p>;
+        }
+      },
     },
     {
       title: 'Symbols',
       render: (text) => {
-        const symbols = text.requestSymbols.join(', ');
+        let symbols;
+        if (current) {
+          symbols = text.minerValues[0].requestSymbols.join(', ');
+        } else {
+          symbols = text.requestSymbols.join(', ');
+        }
         return <p>{symbols}</p>;
       },
     },
@@ -67,13 +79,19 @@ const MiningEventsTable = ({ events, pagination, current }) => {
   return (
     <Table
       columns={columns}
-      rowKey={'id'}
+      rowKey={current ? '0' : 'id'}
       dataSource={events}
       onRow={onRow}
       onExpand={onExpand}
-      expandedRowRender={(record, index) => (
-        <MiningEvents miningEvent={record} valueIndex={index} />
-      )}
+      expandedRowRender={(record, index) => {
+        if (current) {
+          return (
+            <CurrentMiningEvents miningEvent={record} valueIndex={index} />
+          );
+        } else {
+          return <MiningEvents miningEvent={record} valueIndex={index} />;
+        }
+      }}
       expandIconColumnIndex={current ? 5 : 6}
       expandIcon={({ expanded, onExpand, record }) =>
         expanded ? (

@@ -9,6 +9,8 @@ export const GET_LATEST_MINER_VALUES = gql`
       miner
       values
       requestIds
+      requestSymbols @client
+      granPrices @client
     }
   }
 `;

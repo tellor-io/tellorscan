@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import styled from 'styled-components';
 import { Layout } from 'antd';
 import { RightCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';

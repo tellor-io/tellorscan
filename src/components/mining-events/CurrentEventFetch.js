@@ -29,21 +29,14 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
           'currentChallenge',
         );
 
-        //should we check on [0] _currentChallenge?
-        // if (+currentDetails[1]) {
-        if (+currentDetails[0]) {
-          const minerValues = groupedValues[currentDetails[0]] || [];
-
+        const minerValues = groupedValues[currentDetails[0]] || [];
+        if (minerValues.length) {
           const event = {
             ...currentDetails,
-            // ...latestValues.request,
             minerValues,
             minedValue: 'Pending',
             status: `Mining (${minerValues.length}/5)`,
           };
-          // if (!latestValues.request) {
-          //   event.id = '0';
-          // }
           setCurrentEvent(event);
 
           if (minerValues.length === 5) {
@@ -54,7 +47,6 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
           console.log('No pending challenge');
           setCurrentEvent({
             ...currentDetails,
-            // ...latestValues.request,
             minerValues: groupedValues[currentDetails[0]],
             noPending: true,
           });
@@ -63,9 +55,6 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
         console.error('error', e);
       }
     };
-
-    console.log('latestValues', latestValues);
-    console.log('currentDetails', currentDetails);
 
     if (latestValues && currentDetails) {
       initValues();
@@ -89,6 +78,7 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
       const currentDetails = await contract.service.getCurrentVariables();
       setCurrentDetails(currentDetails);
 
+      // what should we  check on here?
       if (+currentDetails[1]) {
         setFindNextDetails(false);
       } else {
@@ -104,7 +94,6 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
       <>
         <GraphFetch
           query={GET_LATEST_MINER_VALUES}
-          // variables={{ requestId: currentDetails[1] }}
           setRecords={setLatestValues}
           entity={'minerValues'}
         />

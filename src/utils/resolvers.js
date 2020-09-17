@@ -1,6 +1,5 @@
 import {
   getEventStatus,
-  getMinerValueStatus,
   getDisputeStatus,
   inDisputeWindow,
   inVoteWindow,
@@ -35,8 +34,15 @@ export const resolvers = (() => {
       },
     },
     MinerValue: {
-      status: async (minerValue, _args) => {
-        return getMinerValueStatus(minerValue);
+      requestSymbols: async (minerValue, _args) => {
+        return minerValue.requestIds.map(
+          (requestId) => psrLookup[requestId].name,
+        );
+      },
+      granPrices: (minerValue, _args) => {
+        return minerValue.values.map((minedValue, i) => {
+          return +minedValue / +psrLookup[minerValue.requestIds[i]].granularity;
+        });
       },
     },
     Dispute: {

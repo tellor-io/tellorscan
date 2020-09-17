@@ -4,7 +4,6 @@ import VoteForm from 'components/votes/VoteForm';
 import { ContractContext } from 'contexts/Store';
 
 const DisputesTable = ({ disputes, pagination }) => {
-  console.log('disputes', disputes);
   const [contract] = useContext(ContractContext);
 
   const columns = [
