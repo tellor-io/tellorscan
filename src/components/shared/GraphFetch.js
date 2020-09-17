@@ -9,6 +9,8 @@ const GraphFetch = ({ query, setRecords, variables, suppressLoading }) => {
     pollInterval: 5000,
   });
 
+  console.log('data', data);
+
   useEffect(() => {
     if (data) {
       setRecords(data);

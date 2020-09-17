@@ -3,8 +3,8 @@ import { Table } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import MinerValues from './MinerValues';
 import Lottie from 'react-lottie';
-import animationData from '../../assets/Tellor__Loader.json';
 import { ModeContext } from '../../contexts/Store';
+import MiningEvents from './MiningEvents';
 
 const MiningEventsTable = ({ events, pagination, current }) => {
   const [mode] = useContext(ModeContext);
@@ -18,25 +18,19 @@ const MiningEventsTable = ({ events, pagination, current }) => {
   };
 
   const columns = [
-    { title: 'ID', dataIndex: 'requestId', key: 'requestId', width: 100 },
     {
-      title: 'Symbol',
-      dataIndex: 'requestSymbol',
-      key: 'requestSymbol',
-      width: 300,
+      title: 'Block',
+      dataIndex: 'blockNumber',
+      key: 'blockNumber',
+      // width: 100,
     },
     {
-      title: 'Value',
-      dataIndex: 'minedValue',
-      key: 'minedValue',
-      width: current ? 300 : 200,
-    },
-    { title: 'Price', dataIndex: 'granPrice', key: 'granPrice', width: 200 },
-    {
-      title: 'Tip (TRB)',
-      dataIndex: 'totalTips',
-      key: 'totalTips',
-      width: current ? 200 : 100,
+      title: 'Symbols',
+      render: (text) => {
+        const symbols = text.requestSymbols.join(', ');
+        return <p>{symbols}</p>;
+      },
+      // width: 300,
     },
     {
       title: 'Status',
@@ -50,7 +44,7 @@ const MiningEventsTable = ({ events, pagination, current }) => {
             </span>
           );
         } else {
-          return <p>{text}</p>;
+          return <p>{text === 'Completed' ? 'Mined' : text}</p>;
         }
       },
     },
@@ -79,7 +73,11 @@ const MiningEventsTable = ({ events, pagination, current }) => {
       dataSource={events}
       onRow={onRow}
       onExpand={onExpand}
-      expandedRowRender={(record) => <MinerValues miningEvent={record} />}
+      expandedRowRender={(record, index) => (
+        <MiningEvents miningEvent={record} valueIndex={index} />
+      )}
+      // expandedRowRender={(record) => <MinerValues miningEvents={record} />}
+
       expandIconColumnIndex={current ? 5 : 6}
       expandIcon={({ expanded, onExpand, record }) =>
         expanded ? (

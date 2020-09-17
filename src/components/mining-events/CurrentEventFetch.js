@@ -5,6 +5,8 @@ import { GET_LATEST_MINER_VALUES } from 'utils/queries';
 import { ContractContext } from 'contexts/Store';
 import GraphFetch from 'components/shared/GraphFetch';
 
+//TODO: Adjust to just look for miningvalues by current challenge again and again until they have a miningEvent
+
 const CurrentEventFetch = ({ setCurrentEvent }) => {
   const [latestValues, setLatestValues] = useState();
   const [currentDetails, setCurrentDetails] = useState();
@@ -27,19 +29,21 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
           'currentChallenge',
         );
 
-        if (+currentDetails[1]) {
+        //should we check on [0] _currentChallenge?
+        // if (+currentDetails[1]) {
+        if (+currentDetails[0]) {
           const minerValues = groupedValues[currentDetails[0]] || [];
 
           const event = {
             ...currentDetails,
-            ...latestValues.request,
+            // ...latestValues.request,
             minerValues,
             minedValue: 'Pending',
             status: `Mining (${minerValues.length}/5)`,
           };
-          if (!latestValues.request) {
-            event.id = '0';
-          }
+          // if (!latestValues.request) {
+          //   event.id = '0';
+          // }
           setCurrentEvent(event);
 
           if (minerValues.length === 5) {
@@ -50,7 +54,7 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
           console.log('No pending challenge');
           setCurrentEvent({
             ...currentDetails,
-            ...latestValues.request,
+            // ...latestValues.request,
             minerValues: groupedValues[currentDetails[0]],
             noPending: true,
           });
@@ -59,6 +63,9 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
         console.error('error', e);
       }
     };
+
+    console.log('latestValues', latestValues);
+    console.log('currentDetails', currentDetails);
 
     if (latestValues && currentDetails) {
       initValues();
@@ -97,7 +104,7 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
       <>
         <GraphFetch
           query={GET_LATEST_MINER_VALUES}
-          variables={{ requestId: currentDetails[1] }}
+          // variables={{ requestId: currentDetails[1] }}
           setRecords={setLatestValues}
           entity={'minerValues'}
         />

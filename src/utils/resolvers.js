@@ -15,8 +15,10 @@ export const resolvers = (() => {
       },
     },
     MiningEvent: {
-      requestSymbol: async (miningEvent, _args) => {
-        return psrLookup[miningEvent.requestId].name;
+      requestSymbols: async (miningEvent, _args) => {
+        return miningEvent.requestIds.map(
+          (requestId) => psrLookup[requestId].name,
+        );
       },
       status: async (miningEvent, _args) => {
         return getEventStatus(miningEvent);
@@ -24,11 +26,12 @@ export const resolvers = (() => {
       inDisputeWindow: async (miningEvent, _args) => {
         return inDisputeWindow(miningEvent.timestamp);
       },
-      granPrice: (miningEvent, _args) => {
-        return (
-          +miningEvent.minedValue /
-          +psrLookup[miningEvent.requestId].granularity
-        );
+      granPrices: (miningEvent, _args) => {
+        return miningEvent.minedValues.map((minedValue, i) => {
+          return (
+            +minedValue / +psrLookup[miningEvent.requestIds[i]].granularity
+          );
+        });
       },
     },
     MinerValue: {

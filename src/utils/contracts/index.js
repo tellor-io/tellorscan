@@ -17,5 +17,5 @@ export default [
   ...Utilities.abi,
   ...TellorStake.abi,
   ...TellorTransfer.abi,
-  ...TellorDispute.abi
-]
+  ...TellorDispute.abi,
+];

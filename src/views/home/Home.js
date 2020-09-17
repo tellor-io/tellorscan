@@ -13,25 +13,27 @@ const Home = () => {
   const [events, setEvents] = useState();
   const [disputes, setDisputes] = useState();
 
+  console.log('events', events);
+
   return (
     <>
-      <CurrentEventFetch setCurrentEvent={setCurrentEvent} />
-      <OpenDisputesFetch />
+      {/* <CurrentEventFetch setCurrentEvent={setCurrentEvent} /> */}
+      {/* <OpenDisputesFetch /> */}
       <GraphFetch
         query={GET_LATEST_EVENTS}
         setRecords={setEvents}
         suppressLoading={true}
       />
-      <GraphFetch
+      {/* <GraphFetch
         query={GET_LATEST_DISPUTES}
         setRecords={setDisputes}
         suppressLoading={true}
-      />
+      /> */}
 
       {currentEvent ? (
         <div className="Hero">
           <div className="View">
-            <CurrentMiningEvent currentEvent={currentEvent} />
+            {/* <CurrentMiningEvent currentEvent={currentEvent} /> */}
           </div>
         </div>
       ) : null}
