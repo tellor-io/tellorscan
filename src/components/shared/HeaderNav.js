@@ -8,6 +8,7 @@ import { Web3SignIn } from './Web3SignIn';
 import { truncateAddr } from '../../utils/helpers';
 import tellorLogoDark from '../../assets/Tellor__Logo--Dark.png';
 import ModeSwitcher from './ModeSwitcher';
+import NetworkSwitcher from './NetworkSwitcher';
 
 const HeaderNav = () => {
   const { Header } = Layout;
@@ -34,11 +35,13 @@ const HeaderNav = () => {
           >
             Price Viewer <RightCircleOutlined />
           </a>
+
           {!currentUser ? (
             <Web3SignIn setCurrentUser={setCurrentUser} />
           ) : (
             <span>{truncateAddr(currentUser.username)}</span>
           )}
+          <NetworkSwitcher />
         </div>
       </div>
     </Header>

@@ -72,7 +72,8 @@ a {
     }
   }
   &__Nav {
-    display: inline-block;
+    display: flex;
+    align-items: center;
     margin-left: auto;
     @media (max-width: 800px) {
       margin-left: 0px;
