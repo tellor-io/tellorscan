@@ -8,7 +8,7 @@ import Loader from 'components/shared/Loader';
 import { getMinerValueStatus, getMatchingDispute } from 'utils/helpers';
 import { OpenDisputesContext } from 'contexts/Store';
 
-const WarningP = styled.div`
+const WarningSpan = styled.span`
   color: #faad14;
 `;
 
@@ -18,9 +18,9 @@ const MinerValues = ({ miningEvent, valueIndex, closeMinerValuesModal }) => {
   const checkWarning = (text, record) => {
     const status = getMinerValueStatus(record, openDisputes, miningEvent);
     if (status === 'Mined') {
-      return <p>{text || status}</p>;
+      return <span>{text || status}</span>;
     } else {
-      return <WarningP>{text || status}</WarningP>;
+      return <WarningSpan>{text || status}</WarningSpan>;
     }
   };
 
