@@ -10,6 +10,7 @@ const DisputeForm = ({
   value,
   miningEvent,
   closeMinerValuesModal,
+  miner,
   minerIndex,
 }) => {
   const [visible, setVisible] = useState(false);
@@ -36,8 +37,7 @@ const DisputeForm = ({
         currentUser.username,
         miningEvent.requestId,
         miningEvent.time,
-        minerIndex,
-        // value.miner,
+        miner,
         getTx,
         getError,
       );

@@ -53,6 +53,7 @@ const MinerValues = ({ miningEvent, valueIndex, closeMinerValuesModal }) => {
           return (
             <DisputeForm
               value={value}
+              miner={record.miner}
               miningEvent={miningEvent}
               minerIndex={index}
               closeMinerValuesModal={closeMinerValuesModal}

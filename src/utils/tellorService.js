@@ -75,8 +75,7 @@ export default class TellorService {
     from,
     requestId,
     timestamp,
-    // minerAddress,
-    minerIndex,
+    minerAddress,
     setTx,
     setError,
   ) {
@@ -85,9 +84,9 @@ export default class TellorService {
       await this.initContract();
     }
 
-    // const miners = await this.getMiners(requestId, timestamp);
-    // const lcMiners = miners.map((m) => m.toLowerCase());
-    // const minerIndex = lcMiners.indexOf(minerAddress.toLowerCase());
+    const miners = await this.getMiners(requestId, timestamp);
+    const lcMiners = miners.map((m) => m.toLowerCase());
+    const minerIndex = lcMiners.indexOf(minerAddress.toLowerCase());
 
     let dispute = this.contract.methods
       .beginDispute(requestId, timestamp, minerIndex)
