@@ -425,6 +425,24 @@ tr.ant-table-expanded-row:hover > td {
   background-color: var(--background-2);
 }
 
+// Dropdown
+
+.ant-dropdown {
+  border-radius: 5px !important;
+  .ant-dropdown-menu {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: var(--modal-color-background);
+    .ant-dropdown-menu-item {
+      color: var(--color-link);
+      &:hover {
+        background-color: var(--color-primary-5);
+        color: var(--color-secondary-2);
+      }
+    }
+  }
+}
+
 // Responsive Adjustments
 
 @media all and (max-width: 800px) {

@@ -48,6 +48,7 @@ const NetworkSwitcher = ({ networkId }) => {
       <Button size="large" type="default">
         <span />
         Mainnet
+        <DownOutlined />
       </Button>
     </NetworkDropdown>
   );
