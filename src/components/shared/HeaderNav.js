@@ -41,7 +41,7 @@ const HeaderNav = () => {
           ) : (
             <span>{truncateAddr(currentUser.username)}</span>
           )}
-          <NetworkSwitcher />
+          {/* <NetworkSwitcher /> */}
         </div>
       </div>
     </Header>
