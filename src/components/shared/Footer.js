@@ -21,7 +21,7 @@ const Footer = () => {
       </p>
       <p>
         <a
-          href="https://v1-disputes.tellor.io"
+          href="https://disputecenterv1.herokuapp.com/"
           rel="noopener noreferrer"
           target="_blank"
         >
