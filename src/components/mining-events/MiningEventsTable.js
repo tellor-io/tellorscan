@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { Table } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
-import MinerValues from './MinerValues';
 import Lottie from 'react-lottie';
-import animationData from '../../assets/Tellor__Loader.json';
 import { ModeContext } from '../../contexts/Store';
+import MiningEvents from './MiningEvents';
+import CurrentMiningEvents from './CurrentMiningEvents';
 
 const MiningEventsTable = ({ events, pagination, current }) => {
   const [mode] = useContext(ModeContext);
@@ -18,25 +18,29 @@ const MiningEventsTable = ({ events, pagination, current }) => {
   };
 
   const columns = [
-    { title: 'ID', dataIndex: 'requestId', key: 'requestId', width: 100 },
     {
-      title: 'Symbol',
-      dataIndex: 'requestSymbol',
-      key: 'requestSymbol',
-      width: 300,
+      title: 'Block',
+      dataIndex: 'blockNumber',
+      key: 'blockNumber',
+      render: (text) => {
+        if (current) {
+          return <p>-</p>;
+        } else {
+          return <p>{text}</p>;
+        }
+      },
     },
     {
-      title: 'Value',
-      dataIndex: 'minedValue',
-      key: 'minedValue',
-      width: current ? 300 : 200,
-    },
-    { title: 'Price', dataIndex: 'granPrice', key: 'granPrice', width: 200 },
-    {
-      title: 'Tip (TRB)',
-      dataIndex: 'totalTips',
-      key: 'totalTips',
-      width: current ? 200 : 100,
+      title: 'Symbols',
+      render: (text) => {
+        let symbols;
+        if (current) {
+          symbols = text.minerValues[0].requestSymbols.join(', ');
+        } else {
+          symbols = text.requestSymbols.join(', ');
+        }
+        return <p>{symbols}</p>;
+      },
     },
     {
       title: 'Status',
@@ -50,7 +54,7 @@ const MiningEventsTable = ({ events, pagination, current }) => {
             </span>
           );
         } else {
-          return <p>{text}</p>;
+          return <p>{text === 'Completed' ? 'Mined' : text}</p>;
         }
       },
     },
@@ -75,11 +79,19 @@ const MiningEventsTable = ({ events, pagination, current }) => {
   return (
     <Table
       columns={columns}
-      rowKey={'id'}
+      rowKey={current ? '0' : 'id'}
       dataSource={events}
       onRow={onRow}
       onExpand={onExpand}
-      expandedRowRender={(record) => <MinerValues miningEvent={record} />}
+      expandedRowRender={(record, index) => {
+        if (current) {
+          return (
+            <CurrentMiningEvents miningEvent={record} valueIndex={index} />
+          );
+        } else {
+          return <MiningEvents miningEvent={record} valueIndex={index} />;
+        }
+      }}
       expandIconColumnIndex={current ? 5 : 6}
       expandIcon={({ expanded, onExpand, record }) =>
         expanded ? (

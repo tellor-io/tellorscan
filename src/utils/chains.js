@@ -7,6 +7,8 @@ const supportedChains = [
     chain_id: 1,
     network_id: 1,
     rpc_url: 'https://mainnet.infura.io/',
+    subgraph_url:
+      'https://api.thegraph.com/subgraphs/name/themandalore/tellor-dispute-v2',
   },
   {
     name: 'Ethereum Ropsten',
@@ -25,6 +27,8 @@ const supportedChains = [
     chain_id: 4,
     network_id: 4,
     rpc_url: 'https://rinkeby.infura.io/',
+    subgraph_url:
+      'https://api.thegraph.com/subgraphs/name/themandalore/tellor-dispute-v2-rinkeby',
   },
   {
     name: 'Ethereum Görli',

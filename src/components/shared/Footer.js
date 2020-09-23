@@ -19,6 +19,15 @@ const Footer = () => {
           Tellor.io
         </a>
       </p>
+      <p>
+        <a
+          href="https://v1-disputes.tellor.io"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          V1 Historical Data
+        </a>
+      </p>
       <div className="Footer__Links">
         <a
           href="https://twitter.com/wearetellor"

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { psrLookup } from './psrLookup';
 
 export const truncateAddr = (addr) => {
   return addr.slice(0, 6) + '...';
@@ -47,4 +48,17 @@ export const inDisputeWindow = (timestamp) => {
 
 export const inVoteWindow = (timestamp) => {
   return moment.utc().isBefore(moment.unix(timestamp).add(7, 'days'));
+};
+
+export const getMedianValue = (allMinerValues, index) => {
+  const values = allMinerValues.map((val) => {
+    return val.values[index];
+  });
+  const mid = Math.floor(values.length / 2),
+    nums = [...values].sort((a, b) => a - b);
+  return values.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
+};
+
+export const getGranPrice = (value, requestId) => {
+  return +value / +psrLookup[requestId].granularity;
 };

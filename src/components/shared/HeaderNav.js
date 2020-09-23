@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import styled from 'styled-components';
 import { Layout } from 'antd';
 import { RightCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -9,6 +8,7 @@ import { Web3SignIn } from './Web3SignIn';
 import { truncateAddr } from '../../utils/helpers';
 import tellorLogoDark from '../../assets/Tellor__Logo--Dark.png';
 import ModeSwitcher from './ModeSwitcher';
+import NetworkSwitcher from './NetworkSwitcher';
 
 const HeaderNav = () => {
   const { Header } = Layout;
@@ -35,11 +35,13 @@ const HeaderNav = () => {
           >
             Price Viewer <RightCircleOutlined />
           </a>
+
           {!currentUser ? (
             <Web3SignIn setCurrentUser={setCurrentUser} />
           ) : (
             <span>{truncateAddr(currentUser.username)}</span>
           )}
+          {/* <NetworkSwitcher /> */}
         </div>
       </div>
     </Header>

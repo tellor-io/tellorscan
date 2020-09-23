@@ -8,29 +8,30 @@ import Loader from 'components/shared/Loader';
 import { getMinerValueStatus, getMatchingDispute } from 'utils/helpers';
 import { OpenDisputesContext } from 'contexts/Store';
 
-const WarningP = styled.div`
+const WarningSpan = styled.span`
   color: #faad14;
 `;
 
-const MinerValues = ({ miningEvent }) => {
+const MinerValues = ({ miningEvent, valueIndex, closeMinerValuesModal }) => {
   const [openDisputes] = useContext(OpenDisputesContext);
 
   const checkWarning = (text, record) => {
     const status = getMinerValueStatus(record, openDisputes, miningEvent);
     if (status === 'Mined') {
-      return <p>{text || status}</p>;
+      return <span>{text || status}</span>;
     } else {
-      return <WarningP>{text || status}</WarningP>;
+      return <WarningSpan>{text || status}</WarningSpan>;
     }
   };
 
+  const getValue = (text, record, index) => {
+    return record.values[valueIndex];
+  };
+
   const columns = [
-    { title: 'Miner', dataIndex: 'miner', key: 'miner' },
     {
       title: 'Value',
-      dataIndex: 'value',
-      key: 'value',
-      render: checkWarning,
+      render: getValue,
     },
     {
       title: 'Status',
@@ -48,11 +49,14 @@ const MinerValues = ({ miningEvent }) => {
             <VoteForm dispute={getMatchingDispute(openDisputes, miningEvent)} />
           );
         } else if (miningEvent.inDisputeWindow) {
+          const value = getValue(record, event, index);
           return (
             <DisputeForm
-              value={record}
+              value={value}
+              miner={record.miner}
               miningEvent={miningEvent}
               minerIndex={index}
+              closeMinerValuesModal={closeMinerValuesModal}
             />
           );
         }

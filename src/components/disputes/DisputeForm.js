@@ -6,7 +6,13 @@ import { ContractContext, CurrentUserContext } from 'contexts/Store';
 import Loader from '../shared/Loader';
 import EtherscanLink from 'components/shared/EtherscanlLnk';
 
-const DisputeForm = ({ value, miningEvent }) => {
+const DisputeForm = ({
+  value,
+  miningEvent,
+  closeMinerValuesModal,
+  miner,
+  minerIndex,
+}) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
@@ -31,7 +37,7 @@ const DisputeForm = ({ value, miningEvent }) => {
         currentUser.username,
         miningEvent.requestId,
         miningEvent.time,
-        value.miner,
+        miner,
         getTx,
         getError,
       );
@@ -64,12 +70,17 @@ const DisputeForm = ({ value, miningEvent }) => {
     }
   };
 
+  const handleOpen = () => {
+    closeMinerValuesModal();
+    setVisible(true);
+  };
+
   const canDispute = currentUser && +currentUser.balance > contract.disputeFee;
   // const canDispute = true;
 
   return (
     <>
-      <Button type="default" onClick={() => setVisible(true)}>
+      <Button type="default" onClick={handleOpen}>
         Dispute
       </Button>
       <Modal
@@ -88,7 +99,7 @@ const DisputeForm = ({ value, miningEvent }) => {
             <p>{miningEvent.requestSymbol}</p>
 
             <h6>Value</h6>
-            <p>{value.value}</p>
+            <p>{value}</p>
 
             <h6>Stake required to Dispute this value *</h6>
 

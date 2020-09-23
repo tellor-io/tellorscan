@@ -5,6 +5,8 @@ import { GET_LATEST_MINER_VALUES } from 'utils/queries';
 import { ContractContext } from 'contexts/Store';
 import GraphFetch from 'components/shared/GraphFetch';
 
+//TODO: Adjust to just look for miningvalues by current challenge again and again until they have a miningEvent
+
 const CurrentEventFetch = ({ setCurrentEvent }) => {
   const [latestValues, setLatestValues] = useState();
   const [currentDetails, setCurrentDetails] = useState();
@@ -27,19 +29,14 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
           'currentChallenge',
         );
 
-        if (+currentDetails[1]) {
-          const minerValues = groupedValues[currentDetails[0]] || [];
-
+        const minerValues = groupedValues[currentDetails[0]] || [];
+        if (minerValues.length) {
           const event = {
             ...currentDetails,
-            ...latestValues.request,
             minerValues,
             minedValue: 'Pending',
             status: `Mining (${minerValues.length}/5)`,
           };
-          if (!latestValues.request) {
-            event.id = '0';
-          }
           setCurrentEvent(event);
 
           if (minerValues.length === 5) {
@@ -50,7 +47,6 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
           console.log('No pending challenge');
           setCurrentEvent({
             ...currentDetails,
-            ...latestValues.request,
             minerValues: groupedValues[currentDetails[0]],
             noPending: true,
           });
@@ -82,6 +78,7 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
       const currentDetails = await contract.service.getCurrentVariables();
       setCurrentDetails(currentDetails);
 
+      // what should we  check on here?
       if (+currentDetails[1]) {
         setFindNextDetails(false);
       } else {
@@ -97,7 +94,6 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
       <>
         <GraphFetch
           query={GET_LATEST_MINER_VALUES}
-          variables={{ requestId: currentDetails[1] }}
           setRecords={setLatestValues}
           entity={'minerValues'}
         />
