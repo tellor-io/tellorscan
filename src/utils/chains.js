@@ -1,4 +1,4 @@
-const supportedChains = [
+export const supportedChains = [
   {
     name: 'Ethereum Mainnet',
     short_name: 'eth',

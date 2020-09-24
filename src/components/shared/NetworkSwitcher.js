@@ -1,17 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { DownOutlined } from '@ant-design/icons';
 import { Menu, Dropdown, Button } from 'antd';
+import { NetworkContext } from 'contexts/Store';
 
 let networkId = 'Mainnet';
 let connectedNetwork = networkId;
-
-const menu = (
-  <Menu>
-    <Menu.Item>Mainnet</Menu.Item>
-    <Menu.Item>Rinkeby</Menu.Item>
-  </Menu>
-);
 
 const NetworkDropdown = styled(Dropdown)`
   display: flex;
@@ -37,7 +31,26 @@ const NetworkDropdown = styled(Dropdown)`
   }
 `;
 
-const NetworkSwitcher = ({ networkId }) => {
+const NetworkSwitcher = () => {
+  const [currentNetwork, setCurrentNetwork] = useContext(NetworkContext);
+  const label = currentNetwork === '1' ? 'Mainnet' : 'Rinkeby';
+
+  const handleSelect = (item) => {
+    window.localStorage.setItem('defaultNetwork', item.key);
+    setCurrentNetwork(item.key);
+  };
+
+  const menu = (
+    <Menu>
+      <Menu.Item onClick={handleSelect} key="1">
+        Mainnet
+      </Menu.Item>
+      <Menu.Item onClick={handleSelect} key="4">
+        Rinkeby
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <NetworkDropdown
       overlay={menu}
@@ -47,7 +60,7 @@ const NetworkSwitcher = ({ networkId }) => {
     >
       <Button size="large" type="default">
         <span />
-        Mainnet
+        {label}
         <DownOutlined />
       </Button>
     </NetworkDropdown>

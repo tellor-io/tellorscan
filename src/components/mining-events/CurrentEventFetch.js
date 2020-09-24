@@ -30,6 +30,8 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
         );
 
         const minerValues = groupedValues[currentDetails[0]] || [];
+
+        console.log('minerValues', minerValues);
         if (minerValues.length) {
           const event = {
             ...currentDetails,
@@ -60,7 +62,7 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
       initValues();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [latestValues]);
+  }, [latestValues, currentDetails]);
 
   useEffect(() => {
     if (findNextDetails) {
@@ -76,9 +78,9 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
   const getCurrentDetails = async () => {
     try {
       const currentDetails = await contract.service.getCurrentVariables();
+
       setCurrentDetails(currentDetails);
 
-      // what should we  check on here?
       if (+currentDetails[1]) {
         setFindNextDetails(false);
       } else {
