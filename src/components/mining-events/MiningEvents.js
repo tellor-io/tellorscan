@@ -48,12 +48,12 @@ const MiningEvents = ({ miningEvent, valueIndex, current }) => {
       width: current ? 300 : 200,
     },
     { title: 'Price', dataIndex: 'granPrice', key: 'granPrice', width: 200 },
-    {
-      title: 'Tip (TRB)',
-      dataIndex: 'totalTips',
-      key: 'totalTips',
-      width: current ? 200 : 100,
-    },
+    // {
+    //   title: 'Tip (TRB)',
+    //   dataIndex: 'totalTips',
+    //   key: 'totalTips',
+    //   width: current ? 200 : 100,
+    // },
     {
       title: 'Status',
       dataIndex: 'status',
