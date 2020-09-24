@@ -33,6 +33,7 @@ const NetworkDropdown = styled(Dropdown)`
 
 const NetworkSwitcher = () => {
   const [currentNetwork, setCurrentNetwork] = useContext(NetworkContext);
+
   const label = currentNetwork === '1' ? 'Mainnet' : 'Rinkeby';
 
   const handleSelect = (item) => {
