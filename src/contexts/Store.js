@@ -11,6 +11,7 @@ import tellorLoaderLight from '../assets/Tellor__Loader--Light.json';
 export const ContractContext = createContext();
 export const OpenDisputesContext = createContext();
 export const CurrentUserContext = createContext();
+export const NetworkContext = createContext();
 export const Web3ModalContext = createContext();
 export const ModeContext = createContext();
 
@@ -18,23 +19,38 @@ const Store = ({ children }) => {
   const [contract, setContract] = useState();
   const [openDisputes, setOpenDisputes] = useState();
   const [currentUser, setCurrentUser] = useState();
+  const [currentNetwork, setCurrentNetwork] = useState(
+    window.localStorage.getItem('defaultNetwork') || '1',
+  );
+
   const [mode, setMode] = useState(
     window.localStorage.getItem('viewMode') === 'light'
       ? tellorLoaderLight
       : tellorLoaderDark,
   );
+
   const [web3Modal, setWeb3Modal] = useState(
     new Web3Modal({
-      network: getChainData(+process.env.REACT_APP_CHAIN_ID).network, // optional
       providerOptions, // required
       cacheProvider: true,
     }),
   );
 
   useEffect(() => {
+    setWeb3Modal(
+      new Web3Modal({
+        network: getChainData(+currentNetwork).network,
+        providerOptions, // required
+        cacheProvider: true,
+      }),
+    );
+  }, [currentNetwork]);
+
+  useEffect(() => {
     const initCurrentUser = async () => {
       try {
-        const w3c = await w3connect(web3Modal);
+        const w3c = await w3connect(web3Modal, currentNetwork);
+
         setWeb3Modal(w3c);
 
         const [account] = await w3c.web3.eth.getAccounts();
@@ -42,28 +58,44 @@ const Store = ({ children }) => {
         setCurrentUser(user);
       } catch (e) {
         console.error(`Could not log in with web3`);
+        setCurrentUser();
       }
     };
 
     if (web3Modal.cachedProvider) {
       initCurrentUser();
     }
-  }, [web3Modal, currentUser]);
+  }, [web3Modal, currentUser, currentNetwork]);
 
   useEffect(() => {
     const initContract = async (web3) => {
       try {
-        const tellorService = new TellorService(web3);
+        const injectedChainId = await web3.eth.getChainId();
+
+        if (injectedChainId !== +currentNetwork) {
+          const infuraUri = `https://${
+            currentNetwork === '1' ? 'mainnet' : 'rinkeby'
+          }.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`;
+
+          web3 = new Web3(infuraUri);
+        }
+
+        const tellorService = new TellorService(web3, currentNetwork);
         await tellorService.initContract();
         const disputeFee = await tellorService.getDisputeFee();
+
         setContract({ service: tellorService, disputeFee });
       } catch (e) {
         console.error(`Could not init contract`);
       }
     };
 
-    initContract(web3Modal.web3 || new Web3(process.env.REACT_APP_INFURA_URI));
-  }, [web3Modal]);
+    const infuraUri = `https://${
+      currentNetwork === '1' ? 'mainnet' : 'rinkeby'
+    }.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`;
+
+    initContract(web3Modal.web3 || new Web3(infuraUri));
+  }, [currentNetwork, web3Modal]);
 
   useEffect(() => {
     const initCurrentUserBalance = async () => {
@@ -84,15 +116,17 @@ const Store = ({ children }) => {
   return (
     <Web3ModalContext.Provider value={[web3Modal, setWeb3Modal]}>
       <CurrentUserContext.Provider value={[currentUser, setCurrentUser]}>
-        <ModeContext.Provider value={[mode, setMode]}>
-          <ContractContext.Provider value={[contract, setContract]}>
-            <OpenDisputesContext.Provider
-              value={[openDisputes, setOpenDisputes]}
-            >
-              {children}
-            </OpenDisputesContext.Provider>
-          </ContractContext.Provider>
-        </ModeContext.Provider>
+        <NetworkContext.Provider value={[currentNetwork, setCurrentNetwork]}>
+          <ModeContext.Provider value={[mode, setMode]}>
+            <ContractContext.Provider value={[contract, setContract]}>
+              <OpenDisputesContext.Provider
+                value={[openDisputes, setOpenDisputes]}
+              >
+                {children}
+              </OpenDisputesContext.Provider>
+            </ContractContext.Provider>
+          </ModeContext.Provider>
+        </NetworkContext.Provider>
       </CurrentUserContext.Provider>
     </Web3ModalContext.Provider>
   );

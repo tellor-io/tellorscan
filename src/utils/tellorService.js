@@ -6,8 +6,11 @@ export default class TellorService {
   abis;
   contract;
 
-  constructor(web3) {
-    this.contractAddr = process.env.REACT_APP_TELLOR_CONTRACT_ADDRESS;
+  constructor(web3, currentNetwork) {
+    this.contractAddr =
+      currentNetwork === '1'
+        ? '0x0Ba45A8b5d5575935B8158a88C631E9F9C95a2e5'
+        : '0xfe41cb708cd98c5b20423433309e55b53f79134a';
     this.web3 = web3;
     this.abis = abis;
   }

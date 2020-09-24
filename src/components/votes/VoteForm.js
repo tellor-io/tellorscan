@@ -25,12 +25,12 @@ const VoteForm = ({ dispute }) => {
       setHasVoted(res);
     };
 
-    if (currentUser) {
+    if (currentUser && contract) {
       getHasVoted();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser]);
+  }, [currentUser, contract]);
 
   const getTx = (tx) => {
     setCurrentTx(tx);
