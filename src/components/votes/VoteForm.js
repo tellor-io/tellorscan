@@ -85,7 +85,7 @@ const VoteForm = ({ dispute }) => {
 
   return (
     <>
-      <Button size="large" type="primary" onClick={() => setVisible(true)}>
+      <Button type="default" onClick={() => setVisible(true)}>
         Vote
       </Button>
       <Modal
