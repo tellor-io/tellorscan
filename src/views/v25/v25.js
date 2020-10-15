@@ -8,7 +8,7 @@ const Mining = () => {
     <div className="Hero">
       <div className="View">
         <h1 style={{fontSize:60, alignContent: "center"}}>
-          Tellor 2.5 Proposal
+          Tellor 2.5 Proposal Coming Soon! 
         </h1>
         <p>
         TLDR:
@@ -18,7 +18,7 @@ const Mining = () => {
       <div style={{margin:20}}>
 
       <VoteForm dispute={{disputeId
-        : 46}} />
+        : 9999}} />
       </div>
          <p><a href={"https://github.com/tellor-io/TIPs/blob/main/TIPs/TIP-2%20Tellor2.5.md"}> See Full Proposal </a></p>
       </div>
