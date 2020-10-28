@@ -26,7 +26,6 @@ const HeaderNav = () => {
         </div>
         <div className="Header__Nav">
           <ModeSwitcher setLogo={setLogo} />
-          <Link to="/tellorUpgrade">Tellor V2.5!</Link>
           <Link to="/disputes">Disputes</Link>
           <Link to="/mining">Mining</Link>
           <a
