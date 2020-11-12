@@ -50,7 +50,7 @@ const Store = ({ children }) => {
     const initCurrentUser = async () => {
       try {
         const w3c = await w3connect(web3Modal, currentNetwork);
-
+        console.log("here")
         setWeb3Modal(w3c);
 
         const [account] = await w3c.web3.eth.getAccounts();

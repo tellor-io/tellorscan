@@ -37,7 +37,7 @@ export const w3connect = async (web3Modal, currentNetwork) => {
   const provider = await web3Modal.connect();
   const web3 = new Web3(provider);
   const injectedChainId = await web3.eth.getChainId();
-
+  console.log("here2")
   if (injectedChainId !== +currentNetwork) {
     alert(
       `Please switch Web3 to the correct network and try signing in again. Detected network: ${
@@ -48,7 +48,7 @@ export const w3connect = async (web3Modal, currentNetwork) => {
       `Injected web3 chainId: ${injectedChainId}, config: ${+currentNetwork}`,
     );
   }
-
+  web3.autoRefreshOnNetworkChange = false;
   return { web3Modal, web3, provider };
 };
 
