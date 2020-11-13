@@ -24,11 +24,6 @@ const rinkebyClient = new ApolloClient({
 const GraphFetch = ({ query, setRecords, variables, suppressLoading }) => {
   const [currentNetwork] = useContext(NetworkContext);
 
-  console.log('currentNetwork', currentNetwork);
-  // const client = currentNetwork === '1' ? client : rinkebyClient;
-
-  console.log('client', currentNetwork === '1');
-
   const { loading, error, data } = useQuery(query, {
     client: currentNetwork === '1' ? client : rinkebyClient,
     variables,
@@ -42,9 +37,6 @@ const GraphFetch = ({ query, setRecords, variables, suppressLoading }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
-
-  console.log('data', data);
-  console.log('error', error);
 
   if (loading) return <>{!suppressLoading ? <Loader /> : null}</>;
   if (error) return <></>;
