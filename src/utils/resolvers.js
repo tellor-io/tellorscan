@@ -50,7 +50,8 @@ export const resolvers = (() => {
         return dispute.relatedMiningEventData[2];
       },
       requestSymbol: async (dispute, _args) => {
-        return psrLookup[dispute.requestId].name;
+        const psr = psrLookup[dispute.requestId];
+        return psr ? psr.name : 'unknown';
       },
       status: async (dispute, _args) => {
         return getDisputeStatus(dispute);

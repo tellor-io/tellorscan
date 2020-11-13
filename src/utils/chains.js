@@ -54,7 +54,7 @@ export const supportedChains = [
     chain: 'ETC',
     network: 'mainnet',
     chain_id: 61,
-    network_id: 1,
+    network_id: 61,
     rpc_url: 'https://ethereumclassic.network',
   },
   {
@@ -63,7 +63,7 @@ export const supportedChains = [
     chain: 'POA',
     network: 'sokol',
     chain_id: 77,
-    network_id: 1,
+    network_id: 77,
     rpc_url: 'https://sokol.poa.network',
   },
   {
@@ -72,7 +72,7 @@ export const supportedChains = [
     chain: 'POA',
     network: 'core',
     chain_id: 99,
-    network_id: 2,
+    network_id: 99,
     rpc_url: 'https://core.poa.network',
   },
   {
@@ -81,7 +81,7 @@ export const supportedChains = [
     chain: 'xDAI',
     network: 'mainnet',
     chain_id: 100,
-    network_id: 1,
+    network_id: 100,
     rpc_url: 'https://dai.poa.network',
   },
 ];
