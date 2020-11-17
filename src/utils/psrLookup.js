@@ -52,7 +52,7 @@ export const psrLookup = {
   '51': { name: 'XMR / USD', granularity: '1000000' },
   '52': { name: 'XFT / USD', granularity: '1000000' },
   '53': { name: 'BTCDominance', granularity: '1000000' },
-  '54': { name: 'OGN/USD', granularity: '1000000' },
-  '55': { name: 'WAVES/USD', granularity: '1000000' },
+  '54': { name: 'WAVES/USD', granularity: '1000000' },
+  '55': { name: 'OGN/USD', granularity: '1000000' },
   '56': { name: 'VIXEOD', granularity: '1000000' },
 };
