@@ -7,7 +7,7 @@ const Upgrade = () => {
       <div className="Hero">
         <div className="View">
           <h1 style={{ fontSize: 60, alignContent: 'center' }}>
-            Tellor 2.6 Proposal Coming Soon!
+            Tellor 2.6 Proposal!
           </h1>
           <p>
             TLDR: Fix the difficulty adjustment to be based 4th slot, allowing
