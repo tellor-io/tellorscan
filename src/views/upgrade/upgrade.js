@@ -15,7 +15,7 @@ const Upgrade = () => {
             always 1, making it a proof-of-stake slot.
           </p>
           <div style={{ margin: 20 }}>
-            <VoteForm dispute={{ disputeId: 9999 }} />
+            <VoteForm dispute={{ disputeId: 54 }} />
           </div>
           <p>
             <a href={'https://github.com/tellor-io/TIPs/blob/main/TIPs'}>
