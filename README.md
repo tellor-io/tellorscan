@@ -4,7 +4,7 @@
 
 1. Install dependencies
 
-   `yarn install`
+   `npm install`
 
    \*\*Note we are using node 12.x in the production environment.
 
@@ -14,7 +14,7 @@
 
 3. Start the server
 
-   `yarn start`
+   `npm start`
 
 4. Open a browser: http://localhost:3000
 

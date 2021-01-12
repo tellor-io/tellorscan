@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
-import _ from 'lodash';
+import lodash from 'lodash';
 
 import { GET_LATEST_MINER_VALUES } from 'utils/queries';
 import { ContractContext } from 'contexts/Store';
@@ -24,14 +24,13 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
   useEffect(() => {
     const initValues = async () => {
       try {
-        const groupedValues = _.groupBy(
+        const groupedValues = lodash.groupBy(
           latestValues.minerValues,
           'currentChallenge',
         );
 
         const minerValues = groupedValues[currentDetails[0]] || [];
 
-        console.log('minerValues', minerValues);
         if (minerValues.length) {
           const event = {
             ...currentDetails,

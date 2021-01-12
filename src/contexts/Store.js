@@ -50,7 +50,6 @@ const Store = ({ children }) => {
     const initCurrentUser = async () => {
       try {
         const w3c = await w3connect(web3Modal, currentNetwork);
-        console.log("here")
         setWeb3Modal(w3c);
 
         const [account] = await w3c.web3.eth.getAccounts();
@@ -73,12 +72,10 @@ const Store = ({ children }) => {
         const injectedChainId = await web3.eth.getChainId();
 
         if (injectedChainId !== +currentNetwork) {
-          const infuraUri = `https://${
-            currentNetwork === '1' ? 'mainnet' : 'rinkeby'
-          }.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`;
-
-          web3 = new Web3(infuraUri);
+          const nodeURL = currentNetwork === '1' ? process.env.REACT_APP_NODE_URL_MAINNET : process.env.REACT_APP_NODE_URL_RINKEBY;
+          web3 = new Web3(nodeURL);
         }
+
 
         const tellorService = new TellorService(web3, currentNetwork);
         await tellorService.initContract();
@@ -86,15 +83,13 @@ const Store = ({ children }) => {
 
         setContract({ service: tellorService, disputeFee });
       } catch (e) {
-        console.error(`Could not init contract`);
+        console.error(`Could not init contract`, e);
       }
     };
 
-    const infuraUri = `https://${
-      currentNetwork === '1' ? 'mainnet' : 'rinkeby'
-    }.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`;
+    const nodeURL = currentNetwork === '1' ? process.env.REACT_APP_NODE_URL_MAINNET : process.env.REACT_APP_NODE_URL_RINKEBY;
 
-    initContract(web3Modal.web3 || new Web3(infuraUri));
+    initContract(web3Modal.web3 || new Web3("https://mainnet.infura.io/v3/973335d4f41d4c53b1af5b20ef2be9f3"));
   }, [currentNetwork, web3Modal]);
 
   useEffect(() => {

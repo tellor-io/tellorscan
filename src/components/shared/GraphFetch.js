@@ -1,24 +1,20 @@
 import React, { useContext, useEffect } from 'react';
-import ApolloClient from 'apollo-boost';
-import { useQuery } from 'react-apollo';
+import { ApolloClient, useQuery, HttpLink, onError, ApolloLink } from '@apollo/client'
 
-import { resolvers } from '../../utils/resolvers';
+
+import { cache } from '../../utils/cache';
 import { getChainData } from 'utils/chains';
 import { NetworkContext } from 'contexts/Store';
 import Loader from './Loader';
 
 const client = new ApolloClient({
   uri: getChainData(1).subgraph_url,
-  clientState: {
-    resolvers,
-  },
+  cache: cache
 });
 
 const rinkebyClient = new ApolloClient({
   uri: getChainData(4).subgraph_url,
-  clientState: {
-    resolvers,
-  },
+  cache: cache
 });
 
 const GraphFetch = ({ query, setRecords, variables, suppressLoading }) => {
@@ -39,7 +35,7 @@ const GraphFetch = ({ query, setRecords, variables, suppressLoading }) => {
   }, [data]);
 
   if (loading) return <>{!suppressLoading ? <Loader /> : null}</>;
-  if (error) return <></>;
+  if (error) console.log('error', error);
 
   return <></>;
 };

@@ -18,7 +18,11 @@ const Upgrade = () => {
             <VoteForm dispute={{ disputeId: 54 }} />
           </div>
           <p>
-            <a href={'https://github.com/tellor-io/TIPs/blob/main/TIPs'}>
+            <a
+              href={
+                'https://github.com/tellor-io/TIPs/blob/main/TIPs/TIP-6%20Tellor2.6.md'
+              }
+            >
               {' '}
               See Full Proposal{' '}
             </a>
