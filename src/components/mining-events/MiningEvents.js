@@ -87,8 +87,8 @@ const MiningEvents = ({ miningEvent, valueIndex, current }) => {
           pagination={false}
         />
       ) : (
-        <Loader />
-      )}
+          <Loader />
+        )}
     </>
   );
 };

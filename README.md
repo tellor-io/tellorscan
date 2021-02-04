@@ -39,10 +39,10 @@ App wide state is stored and accessed using the react context api
 #### Graphql data fetching
 
 Contract events are cached and mapped into usable entities on thegraph
-https://thegraph.com/explorer/subgraph/tellor-io/tellor-dispute
+https://thegraph.com/explorer/subgraph/tellor-io/lens
 
 These entites can be queried at
-https://api.thegraph.com/subgraphs/name/tellor-io/tellor-dispute
+https://api.thegraph.com/subgraphs/name/tellor-io/lens
 
 This app uses react-apollo to handle the graph queries
 

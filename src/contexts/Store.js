@@ -89,7 +89,7 @@ const Store = ({ children }) => {
 
     const nodeURL = currentNetwork === '1' ? process.env.REACT_APP_NODE_URL_MAINNET : process.env.REACT_APP_NODE_URL_RINKEBY;
 
-    initContract(web3Modal.web3 || new Web3("https://mainnet.infura.io/v3/973335d4f41d4c53b1af5b20ef2be9f3"));
+    initContract(web3Modal.web3 || new Web3(nodeURL));
   }, [currentNetwork, web3Modal]);
 
   useEffect(() => {
