@@ -50,10 +50,13 @@ export const inVoteWindow = (timestamp) => {
   return moment.utc().isBefore(moment.unix(timestamp).add(7, 'days'));
 };
 
-export const getMedianValue = (allMinerValues) => {
-  const mid = Math.floor(allMinerValues.length / 2),
-    nums = [...allMinerValues].sort((a, b) => a - b);
-  return allMinerValues.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
+export const getMedianValue = (allMinerValues, index) => {
+  const values = allMinerValues.map((val) => {
+    return val.values[index];
+  });
+  const mid = Math.floor(values.length / 2),
+    nums = [...values].sort((a, b) => a - b);
+  return values.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
 };
 
 export const getGranPrice = (value, requestId) => {

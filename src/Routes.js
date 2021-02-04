@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './views/home/Home';
 import Disputes from './views/disputes/Disputes';
 import Mining from 'views/mining/Mining';
-import Upgrade from 'views/upgrade/upgrade';
 
 const Routes = () => (
   <Switch>

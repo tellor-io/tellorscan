@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { ApolloClient, useQuery, HttpLink, onError, ApolloLink } from '@apollo/client'
+import { ApolloClient, useQuery } from '@apollo/client'
 
 
 import { cache } from '../../utils/cache';

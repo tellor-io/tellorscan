@@ -27,7 +27,10 @@ export const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider, // required
     options: {
-      infuraId: process.env.REACT_APP_INFURA_KEY,
+      rpc: {
+        1: process.env.REACT_APP_NODE_URL_MAINNET,
+        4: process.env.REACT_APP_NODE_URL_RINKEBY,
+      },
     },
   },
 };

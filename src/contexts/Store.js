@@ -1,12 +1,13 @@
 import React, { useState, useEffect, createContext } from 'react';
 import Web3Modal from 'web3modal';
-import Web3 from 'web3';
 
 import { w3connect, providerOptions, createWeb3User } from '../utils/auth';
 import { getChainData } from '../utils/chains';
 import TellorService from 'utils/tellorService';
 import tellorLoaderDark from '../assets/Tellor__Loader--Dark.json';
 import tellorLoaderLight from '../assets/Tellor__Loader--Light.json';
+
+const Web3 = require('web3');
 
 export const ContractContext = createContext();
 export const OpenDisputesContext = createContext();
@@ -67,9 +68,13 @@ const Store = ({ children }) => {
   }, [web3Modal, currentUser, currentNetwork]);
 
   useEffect(() => {
-    const initContract = async (web3) => {
+    const initContract = async () => {
       try {
+        const nodeURL = currentNetwork === '1' ? process.env.REACT_APP_NODE_URL_MAINNET : process.env.REACT_APP_NODE_URL_RINKEBY;
+        var web3 = new Web3(nodeURL);
+
         const injectedChainId = await web3.eth.getChainId();
+
 
         if (injectedChainId !== +currentNetwork) {
           const nodeURL = currentNetwork === '1' ? process.env.REACT_APP_NODE_URL_MAINNET : process.env.REACT_APP_NODE_URL_RINKEBY;
@@ -87,9 +92,7 @@ const Store = ({ children }) => {
       }
     };
 
-    const nodeURL = currentNetwork === '1' ? process.env.REACT_APP_NODE_URL_MAINNET : process.env.REACT_APP_NODE_URL_RINKEBY;
-
-    initContract(web3Modal.web3 || new Web3(nodeURL));
+    initContract();
   }, [currentNetwork, web3Modal]);
 
   useEffect(() => {

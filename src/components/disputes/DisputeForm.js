@@ -76,7 +76,6 @@ const DisputeForm = ({
   };
 
   const canDispute = currentUser && +currentUser.balance > contract.disputeFee;
-  // const canDispute = true;
 
   return (
     <>
@@ -107,8 +106,8 @@ const DisputeForm = ({
               {canDispute ? (
                 <CheckCircleOutlined />
               ) : (
-                <CloseCircleOutlined style={{ color: '#dd5858' }} />
-              )}
+                  <CloseCircleOutlined style={{ color: '#dd5858' }} />
+                )}
               {contract.service.fromWei(contract.disputeFee)} TRB
             </p>
 
@@ -119,12 +118,12 @@ const DisputeForm = ({
                 </p>
               </>
             ) : (
-              <>
-                {!canDispute && (
-                  <p className="ErrorMsg">You need TRB to submit a dispute</p>
-                )}
-              </>
-            )}
+                <>
+                  {!canDispute && (
+                    <p className="ErrorMsg">You need TRB to submit a dispute</p>
+                  )}
+                </>
+              )}
 
             <Button
               key="submit"
