@@ -9,15 +9,16 @@ const CurrentMiningEvent = ({ currentEvent }) => {
         <h2>Current Mining Event</h2>
       </div>
 
-      {currentEvent.noPending ? (
-        <p style={{ paddingLeft: '16px' }}>Fetching next request</p>
-      ) : (
-        <MiningEventsTable
-          pagination={false}
-          events={[currentEvent]}
-          current={true}
-        />
-      )}
+      { !currentEvent || currentEvent.noPending ? (<p className="fader" style={{ paddingLeft: '16px' }}>Fetching next request</p>)
+        : (
+          <MiningEventsTable
+            pagination={false}
+            events={[currentEvent]}
+            current={true}
+          />
+        )
+      }
+
     </div>
   );
 };

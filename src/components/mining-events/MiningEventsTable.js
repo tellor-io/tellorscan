@@ -1,22 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { Table } from 'antd';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
-import Lottie from 'react-lottie';
-import { ModeContext } from '../../contexts/Store';
 import MiningEvents from './MiningEvents';
 import CurrentMiningEvents from './CurrentMiningEvents';
 
 const MiningEventsTable = ({ events, pagination, current }) => {
-  const [mode] = useContext(ModeContext);
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: mode,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
-  };
-
   const columns = [
     {
       title: 'Block',
@@ -49,9 +37,7 @@ const MiningEventsTable = ({ events, pagination, current }) => {
       render: (text) => {
         if (current) {
           return (
-            <span className="LoaderSmall">
-              {text} <Lottie options={defaultOptions} height={36} width={36} />
-            </span>
+            <span className="fader">{text}</span>
           );
         } else {
           return <p>{text === 'Completed' ? 'Mined' : text}</p>;
@@ -99,10 +85,10 @@ const MiningEventsTable = ({ events, pagination, current }) => {
             <MinusOutlined />
           </span>
         ) : (
-          <span>
-            <PlusOutlined />
-          </span>
-        )
+            <span>
+              <PlusOutlined />
+            </span>
+          )
       }
       expandRowByClick={true}
       pagination={pagination}

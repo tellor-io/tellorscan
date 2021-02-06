@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { DownOutlined } from '@ant-design/icons';
 import { Menu, Dropdown, Button } from 'antd';
-import { NetworkContext } from 'contexts/Store';
+import { NetworkContext } from 'contexts/Network';
+import { UserContext } from 'contexts/User';
 
 let networkId = 'Mainnet';
 let connectedNetwork = networkId;
@@ -17,8 +18,8 @@ const NetworkDropdown = styled(Dropdown)`
     width: 6px;
     border-radius: 50%;
     background-color: ${networkId !== connectedNetwork
-      ? '#dd5858'
-      : '#00ff8f;'};
+    ? '#dd5858'
+    : '#00ff8f;'};
     margin-right: 5px;
   }
   &:hover {
@@ -34,11 +35,11 @@ const NetworkDropdown = styled(Dropdown)`
 const NetworkSwitcher = () => {
   const [currentNetwork, setCurrentNetwork] = useContext(NetworkContext);
 
-  const label = currentNetwork === '1' ? 'Mainnet' : 'Rinkeby';
+  const label = +currentNetwork === 1 ? 'Mainnet' : 'Rinkeby';
 
-  const handleSelect = (item) => {
+  const handleSelect = async (item) => {
     window.localStorage.setItem('defaultNetwork', item.key);
-    setCurrentNetwork(item.key);
+    setCurrentNetwork(+item.key);
   };
 
   const menu = (

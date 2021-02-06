@@ -2,26 +2,24 @@ import React, { useContext, useEffect } from 'react';
 import { ApolloClient, useQuery } from '@apollo/client'
 
 
-import { cache } from '../../utils/cache';
-import { getChainData } from 'utils/chains';
-import { NetworkContext } from 'contexts/Store';
+import { cache } from 'utils/cache';
+import { chains } from 'utils/chains';
+import { NetworkContext } from 'contexts/Network';
 import Loader from './Loader';
 
-const client = new ApolloClient({
-  uri: getChainData(1).subgraph_url,
+let clientM = new ApolloClient({
+  uri: chains[1].subgraphURL,
   cache: cache
-});
-
-const rinkebyClient = new ApolloClient({
-  uri: getChainData(4).subgraph_url,
+})
+let clientR = new ApolloClient({
+  uri: chains[4].subgraphURL,
   cache: cache
-});
+})
 
 const GraphFetch = ({ query, setRecords, variables, suppressLoading }) => {
   const [currentNetwork] = useContext(NetworkContext);
-
   const { loading, error, data } = useQuery(query, {
-    client: currentNetwork === '1' ? client : rinkebyClient,
+    client: +currentNetwork === 1 ? clientM : clientR,
     variables,
     fetchPolicy: 'network-only',
     pollInterval: 5000,
@@ -31,7 +29,6 @@ const GraphFetch = ({ query, setRecords, variables, suppressLoading }) => {
     if (data) {
       setRecords(data);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   if (loading) return <>{!suppressLoading ? <Loader /> : null}</>;

@@ -5,7 +5,7 @@ import tellorLogoDark from '../../assets/Tellor__Logo--Dark.png';
 import tellorLogoLight from '../../assets/Tellor__Logo--Light.png';
 import tellorLoaderDark from '../../assets/Tellor__Loader--Dark.json';
 import tellorLoaderLight from '../../assets/Tellor__Loader--Light.json';
-import { ModeContext } from 'contexts/Store';
+import { ThemeContext } from 'contexts/Theme';
 
 const darkThemePropertiesMap = {
   background: '#000',
@@ -46,7 +46,7 @@ const ModeSwitcher = ({ setLogo }) => {
     theme: 'dark',
     themePropertiesMap: darkThemePropertiesMap,
   });
-  const [, setMode] = useContext(ModeContext);
+  const [, setMode] = useContext(ThemeContext);
 
   useEffect(() => {
     const defaultTheme = localStorage.getItem('viewMode');

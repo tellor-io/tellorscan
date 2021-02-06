@@ -31,6 +31,21 @@ a {
   color: var(--color-link);
 }
 
+.fader {
+  animation: 1s ease-out fadeIn infinite;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
 // Specific Elements
 
 .Header {
@@ -149,7 +164,7 @@ a {
 
 .ErrorMsg {
   color: #dd5858;
-  font-size: 0.75em !important;
+  font-size: 1.2em !important;
   margin-top: -15px;
   margin-bottom: 15px;
 }

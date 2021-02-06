@@ -1,36 +1,37 @@
 import React, { useContext } from 'react';
 
-import {
-  Web3ModalContext,
-  CurrentUserContext,
-  NetworkContext,
-} from '../../contexts/Store';
-import { createWeb3User, signInWithWeb3 } from '../../utils/auth';
+import { NetworkContext } from 'contexts/Network';
+import { UserContext, setupUser } from 'contexts/User';
 import { Button } from 'antd';
+import { useAlert } from 'react-alert'
+import { chains } from 'utils/chains';
+
+
 
 export const Web3SignIn = () => {
-  const [, setWeb3Modal] = useContext(Web3ModalContext);
-  const [, setCurrentUser] = useContext(CurrentUserContext);
-  const [currentNetwork] = useContext(NetworkContext);
+  const [currentUser, setCurrentUser] = useContext(UserContext);
+  const [, setCurrentNetwork] = useContext(NetworkContext);
+  const alert = useAlert()
 
   return (
-    <Button
-      type="default"
-      size="large"
-      onClick={async () => {
-        try {
-          const w3c = await signInWithWeb3(currentNetwork);
-
-          const [account] = await w3c.web3.eth.getAccounts();
-          setWeb3Modal(w3c);
-          const user = createWeb3User(account);
-          setCurrentUser(user);
-        } catch (err) {
-          console.log('web3Modal error', err);
-        }
-      }}
-    >
-      Connect
-    </Button>
+    (currentUser) ? null : (
+      <Button
+        type="default"
+        size="large"
+        onClick={() => {
+          try {
+            setupUser(setCurrentUser)
+              .then(network => {
+                setCurrentNetwork(network)
+                alert.show("Logged in to:" + chains[network].network)
+                alert.show("To login to a different network switch the provider network.")
+              })
+          } catch (err) {
+            console.log('login error', err);
+          }
+        }}
+      >
+        Connect to vote or dispute
+      </Button>)
   );
 };

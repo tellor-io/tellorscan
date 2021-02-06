@@ -1,16 +1,23 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Modal, Button } from 'antd';
+import { chains } from 'utils/chains';
+import { fromWei } from 'utils/helpers';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
-import { ContractContext, CurrentUserContext } from 'contexts/Store';
+
+import { UserContext } from 'contexts/User';
+import { NetworkContext } from 'contexts/Network';
+
 import Loader from '../shared/Loader';
 import EtherscanLink from 'components/shared/EtherscanlLnk';
+
+
 
 const DisputeForm = ({
   value,
   miningEvent,
   closeMinerValuesModal,
-  miner,
+  minerAddr,
   minerIndex,
 }) => {
   const [visible, setVisible] = useState(false);
@@ -18,28 +25,24 @@ const DisputeForm = ({
   const [processed, setProcessed] = useState(false);
   const [currentTx, setCurrentTx] = useState();
   const [error, setError] = useState();
-  const [contract] = useContext(ContractContext);
-  const [currentUser] = useContext(CurrentUserContext);
+  const [disputeFee, setDisputeFee] = useState();
+  const [userBalance, setUserBalance] = useState(0);
+  const [canDispute, setCanDispute] = useState(false);
 
-  const getTx = (tx) => {
-    setCurrentTx(tx);
-  };
-
-  const getError = (err) => {
-    setError(err);
-  };
+  const [currentNetwork] = useContext(NetworkContext);
+  const [currentUser,] = useContext(UserContext);
 
   const handleSubmit = async () => {
     setProcessing(true);
 
     try {
-      await contract.service.beginDispute(
-        currentUser.username,
+      await currentUser.contracts.beginDispute(
+        currentUser.address,
         miningEvent.requestId,
         miningEvent.time,
-        miner,
-        getTx,
-        getError,
+        minerIndex,
+        setCurrentTx,
+        setError,
       );
     } catch (e) {
       console.error(`Error submitting dispute: ${e.toString()}`);
@@ -75,7 +78,24 @@ const DisputeForm = ({
     setVisible(true);
   };
 
-  const canDispute = currentUser && +currentUser.balance > contract.disputeFee;
+  useEffect(() => {
+    fetch(chains[currentNetwork].apiURL + "/getDisputeFee")
+      .then(response => response.json())
+      .then(data =>
+        setDisputeFee(fromWei(data.disputeFee))
+      );
+  }, [])
+
+  useEffect(() => {
+    if (currentUser && disputeFee) {
+      currentUser.contracts.balanceOf(currentUser.address).then(result => {
+        let balance = fromWei(result)
+        setUserBalance(balance)
+        setCanDispute(balance > disputeFee)
+      })
+    }
+  }, [currentUser, disputeFee]);
+
 
   return (
     <>
@@ -88,39 +108,39 @@ const DisputeForm = ({
         onOk={handleSubmit}
         onCancel={handleCancel}
         footer={null}
+        width="60em"
       >
         {error && <p className="ErrorMsg">Error Submitting Transaction</p>}
 
         {!processing && !processed ? (
           <>
-            <p>Stake some TRB to dispute a value</p>
-            <h6>Symbol</h6>
-            <p>{miningEvent.requestSymbol}</p>
-
-            <h6>Value</h6>
-            <p>{value}</p>
-
-            <h6>Stake required to Dispute this value *</h6>
-
-            <p className="BalanceStatus">
-              {canDispute ? (
-                <CheckCircleOutlined />
-              ) : (
-                  <CloseCircleOutlined style={{ color: '#dd5858' }} />
-                )}
-              {contract.service.fromWei(contract.disputeFee)} TRB
-            </p>
+            {!miningEvent.requestSymbol ? null : ( // This is a vote so no need to display dispute fields.
+              <>
+                <h6>Miner Address</h6>
+                <p>{minerAddr}</p>
+                <h6>Miner Index</h6>
+                <p>{minerIndex}</p>
+                <h6>Symbol</h6>
+                <p>{miningEvent.requestSymbol}</p>
+                <h6>Value</h6>
+                <p>{value}</p>
+                <h6>TRB Stake dispute fee</h6>
+                <p>{disputeFee}</p>
+                <h6>Your balance</h6>
+                <p>{userBalance}</p>
+              </>
+            )}
 
             {!currentUser ? (
               <>
-                <p className="ErrorMsg">
-                  You need to sign in with MetaMask to submit a dispute
-                </p>
+                <h4 className="ErrorMsg">
+                  You need to sign in with MetaMask to submit a dispute.
+                </h4>
               </>
             ) : (
                 <>
-                  {!canDispute && (
-                    <p className="ErrorMsg">You need TRB to submit a dispute</p>
+                  {canDispute ? null : (
+                    <p className="ErrorMsg">Not enough TRB to submit a dispute</p>
                   )}
                 </>
               )}

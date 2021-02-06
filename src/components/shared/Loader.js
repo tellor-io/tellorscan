@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Lottie from 'react-lottie';
-import { ModeContext } from 'contexts/Store';
+import { ThemeContext } from 'contexts/Theme';
 
 const LoadingDiv = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ const LoadingDiv = styled.div`
 `;
 
 const Loader = () => {
-  const [mode] = useContext(ModeContext);
+  const [mode] = useContext(ThemeContext);
 
   const defaultOptions = {
     loop: true,

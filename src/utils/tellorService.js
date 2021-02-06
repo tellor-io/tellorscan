@@ -1,97 +1,54 @@
-import abis from './contracts';
+import * as abiLatest from 'contracts/tellorLatest/tellorLatest.json';
+import * as abiMaster from 'contracts/tellorMaster/tellorMaster.json';
+
 
 export default class TellorService {
-  contractAddr;
-  web3;
-  abis;
-  contract;
 
-  constructor(web3, currentNetwork) {
-    this.contractAddr =
-      currentNetwork === '1'
-        ? '0x0Ba45A8b5d5575935B8158a88C631E9F9C95a2e5'
-        : '0xfe41cb708cd98c5b20423433309e55b53f79134a';
+  constructor(web3, addr) {
+    let abis = abiLatest.default.concat(abiMaster.default)
+    this.addr = addr;
     this.web3 = web3;
-    this.abis = abis;
+    this.instance = new web3.eth.Contract(abis, addr);
   }
 
-  async initContract() {
-    this.contract = await new this.web3.eth.Contract(
-      this.abis,
-      this.contractAddr,
-    );
-    return this.contract;
+  balanceOf(address) {
+    return this.instance.methods.balanceOf(address)
+      .call().then(result => { return result });
   }
 
-  async getCurrentVariables() {
-    if (!this.contract) {
-      await this.initContract();
-    }
-
-    let variables = await this.contract.methods.getCurrentVariables().call();
-    return variables;
+  balanceOfAt(address, blockNumber) {
+    return this.instance.methods.balanceOfAt(address, blockNumber)
+      .call().then(result => { return result });
   }
 
-  async getBalance(address) {
-    if (!this.contract) {
-      await this.initContract();
-    }
+  dispute
 
-    let balance = await this.contract.methods.balanceOf(address).call();
-    return balance;
-  }
-
-  async getDisputeFee() {
-    if (!this.contract) {
-      await this.initContract();
-    }
-
-    let disputeFee = await this.contract.methods
-      .getUintVar(this.web3.utils.soliditySha3('disputeFee'))
-      .call();
-    return disputeFee;
-  }
-
-  async didVote(disputeId, address) {
-    if (!this.contract) {
-      await this.initContract();
-    }
-
-    let didVote = await this.contract.methods
+  didVote(disputeId, address) {
+    return this.instance.methods
       .didVote(disputeId, address)
-      .call();
-    return didVote;
+      .call().then(result => { return result });
   }
 
-  async getMiners(requestId, timestamp) {
-    if (!this.contract) {
-      await this.initContract();
-    }
-
-    let miners = await this.contract.methods
+  getMiners(requestId, timestamp) {
+    return this.instance.methods
       .getMinersByRequestIdAndTimestamp(requestId, timestamp)
-      .call();
-    return miners;
+      .call().then(result => { return result });
   }
 
-  async beginDispute(
+  beginDispute(
     from,
     requestId,
     timestamp,
-    minerAddress,
+    minerIndex,
     setTx,
     setError,
   ) {
     // uint256 _requestId, uint256 _timestamp, uint256 _minerIndex
-    if (!this.contract) {
-      await this.initContract();
-    }
+    // const miners = this.getMiners(requestId, timestamp).then(result => { return result });
+    // const lcMiners = miners.map((m) => m.toLowerCase());
+    // const minerIndex = lcMiners.indexOf(minerAddress.toLowerCase());
 
-    const miners = await this.getMiners(requestId, timestamp);
-    const lcMiners = miners.map((m) => m.toLowerCase());
-    const minerIndex = lcMiners.indexOf(minerAddress.toLowerCase());
-
-    let dispute = this.contract.methods
+    let dispute = this.instance.methods
       .beginDispute(requestId, timestamp, minerIndex)
       .send({ from })
       .once('transactionHash', (txHash) => {
@@ -110,13 +67,9 @@ export default class TellorService {
     return dispute;
   }
 
-  async vote(from, disputeId, supportsDispute, setTx, setError) {
+  vote(from, disputeId, supportsDispute, setTx, setError) {
     // uint256 _disputeId, bool _supportsDispute
-    if (!this.contract) {
-      await this.initContract();
-    }
-
-    let vote = this.contract.methods
+    let vote = this.instance.methods
       .vote(disputeId, supportsDispute)
       .send({ from })
       .once('transactionHash', (txHash) => {
@@ -132,9 +85,5 @@ export default class TellorService {
       });
 
     return vote;
-  }
-
-  fromWei(value) {
-    return this.web3.utils.fromWei(value);
   }
 }

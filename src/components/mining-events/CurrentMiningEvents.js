@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from 'antd';
 
 import Loader from 'components/shared/Loader';
-import DisputeModal from 'components/disputes/DisputeModal';
+import MinerValuesModal from 'components/mining-events/MinerValuesModal';
 
 const CurrentMiningEvents = ({ miningEvent, valueIndex, current }) => {
   const eventData = miningEvent.minerValues[0];
@@ -32,7 +32,7 @@ const CurrentMiningEvents = ({ miningEvent, valueIndex, current }) => {
     {
       render: (record, event, index) => {
         return (
-          <DisputeModal
+          <MinerValuesModal
             miningEvent={record}
             valueIndex={index}
             current={true}
@@ -52,8 +52,8 @@ const CurrentMiningEvents = ({ miningEvent, valueIndex, current }) => {
           pagination={false}
         />
       ) : (
-        <Loader />
-      )}
+          <Loader />
+        )}
     </>
   );
 };

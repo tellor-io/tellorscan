@@ -1,24 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { Table } from 'antd';
 import styled from 'styled-components';
 
+import GraphFetch from 'components/shared/GraphFetch';
+import { GET_OPEN_DISPUTES } from 'utils/queries';
+
 import DisputeForm from 'components/disputes/DisputeForm';
-import VoteForm from 'components/votes/VoteForm';
+import VotingForm from 'components/voting/VotingForm';
 import Loader from 'components/shared/Loader';
-import { getMinerValueStatus, getMatchingDispute } from 'utils/helpers';
-import { OpenDisputesContext } from 'contexts/Store';
+import { getMinedValueStatus, getMatchingDispute, VOTING_OPEN, MINED } from 'utils/helpers';
 
 const WarningSpan = styled.span`
   color: #faad14;
 `;
 
 const MinerValues = ({ miningEvent, valueIndex, closeMinerValuesModal }) => {
-  const [openDisputes] = useContext(OpenDisputesContext);
+  const [openDisputes, setOpenDisputes] = useState();
+
+  GraphFetch({ query: GET_OPEN_DISPUTES, setRecords: setOpenDisputes, suppressLoading: true })
 
   const checkWarning = (text, record) => {
-    const status = getMinerValueStatus(record, openDisputes, miningEvent);
-    if (status === 'Mined') {
-      return <span>{text || status}</span>;
+    let status = MINED
+    if (openDisputes) {
+      status = getMinedValueStatus(record, openDisputes, miningEvent);
+    }
+    if (status === MINED) {
+      return <span>not disputed</span>;
     } else {
       return <WarningSpan>{text || status}</WarningSpan>;
     }
@@ -40,20 +47,26 @@ const MinerValues = ({ miningEvent, valueIndex, closeMinerValuesModal }) => {
       render: checkWarning,
     },
     {
+      title: 'Miner',
+      dataIndex: 'miner',
+      key: 'miner',
+    },
+    {
       render: (record, event, index) => {
         if (
-          getMinerValueStatus(record, openDisputes, miningEvent) ===
-          'Open Dispute'
+          openDisputes &&
+          getMinedValueStatus(record, openDisputes, miningEvent) ===
+          VOTING_OPEN
         ) {
           return (
-            <VoteForm dispute={getMatchingDispute(openDisputes, miningEvent)} />
+            <VotingForm dispute={getMatchingDispute(openDisputes, miningEvent)} />
           );
         } else if (miningEvent.inDisputeWindow) {
           const value = getValue(record, event, index);
           return (
             <DisputeForm
               value={value}
-              miner={record.miner}
+              minerAddr={record.miner}
               miningEvent={miningEvent}
               minerIndex={index}
               closeMinerValuesModal={closeMinerValuesModal}
@@ -74,8 +87,8 @@ const MinerValues = ({ miningEvent, valueIndex, closeMinerValuesModal }) => {
           pagination={false}
         />
       ) : (
-        <Loader />
-      )}
+          <Loader />
+        )}
     </>
   );
 };

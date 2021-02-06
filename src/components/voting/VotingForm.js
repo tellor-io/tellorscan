@@ -1,55 +1,47 @@
 import React, { useState, useContext, useEffect } from 'react';
-import Loader from '../shared/Loader';
+import Loader from 'components/shared/Loader';
+import { fromWei } from 'utils/helpers';
 import { Button, Modal } from 'antd';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import { CurrentUserContext, ContractContext } from 'contexts/Store';
+import { UserContext } from 'contexts/User';
 import EtherscanLink from 'components/shared/EtherscanlLnk';
+import { CONTRACT_UPGRADE } from 'utils/helpers';
 
-const VoteForm = ({ dispute }) => {
+const VotingForm = ({ dispute }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [processed, setProcessed] = useState(false);
   const [currentTx, setCurrentTx] = useState();
+  const [userBalance, setUserBalance] = useState(0);
   const [hasVoted, setHasVoted] = useState();
+  const [cantVote, setCantVote] = useState();
   const [error, setError] = useState();
-  const [contract] = useContext(ContractContext);
-  const [currentUser] = useContext(CurrentUserContext);
+  const [currentUser,] = useContext(UserContext);
+
+  const voteOpenedAt = dispute.relatedMiningEventData[5]
 
   useEffect(() => {
-    const getHasVoted = async () => {
-      const res = await contract.service.didVote(
-        dispute.disputeId,
-        currentUser.username,
-      );
+    if (currentUser) {
+      currentUser.contracts.didVote(dispute.disputeId, currentUser.address,)
+        .then(res => setHasVoted(res));
+      currentUser.contracts.balanceOfAt(currentUser.address, voteOpenedAt).then(result => {
+        setUserBalance(+result)
+      })
 
-      setHasVoted(res);
-    };
-
-    if (currentUser && contract) {
-      getHasVoted();
     }
+  }, [currentUser]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser, contract]);
 
-  const getTx = (tx) => {
-    setCurrentTx(tx);
-  };
 
-  const getError = (err) => {
-    setError(err);
-  };
-
-  const handleSubmit = async (supportsDispute) => {
+  const handleSubmit = async (supportsVote) => {
     setProcessing(true);
-
     try {
-      await contract.service.vote(
-        currentUser.username,
+      await currentUser.contracts.vote(
+        currentUser.address,
         dispute.disputeId,
-        supportsDispute,
-        getTx,
-        getError,
+        supportsVote,
+        setCurrentTx,
+        setError,
       );
     } catch (e) {
       console.error(`Error submitting vote: ${e.toString()}`);
@@ -80,8 +72,23 @@ const VoteForm = ({ dispute }) => {
     }
   };
 
-  const canVote = currentUser && +currentUser.balance > 0 && !hasVoted;
-  // const canVote = true;
+  useEffect(() => {
+    if (currentUser && dispute && (currentUser.address.toLowerCase() == dispute.miner.toLowerCase())) {
+      setCantVote("can't vote for own eth address")
+      return
+    }
+    if (userBalance == 0) {
+      setCantVote("can't vote with zero balance")
+      return
+    } else {
+      setCantVote()
+    }
+    if (hasVoted) {
+      setCantVote("already voted")
+      return
+    }
+
+  }, [currentUser, dispute, userBalance, hasVoted])
 
   return (
     <>
@@ -99,45 +106,39 @@ const VoteForm = ({ dispute }) => {
 
         {!processing && !processed ? (
           <>
-            <p>Stake some TRB to dispute a value</p>
-            <h6>Symbol</h6>
-            <p>{dispute.requestSymbol}</p>
-            <h6>Value</h6>
-            <p>{dispute.value}</p>
+            <h6>Vote open at block: {voteOpenedAt}</h6>
+            {dispute.requestSymbol == CONTRACT_UPGRADE ? (<h3>Vote for:{dispute.requestSymbol}</h3>) : (
+              <>
+                <h6>Symbol</h6>
+                <p>{dispute.requestSymbol}</p>
+                <h6>Value</h6>
+                <p>{dispute.value}</p>
+              </>
+            )}
             {currentUser ? (
               <>
-                <h6>Your Voting Power</h6>
-                <p className="BalanceStatus">
-                  {canVote ? (
-                    <CheckCircleOutlined />
-                  ) : (
-                    <CloseCircleOutlined style={{ color: '#dd5858' }} />
+                {cantVote ? (
+                  <h4 className="ErrorMsg">{cantVote}</h4>
+                ) : (
+                    <>
+                      <h6>Your Voting Power</h6>
+                      <p className="BalanceStatus">
+                        {fromWei(userBalance)} TRB balance at block {voteOpenedAt}.
+                      </p>
+                    </>
                   )}
-                  {currentUser.balance &&
-                    contract.service.fromWei(
-                      currentUser.balance.toString(),
-                    )}{' '}
-                  TRB
-                </p>
-
-                {!canVote && !hasVoted ? (
-                  <p className="ErrorMsg">You need TRB to vote</p>
-                ) : null}
-                {!canVote && hasVoted ? (
-                  <p className="ErrorMsg">You already voted on this dispute</p>
-                ) : null}
               </>
             ) : (
-              <p className="ErrorMsg">
-                You need to sign in with MetaMask to vote
-              </p>
-            )}
+                <h4 className="ErrorMsg">
+                  You need to sign in with MetaMask to vote
+                </h4>
+              )}
             <Button
               key="support"
               type="primary"
               size="large"
               onClick={() => handleSubmit(true)}
-              disabled={!canVote}
+              disabled={cantVote}
               style={{ marginRight: '15px' }}
             >
               Support
@@ -147,7 +148,7 @@ const VoteForm = ({ dispute }) => {
               type="danger"
               size="large"
               onClick={() => handleSubmit(false)}
-              disabled={!canVote}
+              disabled={cantVote}
             >
               Challenge
             </Button>
@@ -172,4 +173,4 @@ const VoteForm = ({ dispute }) => {
   );
 };
 
-export default VoteForm;
+export default VotingForm;

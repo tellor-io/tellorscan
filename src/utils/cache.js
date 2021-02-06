@@ -3,6 +3,8 @@ import {
   getDisputeStatus,
   inDisputeWindow,
   inVoteWindow,
+  VOTING_OPEN,
+  CONTRACT_UPGRADE,
 } from './helpers';
 import { InMemoryCache } from '@apollo/client';
 import { psrLookup } from './psrLookup';
@@ -72,33 +74,37 @@ export const cache = new InMemoryCache({
               return +minedValue / +psrLookup[requestIds[i]].granularity;
             });
           },
+        }
+      },
+    },
+    Dispute: {
+      fields: {
+        value: {
+          read(_, { readField, }) {
+            return readField("relatedMiningEventData")[2]
+          },
         },
-        Dispute: {
-          fields: {
-            value: {
-              read(_, { readField, }) {
-                return readField("relatedMiningEventData")[2]
-              },
-            },
-            requestSymbol: {
-              read(_, { readField, }) {
-                const dispute = readField("dispute")
-                const psr = psrLookup[dispute.requestId];
-                return psr ? psr.name : 'unknown';
-              },
-            },
-            status: {
-              read(_, { readField, }) {
-                return getDisputeStatus(readField("dispute"));
-              },
-            },
-            inVoteWindow: {
-              read(_, { readField, }) {
-                const dispute = readField("dispute")
-                getDisputeStatus(dispute) === 'Open Dispute' &&
-                  inVoteWindow(dispute.timestamp)
-              },
-            },
+        requestSymbol: {
+          read(_, { readField, }) {
+            const requestId = readField("requestId")
+            if (requestId == 0) {
+              return CONTRACT_UPGRADE
+            }
+            const psr = psrLookup[requestId];
+            return psr ? psr.name : 'unknown';
+          },
+        },
+        status: {
+          read(_, { readField, }) {
+            return getDisputeStatus(readField("active"));
+          },
+        },
+        inVoteWindow: {
+          read(_, { readField, }) {
+            const status = readField("active")
+            const timestamp = readField("timestamp")
+            return getDisputeStatus(status) === VOTING_OPEN &&
+              inVoteWindow(timestamp)
           },
         },
       },

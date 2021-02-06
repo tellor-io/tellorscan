@@ -1,30 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Table } from 'antd';
-import Lottie from 'react-lottie';
 
 import Loader from 'components/shared/Loader';
-import { ModeContext } from 'contexts/Store';
-import { getMedianValue, getGranPrice } from 'utils/helpers';
-import DisputeModal from 'components/disputes/DisputeModal';
+import { getGranPrice } from 'utils/helpers';
+import MinerValuesModal from 'components/mining-events/MinerValuesModal';
+
 
 const MiningEvents = ({ miningEvent, valueIndex, current }) => {
-  const [mode] = useContext(ModeContext);
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: mode,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
-  };
 
   const tableValues = miningEvent.requestIds.map((requestId, i) => {
-    const medianValue = getMedianValue(miningEvent.minerValues, i);
     return {
       requestId,
       requestSymbol: miningEvent.requestSymbols[i],
-      minedValue: medianValue,
-      granPrice: getGranPrice(medianValue, requestId),
+      minedValue: miningEvent.minedValues[i],
+      granPrice: getGranPrice(miningEvent.minedValues[i], requestId),
       totalTips: miningEvent.totalTips,
       status: miningEvent.status,
       minerValues: miningEvent.minerValues,
@@ -61,9 +50,7 @@ const MiningEvents = ({ miningEvent, valueIndex, current }) => {
       render: (text) => {
         if (current) {
           return (
-            <span className="LoaderSmall">
-              {text} <Lottie options={defaultOptions} height={36} width={36} />
-            </span>
+            <span className="fader">{text}</span>
           );
         } else {
           return <p>{text}</p>;
@@ -72,7 +59,7 @@ const MiningEvents = ({ miningEvent, valueIndex, current }) => {
     },
     {
       render: (record, event, index) => {
-        return <DisputeModal miningEvent={record} valueIndex={index} />;
+        return <MinerValuesModal miningEvent={record} valueIndex={index} />;
       },
     },
   ];

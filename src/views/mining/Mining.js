@@ -5,7 +5,7 @@ import CurrentMiningEvent from 'components/mining-events/CurrentMiningEvent';
 import AllMiningEvents from 'components/mining-events/AllMiningEvents';
 import GraphFetch from 'components/shared/GraphFetch';
 import CurrentEventFetch from 'components/mining-events/CurrentEventFetch';
-import OpenDisputesFetch from 'components/disputes/OpenDiputesFetch';
+
 
 const Mining = () => {
   const [currentEvent, setCurrentEvent] = useState();
@@ -13,21 +13,17 @@ const Mining = () => {
 
   return (
     <>
-      <OpenDisputesFetch />
-      <CurrentEventFetch setCurrentEvent={setCurrentEvent} />
       <GraphFetch
         query={GET_ALL_EVENTS}
         setRecords={setEvents}
-        suppressLoading={true}
       />
 
-      {currentEvent ? (
-        <div className="Hero">
-          <div className="View">
-            <CurrentMiningEvent currentEvent={currentEvent} />
-          </div>
+      <CurrentEventFetch setCurrentEvent={setCurrentEvent} />
+      <div className="Hero">
+        <div className="View">
+          <CurrentMiningEvent currentEvent={currentEvent} />
         </div>
-      ) : null}
+      </div>
 
       {events ? (
         <div className="View">

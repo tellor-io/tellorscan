@@ -1,5 +1,5 @@
 import React from 'react';
-import VoteForm from 'components/votes/VoteForm';
+import VotingForm from 'components/voting/VotingForm';
 
 const Upgrade = () => {
   return (
@@ -15,7 +15,7 @@ const Upgrade = () => {
             always 1, making it a proof-of-stake slot.
           </p>
           <div style={{ margin: 20 }}>
-            <VoteForm dispute={{ disputeId: 54 }} />
+            <VotingForm dispute={{ disputeId: 54 }} />
           </div>
           <p>
             <a

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { NetworkContext } from 'contexts/Network';
 
 const EtherscanLink = ({ txHash }) => {
+  const [currentNetwork] = useContext(NetworkContext);
   const uri =
-    process.env.REACT_APP_NETWORK_ID === '1'
+    +currentNetwork === 1
       ? 'https://etherscan.io/tx/'
       : 'https://rinkeby.etherscan.io/tx/';
 

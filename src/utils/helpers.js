@@ -1,44 +1,54 @@
 import moment from 'moment';
 import { psrLookup } from './psrLookup';
 
+export const
+  VOTING_OPEN = "Open Voting",
+  VOTING_DENIED = "Voting Denied",
+  MINED = "Mined",
+  MINING = "Mining",
+  VOTING_PASSED = "Voting Passed",
+  CONTRACT_UPGRADE = "contract upgrade";
+
 export const truncateAddr = (addr) => {
   return addr.slice(0, 6) + '...';
 };
 
+export const fromWei = (value) => {
+  let v = value / 1e18
+  return v
+}
+
 export const getEventStatus = (minerValues) => {
   if (minerValues.length < 5) {
-    return 'Mining';
+    return MINING;
   } else {
-    return 'Completed';
+    return MINED;
   }
 };
 
 export const getMatchingDispute = (openDisputes, miningEvent) => {
-  return openDisputes.find((dispute) => {
-    return (
-      dispute.requestId === miningEvent.requestId &&
-      dispute.timestamp === miningEvent.time
-    );
+  return openDisputes.disputes.find((dispute) => {
+    return dispute.requestId === miningEvent.requestId && dispute.timestamp === miningEvent.time
   });
 };
 
-export const getMinerValueStatus = (value, openDisputes, miningEvent) => {
+export const getMinedValueStatus = (value, openDisputes, miningEvent) => {
   const matchingDispute = getMatchingDispute(openDisputes, miningEvent);
 
   if (matchingDispute && matchingDispute.miner === value.miner) {
-    return 'Open Dispute';
+    return VOTING_OPEN;
   } else {
-    return 'Mined';
+    return MINED;
   }
 };
 
-export const getDisputeStatus = (dispute) => {
-  if (+dispute.result < 0) {
-    return 'Slashed';
-  } else if (dispute.tally === null) {
-    return 'Open Dispute';
+export const getDisputeStatus = (status) => {
+  if (status === true) {
+    return VOTING_PASSED;
+  } else if (status === null) {
+    return VOTING_OPEN;
   } else {
-    return 'Passed';
+    return VOTING_DENIED;
   }
 };
 
@@ -47,6 +57,9 @@ export const inDisputeWindow = (timestamp) => {
 };
 
 export const inVoteWindow = (timestamp) => {
+  if (timestamp == 0) { // There is a bug in the contract that for contract upgrades the timestamp is not set.
+    return true
+  }
   return moment.utc().isBefore(moment.unix(timestamp).add(7, 'days'));
 };
 

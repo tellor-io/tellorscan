@@ -33,7 +33,7 @@ App wide state is stored and accessed using the react context api
 
 - All contexts are initialized in /context/Store.js
 - ContractContext: holds the service that interacts with the contract and data fetched from the contract
-- CurrentUserContext and Web3ModalContext: holds info about the user signed in with Metamask and the web3 provider instance
+- SignIn: holds info about the user signed in with and the web3 provider instance
 - OpenDisputesContext: holds the current open disputes used in a few views and components
 
 #### Graphql data fetching

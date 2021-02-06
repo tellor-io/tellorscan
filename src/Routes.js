@@ -1,16 +1,15 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Home from './views/home/Home';
-import Disputes from './views/disputes/Disputes';
 import Mining from 'views/mining/Mining';
+import Voting from 'views/voting/Voting';
 
 const Routes = () => (
   <Switch>
-    <Route path="/" exact component={Home} />
-    <Route path="/disputes" exact component={Disputes} />
+    <Route path="/" exact component={Mining} />
+    <Route path="/voting" exact component={Voting} />
     <Route path="/mining" exact component={Mining} />
-    <Route path="*" component={Home} />
+    <Route path="*" component={Mining} />
   </Switch>
 );
 

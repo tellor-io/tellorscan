@@ -64,6 +64,7 @@ const disputeFields = `
   tally
   result
   disputeVotePassed
+  active
   value @client
   requestSymbol @client
   status @client
@@ -76,17 +77,17 @@ const disputeFields = `
   }
 `;
 
-export const GET_LATEST_DISPUTES = gql`
+export const GET_OPEN_DISPUTES = gql`
   query {
-    disputes(first: 3, orderBy: timestamp, orderDirection: desc) {
+    disputes(where : { active: null, requestId_gt: 0}) {
       ${disputeFields}
     }
   }
 `;
 
-export const GET_ALL_DISPUTES = gql`
+export const GET_VOTING = gql`
   query {
-    disputes(first: 10, orderBy: timestamp, orderDirection: desc) {
+    disputes(first: 50, orderBy: disputeId, orderDirection: desc) {
       ${disputeFields}
     }
   }

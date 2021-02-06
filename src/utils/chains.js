@@ -1,36 +1,16 @@
-export const supportedChains = [
-  {
-    name: 'Ethereum Mainnet',
-    short_name: 'eth',
-    chain: 'ETH',
+export const chains = {
+  1: {
     network: 'mainnet',
-    chain_id: 1,
-    network_id: 1,
-    subgraph_url:
-      'https://api.thegraph.com/subgraphs/name/tellor-io/lens',
+    subgraphURL: 'https://api.thegraph.com/subgraphs/name/tellor-io/lens',
+    apiURL: 'http://api.tellorscan.com/mainnet',
+    contractAddr: "0x0Ba45A8b5d5575935B8158a88C631E9F9C95a2e5",
   },
-  {
-    name: 'Ethereum Rinkeby',
-    short_name: 'rin',
-    chain: 'ETH',
+  4: {
     network: 'rinkeby',
-    chain_id: 4,
-    network_id: 4,
-    subgraph_url:
-      'https://api.thegraph.com/subgraphs/name/tellor-io/lens-rinkeby',
+    subgraphURL: 'https://api.thegraph.com/subgraphs/name/tellor-io/lens-rinkeby',
+    apiURL: 'http://api.tellorscan.com/rinkeby',
+    contractAddr: "0xfe41cb708cd98c5b20423433309e55b53f79134a",
   }
-];
+};
 
-export function getChainData(chainId) {
-  const chainData = supportedChains.filter(
-    (chain) => chain.chain_id === +chainId,
-  )[0];
-
-  if (!chainData) {
-    throw new Error('ChainId missing or not supported');
-  }
-
-  return chainData;
-}
-
-export default supportedChains;
+export default chains;

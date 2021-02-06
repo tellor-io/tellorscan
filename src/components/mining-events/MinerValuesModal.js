@@ -14,7 +14,7 @@ const RowDiv = styled.div`
   }
 `;
 
-const DisputeModal = ({ miningEvent, valueIndex }) => {
+const MinerValuesModal = ({ miningEvent, valueIndex }) => {
   const [visible, setVisible] = useState(false);
 
   const handleCancel = () => {
@@ -31,6 +31,7 @@ const DisputeModal = ({ miningEvent, valueIndex }) => {
         onCancel={handleCancel}
         footer={null}
         title="Miner Values"
+        width="60em"
       >
         <>
           <RowDiv>
@@ -55,4 +56,4 @@ const DisputeModal = ({ miningEvent, valueIndex }) => {
   );
 };
 
-export default DisputeModal;
+export default MinerValuesModal;
