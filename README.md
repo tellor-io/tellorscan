@@ -20,22 +20,6 @@
 
 ### App structure
 
-#### Routes
-
-Home, disputes, mining pages for the app
-
-- /src/Routes.js
-- /src/Views/
-
-#### State management
-
-App wide state is stored and accessed using the react context api
-
-- All contexts are initialized in /context/Store.js
-- ContractContext: holds the service that interacts with the contract and data fetched from the contract
-- SignIn: holds info about the user signed in with and the web3 provider instance
-- OpenDisputesContext: holds the current open disputes used in a few views and components
-
 #### Graphql data fetching
 
 Contract events are cached and mapped into usable entities on thegraph
@@ -54,18 +38,6 @@ This app uses react-apollo to handle the graph queries
 - Fetch component using the useQuery hook: src/components/shared/GraphFetch.js
 - graph queries: src/utils/queries.js
 - Resolver functions are called on each entity as it is fetched to hydrate/format the data to make component logic simpler: src/utils/resolvers.js
-
-#### Web3 contract interaction
-
-A service that wraps all contract calls and it's used for dispute and vote transactions.
-
-- src/utils/tellorService.js
-- example: src/components/disputes/DisputeForm.js
-
-Metamask signin is handled with walletconnect and web3modal and implemented in
-
-- src/components/shared/Web3SignIn.js
-- src/utils/auth.js
 
 #### Styling
 
