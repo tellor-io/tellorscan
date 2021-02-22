@@ -30,6 +30,7 @@ const HeaderNav = () => {
           {/* <Link to="/tellorUpgrade">Tellor V2.6!</Link> */}
           <Link to="/voting">Voting</Link>
           <Link to="/mining">Mining</Link>
+          <Link to="/migrate">Migrate</Link>
           <a
             href="https://prices.tellorscan.com/"
             rel="noopener noreferrer"

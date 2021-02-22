@@ -41,7 +41,6 @@ const VotingForm = ({ dispute }) => {
         dispute.disputeId,
         supportsVote,
         setCurrentTx,
-        setError,
       );
     } catch (e) {
       console.error(`Error submitting vote: ${e.toString()}`);
@@ -120,19 +119,19 @@ const VotingForm = ({ dispute }) => {
                 {cantVote ? (
                   <h4 className="ErrorMsg">{cantVote}</h4>
                 ) : (
-                    <>
-                      <h6>Your Voting Power</h6>
-                      <p className="BalanceStatus">
-                        {fromWei(userBalance)} TRB balance at block {voteOpenedAt}.
+                  <>
+                    <h6>Your Voting Power</h6>
+                    <p className="BalanceStatus">
+                      {fromWei(userBalance)} TRB balance at block {voteOpenedAt}.
                       </p>
-                    </>
-                  )}
+                  </>
+                )}
               </>
             ) : (
-                <h4 className="ErrorMsg">
-                  You need to sign in with MetaMask to vote
-                </h4>
-              )}
+              <h4 className="ErrorMsg">
+                You need to sign in with MetaMask to vote
+              </h4>
+            )}
             <Button
               key="support"
               type="primary"

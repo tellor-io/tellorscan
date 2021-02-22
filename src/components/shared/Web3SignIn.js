@@ -31,7 +31,7 @@ export const Web3SignIn = () => {
           }
         }}
       >
-        Connect to vote or dispute
+        Connect
       </Button>)
   );
 };

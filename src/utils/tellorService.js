@@ -1,14 +1,11 @@
-import * as abiLatest from 'contracts/tellorLatest/tellorLatest.json';
-import * as abiMaster from 'contracts/tellorMaster/tellorMaster.json';
-
+import * as abiOracle from 'contracts/oracle.json';
 
 export default class TellorService {
-
   constructor(web3, addr) {
-    let abis = abiLatest.default.concat(abiMaster.default)
+    let abi = abiOracle.default
     this.addr = addr;
     this.web3 = web3;
-    this.instance = new web3.eth.Contract(abis, addr);
+    this.instance = new web3.eth.Contract(abi, addr);
   }
 
   balanceOf(address) {
@@ -21,17 +18,32 @@ export default class TellorService {
       .call().then(result => { return result });
   }
 
-  dispute
+  migrate(from, setTx) {
+    return this.instance.methods
+      .migrate()
+      .send({ from })
+      .once('transactionHash', (txHash) => {
+        setTx(txHash);
+      })
+      .then((resp) => {
+        console.log('resp', resp);
+        return resp;
+      })
+      .catch((err) => {
+        console.log('err', err);
+        throw e.toString(err)
+      });
+  }
+
+  isMigrated(address) {
+    return this.instance.methods
+      .migrated(address)
+      .call().then(result => { return result });
+  }
 
   didVote(disputeId, address) {
     return this.instance.methods
       .didVote(disputeId, address)
-      .call().then(result => { return result });
-  }
-
-  getMiners(requestId, timestamp) {
-    return this.instance.methods
-      .getMinersByRequestIdAndTimestamp(requestId, timestamp)
       .call().then(result => { return result });
   }
 
@@ -41,12 +53,7 @@ export default class TellorService {
     timestamp,
     minerIndex,
     setTx,
-    setError,
   ) {
-    // uint256 _requestId, uint256 _timestamp, uint256 _minerIndex
-    // const miners = this.getMiners(requestId, timestamp).then(result => { return result });
-    // const lcMiners = miners.map((m) => m.toLowerCase());
-    // const minerIndex = lcMiners.indexOf(minerAddress.toLowerCase());
 
     let dispute = this.instance.methods
       .beginDispute(requestId, timestamp, minerIndex)
@@ -61,7 +68,7 @@ export default class TellorService {
       })
       .catch((err) => {
         console.log('err', err);
-        setError({ error: 'rejected transaction', message: err });
+        throw err.toString()
       });
 
     return dispute;
@@ -81,7 +88,7 @@ export default class TellorService {
       })
       .catch((err) => {
         console.log('err', err);
-        setError({ error: 'rejected transaction', message: err });
+        throw err.toString()
       });
 
     return vote;

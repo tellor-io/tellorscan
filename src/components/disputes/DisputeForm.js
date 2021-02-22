@@ -42,7 +42,6 @@ const DisputeForm = ({
         miningEvent.time,
         minerIndex,
         setCurrentTx,
-        setError,
       );
     } catch (e) {
       console.error(`Error submitting dispute: ${e.toString()}`);
@@ -138,12 +137,12 @@ const DisputeForm = ({
                 </h4>
               </>
             ) : (
-                <>
-                  {canDispute ? null : (
-                    <p className="ErrorMsg">Not enough TRB to submit a dispute</p>
-                  )}
-                </>
-              )}
+              <>
+                {canDispute ? null : (
+                  <p className="ErrorMsg">Not enough TRB to submit a dispute</p>
+                )}
+              </>
+            )}
 
             <Button
               key="submit"
