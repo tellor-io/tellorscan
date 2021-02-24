@@ -14,18 +14,9 @@ const Footer = () => {
   return (
     <div className="Footer">
       <p style={{ textAlign: 'center' }}>
-        © 2020{' '}
+        © 2021{' '}
         <a href="https://tellor.io" rel="noopener noreferrer" target="_blank">
           Tellor.io
-        </a>
-      </p>
-      <p>
-        <a
-          href="https://disputecenterv1.herokuapp.com/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          V1 Historical Data
         </a>
       </p>
       <div className="Footer__Links">
