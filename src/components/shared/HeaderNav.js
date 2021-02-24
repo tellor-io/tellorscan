@@ -22,7 +22,7 @@ const HeaderNav = () => {
         <div className="BrandLink">
           <Link to="/">
             <img alt="tellor-logo" src={logo} />
-            <span>dispute center</span>
+            <span>scan</span>
           </Link>
         </div>
         <div className="Header__Nav">

@@ -17,8 +17,8 @@ const App = () => {
 
   return (
     <Fragment>
-      <Helmet defaultTitle="Tellor Dispute Center">
-        <meta name="description" content="Tellor Dispute Center" />
+      <Helmet defaultTitle="Tellor Scan">
+        <meta name="description" content="Tellor Scan" />
       </Helmet>
       <StyledLayout>
         <Router>
