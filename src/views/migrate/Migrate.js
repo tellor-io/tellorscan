@@ -7,6 +7,8 @@ import { Web3SignIn } from 'components/shared/Web3SignIn';
 import EtherscanLink from 'components/shared/EtherscanlLnk';
 import * as abiOracle from 'contracts/oracle.json';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { NetworkContext } from 'contexts/Network';
+import { chains } from 'utils/chains';
 
 const { Panel } = Collapse;
 
@@ -20,8 +22,15 @@ const Migrate = () => {
 
     const [error, setError] = useState();
     const [processing, setProcessing] = useState(false);
+    const [currentNetwork] = useContext(NetworkContext);
+    const [contractAddr,setContractAddr] = useState();
 
-    const contractaddress = "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0";
+    useEffect(() => {
+      if(currentNetwork){
+        console.log(">",chains[currentNetwork].contractAddr);
+      setContractAddr(chains[currentNetwork].contractAddr);
+      }
+    }, [currentNetwork]);
 
     useEffect(() => {
         if (currentUser) {
@@ -38,8 +47,6 @@ const Migrate = () => {
             oldContract.methods.balanceOf(currentUser.address)
                 .call().then(result => { return setUserBalance(+result) });
         }
-
-        console.log("currentUser",currentUser);
     }, [currentUser]);
 
 
@@ -113,8 +120,8 @@ const Migrate = () => {
                 <br />
                 <p>In order for your new TRB balance to show up in your Metamask assets you may need to add a new token using this address:</p>
                 <div className="leftrow">
-                  <p>{contractaddress}</p>
-                  <CopyToClipboard text={contractaddress}
+                  <p>{contractAddr}</p>
+                  <CopyToClipboard text={contractAddr}
                     onCopy={() => clickedCopy(true)}>
                     <span className="copier">copy</span>
                   </CopyToClipboard>
