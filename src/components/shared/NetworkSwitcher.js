@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { DownOutlined } from '@ant-design/icons';
 import { Menu, Dropdown, Button } from 'antd';
 import { NetworkContext } from 'contexts/Network';
-import { UserContext } from 'contexts/User';
 
 let networkId = 'Mainnet';
 let connectedNetwork = networkId;

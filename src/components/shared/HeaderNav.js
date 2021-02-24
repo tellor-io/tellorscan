@@ -27,17 +27,10 @@ const HeaderNav = () => {
         </div>
         <div className="Header__Nav">
           <ModeSwitcher setLogo={setLogo} />
-          {/* <Link to="/tellorUpgrade">Tellor V2.6!</Link> */}
           <Link to="/voting">Voting</Link>
           <Link to="/mining">Mining</Link>
+          <Link to="/prices">Prices</Link>
           <Link to="/migrate">Migrate</Link>
-          <a
-            href="https://prices.tellorscan.com/"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Price Viewer <RightCircleOutlined />
-          </a>
           {!currentUser ? null : (
             <span>{truncateAddr(currentUser.address)}</span>
           )}
