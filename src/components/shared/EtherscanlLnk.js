@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { NetworkContext } from 'contexts/Network';
 
-const EtherscanLink = ({ txHash }) => {
+const EtherscanLink = ({ className, txHash }) => {
   const [currentNetwork] = useContext(NetworkContext);
   const uri =
     +currentNetwork === 1
@@ -9,7 +9,7 @@ const EtherscanLink = ({ txHash }) => {
       : 'https://rinkeby.etherscan.io/tx/';
 
   return (
-    <div>
+    <div className={className}>
       <a href={`${uri}${txHash}`} target="_blank" rel="noopener noreferrer">
         View on Etherscan
       </a>

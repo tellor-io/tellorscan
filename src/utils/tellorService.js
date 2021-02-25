@@ -31,7 +31,7 @@ export default class TellorService {
       })
       .catch((err) => {
         console.log('err', err);
-        throw e.toString(err)
+        throw err.message
       });
   }
 
@@ -55,7 +55,7 @@ export default class TellorService {
     setTx,
   ) {
 
-    let dispute = this.instance.methods
+    return this.instance.methods
       .beginDispute(requestId, timestamp, minerIndex)
       .send({ from })
       .once('transactionHash', (txHash) => {
@@ -68,15 +68,13 @@ export default class TellorService {
       })
       .catch((err) => {
         console.log('err', err);
-        throw err.toString()
+        throw err.message
       });
-
-    return dispute;
   }
 
-  vote(from, disputeId, supportsDispute, setTx, setError) {
+  vote(from, disputeId, supportsDispute, setTx) {
     // uint256 _disputeId, bool _supportsDispute
-    let vote = this.instance.methods
+    return this.instance.methods
       .vote(disputeId, supportsDispute)
       .send({ from })
       .once('transactionHash', (txHash) => {
@@ -88,9 +86,26 @@ export default class TellorService {
       })
       .catch((err) => {
         console.log('err', err);
-        throw err.toString()
+        throw err.message
       });
 
-    return vote;
+  }
+
+  addTip(data) {
+    let from = data.from
+    return this.instance.methods
+      .addTip(data.id, data.amount)
+      .send({ from })
+      .once('transactionHash', (txHash) => {
+        data.setTx(txHash);
+      })
+      .then((resp) => {
+        console.log('resp', resp);
+        return resp;
+      })
+      .catch((err) => {
+        console.log('err', err);
+        throw err.message
+      });
   }
 }

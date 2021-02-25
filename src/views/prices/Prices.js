@@ -22,12 +22,13 @@ const Prices = () => {
 
   const [prices, setPrices] = useState(false);
 
-  getPrices(setPrices, currentNetwork)
+  useEffect(() => {
+    getPrices(setPrices, currentNetwork)
+  }, [currentNetwork])
 
   return (
     <>
       <div className="View">
-
         <div className="TableHeader">
           <h2>Latest Prices</h2>
         </div>

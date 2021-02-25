@@ -1,5 +1,3 @@
-# tellorDisputeCenter
-
 ### Development
 
 1. Install dependencies
