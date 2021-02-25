@@ -440,6 +440,12 @@ tr.ant-table-expanded-row:hover > td {
   background-color: var(--background-2);
 }
 
+// Web3Modal
+#WEB3_CONNECT_MODAL_ID{
+z-index: 100001;
+    position: fixed;
+}
+
 // Dropdown
 
 .ant-dropdown {
@@ -475,6 +481,12 @@ tr.ant-table-expanded-row:hover > td {
     padding-left: 15px;
     padding-right: 15px;
   }
+}
+
+// Input field
+
+.ant-input {
+  color:#151515
 }
 
 
