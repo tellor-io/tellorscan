@@ -2,14 +2,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Modal, Button } from 'antd';
 import { chains } from 'utils/chains';
 import { fromWei } from 'utils/helpers';
-import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import Submitter from 'components/shared/Submitter';
 
 
 import { UserContext } from 'contexts/User';
 import { NetworkContext } from 'contexts/Network';
-
-import Loader from '../shared/Loader';
-import EtherscanLink from 'components/shared/EtherscanlLnk';
 
 
 
@@ -22,19 +19,17 @@ const DisputeForm = ({
 }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
-  const [processed, setProcessed] = useState(false);
   const [currentTx, setCurrentTx] = useState();
   const [error, setError] = useState();
   const [disputeFee, setDisputeFee] = useState();
   const [userBalance, setUserBalance] = useState(0);
-  const [canDispute, setCanDispute] = useState(false);
+  const [cantSubmit, setCantSubmit] = useState();
 
   const [currentNetwork] = useContext(NetworkContext);
   const [currentUser,] = useContext(UserContext);
 
   const handleSubmit = async () => {
     setProcessing(true);
-
     try {
       await currentUser.contracts.beginDispute(
         currentUser.address,
@@ -46,14 +41,11 @@ const DisputeForm = ({
     } catch (e) {
       console.error(`Error submitting dispute: ${e.toString()}`);
       setError(e);
-    } finally {
-      setProcessing(false);
-      setProcessed(true);
     }
+    setProcessing(false);
   };
 
   const handleCancel = () => {
-    setProcessed(false);
     setProcessing(false);
     setError();
     setCurrentTx();
@@ -63,9 +55,7 @@ const DisputeForm = ({
   const renderTitle = () => {
     if (error) {
       return 'Transaction Error';
-    } else if (processing) {
-      return 'Sending Dispute';
-    } else if (processed) {
+    } else if (currentTx) {
       return 'Sent Dispute';
     } else {
       return 'Dispute';
@@ -90,7 +80,7 @@ const DisputeForm = ({
       currentUser.contracts.balanceOf(currentUser.address).then(result => {
         let balance = fromWei(result)
         setUserBalance(balance)
-        setCanDispute(balance > disputeFee)
+        setCantSubmit(balance < disputeFee ? "Not enough balance" : null)
       })
     }
   }, [currentUser, disputeFee]);
@@ -109,66 +99,35 @@ const DisputeForm = ({
         footer={null}
         width="60em"
       >
-        {error && <p className="ErrorMsg">Error Submitting Transaction</p>}
+        <>
+          {!miningEvent.requestSymbol ? null : ( // This is a vote so no need to display dispute fields.
+            <>
+              <h6>Miner Address</h6>
+              <p>{minerAddr}</p>
+              <h6>Miner Index</h6>
+              <p>{minerIndex}</p>
+              <h6>Symbol</h6>
+              <p>{miningEvent.requestSymbol}</p>
+              <h6>Value</h6>
+              <p>{value}</p>
+              <h6>TRB Stake dispute fee</h6>
+              <p>{disputeFee}</p>
+              <h6>Your balance</h6>
+              <p>{userBalance}</p>
+            </>
+          )}
 
-        {!processing && !processed ? (
-          <>
-            {!miningEvent.requestSymbol ? null : ( // This is a vote so no need to display dispute fields.
-              <>
-                <h6>Miner Address</h6>
-                <p>{minerAddr}</p>
-                <h6>Miner Index</h6>
-                <p>{minerIndex}</p>
-                <h6>Symbol</h6>
-                <p>{miningEvent.requestSymbol}</p>
-                <h6>Value</h6>
-                <p>{value}</p>
-                <h6>TRB Stake dispute fee</h6>
-                <p>{disputeFee}</p>
-                <h6>Your balance</h6>
-                <p>{userBalance}</p>
-              </>
-            )}
+        </>
 
-            {!currentUser ? (
-              <>
-                <h4 className="ErrorMsg">
-                  You need to sign in with MetaMask to submit a dispute.
-                </h4>
-              </>
-            ) : (
-              <>
-                {canDispute ? null : (
-                  <p className="ErrorMsg">Not enough TRB to submit a dispute</p>
-                )}
-              </>
-            )}
-
-            <Button
-              key="submit"
-              type="primary"
-              size="large"
-              onClick={handleSubmit}
-              disabled={!canDispute}
-            >
-              Submit Dispute
-            </Button>
-          </>
-        ) : null}
-
-        {processing && !error ? (
-          <>
-            <Loader />
-            {currentTx && <EtherscanLink txHash={currentTx} />}
-          </>
-        ) : null}
-
-        {processed && !error ? (
-          <>
-            <CheckCircleOutlined />
-            {currentTx && <EtherscanLink txHash={currentTx} />}
-          </>
-        ) : null}
+        <Submitter
+          error={error}
+          cantSubmit={cantSubmit}
+          processing={processing}
+          currentTx={currentTx}
+          handleCancel={handleCancel}
+          handleSubmit={handleSubmit}
+          buttonText="Dispute"
+        />
       </Modal>
     </>
   );

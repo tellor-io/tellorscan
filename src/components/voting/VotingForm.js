@@ -1,17 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
-import Loader from 'components/shared/Loader';
 import { fromWei } from 'utils/helpers';
 import { Button, Modal } from 'antd';
-import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { UserContext } from 'contexts/User';
-import EtherscanLink from 'components/shared/EtherscanlLnk';
 import { CONTRACT_UPGRADE } from 'utils/helpers';
+import Submitter from 'components/shared/Submitter';
 
 const VotingForm = ({ dispute }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
-  const [processed, setProcessed] = useState(false);
-  const [currentTx, setCurrentTx] = useState();
+  const [currentTx1, setCurrentTx1] = useState();
+  const [currentTx2, setCurrentTx2] = useState();
   const [userBalance, setUserBalance] = useState(0);
   const [hasVoted, setHasVoted] = useState();
   const [cantVote, setCantVote] = useState();
@@ -22,18 +20,17 @@ const VotingForm = ({ dispute }) => {
 
   useEffect(() => {
     if (currentUser) {
-      currentUser.contracts.didVote(dispute.disputeId, currentUser.address,)
+      currentUser.contracts.didVote(dispute.disputeId, currentUser.address)
         .then(res => setHasVoted(res));
       currentUser.contracts.balanceOfAt(currentUser.address, voteOpenedAt).then(result => {
         setUserBalance(+result)
       })
 
     }
-  }, [currentUser]);
+  }, [currentUser, processing]);
 
 
-
-  const handleSubmit = async (supportsVote) => {
+  const handleSubmit = async (supportsVote, setCurrentTx) => {
     setProcessing(true);
     try {
       await currentUser.contracts.vote(
@@ -45,18 +42,24 @@ const VotingForm = ({ dispute }) => {
     } catch (e) {
       console.error(`Error submitting vote: ${e.toString()}`);
       setError(e);
-    } finally {
-      setProcessing(false);
-      setProcessed(true);
     }
+    setProcessing(false);
   };
 
+  const support = () => {
+    handleSubmit(true, setCurrentTx1)
+  }
+
+  const challenge = () => {
+    handleSubmit(false, setCurrentTx2)
+  }
+
   const handleCancel = () => {
-    setProcessed(false);
-    setProcessing(false);
-    setError();
-    setCurrentTx();
-    setVisible(false);
+    setCurrentTx1()
+    setCurrentTx2()
+    setError()
+    setProcessing(false)
+    setVisible(false)
   };
 
   const renderTitle = () => {
@@ -64,7 +67,7 @@ const VotingForm = ({ dispute }) => {
       return 'Transaction Error';
     } else if (processing) {
       return 'Sending Vote';
-    } else if (processed) {
+    } else if (currentTx1 || currentTx2) {
       return 'Sent Vote';
     } else {
       return 'Vote';
@@ -101,72 +104,44 @@ const VotingForm = ({ dispute }) => {
         onCancel={handleCancel}
         footer={null}
       >
-        {error && <p className="ErrorMsg">Error Submitting Transaction</p>}
-
-        {!processing && !processed ? (
-          <>
-            <h6>Vote open at block: {voteOpenedAt}</h6>
-            {dispute.requestSymbol == CONTRACT_UPGRADE ? (<h3>Vote for:{dispute.requestSymbol}</h3>) : (
-              <>
-                <h6>Symbol</h6>
-                <p>{dispute.requestSymbol}</p>
-                <h6>Value</h6>
-                <p>{dispute.value}</p>
-              </>
-            )}
-            {currentUser ? (
-              <>
-                {cantVote ? (
-                  <h4 className="ErrorMsg">{cantVote}</h4>
-                ) : (
-                  <>
-                    <h6>Your Voting Power</h6>
-                    <p className="BalanceStatus">
-                      {fromWei(userBalance)} TRB balance at block {voteOpenedAt}.
+        <>
+          <h6>Vote open at block: {voteOpenedAt}</h6>
+          {dispute.requestSymbol == CONTRACT_UPGRADE ? (<h3>Vote for:{dispute.requestSymbol}</h3>) : (
+            <>
+              <h6>Symbol</h6>
+              <p>{dispute.requestSymbol}</p>
+              <h6>Value</h6>
+              <p>{dispute.value}</p>
+            </>
+          )}
+          {!cantVote ? (
+            <>
+              <h6>Your Voting Power</h6>
+              <p className="BalanceStatus">
+                {fromWei(userBalance)} TRB balance at block {voteOpenedAt}.
                       </p>
-                  </>
-                )}
-              </>
-            ) : (
-              <h4 className="ErrorMsg">
-                You need to sign in with MetaMask to vote
-              </h4>
-            )}
-            <Button
-              key="support"
-              type="primary"
-              size="large"
-              onClick={() => handleSubmit(true)}
-              disabled={cantVote}
-              style={{ marginRight: '15px' }}
-            >
-              Support
-            </Button>
-            <Button
-              key="challenge"
-              type="danger"
-              size="large"
-              onClick={() => handleSubmit(false)}
-              disabled={cantVote}
-            >
-              Challenge
-            </Button>
-          </>
-        ) : null}
+            </>
+          ) : null
+          }
 
-        {processing && !error ? (
-          <>
-            <Loader />
-            {currentTx && <EtherscanLink txHash={currentTx} />}
-          </>
-        ) : null}
+          <Submitter
+            error={error}
+            cantSubmit={cantVote}
+            processing={processing}
+            currentTx={currentTx1}
+            handleSubmit={support}
+            buttonText="Support"
+          />
 
-        {processed && !error ? (
-          <>
-            <CheckCircleOutlined />
-            {currentTx && <EtherscanLink txHash={currentTx} />}
-          </>
-        ) : null}
+          <Submitter
+            error={error}
+            cantSubmit={cantVote}
+            processing={processing}
+            currentTx={currentTx2}
+            handleSubmit={challenge}
+            buttonText="Challenge"
+          />
+        </>
       </Modal>
     </>
   );

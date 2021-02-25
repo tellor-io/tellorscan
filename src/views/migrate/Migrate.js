@@ -3,110 +3,112 @@ import Loader from 'components/shared/Loader';
 import { fromWei } from 'utils/helpers';
 import { Collapse, Button, Radio } from 'antd';
 import { UserContext } from 'contexts/User';
-import { Web3SignIn } from 'components/shared/Web3SignIn';
-import EtherscanLink from 'components/shared/EtherscanlLnk';
 import * as abiOracle from 'contracts/oracle.json';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NetworkContext } from 'contexts/Network';
 import { chains } from 'utils/chains';
+import Submitter from 'components/shared/Submitter';
 
 const { Panel } = Collapse;
 
 const Migrate = () => {
-    const [migrated, setMigrated] = useState(false);
-    const [userBalance, setUserBalance] = useState(0);
-    const [currentTx, setCurrentTx] = useState();
-    const [currentUser,] = useContext(UserContext);
-    const [cantMigrate, setCantMigrate] = useState();
-    const [showFeedback, setShowFeedback] = useState(false);
+  const [migrated, setMigrated] = useState(false);
+  const [userBalance, setUserBalance] = useState(0);
+  const [currentTx, setCurrentTx] = useState();
+  const [currentUser,] = useContext(UserContext);
+  const [cantSubmit, setCantSubmit] = useState();
+  const [showFeedback, setShowFeedback] = useState(false);
 
-    const [error, setError] = useState();
-    const [processing, setProcessing] = useState(false);
-    const [currentNetwork] = useContext(NetworkContext);
-    const [contractAddr,setContractAddr] = useState();
+  const [error, setError] = useState();
+  const [processing, setProcessing] = useState(false);
+  const [currentNetwork] = useContext(NetworkContext);
+  const [contractAddr, setContractAddr] = useState();
 
-    useEffect(() => {
-      if(currentNetwork){
-        console.log(">",chains[currentNetwork].contractAddr);
+  useEffect(() => {
+    if (currentNetwork) {
+      console.log(">", chains[currentNetwork].contractAddr);
       setContractAddr(chains[currentNetwork].contractAddr);
+    }
+  }, [currentNetwork]);
+
+  useEffect(() => {
+    if (currentUser) {
+      setCurrentTx()
+      currentUser.contracts.isMigrated(currentUser.address)
+        .then(res => setMigrated(res));
+
+      let oldContractAddr = "0xfe41cb708cd98c5b20423433309e55b53f79134a"
+      if (currentUser.network == 1) {
+        oldContractAddr = "0x0Ba45A8b5d5575935B8158a88C631E9F9C95a2e5"
       }
-    }, [currentNetwork]);
+      let oldContract = new currentUser.web3.eth.Contract(abiOracle.default, oldContractAddr);
 
-    useEffect(() => {
-        if (currentUser) {
-            setCurrentTx()
-            currentUser.contracts.isMigrated(currentUser.address)
-                .then(res => setMigrated(res));
-
-            let oldContractAddr = "0xfe41cb708cd98c5b20423433309e55b53f79134a"
-            if (currentUser.network == 1) {
-                oldContractAddr = "0x0Ba45A8b5d5575935B8158a88C631E9F9C95a2e5"
-            }
-            let oldContract = new currentUser.web3.eth.Contract(abiOracle.default, oldContractAddr);
-
-            oldContract.methods.balanceOf(currentUser.address)
-                .call().then(result => { return setUserBalance(+result) });
-        }
-    }, [currentUser]);
+      oldContract.methods.balanceOf(currentUser.address)
+        .call().then(result => { return setUserBalance(+result) });
+    } else {
+      setMigrated(false)
+      setUserBalance(0)
+    }
+  }, [currentUser]);
 
 
 
-    const handleSubmit = async () => {
-        setProcessing(true);
-        try {
-            await currentUser.contracts.migrate(
-                currentUser.address,
-                setCurrentTx,
-            );
-        } catch (e) {
-            setError(e)
-        } finally {
-            await currentUser.contracts.isMigrated(currentUser.address)
-                .then(res => {
-                    console.log('res migrate', res);
-                    setMigrated(res);
-                })
-        }
-        setProcessing(false)
-    };
+  const handleSubmit = async () => {
+    setProcessing(true);
+    try {
+      await currentUser.contracts.migrate(
+        currentUser.address,
+        setCurrentTx,
+      );
+    } catch (e) {
+      setError(e)
+    } finally {
+      await currentUser.contracts.isMigrated(currentUser.address)
+        .then(res => {
+          console.log('res migrate', res);
+          setMigrated(res);
+        })
+    }
+    setProcessing(false)
+  };
 
-    useEffect(() => {
-        if (userBalance == 0) {
-            setCantMigrate("can't migrate with zero balance")
-            return
-        } else {
-            setCantMigrate()
-        }
-        if (migrated) {
-            setCantMigrate("already migrated")
-            return
-        }
+  useEffect(() => {
+    if (userBalance == 0) {
+      setCantSubmit("can't migrate with zero balance")
+      return
+    } else {
+      setCantSubmit()
+    }
+    if (migrated) {
+      setCantSubmit("already migrated")
+      return
+    }
 
-    }, [currentUser, userBalance, migrated])
-
-
-    const clickedCopy = () => {
-        setShowFeedback(true);
-        setTimeout(function() {
-          setShowFeedback(false);
-        }, 2000);
-      }
+  }, [currentUser, userBalance, migrated])
 
 
-    return (
+  const clickedCopy = () => {
+    setShowFeedback(true);
+    setTimeout(function () {
+      setShowFeedback(false);
+    }, 2000);
+  }
+
+
+  return (
     <>
       <div className="Migration">
         <div className="Intro">
           <div className="View">
             <h1>On this page, we’ll assist you in migrating your Tributes (TRB) to the new version of the contract.</h1>
             <Collapse>
-                <Panel header="Why do I need to migrate my TRB?" key="1">
-                  <p>The Tellor system experienced a major bug on monday 2/15 while deploying the upgrade to v2.6.1.  This froze the network including the TRB token, however no funds were lost.  The solution was to redeploy Tellor and to do so requires a token swap.  This migration page will help you through this simple process.</p>
+              <Panel header="Why do I need to migrate my TRB?" key="1">
+                <p>The Tellor system experienced a major bug on monday 2/15 while deploying the upgrade to v2.6.1.  This froze the network including the TRB token, however no funds were lost.  The solution was to redeploy Tellor and to do so requires a token swap.  This migration page will help you through this simple process.</p>
               </Panel>
             </Collapse>
 
             <Collapse>
-                <Panel header="What are the steps I need to take?" key="2">
+              <Panel header="What are the steps I need to take?" key="2">
                 <ul>
                   <li>In Metamask, choose the account containing the TRB you want to migrate.</li>
                   <li>Click the "Connect" button in step 1.</li>
@@ -125,23 +127,15 @@ const Migrate = () => {
                     onCopy={() => clickedCopy(true)}>
                     <span className="copier">copy</span>
                   </CopyToClipboard>
-                  {showFeedback?
+                  {showFeedback ?
                     <p>copied!</p>
-                  :
-                  null }
+                    :
+                    null}
                 </div>
-              <p>(Link: <a href="https://metamask.zendesk.com/hc/en-us/articles/360015489011-How-to-manage-ERC-20-Tokens">How to add new token to metamask.</a>)</p>
+                <p>(Link: <a href="https://metamask.zendesk.com/hc/en-us/articles/360015489011-How-to-manage-ERC-20-Tokens">How to add new token to metamask.</a>)</p>
               </Panel>
             </Collapse>
           </div>
-        </div>
-
-        <div className="View Step">
-          <h2><span className="nr">1.</span> Connect with the Metamask</h2>
-          {!currentUser ? null : (
-              <p className="connected">Connected as: <span>{currentUser.address}</span></p>
-            )}
-            <Web3SignIn />
         </div>
         <div className="Line"></div>
         <div className={currentUser ? "View Step fullop" : "View Step halfop"}>
@@ -160,34 +154,25 @@ const Migrate = () => {
               <h1>{migrated ? fromWei(userBalance) : "0"} TRB</h1>
             </div>
           </div>
-          {migrated ?
-          null
-          :
-          <Button
-              key="migration"
-              size="large"
-              type="default"
-              onClick={() => handleSubmit()}
-              disabled={cantMigrate}>
-            Migrate TRB
-          </Button>
-          }
         </div>
-          <div className="View">
-          {error && <p className="ErrorMsg">Error Submitting Transaction:{error}</p>}
-          {currentTx && <EtherscanLink txHash={currentTx} />}
+        {!migrated ?
+          (<div className="View">
+            <Submitter
+              error={error}
+              processing={processing}
+              currentTx={currentTx}
+              handleSubmit={handleSubmit}
+              buttonText="Migrate"
+            />
           </div>
-        {migrated ?
-        <div className="Success">
-          <div className="View">
-            <h1>You successfully migrated your TRB!</h1>
-          </div>
-        </div>
-        :
-        null }
+          ) : <div className="Success">
+            <div className="View">
+              <h1>You successfully migrated your TRB!</h1>
+            </div>
+          </div>}
       </div>
     </>
-    );
+  );
 };
 
 export default Migrate;
