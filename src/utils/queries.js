@@ -42,6 +42,15 @@ export const GET_LATEST_EVENTS = gql`
   }
 `;
 
+export const GET_NETWORK_DIFFICULTY = gql`
+  query {
+    networkStates(first: 200,orderBy: timestamp,orderDirection: desc) {
+      timestamp
+      difficulty
+    }
+  }
+`;
+
 export const GET_ALL_EVENTS = gql`
   query {
     miningEvents(first: 50, orderBy: timestamp, orderDirection: desc) {
@@ -49,6 +58,7 @@ export const GET_ALL_EVENTS = gql`
     }
   }
 `;
+
 
 const disputeFields = `
   id

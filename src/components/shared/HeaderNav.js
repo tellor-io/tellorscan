@@ -30,6 +30,7 @@ const HeaderNav = () => {
           <Link to="/voting">Voting</Link>
           <Link to="/mining">Mining</Link>
           <Link to="/prices">Prices</Link>
+          <Link to="/network">Network</Link>
           <Link to="/migrate">Migrate</Link>
           {!currentUser ? null : (
             <span>{truncateAddr(currentUser.address)}</span>
