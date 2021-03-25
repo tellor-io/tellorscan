@@ -5,6 +5,7 @@ import { UserContext, setupUser } from 'contexts/User';
 import { Button } from 'antd';
 import { useAlert } from 'react-alert'
 import { chains } from 'utils/chains';
+import { truncateAddr } from 'utils/helpers';
 
 
 
@@ -14,7 +15,9 @@ export const Web3SignIn = () => {
   const alert = useAlert()
 
   return (
-    (currentUser) ? null : (
+    (currentUser) ? 
+      <span className="gotAddress">{truncateAddr(currentUser.address)}</span>
+    : (
       <Button
         type="default"
         size="large"

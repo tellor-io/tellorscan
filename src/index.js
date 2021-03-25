@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
 import App from './App';
-import Theme from './contexts/Theme';
 import Network from './contexts/Network';
 import User from './contexts/User';
 
@@ -20,15 +19,13 @@ const options = {
 import './style/index.scss';
 
 ReactDOM.render(
-  <Theme>
     <Network>
       <User>
         <AlertProvider template={AlertTemplate} {...options}>
           <App />
         </AlertProvider>
       </User>
-    </Network>
-  </Theme>,
+    </Network>,
   document.getElementById('root'),
 );
 

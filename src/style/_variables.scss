@@ -2,11 +2,11 @@
 
 $green-1: #baffe1;
 $green-2: #99ffd1;
-$tellor-green: #5cfcb6;
+$tellor-green: #2DFC9F;
 $green-4: #37f3a1;
 $hot-green: #00ff8f;
 
-$background: #252525;
+// $background: #FAFAFA;
 $grey-2: #444444;
 $grey-1: #777777;
 
@@ -16,20 +16,5 @@ $almost-white: darken($pure-white, 5%);
 $gradient: linear-gradient(125deg, $green-2, $hot-green);
 $box-shadow: 0 10px 50px rgba(0, 0, 0, 0.08), 0 13px 45px rgba(0, 0, 0, 0.08);
 
-:root {
-  // dark-mode as a default:
-  --background: #000;
-  --background-2: #252525;
-  --color-primary-1: #5cfcb6;
-  --color-primary-2: #baffe1;
-  --color-primary-3: #99ffd1;
-  --color-primary-4: #37f3a1;
-  --color-primary-5: #00ff8f;
-  --color-secondary-1: #777777;
-  --color-secondary-2: #444444;
-  --color-table-thead: #00ff8f;
-  --color-heading: #00ff8f;
-  --color-link: #5cfcb6;
-  --modal-color-background: #444444;
-  --modal-color-btn-default: #5cfcb6;
-}
+
+
