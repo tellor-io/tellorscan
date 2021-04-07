@@ -13,7 +13,6 @@ const Loader = () => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    animationData: mode,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice',
     },

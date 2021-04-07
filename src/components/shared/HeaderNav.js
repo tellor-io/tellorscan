@@ -9,13 +9,11 @@ import { useMediaQuery } from 'react-responsive';
 
 
 const HeaderNav = () => {
-  const isMobile = useMediaQuery({query: '(max-width: 680px)'});
-  console.log("isMobile >>",isMobile);
-
+  const isMobileHeader = useMediaQuery({query: '(max-width: 680px)'});
   const [currentUser] = useContext(UserContext);
   return (
     <>
-    {isMobile?
+    {isMobileHeader?
          <div className="Header">
          <div className="BrandLink">
            <Link to="/">

@@ -27,14 +27,9 @@ const PricesModule = () => {
   }, [currentNetwork])
 
   return (
-    <>
-      <div className="View">
-        <div className="TableHeader">
-          <h2>Latest Prices</h2>
-        </div>
-        <PricesTable pagination={false} data={prices} />
-      </div>
-    </>
+    <div className="Prices">
+      <PricesTable pagination={false} data={prices} />
+    </div>
   );
 };
 

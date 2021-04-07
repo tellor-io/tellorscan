@@ -5,12 +5,14 @@
 
 
 $background: #FAFAFA;
-$lightergrey: #F0F0F0;
+$tellor-grey1: #F2F2F2;
+$tellor-grey2: #F0F0F0;
 $darkestgrey: #555555;
+$tellor-green: #2DFC9F;
 
 /* gradient mixins */
 @mixin greenshine {
-  background: #2DFC9F;
+  background: $tellor-green;
   background: linear-gradient(90deg, #2DFC9F 0%, #00FB89 100%);
 }
 /* font mixins */
@@ -172,56 +174,105 @@ h6 {
   }
 }
 
-.Hero {
-  padding-top: 25px;
-  background-color: var(--background);
-}
+.Dashboard {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 6vw;
+  @include leftcolumn;
+  .firstContainer {
+    width: 100%;
+    @include leftrow;
+    align-items: flex-start;
+    @media (max-width: 800px) {
+      @include leftcolumn;
+    }
+    .Current_and_All {
+      width: 750px;
+      margin: 0 50px 0 0;
+    }
+    .Prices_and_Tip {
+      flex: 1;
 
-.View {
-  width: calc(100%);
-  max-width: 1200px;
-  position: relative;
-  margin: 0 auto;
-  padding-bottom: 75px;
-}
-
-.TableHeader {
-  h2 {
-    margin: 0px;
-    padding-left: 16px;
-  }
-  margin-top: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  a {
-    margin-left: 15px;
-    margin-top: 4px;
+    }
   }
 }
 
-.LoaderSmall {
-  > div {
-    position: absolute;
-    display: inline-block;
-    height: 36px;
-    width: 36px;
-    margin-top: -8px !important;
-    margin-left: 5px !important;
-  }
+.CurrentMining {
+  @include centeredcolumn;
+  width: 100%;
+  height: 750px;
+  border: 2px solid $tellor-grey2;
 }
 
-.BalanceStatus {
-  span {
-    margin-right: 10px;
-  }
+.CurrentMiningVisual {
+    @include centeredcolumn;
+    width: 668px;
+    height: 582px;
+    border: 1px solid red;
+    position: relative;
+    * {
+      position: absolute;
+    }
+
+}
+.CurrentMiner {
+  position:static;
+  width: 400px;
+  height: 50px;
+  border: 1px solid red;
+  margin: 0 0 10px 0;
 }
 
-.ErrorMsg {
-  color: #dd5858;
-  font-size: 1.2em !important;
-  margin-top: -15px;
-  margin-bottom: 15px;
+.AllMining {
+  width: 100%;
+}
+
+.Prices {
+  .PriceTableItem {
+    @include leftcolumn;
+    color: $darkestgrey;
+    width: 100%;
+    background: white;
+    margin: 0 0 6px 0;
+    box-sizing: border-box;
+    padding: 0 32px;
+    &__Inner {
+      width: 100%;
+      @include leftrow;
+      box-sizing: border-box;
+      padding: 26px 0 22px 0;
+      > div:first-child {
+        flex: 1;
+        @include leftcolumn;
+        margin: 0 25px 0 0;
+        min-width: 20px;
+        h4,p {
+          width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      > div > p {
+        margin: 0;
+      }
+      > div > h4 {
+        margin: 0;
+        font-weight: bold;
+        font-size: 1.125rem;
+      }
+      > h2 {
+        margin: 4px 0 0 0;
+        font-size: 2rem;
+        line-height: 2rem;
+      }
+    }
+    &__Stripe {
+      width: 75px;
+      background: $tellor-green;
+      height: 2px;
+    }
+  }
 }
 
 .Footer {
@@ -300,6 +351,7 @@ button {
   }
 }
 
+
 // Dropdown Menu
 
 .ant-dropdown-menu {
@@ -314,13 +366,46 @@ button {
 .ant-dropdown-menu-item {
   @include sixteenpxfont;
   color: $darkestgrey;
-  border-bottom: 1px solid $lightergrey;
+  border-bottom: 1px solid $tellor-grey2;
   padding: 8px 12px;
   &:hover{
     background: transparent;
     color: $tellor-green;
   }
 }
+.ant-table {
+  color: $darkestgrey;
+}
+
+// Pagination
+
+.ant-pagination {
+  color: $darkestgrey;
+  &-item {
+    background: none;
+    border: none;
+    border-radius: 50%;
+
+  }
+  &-item-active {
+    background: none;
+    border: 1px solid $tellor-green;
+  }
+
+}
+
+
+.ant-pagination-item a {
+  color: $darkestgrey;
+  &:hover {
+    color: red;
+  }
+}
+
+
+
+
+
 
 
 
