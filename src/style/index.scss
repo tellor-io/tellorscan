@@ -28,6 +28,10 @@ $tellor-green: #2DFC9F;
   font-size: 1rem !important;
   line-height: 1.5rem !important;
 }
+@mixin eighteenpxfont {
+  font-size: 1.125rem !important;
+  line-height: 1.75rem !important;
+}
 
 /* general mixins */
 @mixin centeredrow {
@@ -208,20 +212,110 @@ h6 {
     @include centeredcolumn;
     width: 668px;
     height: 582px;
-    border: 1px solid red;
     position: relative;
     * {
       position: absolute;
     }
+    .circle {
+      margin-top: -30px;
+    }
+    .midblock {
+      width: 182px;
+      height: 125px;
+      margin-top: -35px;
+      p {
+        @include fourteenpxfont;
+        line-height: 1rem !important;
+        color: $darkestgrey;
+        text-align: center;
+        position:static;
+        margin: 0 0 16px 0;
+      }
+      p:nth-child(2) {
+        font-weight: bold;
+        @include eighteenpxfont;
+        margin: 0 0 0 0;
+      }
+    }
+}
 
-}
 .CurrentMiner {
-  position:static;
-  width: 400px;
-  height: 50px;
-  border: 1px solid red;
-  margin: 0 0 10px 0;
+  @include centeredcolumn;
+  position: absolute;
+  p {
+    color: $darkestgrey;
+    text-align: center;
+    font-weight: bold;
+    z-index: 9;
+  }
+  &_first {
+    p {
+      width: 100%;
+      margin: 0 0 12px 0;
+      position:static;
+    }
+    svg {
+      position:static;
+    }
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 140px;
+    height: 144px;
+    top: 0;
+    left: 100px;
+  }
+  &_second {
+    p {
+      width: 140px;
+      margin: 0 39px 0 0;
+      position:static;
+    }
+    svg {
+      position:static;
+    }
+    width: 179px;
+    height: 84px;
+    align-items: flex-end;
+    justify-content: flex-start;
+    top: 316px;
+    left: 0px;
+  }
+  &_third {
+
+    width: 140px;
+    height: 154px;
+    position: absolute;
+    top: 436px;
+    left: 265px;
+  }
+  &_fourth {
+    p {
+      width: 140px;
+      margin: 0 0 0 39px;
+      position:static;
+    }
+    svg {
+      position:static;
+    }
+    width: 180px;
+    height: 84px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    top: 316px;
+    left: 490px;
+  }
+  &_fifth {
+    width: 140px;
+    height: 144px;
+    align-items: flex-start;
+    justify-content: flex-end;
+    position: absolute;
+    top: 0;
+    left: 427px;
+  }
 }
+
 
 .AllMining {
   width: 100%;
@@ -236,6 +330,13 @@ h6 {
     margin: 0 0 6px 0;
     box-sizing: border-box;
     padding: 0 32px;
+    transition: all 0.025s linear;
+    &:hover {
+      cursor: pointer;
+    }
+    &:active {
+      transform: scale(0.995)
+    }
     &__Inner {
       width: 100%;
       @include leftrow;
@@ -247,6 +348,7 @@ h6 {
         margin: 0 25px 0 0;
         min-width: 20px;
         h4,p {
+          color: $darkestgrey;
           width: 100%;
           white-space: nowrap;
           overflow: hidden;
@@ -265,6 +367,7 @@ h6 {
         margin: 4px 0 0 0;
         font-size: 2rem;
         line-height: 2rem;
+        color: $darkestgrey;
       }
     }
     &__Stripe {
@@ -277,6 +380,176 @@ h6 {
 
 .Footer {
   width: 100%;
+}
+
+
+.TipId {
+  @include centeredcolumn;
+  box-sizing: border-box;
+  padding: 45px 60px;
+  border: 2px solid #F0F0F0;
+  margin: 0 0 40px 0;
+  p:first-child {
+    text-align: center;
+    color: $darkestgrey;
+  }
+  .DropDownAndButton {
+    margin-top: 40px;
+    @include leftcolumn;
+    width: 100%;
+    
+    .ant-dropdown-trigger,
+    .ant-dropdown-trigger:hover,
+    .ant-dropdown-trigger:focus {
+      border: 1px solid #707070;
+      width: 100%;
+    }
+    .ant-btn {
+      align-self: flex-end;
+      margin-top: 25px;
+    }
+    .dropper {
+      @include leftrow;
+      @include fourteenpxfont;
+      font-weight: normal;
+      width: 100%;
+      padding:15px;
+      height: 45px;
+      border-radius: 0px !important;
+      margin: 0;
+    }
+  }
+
+  &_Item {
+    width: 250px;
+    @include leftrow;
+    p {
+      margin: 0;
+    }
+    div:nth-child(1) {
+      width: 70%;
+      font-weight: bold;
+      @include leftrow;
+      align-items: flex-end;
+      p {
+        @include eighteenpxfont;
+      }
+      div:nth-child(2) {
+        height: 1px;
+        flex: 1;
+        border-bottom: 1px solid #C7C7C7;
+        margin: 0 10px 9px 10px;
+      }
+    }
+  }
+}
+
+
+
+// --- Miner graphic stuff --- 
+
+.loadercircle {
+  stroke-miterlimit: 10;
+  stroke-width: 2;
+  stroke: #D9D9D9;
+  stroke-dasharray: 250;
+  stroke-dashoffset: -250;
+  fill: none;
+  animation: circleanim 3s infinite linear;
+}
+
+.minericon_line {
+  stroke-miterlimit: 10;
+  stroke-width: 1;
+  stroke: #D9D9D9;
+  fill: none;
+}
+
+.minericon_line_loading {
+  stroke-miterlimit: 10;
+  stroke-dasharray: 4;
+  stroke-dashoffset: -8;
+  stroke-width: 1;
+  stroke: #555555;
+  fill: none;
+  animation: loadinganim 0.5s infinite linear;
+}
+
+.minericon_box {
+  stroke-width: 1;
+  stroke: #D9D9D9;
+  fill: none;
+}
+
+.minericon_loader {
+  stroke-dasharray: 84;
+  stroke-dashoffset: 84;
+  stroke-width: 2px;
+  stroke:$tellor-green;
+  fill: none;
+  animation: loaderanim 3s infinite linear;
+}
+
+.fullicon_second_extramargin {
+  margin: 0 -6px 0 0;
+}
+.fullicon_fourth_extramargin {
+  margin: 0 0 0 -7px;
+}
+.fullicon_line {
+  fill: none;
+  stroke: $tellor-green;
+  stroke-miterlimit: 10;
+  stroke-width:1;
+  stroke-dasharray: 4 4;
+  animation: connectedanim 1.5s infinite linear;
+}
+
+@keyframes circleanim {
+  0% {
+    stroke-dashoffset: 250;
+  }
+  50% {
+      stroke-dashoffset: 0;
+  }
+  100% {
+      stroke-dashoffset: -250;
+  }
+}
+@keyframes loaderanim {
+  0% {
+    stroke-dashoffset: 84;
+  }
+  50% {
+      stroke-dashoffset: 0;
+  }
+  100% {
+      stroke-dashoffset: -84;
+  }
+}
+
+@keyframes loadinganim {
+  0% {
+    stroke-dashoffset: -8;
+  }
+  50% {
+      stroke-dashoffset: 0;
+  }
+  100% {
+      stroke-dashoffset: 8;
+  }
+}
+
+@keyframes connectedanim {
+  0% {
+    stroke-dashoffset: -4;
+  }
+  50% {
+      stroke-dashoffset: 0;
+  }
+  100% {
+      stroke-dashoffset: 4;
+  }
 }
 
 
@@ -316,7 +589,10 @@ button {
   border-radius: 25px;
   font-weight: bold;
   &:disabled {
-    opacity: 0.25;
+    @include greenshine;
+    span {
+      opacity: 0.5;
+    }
   }
   &:hover,&:focus {
     color: $darkestgrey;

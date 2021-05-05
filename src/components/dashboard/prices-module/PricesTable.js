@@ -1,12 +1,18 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { List } from 'antd';
-import { UserContext } from 'contexts/User';
-import Submitter from 'components/shared/Submitter';
+import { useHistory } from 'react-router-dom';
+
+// import { UserContext } from 'contexts/User';
+// import Submitter from 'components/shared/Submitter';
 
 
 const PriceTableItem = ({ data }) => {
+  const history = useHistory();
+  const gotoDetail = () => {
+    history.push("/detail/"+data.id)
+  }
   return (
-  <div className="PriceTableItem">
+  <div className="PriceTableItem" onClick={() => gotoDetail()}>
     <div className="PriceTableItem__Inner">
       <div>
         <p>ID {data.id} • {data.timestamp}</p>
@@ -22,12 +28,12 @@ const PriceTableItem = ({ data }) => {
 
 const PricesTable = ({ data }) => {
 
-  const [currentUser,] = useContext(UserContext);
-  const [error, setError] = useState();
-  const [processing, setProcessing] = useState();
-  const [currentTx, setCurrentTx] = useState();
-  const [modal, setModal] = useState({ visible: false });
-  const [tip, setTip] = useState("0");
+  // const [currentUser,] = useContext(UserContext);
+  // const [error, setError] = useState();
+  // const [processing, setProcessing] = useState();
+  // const [currentTx, setCurrentTx] = useState();
+  // const [modal, setModal] = useState({ visible: false });
+  // const [tip, setTip] = useState("0");
 
   return (
     <>
