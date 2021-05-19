@@ -35,28 +35,22 @@ const App = () => {
     }
   };
   
-  console.log("events in App.js:",events);
-  console.log("prices in App.js:",prices);
-
-  
   return (
     <>
-    <GraphFetch
-      query={GET_ALL_EVENTS}
-      setRecords={setEvents}
-    />
     <Fragment>
       <Helmet defaultTitle="Tellor Scan">
         <meta name="description" content="Tellor Scan" />
       </Helmet>
         <Router>
           <HeaderNav />
-          <Content>
             <Routes events={events} prices={prices} />
-          </Content>
           <Footer />
         </Router>
     </Fragment>
+    <GraphFetch
+      query={GET_ALL_EVENTS}
+      setRecords={setEvents}
+    />
     </>
   );
 };

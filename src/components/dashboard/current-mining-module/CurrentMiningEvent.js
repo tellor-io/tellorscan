@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import CurrentMiner from './CurrentMiner';
 import CurrentMiningSVGs from './CurrentMiningSVGs';
+import { useMediaQuery } from 'react-responsive';
 
 const CurrentMiningEvent = ({ currentEvent }) => {
+  const isSmallVisual = useMediaQuery({query: '(max-width: 1200px)'});
+
   const [symbols, setSymbols] = useState();
   const [miners, setMiners] = useState({
     miner1: false,

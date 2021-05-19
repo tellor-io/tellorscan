@@ -16,6 +16,10 @@ $tellor-green: #2DFC9F;
   background: linear-gradient(90deg, #2DFC9F 0%, #00FB89 100%);
 }
 /* font mixins */
+@mixin tenpxfont {
+  font-size: 0.625rem !important;
+  line-height: 0.85rem !important;
+}
 @mixin twelvepxfont {
   font-size: 0.75rem !important;
   line-height: 1rem !important;
@@ -85,16 +89,16 @@ p {
   @include twelvepxfont;
 }
 
-h1,
 h2,
 h3,
 h4 {
   font-weight: 100;
 }
 
-h1,
-h2 {
-  color: var(--color-heading);
+h1 {
+  font-weight: 700;
+  font-size: 1.75em;
+  color: $darkestgrey;
 }
 
 h5 {
@@ -105,9 +109,15 @@ h6 {
   font-size: 1em;
 }
 
-
+/* general classes */
 .fader {
   animation: 1s ease-out fadeIn infinite;
+}
+.flexer {
+  flex: 1;
+}
+.bold {
+  font-weight: bold;
 }
 
 @keyframes fadeIn {
@@ -126,13 +136,13 @@ h6 {
   @include centeredrow;
   box-sizing: border-box;
   padding: 50px;  
-  width: 100%;
-  @media (max-width: 800px) {
+  width: 100vw;
+  @media (max-width: 965px) {
     align-items: flex-start;
     padding: 28px 30px 28px 30px;  
   }
   .BrandLink {
-    @media (max-width: 800px) {
+    @media (max-width: 965px) {
       margin: 3px 0 0 0;
       .ant-btn {
         padding: 0;
@@ -148,7 +158,7 @@ h6 {
       svg {
         width: 216px;
       }
-      @media (max-width: 800px) {
+      @media (max-width: 965px) {
         svg {
           width: 143px;
         }
@@ -169,7 +179,7 @@ h6 {
       box-sizing: border-box;
       padding: 14px 40px 18px 40px;
       border-radius: 25px;
-      @media (max-width: 800px) {
+      @media (max-width: 965px) {
         @include fourteenpxfont;
         height: 40px;
         padding: 10px 30px 14px 30px;
@@ -181,13 +191,13 @@ h6 {
 .Dashboard {
   width: 100%;
   box-sizing: border-box;
-  padding: 0 6vw;
+  padding: 0 6vw 150px 6vw;
   @include leftcolumn;
   .firstContainer {
     width: 100%;
     @include leftrow;
     align-items: flex-start;
-    @media (max-width: 800px) {
+    @media (max-width: 965px) {
       @include leftcolumn;
     }
     .Current_and_All {
@@ -195,9 +205,26 @@ h6 {
       margin: 0 50px 0 0;
     }
     .Prices_and_Tip {
+      @include leftcolumn;
       flex: 1;
-
     }
+    @media (min-width: 1600px) {
+      padding: 50px 7vw 0 7vw;
+    }
+
+    @media (max-width: 1200px) {
+      .Current_and_All {
+        width: 460px;
+        margin: 0 25px 0 0;
+      }
+    }
+
+    @media (max-width: 965px) {
+      .Prices_and_Tip {
+        width: 100%;
+      }
+    }
+
   }
 }
 
@@ -206,6 +233,50 @@ h6 {
   width: 100%;
   height: 750px;
   border: 2px solid $tellor-grey2;
+  box-sizing: border-box;
+  padding: 50px 0 0 0;
+  margin: 0 0 44px 0;
+  &__MinersBox {
+    @include leftrow;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 28px 38px 0 38px;
+    div {
+      margin: 0 50px 0 0;
+    }
+    p {
+      color: $darkestgrey;
+      margin: 0;
+    }
+    h2 {
+      color: $darkestgrey;
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    height: auto;
+    padding: 36px 0 0 0;
+  }
+
+  @media (max-width: 600px) {
+  margin: 10px 0 0 0;
+  height: auto;
+  padding: 40px 0 0 0;
+  &__MinersBox {
+    padding: 28px 29px 0 29px;
+    div {
+      margin: 0 40px 0 0;
+    }
+    p {
+      font-size: 0.625rem;
+    }
+    h2 {
+      font-size: 1.625rem;
+    }
+  }
+  }
+
 }
 
 .CurrentMiningVisual {
@@ -218,6 +289,7 @@ h6 {
     }
     .circle {
       margin-top: -30px;
+      width: 324px;
     }
     .midblock {
       width: 182px;
@@ -237,6 +309,63 @@ h6 {
         margin: 0 0 0 0;
       }
     }
+
+    /* MOBILE: tablet */
+    @media (max-width: 1200px) {
+      .circle {
+        width: 200px;
+      }
+      width: 440px;
+      height: 386px;
+      .midblock {
+        width: 128px;
+        height: 80px;
+        margin-top: -25px;
+        p {
+          font-size: 0.5rem !important;
+          line-height: 0.625rem !important;
+          color: $darkestgrey;
+          text-align: center;
+          position:static;
+          margin: 0 0 8px 0;
+        }
+        p:nth-child(2) {
+          font-weight: bold;
+          @include twelvepxfont;
+          margin: 0 0 0 0;
+        }
+      }
+    }
+
+    /* MOBILE: phone */
+    @media (max-width: 600px) {
+      .circle {
+        width: 153px;
+      }
+      width: 335px;
+      height: 300px;
+      .midblock {
+        width: 128px;
+        height: 80px;
+        margin-top: -25px;
+        p {
+          font-size: 0.5rem !important;
+          line-height: 0.625rem !important;
+          color: $darkestgrey;
+          text-align: center;
+          position:static;
+          margin: 0 0 8px 0;
+        }
+        p:nth-child(2) {
+          font-weight: bold;
+          @include twelvepxfont;
+          margin: 0 0 0 0;
+        }
+      }
+    }
+
+
+
 }
 
 .CurrentMiner {
@@ -249,6 +378,12 @@ h6 {
     z-index: 9;
   }
   &_first {
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 140px;
+    height: 144px;
+    top: 0;
+    left: 100px;
     p {
       width: 100%;
       margin: 0 0 12px 0;
@@ -257,14 +392,14 @@ h6 {
     svg {
       position:static;
     }
-    align-items: flex-end;
-    justify-content: flex-end;
-    width: 140px;
-    height: 144px;
-    top: 0;
-    left: 100px;
   }
   &_second {
+    width: 179px;
+    height: 84px;
+    align-items: flex-end;
+    justify-content: flex-start;
+    top: 316px;
+    left: 0px;
     p {
       width: 140px;
       margin: 0 39px 0 0;
@@ -273,22 +408,25 @@ h6 {
     svg {
       position:static;
     }
-    width: 179px;
-    height: 84px;
-    align-items: flex-end;
-    justify-content: flex-start;
-    top: 316px;
-    left: 0px;
   }
   &_third {
-
     width: 140px;
     height: 154px;
     position: absolute;
     top: 436px;
     left: 265px;
+    svg {
+      position:static;
+    }
   }
   &_fourth {
+    width: 180px;
+    height: 88px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    top: 316px;
+    left: 490px;
     p {
       width: 140px;
       margin: 0 0 0 39px;
@@ -297,13 +435,6 @@ h6 {
     svg {
       position:static;
     }
-    width: 180px;
-    height: 84px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: absolute;
-    top: 316px;
-    left: 490px;
   }
   &_fifth {
     width: 140px;
@@ -313,24 +444,276 @@ h6 {
     position: absolute;
     top: 0;
     left: 427px;
+    p {
+      width: 100%;
+      position:static;
+    }
+    svg {
+      position:static;
+    }
+  }
+
+  /* MOBILE: tablet */
+  @media (max-width: 1200px) {
+    p {
+      font-size: 0.625rem !important;
+    }
+    &_first {
+      width: 122px;
+      height: 100px;
+      left: 50px;
+      p {
+        margin: 0 0 6px 0;
+      }
+      svg {
+        height: 72px;
+      }
+    }
+    &_second {
+      width: 128px;
+      height: 66px;
+      top: 206px;
+      left: 22px;
+      p {
+        width: 100%;
+        margin: 0 20px 0 0;
+        position:static;
+      }
+      svg {
+        height: 46px;
+      }
+    }
+    &_third {
+      width: 120px;
+      height: 100px;
+      position: absolute;
+      top: 278px;
+      left: 160px;
+    }
+    &_fourth {
+      width: 127px;
+      height: 66px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      position: absolute;
+      top: 206px;
+      left: 290px;
+      p {
+        width: 98px;
+        margin: 0 0 0 40px;
+      }
+      svg {
+        height: 46px;
+      }
+    }
+    &_fifth {
+      width: 122px;
+      height: 100px;
+      align-items: flex-start;
+      justify-content: flex-end;
+      position: absolute;
+      top: 0;
+      left: 265px;
+      p {
+        width: 100%;
+        margin: 0 0 6px 10px;
+        position:static;
+      }
+      svg {
+        height: 72px;
+        position:static;
+      }
+    }
+  }
+
+
+  /* MOBILE: phone */
+  @media (max-width: 600px) {
+    p {
+      font-size: 0.625rem !important;
+    }
+    &_first {
+      width: 94px;
+      height: 77px;
+      left: 50px;
+      p {
+        margin: 0 0 6px 0;
+      }
+      svg {
+        height: 55px;
+      }
+    }
+    &_second {
+      width: 98px;
+      height: 51px;
+      top: 166px;
+      left: 46px;
+      p {
+        width: 100%;
+        margin: 0 46px 0 0;
+        position:static;
+      }
+      svg {
+        height: 35px;
+      }
+    }
+    &_third {
+      width: 94px;
+      height: 82px;
+      position: absolute;
+      top: 210px;
+      left: 125px;
+    }
+    &_fourth {
+      width: 98px;
+      height: 52px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      position: absolute;
+      top: 166px;
+      left: 200px;
+      p {
+        width: 98px;
+        margin: 0 0 0 40px;
+      }
+      svg {
+        height: 36px;
+      }
+    }
+    &_fifth {
+      width: 94px;
+      height: 77px;
+      align-items: flex-start;
+      justify-content: flex-end;
+      position: absolute;
+      top: 0;
+      left: 192px;
+      p {
+        width: 100%;
+        margin: 0 0 6px 10px;
+        position:static;
+      }
+      svg {
+        height: 55px;
+        position:static;
+      }
+    }
   }
 }
 
 
 .AllMining {
   width: 100%;
+  .ant-table {
+    background: white;
+  }
+  .Symbols {
+    @include fourteenpxfont;
+  }
+  .ant-table-cell p {
+    margin: 0;
+  }
+  .ant-table-row-expand-icon {
+    color:$darkestgrey;
+    border: 1px solid $darkestgrey;
+  }
+
+  .ant-table-expanded-row .ant-table-cell {
+    padding: 0;
+  }
+  .PrevMiningEvents {
+    background-color: white;
+    margin-top: -1px;
+    box-sizing: border-box;
+    padding: 0 16px 16px 16px;
+    .PrevMiningEvent {
+      width: 78%;
+      margin: 0 0 0 22%;
+      box-sizing: border-box;
+      padding: 15px 10px 15px 20px;
+      @include leftcolumn;
+      border-bottom: 1px solid grey;
+      &__Inner {
+        @include leftrow;
+        width: 100%;
+        p {
+          @include fourteenpxfont;
+        }
+        div:first-child {
+          @include leftrow;
+          flex: 1;
+          p:first-child {
+            font-weight: bold;
+            width: 100px;
+          }
+        }
+        .ShowMinerValues {
+          text-decoration: underline;
+          margin: 0 0 0 20px;
+          cursor: pointer;
+        }
+      }
+      &__MinerVal {
+        padding: 6px 0; 
+        @include leftrow;
+        div:nth-child(1) {
+          @include leftrow;
+          flex: 1;
+          svg {
+            width: 30px;
+            margin: 0 10px 0 0;
+          }
+          p:nth-child(2) {
+            width: 160px;
+          }
+        }
+        p {
+          @include fourteenpxfont;
+          color: $darkestgrey;
+          text-decoration: none;
+        }
+        a {
+          @include fourteenpxfont;
+          color: $darkestgrey;
+          text-decoration: underline;
+        }
+        span {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+
+      }
+      .ant-collapse {
+        width: 100%;
+      }
+      .ant-collapse-header {
+        display: none;
+      }
+      .ant-collapse,.ant-collapse-content,.ant-collapse-content-box,.ant-collapse-item {
+        border: none;
+      }
+      .ant-collapse-content-box {
+        padding: 10px 0;
+      }
+    }
+  }
 }
 
 .Prices {
+  width: 100%;
   .PriceTableItem {
+    overflow: hidden;
     @include leftcolumn;
     color: $darkestgrey;
     width: 100%;
     background: white;
     margin: 0 0 6px 0;
     box-sizing: border-box;
-    padding: 0 32px;
+    padding: 0 10%;
     transition: all 0.025s linear;
+    p{
+      margin: 0;
+    }
     &:hover {
       cursor: pointer;
     }
@@ -343,7 +726,6 @@ h6 {
       box-sizing: border-box;
       padding: 26px 0 22px 0;
       > div:first-child {
-        flex: 1;
         @include leftcolumn;
         margin: 0 25px 0 0;
         min-width: 20px;
@@ -368,6 +750,7 @@ h6 {
         font-size: 2rem;
         line-height: 2rem;
         color: $darkestgrey;
+        text-align: right;
       }
     }
     &__Stripe {
@@ -378,17 +761,233 @@ h6 {
   }
 }
 
+.Detail {
+  width: 100%;
+  min-height: 60vh;
+  box-sizing: border-box;
+  padding: 0 6vw 150px 6vw;
+  @include leftcolumn;
+  justify-content: flex-start;
+  @media (min-width: 1600px) {
+    padding: 0 7vw 150px 7vw;
+  }
+  .backbutton,.backbutton:hover,.backbutton:active,.backbutton:focus {
+    background: $tellor-grey1;
+  }
+  &__Inner {
+    background: white;
+    width: 100%;
+    max-width: 1174px;
+    box-sizing: border-box;
+    padding: 50px 0 100px 0;
+    margin-top: 22px;
+    @media (max-width: 600px) {
+      padding: 30px 0 100px 0;
+    }
+    &__Top {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 50px;
+      @include leftrow;
+      align-items: flex-start;
+      margin-bottom: 30px;
+      @media (max-width: 600px) {
+        padding: 0 20px 0 30px;
+      }
+      div {
+        @include leftrow;
+        flex-wrap: wrap;
+        margin: 6px 0 0 0;
+        h1 {
+          margin: 0 10px 10px 0;
+          line-height: 2rem;
+          @media (max-width: 600px) {
+            font-size: 1.375rem;
+            line-height: 1.65rem;
+          }
+        }
+        p:nth-child(2){
+          background: $tellor-grey1;
+          padding: 6px 10px;
+          margin: 0 0 10px 0;
+        }
+      }
+    }
+    &__Section {
+      width: 100%;
+      box-sizing: border-box;
+      @include leftcolumn;
+      padding: 0 50px;
+      @media (max-width: 600px) {
+        padding: 0 30px;
+      }
+      p {
+        @include fourteenpxfont;
+        color: $darkestgrey;
+        @media (max-width: 600px) {
+          @include tenpxfont;
+        }
+      }
+      &.LastConfVal div:nth-child(2) {
+        width: 100%;
+        box-sizing: border-box;
+        @include leftrow;
+        align-items: flex-end;
+        margin-bottom: 25px;
+        h1 {
+          font-size: 3rem;
+          line-height: 3rem;
+          font-weight: 100;
+          margin: 0;
+          @media (max-width: 600px) {
+            font-size: 2rem;
+            line-height: 2rem;
+          }
+        }
+        p {
+          margin: 0 0 4px 10px;
+          font-size: 1.125rem !important;
+          @media (max-width: 600px) {
+            margin: 0 0 0px 10px;
+            @include fourteenpxfont;
+          }
+        }
+      }
+      &.UpdateBlockTip {
+        width: 100%;
+        box-sizing: border-box;
+        @include leftrow;
+        flex-wrap: wrap;
+        margin: 0 0 35px 0;
+        div {
+          margin: 0 100px 20px 0;
+          @media (max-width: 600px) {
+            margin: 0 40px 20px 0;
+          }
+          p {
+            margin: 0;
+          }
+          h2 {
+            font-size: 1.375rem;
+            line-height: 1.375rem;
+            margin: 10px 0 0 0;
+            @media (max-width: 600px) {
+              margin: 3px 0 0 0;
+              @include sixteenpxfont;
+            }
+          }
+        }
+      }
+      &.PriceEvolution {
+        width: 100%;
+        margin: 50px 0 0 0;
+      }
+      &.AllMiningEventsOnID {
+        width: 100%;
+        margin: 105px 0 0 0;
+        @media (max-width: 600px) {
+          margin: 50px 0 0 0;
+        }
+        .AllEVentsOnIDTable {
+          width: 100%;
+          box-sizing: border-box;
+          padding: 0;
+          .ant-table {
+            width: 100%;
+            background: #FAFAFA;
+            .ant-table-row-expand-icon {
+              color:$darkestgrey;
+              border: 1px solid $darkestgrey;
+            }
+          }
+        }
+      }
+    }
+    &__LastMiners {
+      width: 100%;
+      @include leftcolumn;
+      p {
+        @include fourteenpxfont;
+        color: $darkestgrey;
+        margin: 0 20px 0 50px;
+        @media (max-width: 600px) {
+          @include tenpxfont;
+          margin: 0 20px 0 30px;
+        }
+      }
+      .DetailMinerItem {
+        width: 100%;
+        @include leftrow;
+        align-items: flex-start;
+        box-sizing: border-box;
+        padding: 20px 50px 18px 0;
+        border-bottom: 1px solid $tellor-grey1;
+        @media (max-width: 600px) {
+          padding: 20px 30px 18px 0;
+        }
+        svg {
+          width: 38px;
+          height: 33px;
+          margin: 0 25px 0 50px;
+          @media (max-width: 600px) {
+            width: 26px;
+            height: 23px;
+            margin: 0px 15px 0 30px;
+          }
+        }
+        p {
+          margin: 0;
+          color: $darkestgrey;
+          font-size: 1.25rem !important;
+          line-height: 1.85rem !important;
+          flex: 1;
+          font-weight: 100;
+          @media (max-width: 600px) {
+            font-size: 1rem !important;
+            line-height: 1.25rem !important;
+          }
+          a {
+            margin: 0;
+            color: $darkestgrey;
+            text-decoration: underline;
+          }
+        }
+        .DetailMinerItem__DisputeTrigger {
+          @include sixteenpxfont;
+          color: $darkestgrey;
+          font-weight: bold;
+          text-decoration: underline;
+          text-align: right;
+          cursor: pointer;
+          margin: 2px 0 0 0;
+          @media (max-width: 600px) {
+            margin: 2px 0 0 20px;
+            font-size: 0.875rem !important;
+            line-height: 1rem !important;
+            max-width: 50px;
+          }
+        }
+      }
+    }
+  }
+}
+
 .Footer {
   width: 100%;
 }
 
 
 .TipId {
+  width: 100%;
   @include centeredcolumn;
   box-sizing: border-box;
   padding: 45px 60px;
   border: 2px solid #F0F0F0;
   margin: 0 0 40px 0;
+  @media (max-width: 600px) {
+    margin: -2px 0 50px 0;
+    padding: 45px 40px;
+  }
   p:first-child {
     text-align: center;
     color: $darkestgrey;
@@ -421,13 +1020,19 @@ h6 {
   }
 
   &_Item {
-    width: 250px;
+    width: 80%;
+    box-sizing: border-box;
+    padding-left: 5%;
+    @media (max-width: 600px) {
+      width: 100%;
+      padding-left: 0%;
+    }
     @include leftrow;
     p {
       margin: 0;
     }
     div:nth-child(1) {
-      width: 70%;
+      width: 100%;
       font-weight: bold;
       @include leftrow;
       align-items: flex-end;
@@ -441,6 +1046,45 @@ h6 {
         margin: 0 10px 9px 10px;
       }
     }
+    p:nth-child(2) {
+    width: 10%;
+    min-width: 80px;
+    }
+  }
+  .ant-collapse {
+    width: 100%;
+  }
+  .ant-collapse-content {
+    background: none;
+  }
+  .ant-collapse,.ant-collapse > .ant-collapse-item {
+    border: none;
+  }
+
+  .ant-collapse-item:last-child > .ant-collapse-content {
+    border-radius: 0;
+  }
+  .ant-collapse-content-box {
+    @include leftcolumn;
+    padding: 20px 0;
+  }
+  .ant-collapse-header {
+    display: none;
+  }
+  .ant-input-affix-wrapper {
+    border-radius: 0;
+  }
+  .ant-input,.ant-input-affix-wrapper {
+    border-radius: 0;
+    color: $darkestgrey !important;
+  }
+  .ant-input-affix-wrapper-focused,.ant-input-affix-wrapper:hover {
+    border: 1px solid $darkestgrey;
+    box-shadow: none;
+  }
+  .ant-input-suffix {
+    color: $darkestgrey;
+    @include twelvepxfont;
   }
 }
 
@@ -579,7 +1223,8 @@ button {
   box-sizing: border-box;
   padding: 14px 40px 18px 40px;
   height: 50px;
-  @media (max-width: 800px) {
+  transition: all 0.025s linear;
+  @media (max-width: 965px) {
     padding: 12px 30px;
     height: 40px;
     @include fourteenpxfont;
@@ -599,6 +1244,9 @@ button {
     @include greenshine;
     border: none;
     outline: none;
+  }
+  &:active {
+    transform: scale(0.995)
   }
 }
 
@@ -674,10 +1322,17 @@ button {
 .ant-pagination-item a {
   color: $darkestgrey;
   &:hover {
-    color: red;
+    color: $tellor-green;
   }
 }
 
+
+.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
+  border: none;
+  background: none;
+  color: $darkestgrey;
+
+}
 
 
 
@@ -700,10 +1355,6 @@ button {
 .Migration .Line {
   border-top: 1px solid rgba(0, 0, 0, 0.5);
   margin: 0 0 0 0;
-}
-
-.Migration h1, .Migration p, .Migration h2, .Migration li {
-  // color: white;
 }
 
 .Migration h1 {

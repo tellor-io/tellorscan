@@ -9,7 +9,7 @@ import { useMediaQuery } from 'react-responsive';
 
 
 const Dashboard = ({ events, prices }) => {
-    const mobileBreaker = useMediaQuery({query: '(max-width: 800px)'});
+    const mobileBreaker = useMediaQuery({query: '(max-width: 965px)'});
     return(
         <div className="Dashboard">
             {mobileBreaker?

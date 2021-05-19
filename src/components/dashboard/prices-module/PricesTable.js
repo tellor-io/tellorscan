@@ -13,11 +13,12 @@ const PriceTableItem = ({ data }) => {
   }
   return (
   <div className="PriceTableItem" onClick={() => gotoDetail()}>
-    <div className="PriceTableItem__Inner">
+    <div className="PriceTableItem__Inner">    
       <div>
         <p>ID {data.id} • {data.timestamp}</p>
         <h4>{data.name}</h4>
       </div>
+      <div className="flexer"></div>
       <h2>{data.value}</h2>
     </div>
     <div className="PriceTableItem__Stripe"></div>
@@ -39,6 +40,7 @@ const PricesTable = ({ data }) => {
     <>
     {data?
       <List
+      className="Prices" 
       itemLayout="horizontal"
       dataSource={data}
       pagination={{ pageSize: 10, showSizeChanger: false }}

@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { Menu, Dropdown, Button } from 'antd';
+import { Menu, Dropdown, Button, Collapse,Input } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+
+const { Panel } = Collapse;
 
 const TipIdItem = ({ symbol, tip }) => {
   return(
@@ -17,6 +19,8 @@ const TipIdItem = ({ symbol, tip }) => {
 
 const TipIdModule = () => {
   const [selectedId,setSelectedId] = useState(null);
+  const [tipAmount,setTipAmount] = useState(null);
+
   const handleMenuClick = (e) => {
     console.log('click', e);
     setSelectedId(e.key)
@@ -26,7 +30,7 @@ const TipIdModule = () => {
     console.log('startTipFlow!');
   }
 
-  console.log('selectedId:::', selectedId);
+  console.log('tipAmount:::', tipAmount);
 
   const menu = (
     <Menu onClick={handleMenuClick}>
@@ -61,8 +65,25 @@ const TipIdModule = () => {
           <DownOutlined /> 
         </Button>
       </Dropdown>
+
+
+      <Collapse
+        defaultActiveKey={['0']}
+        activeKey={selectedId ? ['1'] : ['0']}>
+        <Panel header="This is panel header 1" key="1">
+          <p>How much do you want to tip {selectedId}?</p>
+          <Input
+            size="large"
+            placeholder="TIP amount"
+            suffix={"ETH"}
+            type="number"
+            onChange={(e) => setTipAmount(e.target.value)}/>
+        </Panel>
+      </Collapse>
+
+
       <Button
-        disabled={!selectedId}
+        disabled={!tipAmount}
         onClick={startTipFlow}>Tip ID</Button>
       </div>
     </div>

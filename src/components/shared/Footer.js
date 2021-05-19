@@ -4,7 +4,6 @@ const Footer = () => {
   return (
 
     <div className="Footer">
-      Hello footer world
     </div>
     
   );

@@ -46,6 +46,7 @@ const CurrentMiner = ({miner, loading, minerstyle}) => {
         </div>
         :
         <div className={minerstyle ? "CurrentMiner CurrentMiner_"+minerstyle : "CurrentMiner"}>
+
             {minerstyle === "first"?
                 <CurrentMiningSVGs.CurrentMiner_first_EMPTY />
             :null }
