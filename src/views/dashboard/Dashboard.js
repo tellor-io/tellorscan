@@ -16,7 +16,7 @@ const Dashboard = ({ events, prices }) => {
             <div className="firstContainer">
                 <CurrentMiningModule />
                 <div className="Prices_and_Tip">
-                    <TipIdModule />
+                    {/* <TipIdModule /> */}
                     <PricesModule prices={prices} />
                 </div>
                 <AllMiningModule events={events} />
@@ -28,7 +28,7 @@ const Dashboard = ({ events, prices }) => {
                     <AllMiningModule events={events}/>
                 </div>
                 <div className="Prices_and_Tip">
-                    <TipIdModule />
+                    {/* <TipIdModule /> */}
                     <PricesModule prices={prices} />
                 </div>
             </div>

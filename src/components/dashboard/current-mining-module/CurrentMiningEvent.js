@@ -6,7 +6,7 @@ import { useMediaQuery } from 'react-responsive';
 const CurrentMiningEvent = ({ currentEvent }) => {
   const isSmallVisual = useMediaQuery({query: '(max-width: 1200px)'});
 
-  console.log("currentEvent in CurrentMiningEvent===",currentEvent);
+  // console.log("currentEvent in CurrentMiningEvent===",currentEvent);
 
   const [symbols, setSymbols] = useState();
   const [miners, setMiners] = useState({

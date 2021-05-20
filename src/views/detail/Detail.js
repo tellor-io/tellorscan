@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocation,useHistory } from 'react-router-dom';
 import { Button, Table, Collapse,Input } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { truncateAddr } from '../../utils/helpers';
 import {ReactComponent as Miner} from 'assets/miner.svg';
 import { useMediaQuery } from 'react-responsive';
+
+import { UserContext } from 'contexts/User';
+import { NetworkContext } from 'contexts/Network';
+
 // import { isMobile } from 'web3modal';
 
 const { Panel } = Collapse;
@@ -21,8 +25,58 @@ const Detail = ({ events, prices }) => {
     const [priceData,setPriceData] = useState(null);
     const [openTipper,toggleOpenTipper] = useState(false);
     const [tipAmount,setTipAmount] = useState(null);
+    const [currentUser,] = useContext(UserContext);
+    const [currentNetwork] = useContext(NetworkContext);
+
+    const [error, setError] = useState();
+    const [processing, setProcessing] = useState();
+    const [currentTx, setCurrentTx] = useState();
+    const [txLink, setTxLink] = useState(1);
+
+    useEffect(() => {
+        if(currentNetwork){
+            if(currentNetwork === 1){
+                setTxLink("https://etherscan.io/")
+            }
+            if(currentNetwork === 4){
+                setTxLink("https://rinkeby.etherscan.io/")
+            }
+        }
+    },[currentNetwork]);
+
+    const doTipping = async () => {
+        setProcessing(true);
+        try {
+          setError()
+          if (!isTipValid(tipAmount)) {
+            setError("invalid tip amount")
+          } else {
+            await currentUser.contracts.addTip(
+              {
+                from: currentUser.address,
+                id: priceData.id,
+                amount: tipToWei(tipAmount),
+                setTx: setCurrentTx
+              })
+          }
+        } catch (e) {
+          console.error(`Error adding tip: ${e.toString()}`);
+          setError(e);
+        }
+        setProcessing(false);
+      };
 
 
+    const isTipValid = (val) => {
+        const numericTip = parseFloat(val.replaceAll(',', '.'));
+        return !isNaN(numericTip) && numericTip > 0;
+    }
+
+    const tipToWei = (val) => {
+        return currentUser.web3.utils.toWei(val.replaceAll(',', '.'), 'ether');
+    }
+
+    
     const testarr = [
         {
             key:1,
@@ -98,37 +152,36 @@ const Detail = ({ events, prices }) => {
         },
     ];
 
-
+    /* TRYOUTS BENNISAN */
     useEffect(() => {
-    let pricesfiltered;
-    let eventsfiltered;
-    if(key && prices) {
-        for (var i=0; i < prices.length; i++) {
-            if (prices[i].id === key) {
-                pricesfiltered = prices[i];
+        let pricesfiltered;
+        let eventsfiltered;
+        if(key && prices) {
+            for (var i=0; i < prices.length; i++) {
+                if (prices[i].id === key) {
+                    pricesfiltered = prices[i];
+                }
             }
+            const date = new Date(pricesfiltered.timestamp * 1000).toLocaleString();
+            setPriceData({
+                ...priceData,
+                id: pricesfiltered.id,
+                name: pricesfiltered.name,
+                date: date,
+                tip: pricesfiltered.tip,
+                value: pricesfiltered.value
+            });
         }
-        const date = new Date(pricesfiltered.timestamp * 1000).toLocaleString();
-        setPriceData({
-            ...priceData,
-            id: pricesfiltered.id,
-            name: pricesfiltered.name,
-            date: date,
-            tip: pricesfiltered.tip,
-            value: pricesfiltered.value
-        });
-    }
-    if(key && events && events.miningEvents) {
-        for (var i=0; i < events.miningEvents.length; i++) {
-            const test  = events.miningEvents[i].requestIds;
-            for (var j=0; j < events.miningEvents[i].requestIds.length; j++) {
-                if(events.miningEvents[i].requestIds[j] === key) {
-                    console.log("whatwhat");
+        if(key && events && events.miningEvents) {
+            for (var i=0; i < events.miningEvents.length; i++) {
+                const test  = events.miningEvents[i].requestIds;
+                for (var j=0; j < events.miningEvents[i].requestIds.length; j++) {
+                    if(events.miningEvents[i].requestIds[j] === key) {
+                        console.log("whatwhat");
+                    }
                 }
             }
         }
-    }
-
 
     },[key,events,prices]);
 
@@ -157,17 +210,24 @@ const Detail = ({ events, prices }) => {
                         activeKey={openTipper ? ['1'] : ['0']}>
                         <Panel header="This is panel header 1" key="1">
                         <div>
-                            <p>How much do you want to tip ID {priceData.id} ({priceData.name})?</p>
+                            <p>How much do you want to tip this ID ({priceData.name})?</p>
                             <Input
                                 size="large"
                                 placeholder="TIP amount"
-                                suffix={"ETH"}
+                                suffix={"TRB"}
                                 type="number"
                                 onChange={(e) => setTipAmount(e.target.value)}/>
                         </div>
                         <div>
+                            <div>
                             <p onClick={() => toggleOpenTipper(!openTipper)}>cancel</p >
-                            <Button disabled={!tipAmount} onClick={() => toggleOpenTipper(!openTipper)}>Tip ID</Button>
+                            <Button disabled={!tipAmount} onClick={() => doTipping()}>Tip ID</Button>
+                            </div>
+                            {currentTx?
+                            <a href={txLink+"tx/"+currentTx} target="_blank" rel="noopener noreferrer">Show tx on Etherscan</a>
+                            :
+                            null
+                            }
                         </div>
                         </Panel>
                     </Collapse>
@@ -197,11 +257,11 @@ const Detail = ({ events, prices }) => {
 
                 <div className="Detail__Inner__LastMiners">
                     <p>latest update miner values</p>
-                    <DetailMinerItem address="0x1D39955c9662678535d68a966862A06956ea5196" value="3469.92"/>
-                    <DetailMinerItem address="0x9G39955c9662678535d68a966862A06956ea5196" value="3469.29"/>
-                    <DetailMinerItem address="0x3F39955c9662678535d68a966862A06956ea5196" value="3468.98"/>
-                    <DetailMinerItem address="0x7739955c9662678535d68a966862A06956ea5196" value="3470.00"/>
-                    <DetailMinerItem address="0x2239955c9662678535d68a966862A06956ea5196" value="3469.94"/>
+                    <DetailMinerItem address="0x1D39955c9662678535d68a966862A06956ea5196" value="3469.92" txLink={txLink}/>
+                    <DetailMinerItem address="0x9G39955c9662678535d68a966862A06956ea5196" value="3469.29" txLink={txLink}/>
+                    <DetailMinerItem address="0x3F39955c9662678535d68a966862A06956ea5196" value="3468.98" txLink={txLink}/>
+                    <DetailMinerItem address="0x7739955c9662678535d68a966862A06956ea5196" value="3470.00" txLink={txLink}/>
+                    <DetailMinerItem address="0x2239955c9662678535d68a966862A06956ea5196" value="3469.94" txLink={txLink}/>
                 </div>
 
                 <div className="Detail__Inner__Section PriceEvolution">
@@ -224,11 +284,11 @@ const Detail = ({ events, prices }) => {
 }
 
 
-const DetailMinerItem = ({address, value}) => {
+const DetailMinerItem = ({address, value,txLink}) => {
     return (
         <div className="DetailMinerItem">
             <Miner />
-            <p><a href={"https://etherscan.io/address/"+address} target="_blank" rel="noopener noreferrer">{truncateAddr(address)}</a> submitted {value}</p>
+            <p><a href={txLink+"address/"+address} target="_blank" rel="noopener noreferrer">{truncateAddr(address)}</a> submitted {value}</p>
             <span className="DetailMinerItem__DisputeTrigger">
                 dispute value
             </span>

@@ -30,8 +30,8 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
             minedValue: 'Pending',
             status: `Mining (${minerValues.length}/5)`,
           };
-          setCurrentEvent(event);
 
+          setCurrentEvent(event);
           if (minerValues.length === 5) {
             console.log('5 of 5, looking for new challenge');
             setFindNextDetails(true);
