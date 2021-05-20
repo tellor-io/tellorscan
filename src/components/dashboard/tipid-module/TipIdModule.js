@@ -30,8 +30,6 @@ const TipIdModule = () => {
     console.log('startTipFlow!');
   }
 
-  console.log('tipAmount:::', tipAmount);
-
   const menu = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item key="id1">

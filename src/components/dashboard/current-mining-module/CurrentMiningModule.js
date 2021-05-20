@@ -13,10 +13,12 @@ const CurrentMiningModule = () => {
           <p>Staked miners</p>
           <h2>55</h2>
         </div>
+        {currentEvent && currentEvent.minerValues ?
         <div>
           <p>Block winners</p>
-          <h2>5</h2>
+          <h2>{currentEvent.minerValues.length}/5</h2>
         </div>
+        : null }
       </div>
     </div>
   );

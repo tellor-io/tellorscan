@@ -11,8 +11,6 @@ import { useMediaQuery } from 'react-responsive';
 const HeaderNav = () => {
   const isMobileHeader = useMediaQuery({query: '(max-width: 680px)'});
   const [currentUser] = useContext(UserContext);
-
-  console.log(currentUser,"currentUser");
   return (
     <>
     {isMobileHeader?
