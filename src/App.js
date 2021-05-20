@@ -44,7 +44,7 @@ const App = () => {
         <Router>
           <HeaderNav />
             <Routes events={events} prices={prices} />
-          <Footer />
+            <Footer />
         </Router>
     </Fragment>
     <GraphFetch

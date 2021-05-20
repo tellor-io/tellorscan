@@ -19,6 +19,8 @@ const Detail = ({ events, prices }) => {
     const isMobile = useMediaQuery({query: '(max-width: 680px)'});
     const key = location.pathname.split('/')[2];
     const [priceData,setPriceData] = useState(null);
+    const [openTipper,toggleOpenTipper] = useState(false);
+    const [tipAmount,setTipAmount] = useState(null);
 
 
     const testarr = [
@@ -143,9 +145,33 @@ const Detail = ({ events, prices }) => {
                     </div>
                     <div className="flexer">
                     </div>
-                    <Button>Tip ID</Button>
+                    {openTipper?
+                    null
+                    :
+                    <Button onClick={() => toggleOpenTipper(!openTipper)}>Tip ID</Button>
+                    }
                 </div>
-
+                <div className="Detail__Inner__Section tipCollapser">
+                    <Collapse
+                        defaultActiveKey={['0']}
+                        activeKey={openTipper ? ['1'] : ['0']}>
+                        <Panel header="This is panel header 1" key="1">
+                        <div>
+                            <p>How much do you want to tip ID {priceData.id} ({priceData.name})?</p>
+                            <Input
+                                size="large"
+                                placeholder="TIP amount"
+                                suffix={"ETH"}
+                                type="number"
+                                onChange={(e) => setTipAmount(e.target.value)}/>
+                        </div>
+                        <div>
+                            <p onClick={() => toggleOpenTipper(!openTipper)}>cancel</p >
+                            <Button disabled={!tipAmount} onClick={() => toggleOpenTipper(!openTipper)}>Tip ID</Button>
+                        </div>
+                        </Panel>
+                    </Collapse>
+                </div>
                 <div className="Detail__Inner__Section LastConfVal">
                     <p>latest confirmed value</p>
                     <div>

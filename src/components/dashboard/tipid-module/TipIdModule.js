@@ -66,20 +66,21 @@ const TipIdModule = () => {
         </Button>
       </Dropdown>
 
-
-      <Collapse
-        defaultActiveKey={['0']}
-        activeKey={selectedId ? ['1'] : ['0']}>
-        <Panel header="This is panel header 1" key="1">
-          <p>How much do you want to tip {selectedId}?</p>
-          <Input
-            size="large"
-            placeholder="TIP amount"
-            suffix={"ETH"}
-            type="number"
-            onChange={(e) => setTipAmount(e.target.value)}/>
-        </Panel>
-      </Collapse>
+      <div className="tipCollapser">
+        <Collapse
+          defaultActiveKey={['0']}
+          activeKey={selectedId ? ['1'] : ['0']}>
+          <Panel header="This is panel header 1" key="1">
+            <p>How much do you want to tip {selectedId}?</p>
+            <Input
+              size="large"
+              placeholder="TIP amount"
+              suffix={"ETH"}
+              type="number"
+              onChange={(e) => setTipAmount(e.target.value)}/>
+          </Panel>
+        </Collapse>
+      </div>
 
 
       <Button

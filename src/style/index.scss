@@ -287,14 +287,38 @@ h6 {
     * {
       position: absolute;
     }
+    @media (max-width: 1200px) {
+      width: 440px;
+      height: 386px;
+    }
+    @media (max-width: 600px) {
+      width: 335px;
+      height: 300px;
+    }
     .circle {
       margin-top: -30px;
       width: 324px;
+      @media (max-width: 1200px) {
+        width: 200px;
+      }
+      @media (max-width: 600px) {
+        width: 153px;
+      }
     }
     .midblock {
       width: 182px;
       height: 125px;
       margin-top: -35px;
+      @media (max-width: 1200px) {
+        width: 128px;
+        height: 80px;
+        margin-top: -25px;
+      }
+      @media (max-width: 600px) {
+        width: 128px;
+        height: 80px;
+        margin-top: -25px;
+      }
       p {
         @include fourteenpxfont;
         line-height: 1rem !important;
@@ -302,70 +326,40 @@ h6 {
         text-align: center;
         position:static;
         margin: 0 0 16px 0;
+        @media (max-width: 1200px) {
+          font-size: 0.5rem !important;
+          line-height: 0.625rem !important;
+          color: $darkestgrey;
+          text-align: center;
+          position:static;
+          margin: 0 0 8px 0;
+
+        }
+        @media (max-width: 600px) {
+          font-size: 0.5rem !important;
+          line-height: 0.625rem !important;
+          color: $darkestgrey;
+          text-align: center;
+          position:static;
+          margin: 0 0 8px 0;
+        }
       }
       p:nth-child(2) {
         font-weight: bold;
         @include eighteenpxfont;
         margin: 0 0 0 0;
-      }
-    }
-
-    /* MOBILE: tablet */
-    @media (max-width: 1200px) {
-      .circle {
-        width: 200px;
-      }
-      width: 440px;
-      height: 386px;
-      .midblock {
-        width: 128px;
-        height: 80px;
-        margin-top: -25px;
-        p {
-          font-size: 0.5rem !important;
-          line-height: 0.625rem !important;
-          color: $darkestgrey;
-          text-align: center;
-          position:static;
-          margin: 0 0 8px 0;
+        @media (max-width: 1200px) {
+          font-weight: bold;
+          @include twelvepxfont;
+          margin: 0 0 0 0;
         }
-        p:nth-child(2) {
+        @media (max-width: 600px) {
           font-weight: bold;
           @include twelvepxfont;
           margin: 0 0 0 0;
         }
       }
     }
-
-    /* MOBILE: phone */
-    @media (max-width: 600px) {
-      .circle {
-        width: 153px;
-      }
-      width: 335px;
-      height: 300px;
-      .midblock {
-        width: 128px;
-        height: 80px;
-        margin-top: -25px;
-        p {
-          font-size: 0.5rem !important;
-          line-height: 0.625rem !important;
-          color: $darkestgrey;
-          text-align: center;
-          position:static;
-          margin: 0 0 8px 0;
-        }
-        p:nth-child(2) {
-          font-weight: bold;
-          @include twelvepxfont;
-          margin: 0 0 0 0;
-        }
-      }
-    }
-
-
-
 }
 
 .CurrentMiner {
@@ -376,6 +370,12 @@ h6 {
     text-align: center;
     font-weight: bold;
     z-index: 9;
+    @media (max-width: 1200px) {
+      font-size: 0.625rem !important;
+    }
+    @media (max-width: 600px) {
+      font-size: 0.625rem !important;
+    }
   }
   &_first {
     align-items: flex-end;
@@ -384,15 +384,38 @@ h6 {
     height: 144px;
     top: 0;
     left: 100px;
+    @media (max-width: 1200px) {
+      width: 122px;
+      height: 100px;
+      left: 50px;
+    }
+    @media (max-width: 600px) {
+      width: 94px;
+      height: 77px;
+      left: 50px;
+    }
     p {
       width: 100%;
       margin: 0 0 12px 0;
       position:static;
+      @media (max-width: 1200px) {
+        margin: 0 0 6px 0;
+      }
+      @media (max-width: 600px) {
+        margin: 0 0 6px 0;
+      }
     }
     svg {
       position:static;
+      @media (max-width: 1200px) {
+        height: 72px;
+      }
+      @media (max-width: 600px) {
+        height: 55px;
+      }
     }
   }
+  
   &_second {
     width: 179px;
     height: 84px;
@@ -400,25 +423,72 @@ h6 {
     justify-content: flex-start;
     top: 316px;
     left: 0px;
+    @media (max-width: 1200px) {
+      width: 128px;
+      height: 66px;
+      top: 206px;
+      left: 22px;
+    }
+    @media (max-width: 600px) {
+      width: 98px;
+      height: 51px;
+      top: 166px;
+      left: 46px;
+    }
     p {
       width: 140px;
       margin: 0 39px 0 0;
       position:static;
+      @media (max-width: 1200px) {
+        width: 100%;
+        margin: 0 20px 0 0;
+        position:static;
+      }
+      @media (max-width: 600px) {
+        width: 100%;
+        margin: 0 46px 0 0;
+        position:static;
+      }
     }
     svg {
       position:static;
+      @media (max-width: 1200px) {
+        height: 46px;
+      }
+      @media (max-width: 600px) {
+        height: 35px;
+      }
     }
   }
+
+
+
   &_third {
     width: 140px;
     height: 154px;
     position: absolute;
     top: 436px;
     left: 265px;
+    @media (max-width: 1200px) {
+      width: 120px;
+      height: 100px;
+      position: absolute;
+      top: 278px;
+      left: 160px;
+    }
+    @media (max-width: 600px) {
+      width: 94px;
+      height: 82px;
+      position: absolute;
+      top: 210px;
+      left: 125px;
+    }
     svg {
       position:static;
     }
   }
+
+
   &_fourth {
     width: 180px;
     height: 88px;
@@ -427,15 +497,48 @@ h6 {
     position: absolute;
     top: 316px;
     left: 490px;
+    @media (max-width: 1200px) {
+      width: 127px;
+      height: 66px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      position: absolute;
+      top: 206px;
+      left: 290px;
+    }
+    @media (max-width: 600px) {
+      width: 98px;
+      height: 52px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      position: absolute;
+      top: 166px;
+      left: 200px;
+    }
     p {
       width: 140px;
       margin: 0 0 0 39px;
       position:static;
+      @media (max-width: 1200px) {
+        width: 98px;
+        margin: 0 0 0 40px;
+      }
+      @media (max-width: 600px) {
+        width: 98px;
+        margin: 0 0 0 40px;
+      }
     }
     svg {
       position:static;
+      @media (max-width: 1200px) {
+        height: 46px;
+      }
+      @media (max-width: 600px) {
+        height: 36px;
+      }
     }
   }
+
   &_fifth {
     width: 140px;
     height: 144px;
@@ -444,69 +547,7 @@ h6 {
     position: absolute;
     top: 0;
     left: 427px;
-    p {
-      width: 100%;
-      position:static;
-    }
-    svg {
-      position:static;
-    }
-  }
-
-  /* MOBILE: tablet */
-  @media (max-width: 1200px) {
-    p {
-      font-size: 0.625rem !important;
-    }
-    &_first {
-      width: 122px;
-      height: 100px;
-      left: 50px;
-      p {
-        margin: 0 0 6px 0;
-      }
-      svg {
-        height: 72px;
-      }
-    }
-    &_second {
-      width: 128px;
-      height: 66px;
-      top: 206px;
-      left: 22px;
-      p {
-        width: 100%;
-        margin: 0 20px 0 0;
-        position:static;
-      }
-      svg {
-        height: 46px;
-      }
-    }
-    &_third {
-      width: 120px;
-      height: 100px;
-      position: absolute;
-      top: 278px;
-      left: 160px;
-    }
-    &_fourth {
-      width: 127px;
-      height: 66px;
-      align-items: flex-start;
-      justify-content: flex-start;
-      position: absolute;
-      top: 206px;
-      left: 290px;
-      p {
-        width: 98px;
-        margin: 0 0 0 40px;
-      }
-      svg {
-        height: 46px;
-      }
-    }
-    &_fifth {
+    @media (max-width: 1200px) {
       width: 122px;
       height: 100px;
       align-items: flex-start;
@@ -514,73 +555,8 @@ h6 {
       position: absolute;
       top: 0;
       left: 265px;
-      p {
-        width: 100%;
-        margin: 0 0 6px 10px;
-        position:static;
-      }
-      svg {
-        height: 72px;
-        position:static;
-      }
     }
-  }
-
-
-  /* MOBILE: phone */
-  @media (max-width: 600px) {
-    p {
-      font-size: 0.625rem !important;
-    }
-    &_first {
-      width: 94px;
-      height: 77px;
-      left: 50px;
-      p {
-        margin: 0 0 6px 0;
-      }
-      svg {
-        height: 55px;
-      }
-    }
-    &_second {
-      width: 98px;
-      height: 51px;
-      top: 166px;
-      left: 46px;
-      p {
-        width: 100%;
-        margin: 0 46px 0 0;
-        position:static;
-      }
-      svg {
-        height: 35px;
-      }
-    }
-    &_third {
-      width: 94px;
-      height: 82px;
-      position: absolute;
-      top: 210px;
-      left: 125px;
-    }
-    &_fourth {
-      width: 98px;
-      height: 52px;
-      align-items: flex-start;
-      justify-content: flex-start;
-      position: absolute;
-      top: 166px;
-      left: 200px;
-      p {
-        width: 98px;
-        margin: 0 0 0 40px;
-      }
-      svg {
-        height: 36px;
-      }
-    }
-    &_fifth {
+    @media (max-width: 600px) {
       width: 94px;
       height: 77px;
       align-items: flex-start;
@@ -588,12 +564,28 @@ h6 {
       position: absolute;
       top: 0;
       left: 192px;
-      p {
+    }
+    p {
+      width: 100%;
+      position:static;
+      @media (max-width: 1200px) {
         width: 100%;
         margin: 0 0 6px 10px;
         position:static;
       }
-      svg {
+      @media (max-width: 600px) {
+        width: 100%;
+        margin: 0 0 6px 10px;
+        position:static;
+      }
+    }
+    svg {
+      position:static;
+      @media (max-width: 1200px) {
+        height: 72px;
+        position:static;
+      }
+      @media (max-width: 600px) {
         height: 55px;
         position:static;
       }
@@ -701,7 +693,7 @@ h6 {
 
 .Prices {
   width: 100%;
-  .PriceTableItem {
+  .PriceListItem {
     overflow: hidden;
     @include leftcolumn;
     color: $darkestgrey;
@@ -826,6 +818,30 @@ h6 {
         color: $darkestgrey;
         @media (max-width: 600px) {
           @include tenpxfont;
+        }
+      }
+      &.tipCollapser {
+        width: 100%;
+        .ant-collapse-content-box {
+          width: 100%;
+          border: 2px solid $tellor-grey2;
+          padding: 35px 40px;
+          margin: 0 0 50px 0;
+          @include leftrow;
+          align-items: flex-end;
+          div:first-child {
+            flex: 1;
+            margin: 0 50px 0 0;
+          }
+          div:nth-child(2) {
+            @include rightrow;
+            align-items: center;
+            p {
+              margin: 0 20px 0 0;
+              @include sixteenpxfont;
+              font-weight: bold;
+            }
+          }
         }
       }
       &.LastConfVal div:nth-child(2) {
@@ -974,6 +990,40 @@ h6 {
 
 .Footer {
   width: 100%;
+  @include leftrow;
+  background: url('../assets/bg_grey.png');
+  padding: 100px 10vw 140px 10vw;
+  p {
+    @include sixteenpxfont;
+    color: #999;
+    margin: 10px 0 40px 0;
+  }
+  div:first-child {
+    @include leftcolumn;
+    flex: 1;
+    a:first-child svg {
+      width: 57px;
+      margin: 0 0 6px 0;
+    }
+    a:nth-child(2) svg {
+      height: 55px;
+      margin: 6px 0 0 0;
+    }
+  }
+  div:nth-child(2) {
+    @include rightcolumn;
+    p {
+      @include sixteenpxfont;
+      color: #555;
+      margin: 0 0 16px 0;
+    }
+    a {
+      @include sixteenpxfont;
+      color: #999;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+  }
 }
 
 
@@ -1051,14 +1101,20 @@ h6 {
     min-width: 80px;
     }
   }
+}
+
+.tipCollapser {
+  width: 100%;
   .ant-collapse {
     width: 100%;
   }
   .ant-collapse-content {
     background: none;
+    border: none;
   }
   .ant-collapse,.ant-collapse > .ant-collapse-item {
     border: none;
+    background: inherit;
   }
 
   .ant-collapse-item:last-child > .ant-collapse-content {

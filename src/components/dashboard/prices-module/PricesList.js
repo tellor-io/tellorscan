@@ -6,14 +6,14 @@ import { useHistory } from 'react-router-dom';
 // import Submitter from 'components/shared/Submitter';
 
 
-const PriceTableItem = ({ data }) => {
+const PriceListItem = ({ data }) => {
   const history = useHistory();
   const gotoDetail = () => {
     history.push("/detail/"+data.id)
   }
   return (
-  <div className="PriceTableItem" onClick={() => gotoDetail()}>
-    <div className="PriceTableItem__Inner">    
+  <div className="PriceListItem" onClick={() => gotoDetail()}>
+    <div className="PriceListItem__Inner">    
       <div>
         <p>ID {data.id} • {data.timestamp}</p>
         <h4>{data.name}</h4>
@@ -21,13 +21,13 @@ const PriceTableItem = ({ data }) => {
       <div className="flexer"></div>
       <h2>{data.value}</h2>
     </div>
-    <div className="PriceTableItem__Stripe"></div>
+    <div className="PriceListItem__Stripe"></div>
   </div>
   )
 };
 
 
-const PricesTable = ({ data }) => {
+const PricesList = ({ data }) => {
 
   // const [currentUser,] = useContext(UserContext);
   // const [error, setError] = useState();
@@ -45,11 +45,11 @@ const PricesTable = ({ data }) => {
       dataSource={data}
       pagination={{ pageSize: 10, showSizeChanger: false }}
       renderItem={item => (
-        <PriceTableItem data={item} />
+        <PriceListItem data={item} />
       )}/>
     : null }
     </>
   );
 };
 
-export default PricesTable;
+export default PricesList;

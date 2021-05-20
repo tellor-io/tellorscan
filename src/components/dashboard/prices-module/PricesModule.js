@@ -1,9 +1,9 @@
 import React from 'react';
-import PricesTable from 'components/dashboard/prices-module/PricesTable';
+import PricesList from 'components/dashboard/prices-module/PricesList';
 
 const PricesModule = ({ prices }) => {
   return (
-      <PricesTable pagination={false} data={prices} />
+      <PricesList pagination={false} data={prices} />
   );
 };
 
