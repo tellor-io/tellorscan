@@ -1398,156 +1398,176 @@ button {
 
 // Migration specifics (by Bennisan)
 
-.Migration .Intro {
+.Migration {
+  width: 100%;
+  min-height: 60vh;
   box-sizing: border-box;
-  padding: 70px 0 0 0;
-  // background-color: black;
-  background-color: var(--background);
-}
-
-.Migration .View {
-  padding-bottom: 50px;
-}
-.Migration .Line {
-  border-top: 1px solid rgba(0, 0, 0, 0.5);
-  margin: 0 0 0 0;
-}
-
-.Migration h1 {
-  font-size: 2em;
-  margin: 0 0 22px 0;
-}
-.Migration p, .Migration li {
-  font-size: 1rem !important;
-  line-height: 1.65rem;
-  font-weight: 100;
-}
-
-.Migration li {
-  margin-top: 10px;
-}
-
-.Migration h2 {
-  margin-bottom: 20px;
-}
-
-.Migration h1, .Migration .ant-collapse, .Migration .RadioGroup, .Migration li {
-  max-width: 685px;
-}
-
-.Migration .ant-collapse, .Migration .ant-collapse-content {
-  background-color: transparent;
-  border: none;
-  // color: white;
-}
-
-.Migration .ant-collapse > .ant-collapse-item {
-  border: none;
-}
-
-
-.Migration .ant-collapse > .ant-collapse-item > .ant-collapse-header {
-  color: var(--color-heading);
-  text-decoration: underline;
-}
-
-.Migration .RadioGroup {
-  display: flex;
-  flex-direction: column;
-}
-
-
-.Migration .RadioItem {
-  box-sizing: border-box;
-  padding: 15px;
-  border-radius: 5px;
-  margin: 0 0 10px 0;
-  background-color: #151515;
-}
-
-.wselected .ant-radio-wrapper {
-  opacity: 0.2;
-}
-
-.Migration .wselected .ant-radio-wrapper-checked {
-  opacity: 1 !important;
-}
-
-.Migration .Step {
-  box-sizing: border-box;
-  padding: 40px 0 50px 0;
-}
-
-.Migration .Step button {
-  margin: 10px 0 20px 0;
-}
-
-.Migration .connected {
-  margin: 30px 0 0 0;
-}
-
-
-.Migration .connected span {
-  font-weight: bold;
-  // color: white;
-}
-
-.Migration .Balances {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-end;
-  margin: 25px 0 20px 0;
-}
-
-
-.Migration .Balance {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  margin: 0 40px 0 0;
-}
-
-.Migration .Balance p {
-  font-size: 13px !important;
-  margin: 0 0 0 0;
-}
-
-
-.Migration .Balance h1 {
-  color: var(--color-link);
-}
-
-
-.halfop {
-  opacity: 0.2;
-}
-
-.fullop {
-  opacity: 1;
-}
-
-.Success {
-  background-color: var(--background);
-  box-sizing: border-box;
-  padding: 50px 0 25px 0;
+  padding: 0 6vw 100px 6vw;
+  @include leftcolumn;
+  .Intro {
+    box-sizing: border-box;
+    padding: 20px 0 0 0;
+    background-color: var(--background);
+    .View {
+      padding-bottom: 50px;
+      color:$darkestgrey;
+    }
+  }
+  .Line {
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+    margin: 0 0 0 0;
+    width: 100%;
+  }
   h1 {
-    // color: black;
+    font-size: 2rem;
+    line-height: 2.85rem;
+    font-weight: 100;
+    margin: 0 0 22px 0;
+  }
+  .ant-collapse, .ant-collapse-content {
+    background-color: transparent;
+    border: none;
+    color: $darkestgrey;
+    font-weight: bold;
+    @include sixteenpxfont;
+  }
+
+  p, li {
+    @include sixteenpxfont;
     font-weight: normal;
   }
+  li {
+    margin-top: 10px;
+  }
+  h2 {
+    margin-bottom: 20px;
+  }
+  h1, .ant-collapse, .RadioGroup, li {
+    max-width: 685px;
+  }
+  .ant-collapse > .ant-collapse-item {
+    border: none;
+  }
+
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    text-decoration: underline;
+  }
+  
+  .RadioGroup {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .RadioItem {
+    box-sizing: border-box;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 0 0 10px 0;
+    background-color: #151515;
+  }
+
+  .wselected .ant-radio-wrapper {
+    opacity: 0.2;
+  }
+
+  .wselected .ant-radio-wrapper-checked {
+    opacity: 1 !important;
+  }
+  
+  .Step {
+    box-sizing: border-box;
+    padding: 40px 0 50px 0;
+  }
+  
+  .Step button {
+    margin: 10px 0 20px 0;
+  }
+  
+  .connected {
+    margin: 30px 0 0 0;
+  }
+  
+  
+  .connected span {
+    font-weight: bold;
+    // color: white;
+  }
+  
+  .Balances {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+    margin: 25px 0 20px 0;
+  }
+  
+  
+  .Balance {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 0 40px 0 0;
+  }
+  
+  .Balance p {
+    font-size: 13px !important;
+    margin: 0 0 0 0;
+  }
+  
+  .Balance h1 {
+    color: var(--color-link);
+  }
+
+  .halfop {
+    opacity: 0.2;
+  }
+
+  .fullop {
+    opacity: 1;
+  }
+
+
+  .Success {
+    width: 100%;
+    background-color: $tellor-green;
+    box-sizing: border-box;
+    padding: 50px 0 25px 0;
+    h1 {
+      font-weight: normal;
+      text-align: center;
+      max-width: 100%;
+    }
+  }
+
+  .leftrow {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .copier {
+    margin: 1px 10px 0 10px;
+    font-size: 1rem !important;
+    cursor: pointer;
+    color: var(--color-heading);
+  }
+
 }
 
-.leftrow {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
 
-.copier {
-  margin: 1px 10px 0 10px;
-  font-size: 1rem !important;
-  cursor: pointer;
-  color: var(--color-heading);
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
