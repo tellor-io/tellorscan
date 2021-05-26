@@ -3,17 +3,18 @@ import { useLocation,useHistory } from 'react-router-dom';
 import { Button, Table, Collapse,Input } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { truncateAddr } from '../../utils/helpers';
+import { GET_LATEST_EVENTS_BY_ID } from '../../utils/queries';
 import {ReactComponent as Miner} from 'assets/miner.svg';
 import { useMediaQuery } from 'react-responsive';
 
 import { UserContext } from 'contexts/User';
 import { NetworkContext } from 'contexts/Network';
-
-// import { isMobile } from 'web3modal';
+import AllEVentsOnIDTable from '../../components/detail/AllEVentsOnIDTable';
+import GraphFetch from '../../components/shared/GraphFetch';
 
 const { Panel } = Collapse;
 
-const Detail = ({ events, prices }) => {
+const Detail = ({ prices }) => {
     window.scrollTo({
         top: 0,
         behavior: 'smooth',
@@ -29,9 +30,14 @@ const Detail = ({ events, prices }) => {
     const [currentNetwork] = useContext(NetworkContext);
 
     const [error, setError] = useState();
-    const [processing, setProcessing] = useState();
+    const [processingTip, setProcessingTip] = useState();
+    const [processingDispute, setProcessingDispute] = useState();
+
     const [currentTx, setCurrentTx] = useState();
     const [txLink, setTxLink] = useState(1);
+
+    const [events, setEvents] = useState();
+
 
     useEffect(() => {
         if(currentNetwork){
@@ -45,7 +51,7 @@ const Detail = ({ events, prices }) => {
     },[currentNetwork]);
 
     const doTipping = async () => {
-        setProcessing(true);
+        setProcessingTip(true);
         try {
           setError()
           if (!isTipValid(tipAmount)) {
@@ -63,7 +69,7 @@ const Detail = ({ events, prices }) => {
           console.error(`Error adding tip: ${e.toString()}`);
           setError(e);
         }
-        setProcessing(false);
+        setProcessingTip(false);
       };
 
 
@@ -75,6 +81,27 @@ const Detail = ({ events, prices }) => {
     const tipToWei = (val) => {
         return currentUser.web3.utils.toWei(val.replaceAll(',', '.'), 'ether');
     }
+
+
+
+    const triggerDispute = async ({minerIndex,time}) => {
+        console.log('minerIndex,time',minerIndex,time);
+        setProcessingDispute(true);
+        try {
+          await currentUser.contracts.beginDispute(
+            currentUser.address,
+            priceData.id,
+            time,
+            minerIndex,
+            setCurrentTx,
+          );
+        } catch (e) {
+          console.error(`Error submitting dispute: ${e.toString()}`);
+          setError(e);
+        }
+        setProcessingDispute(false);
+    }
+
 
     
     const testarr = [
@@ -152,10 +179,8 @@ const Detail = ({ events, prices }) => {
         },
     ];
 
-    /* TRYOUTS BENNISAN */
     useEffect(() => {
         let pricesfiltered;
-        let eventsfiltered;
         if(key && prices) {
             for (var i=0; i < prices.length; i++) {
                 if (prices[i].id === key) {
@@ -167,24 +192,16 @@ const Detail = ({ events, prices }) => {
                 ...priceData,
                 id: pricesfiltered.id,
                 name: pricesfiltered.name,
+                timestamp: pricesfiltered.timestamp,
                 date: date,
                 tip: pricesfiltered.tip,
                 value: pricesfiltered.value
             });
         }
-        if(key && events && events.miningEvents) {
-            for (var i=0; i < events.miningEvents.length; i++) {
-                const test  = events.miningEvents[i].requestIds;
-                for (var j=0; j < events.miningEvents[i].requestIds.length; j++) {
-                    if(events.miningEvents[i].requestIds[j] === key) {
-                        console.log("whatwhat");
-                    }
-                }
-            }
-        }
+    },[key,prices]);
 
-    },[key,events,prices]);
 
+    console.log("events in Detail ==",events);
 
     return(
         <div className="Detail">
@@ -224,9 +241,9 @@ const Detail = ({ events, prices }) => {
                             <Button disabled={!tipAmount} onClick={() => doTipping()}>Tip ID</Button>
                             </div>
                             {currentTx?
-                            <a href={txLink+"tx/"+currentTx} target="_blank" rel="noopener noreferrer">Show tx on Etherscan</a>
-                            :
-                            null
+                                <a href={txLink+"tx/"+currentTx} target="_blank" rel="noopener noreferrer">Show tx on Etherscan</a>
+                                :
+                                null
                             }
                         </div>
                         </Panel>
@@ -257,11 +274,36 @@ const Detail = ({ events, prices }) => {
 
                 <div className="Detail__Inner__LastMiners">
                     <p>latest update miner values</p>
-                    <DetailMinerItem address="0x1D39955c9662678535d68a966862A06956ea5196" value="3469.92" txLink={txLink}/>
-                    <DetailMinerItem address="0x9G39955c9662678535d68a966862A06956ea5196" value="3469.29" txLink={txLink}/>
-                    <DetailMinerItem address="0x3F39955c9662678535d68a966862A06956ea5196" value="3468.98" txLink={txLink}/>
-                    <DetailMinerItem address="0x7739955c9662678535d68a966862A06956ea5196" value="3470.00" txLink={txLink}/>
-                    <DetailMinerItem address="0x2239955c9662678535d68a966862A06956ea5196" value="3469.94" txLink={txLink}/>
+                    {currentTx?
+                        <a href={txLink+"tx/"+currentTx} target="_blank" rel="noopener noreferrer">Show tx on Etherscan</a>
+                        :
+                        null
+                    }
+                    <DetailMinerItem
+                        address="0x1D39955c9662678535d68a966862A06956ea5196"
+                        value="3469.92"
+                        txLink={txLink}
+                        triggerDispute={()=>triggerDispute({minerIndex:1,time:priceData.timestamp})}/>
+                    <DetailMinerItem
+                        address="0x9G39955c9662678535d68a966862A06956ea5196"
+                        value="3469.29"
+                        txLink={txLink}
+                        triggerDispute={()=>triggerDispute({minerIndex:2,time:priceData.timestamp})}/>
+                    <DetailMinerItem
+                        address="0x3F39955c9662678535d68a966862A06956ea5196"
+                        value="3468.98"
+                        txLink={txLink}
+                        triggerDispute={()=>triggerDispute({minerIndex:3,time:priceData.timestamp})}/>
+                    <DetailMinerItem
+                        address="0x7739955c9662678535d68a966862A06956ea5196"
+                        value="3470.00"
+                        txLink={txLink}
+                        triggerDispute={()=>triggerDispute({minerIndex:4,time:priceData.timestamp})}/>
+                    <DetailMinerItem
+                        address="0x2239955c9662678535d68a966862A06956ea5196"
+                        value="3469.94"
+                        txLink={txLink}
+                        triggerDispute={()=>triggerDispute({minerIndex:5,time:priceData.timestamp})}/>
                 </div>
 
                 <div className="Detail__Inner__Section PriceEvolution">
@@ -279,99 +321,30 @@ const Detail = ({ events, prices }) => {
             :
             "none found"
             }
+
+        {/* <GraphFetch
+        query={GET_LATEST_EVENTS_BY_ID}
+        setRecords={setEvents}
+        /> */}
+
         </div>
     )
 }
 
 
-const DetailMinerItem = ({address, value,txLink}) => {
+const DetailMinerItem = ({address, value,txLink,triggerDispute}) => {
     return (
         <div className="DetailMinerItem">
             <Miner />
             <p><a href={txLink+"address/"+address} target="_blank" rel="noopener noreferrer">{truncateAddr(address)}</a> submitted {value}</p>
-            <span className="DetailMinerItem__DisputeTrigger">
+            <span className="DetailMinerItem__DisputeTrigger" onClick={triggerDispute}>
                 dispute value
             </span>
         </div>
     );
 }
 
-const AllEVentsOnIDTable = ({records,isMobile}) => {
-    let columns;
-    if(isMobile){
-        columns = [
-            {
-            title: 'date',
-            dataIndex: 'date',
-            key: 'date',
-            width:'50%',
-            sorter: (a, b) => a.date - b.date,
-            render: (date) => {
-                const humandate = new Date(date * 1000).toLocaleString();
-                return(
-                    <>{humandate}</>
-                )},
-            },
-            {
-            title: 'value',
-            dataIndex: 'value',
-            key: 'value',
-            width:'50%',
-            sorter: (a, b) => a.value - b.value,
-            render: (value) => <>{value} USD</>,
-            },
-        ];
-    } else {
-        columns = [
-            {
-              title: 'date',
-              dataIndex: 'date',
-              key: 'date',
-              width:'30%',
-              sorter: (a, b) => a.date - b.date,
-              render: (date) => {
-                const humandate = new Date(date * 1000).toLocaleString();
-                return(
-                    <>{humandate}</>
-                )},
-            },
-            {
-              title: 'value',
-              dataIndex: 'value',
-              key: 'value',
-              width:'33%',
-              sorter: (a, b) => a.value - b.value,
-              render: (value) => <>{value} USD</>,
-            },
-            {
-              title: 'block',
-              dataIndex: 'block',
-              key: 'block',
-              width:'33%',
-              sorter: (a, b) => a.block - b.block
-            },
-        ];
-      }
 
-    return (
-        <div className="AllEVentsOnIDTable">
-            <Table
-                dataSource={records}
-                columns={columns}
-                expandRowByClick={true}
-                expandIconColumnIndex={4}
-                expandedRowRender={(record, index) => {
-                      return <p key={index}>
-                        {isMobile?
-                        <><p>{record.value}</p></>
-                        :
-                        <><p>Desktop</p></>
-                        }</p>;
-                  }}
-                   />
-        </div>
-    );
-}
 
 
 export default Detail;
