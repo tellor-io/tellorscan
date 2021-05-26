@@ -26,8 +26,7 @@ export const Web3SignIn = () => {
             setupUser(setCurrentUser)
               .then(network => {
                 setCurrentNetwork(network)
-                alert.show("Logged in to:" + chains[network].network)
-                alert.show("To login to a different network switch the provider network.")
+                alert.show("You are logged in to " + chains[network].network+". To login to a different network, switch the provider network.");
               })
           } catch (err) {
             console.log('login error', err);

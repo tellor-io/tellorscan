@@ -34,16 +34,15 @@ const eventFields = `
   }
 `;
 
-// export const GET_LATEST_EVENTS_BY_ID = (id) => {
-//   debugger;
-//   return gql`
-//   query {
-//     miningEvents(first: 10, orderBy: timestamp, orderDirection: desc, where: { requestIds_contains: [`+ id + `] }) {
-//       ${eventFields}
-//     }
-//   }
-// `;
-// }
+export function GET_LATEST_EVENTS_BY_ID(id) {
+  return gql`
+  query {
+    miningEvents(first: 10, orderBy: timestamp, orderDirection: desc, where: { requestIds_contains: [`+ id + `] }) {
+      ${eventFields}
+    }
+  }
+`;
+}
 
 
 export const GET_LATEST_EVENTS = gql`

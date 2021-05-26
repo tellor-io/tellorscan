@@ -3,14 +3,19 @@ import { useLocation,useHistory } from 'react-router-dom';
 import { Button, Table, Collapse,Input } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { truncateAddr } from '../../utils/helpers';
+import { chains } from '../../utils/chains';
+
 import { GET_LATEST_EVENTS_BY_ID } from '../../utils/queries';
 import {ReactComponent as Miner} from 'assets/miner.svg';
 import { useMediaQuery } from 'react-responsive';
+import { useAlert } from 'react-alert'
 
-import { UserContext } from 'contexts/User';
+import { UserContext, setupUser } from 'contexts/User';
 import { NetworkContext } from 'contexts/Network';
+
 import AllEVentsOnIDTable from '../../components/detail/AllEVentsOnIDTable';
 import GraphFetch from '../../components/shared/GraphFetch';
+
 
 const { Panel } = Collapse;
 
@@ -26,8 +31,9 @@ const Detail = ({ prices }) => {
     const [priceData,setPriceData] = useState(null);
     const [openTipper,toggleOpenTipper] = useState(false);
     const [tipAmount,setTipAmount] = useState(null);
-    const [currentUser,] = useContext(UserContext);
-    const [currentNetwork] = useContext(NetworkContext);
+    const [currentUser, setCurrentUser] = useContext(UserContext);
+    const [currentNetwork,setCurrentNetwork] = useContext(NetworkContext);
+    const alert = useAlert()
 
     const [error, setError] = useState();
     const [processingTip, setProcessingTip] = useState();
@@ -101,6 +107,8 @@ const Detail = ({ prices }) => {
         }
         setProcessingDispute(false);
     }
+
+
 
 
     
@@ -201,8 +209,6 @@ const Detail = ({ prices }) => {
     },[key,prices]);
 
 
-    console.log("events in Detail ==",events);
-
     return(
         <div className="Detail">
             <Button className="backbutton" onClick={() => history.push("/")}><LeftOutlined /> Back to overview</Button>
@@ -218,7 +224,7 @@ const Detail = ({ prices }) => {
                     {openTipper?
                     null
                     :
-                    <Button onClick={() => toggleOpenTipper(!openTipper)}>Tip ID</Button>
+                    <Button onClick={currentUser?() => toggleOpenTipper(!openTipper):() => connectUser()}>Tip ID</Button>
                     }
                 </div>
                 <div className="Detail__Inner__Section tipCollapser">
@@ -283,7 +289,7 @@ const Detail = ({ prices }) => {
                         address="0x1D39955c9662678535d68a966862A06956ea5196"
                         value="3469.92"
                         txLink={txLink}
-                        triggerDispute={()=>triggerDispute({minerIndex:1,time:priceData.timestamp})}/>
+                        triggerDispute={()=>toggleOpenDisputer(true)}/>
                     <DetailMinerItem
                         address="0x9G39955c9662678535d68a966862A06956ea5196"
                         value="3469.29"
@@ -321,8 +327,8 @@ const Detail = ({ prices }) => {
             :
             "none found"
             }
-
-        {/* <GraphFetch
+{/* 
+        <GraphFetch
         query={GET_LATEST_EVENTS_BY_ID}
         setRecords={setEvents}
         /> */}
@@ -333,14 +339,33 @@ const Detail = ({ prices }) => {
 
 
 const DetailMinerItem = ({address, value,txLink,triggerDispute}) => {
+    const [openDisputer,toggleOpenDisputer] = useState(false);
+    console.log(openDisputer);
     return (
         <div className="DetailMinerItem">
+            <div className="DetailMinerItem__First">
             <Miner />
             <p><a href={txLink+"address/"+address} target="_blank" rel="noopener noreferrer">{truncateAddr(address)}</a> submitted {value}</p>
-            <span className="DetailMinerItem__DisputeTrigger" onClick={triggerDispute}>
+            {openDisputer?
+            null 
+            :
+            <span className="DetailMinerItem__DisputeTrigger" onClick={() => toggleOpenDisputer(true)}>
                 dispute value
             </span>
-        </div>
+            }
+            </div>
+            <div className="disputeCollapser">
+            <Collapse
+                defaultActiveKey={['0']}
+                activeKey={openDisputer ? ['1'] : ['0']}>
+                    <Panel header="This is panel header 1" key="1">
+                    <div>
+                    <p onClick={() => toggleOpenDisputer(false)}>test</p>
+                    </div>
+                    </Panel>
+            </Collapse>
+            </div>
+        </div>        
     );
 }
 
