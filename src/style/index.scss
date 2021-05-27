@@ -625,6 +625,10 @@ h6 {
       padding: 15px 10px 15px 20px;
       @include leftcolumn;
       border-bottom: 1px solid grey;
+      @media (max-width: 600px) {
+        width: 100%;
+        margin: 0;
+      }
       &__Inner {
         @include leftrow;
         width: 100%;
@@ -646,35 +650,117 @@ h6 {
         }
       }
       &__MinerVal {
-        padding: 6px 0; 
-        @include leftrow;
-        div:nth-child(1) {
+        width: 100%;
+        @include leftcolumn;
+        &__Inner {
+          width: 100%;
+          padding: 6px 0; 
           @include leftrow;
-          flex: 1;
-          svg {
-            width: 30px;
-            margin: 0 10px 0 0;
+          div:nth-child(1) {
+            @include leftrow;
+            flex: 1;
+            svg {
+              width: 30px;
+              margin: 0 10px 0 0;
+            }
+            p:nth-child(2) {
+              width: 160px;
+
+            }
           }
-          p:nth-child(2) {
-            width: 160px;
+          p {
+            @include fourteenpxfont;
+            color: $darkestgrey;
+            text-decoration: none;
+            
           }
-        }
-        p {
-          @include fourteenpxfont;
-          color: $darkestgrey;
-          text-decoration: none;
-        }
-        a {
-          @include fourteenpxfont;
-          color: $darkestgrey;
-          text-decoration: underline;
-        }
-        span {
-          text-decoration: underline;
-          cursor: pointer;
+          a {
+            @include fourteenpxfont;
+            color: $darkestgrey;
+            text-decoration: underline;
+          }
+          .disputeClick {
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+            @media (max-width: 600px) {
+              text-align: right;
+              }
+          }
         }
 
+        .disputeCollapser {
+          @include leftcolumn;
+          width: 100%;
+          p {
+            margin: 0;
+          }
+          .disputeFee {
+            font-size: 1.25rem !important;
+            line-height: 1.85rem !important;
+            @media (max-width: 600px) {
+              font-size: 1rem !important;
+              line-height: 1.25rem !important;
+            }
+          }
+          .ant-collapse-header {
+            display: none;
+          }
+          .ant-collapse-content-box {
+            width: 100%;
+            border: 2px solid $tellor-grey2;
+            border-bottom: 2px solid $darkestgrey;
+            padding: 25px 30px;
+            @media (max-width: 600px) {
+              padding: 20px 20px;
+            }
+            margin: 10px 0 30px 0;
+            @include leftcolumn;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            div:first-child {
+              flex: 1;
+              margin: 0 0 30px 0;
+              min-width: 200px;
+              color: $darkestgrey;
+              @media (max-width: 600px) {
+                margin: 0 0 20px 0;
+              }
+            }
+            div:nth-child(2) {
+              width: 100%;
+              margin: 0;
+              box-sizing: border-box;
+              @include rightcolumn;
+              div:first-child {
+                @include rightrow;
+                align-items: center;
+                margin: 0;
+              }
+              a {
+                color:$darkestgrey;
+                @include sixteenpxfont;
+                text-decoration: underline;
+                margin: 30px 0 0 0 !important;
+                width: 100%;
+                text-align: right;
+              }
+              p {
+                margin: 0 20px 0 0;
+                @include sixteenpxfont;
+                font-weight: bold;
+                @media (max-width: 600px) {
+                  margin: 0 8% 0 0;
+
+                }
+              }
+            }
+          }
+        }
       }
+
+
+
       .ant-collapse {
         width: 100%;
       }
@@ -825,6 +911,7 @@ h6 {
         .ant-collapse-content-box {
           width: 100%;
           border: 2px solid $tellor-grey2;
+          border-bottom: 2px solid $darkestgrey;
           padding: 35px 40px;
           margin: 0 0 50px 0;
           @include leftrow;
@@ -947,24 +1034,29 @@ h6 {
       .DetailMinerItem {
         width: 100%;
         @include leftcolumn;
+        box-sizing: border-box;
+        padding: 0 50px;
         border-bottom: 1px solid $tellor-grey1;
+        @media (max-width: 600px) {
+          padding: 0 30px;
+        }
         &__First {
           width: 100%;
           @include leftrow;
           align-items: flex-start;
           box-sizing: border-box;
-          padding: 20px 50px 18px 0;
+          padding: 20px 0 18px 0;
           @media (max-width: 600px) {
             padding: 20px 30px 18px 0;
           }
           svg {
             width: 38px;
             height: 33px;
-            margin: 0 25px 0 50px;
+            margin: 0 25px 0 0;
             @media (max-width: 600px) {
               width: 26px;
               height: 23px;
-              margin: 0px 15px 0 30px;
+              margin: 0px 15px 0 0px;
             }
           }
           p {
@@ -1002,10 +1094,17 @@ h6 {
         }
         .disputeCollapser {
           @include leftcolumn;
-          margin: 0 50px;
-          max-width: 90%;
+          width: 100%;
           p {
             margin: 0;
+          }
+          .disputeFee {
+            font-size: 1.25rem !important;
+            line-height: 1.85rem !important;
+            @media (max-width: 600px) {
+              font-size: 1rem !important;
+              line-height: 1.25rem !important;
+            }
           }
           .ant-collapse-header {
             display: none;
@@ -1013,17 +1112,22 @@ h6 {
           .ant-collapse-content-box {
             width: 100%;
             border: 2px solid $tellor-grey2;
+            border-bottom: 2px solid $darkestgrey;
             padding: 35px 40px;
             margin: 0 0 50px 0;
             @include leftrow;
+            flex-wrap: wrap;
             align-items: flex-start;
             div:first-child {
               flex: 1;
-              margin: 0 50px 0 0;
+              margin: 0;
+              min-width: 200px;
+              @media (max-width: 600px) {
+                margin: 0 0 20px 0;
+              }
             }
             div:nth-child(2) {
               box-sizing: border-box;
-              padding-top: 30px;
               @include rightcolumn;
               div:first-child {
                 @include rightrow;
@@ -1038,7 +1142,7 @@ h6 {
                 text-align: right;
               }
               p {
-                margin: 0;
+                margin: 0 20px 0 0;
                 @include sixteenpxfont;
                 font-weight: bold;
               }
@@ -1055,6 +1159,10 @@ h6 {
   @include leftrow;
   background: url('../assets/bg_grey.png');
   padding: 100px 10vw 140px 10vw;
+  @media (max-width: 600px) {
+    @include leftcolumn;
+    padding: 80px 10vw 120px 10vw;
+  }
   p {
     @include sixteenpxfont;
     color: #999;
@@ -1074,6 +1182,9 @@ h6 {
   }
   div:nth-child(2) {
     @include rightcolumn;
+    @media (max-width: 600px) {
+      @include leftcolumn;
+    }
     p {
       @include sixteenpxfont;
       color: #555;
@@ -1215,6 +1326,9 @@ h6 {
   .ant-input-suffix {
     color: $darkestgrey;
     @include twelvepxfont;
+  }
+  .onCancel {
+    cursor: pointer;
   }
 }
 

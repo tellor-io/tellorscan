@@ -15,6 +15,7 @@ import { NetworkContext } from 'contexts/Network';
 
 import AllEVentsOnIDTable from '../../components/detail/AllEVentsOnIDTable';
 import GraphFetch from '../../components/shared/GraphFetch';
+import Disputer from '../../components/shared/Disputer';
 
 
 const { Panel } = Collapse;
@@ -91,7 +92,6 @@ const Detail = ({ prices }) => {
 
 
     const triggerDispute = async ({minerIndex,time}) => {
-        console.log('minerIndex,time',minerIndex,time);
         setProcessingDispute(true);
         try {
           await currentUser.contracts.beginDispute(
@@ -109,7 +109,17 @@ const Detail = ({ prices }) => {
     }
 
 
-
+    const connectUser = () => {
+        try {
+            setupUser(setCurrentUser)
+              .then(network => {
+                setCurrentNetwork(network)
+                alert.show("You are logged in to " + chains[network].network+". To login to a different network, switch the provider network.");
+              })
+          } catch (err) {
+            console.log('login error', err);
+          }
+    }
 
     
     const testarr = [
@@ -209,6 +219,8 @@ const Detail = ({ prices }) => {
     },[key,prices]);
 
 
+console.log("currentUser",currentUser);
+
     return(
         <div className="Detail">
             <Button className="backbutton" onClick={() => history.push("/")}><LeftOutlined /> Back to overview</Button>
@@ -243,7 +255,7 @@ const Detail = ({ prices }) => {
                         </div>
                         <div>
                             <div>
-                            <p onClick={() => toggleOpenTipper(!openTipper)}>cancel</p >
+                            <p className="onCancel" onClick={() => toggleOpenTipper(!openTipper)}>cancel</p >
                             <Button disabled={!tipAmount} onClick={() => doTipping()}>Tip ID</Button>
                             </div>
                             {currentTx?
@@ -289,26 +301,51 @@ const Detail = ({ prices }) => {
                         address="0x1D39955c9662678535d68a966862A06956ea5196"
                         value="3469.92"
                         txLink={txLink}
-                        triggerDispute={()=>toggleOpenDisputer(true)}/>
+                        currentUser={currentUser}
+                        id={priceData.id}
+                        minerIndex={1}
+                        time={priceData.timestamp}
+                        connectUser={() => connectUser()}
+                        triggerDispute={currentUser?()=>toggleOpenDisputer(true):() => connectUser()}/>
                     <DetailMinerItem
                         address="0x9G39955c9662678535d68a966862A06956ea5196"
                         value="3469.29"
                         txLink={txLink}
+                        currentUser={currentUser}
+                        id={priceData.id}
+                        minerIndex={1}
+                        time={priceData.timestamp}
+                        connectUser={() => connectUser()}
                         triggerDispute={()=>triggerDispute({minerIndex:2,time:priceData.timestamp})}/>
                     <DetailMinerItem
                         address="0x3F39955c9662678535d68a966862A06956ea5196"
                         value="3468.98"
                         txLink={txLink}
+                        currentUser={currentUser}
+                        id={priceData.id}
+                        minerIndex={1}
+                        time={priceData.timestamp}
+                        connectUser={() => connectUser()}
                         triggerDispute={()=>triggerDispute({minerIndex:3,time:priceData.timestamp})}/>
                     <DetailMinerItem
                         address="0x7739955c9662678535d68a966862A06956ea5196"
                         value="3470.00"
                         txLink={txLink}
+                        currentUser={currentUser}
+                        id={priceData.id}
+                        minerIndex={1}
+                        time={priceData.timestamp}
+                        connectUser={() => connectUser()}
                         triggerDispute={()=>triggerDispute({minerIndex:4,time:priceData.timestamp})}/>
                     <DetailMinerItem
                         address="0x2239955c9662678535d68a966862A06956ea5196"
                         value="3469.94"
                         txLink={txLink}
+                        currentUser={currentUser}
+                        id={priceData.id}
+                        minerIndex={1}
+                        time={priceData.timestamp}
+                        connectUser={() => connectUser()}
                         triggerDispute={()=>triggerDispute({minerIndex:5,time:priceData.timestamp})}/>
                 </div>
 
@@ -338,7 +375,7 @@ const Detail = ({ prices }) => {
 }
 
 
-const DetailMinerItem = ({address, value,txLink,triggerDispute}) => {
+const DetailMinerItem = ({id,minerIndex,time,address,value,txLink,currentUser,connectUser}) => {
     const [openDisputer,toggleOpenDisputer] = useState(false);
     console.log(openDisputer);
     return (
@@ -349,21 +386,23 @@ const DetailMinerItem = ({address, value,txLink,triggerDispute}) => {
             {openDisputer?
             null 
             :
-            <span className="DetailMinerItem__DisputeTrigger" onClick={() => toggleOpenDisputer(true)}>
+            <span className="DetailMinerItem__DisputeTrigger" onClick={currentUser?() => toggleOpenDisputer(true):connectUser}>
                 dispute value
             </span>
             }
             </div>
             <div className="disputeCollapser">
-            <Collapse
-                defaultActiveKey={['0']}
-                activeKey={openDisputer ? ['1'] : ['0']}>
+                <Collapse
+                    defaultActiveKey={['0']}
+                    activeKey={openDisputer ? ['1'] : ['0']}>
                     <Panel header="This is panel header 1" key="1">
-                    <div>
-                    <p onClick={() => toggleOpenDisputer(false)}>test</p>
-                    </div>
+                        <Disputer
+                        id={id}
+                        minerIndex={minerIndex}
+                        time={time}
+                        onCancel={() => toggleOpenDisputer(false)} />
                     </Panel>
-            </Collapse>
+                </Collapse>
             </div>
         </div>        
     );

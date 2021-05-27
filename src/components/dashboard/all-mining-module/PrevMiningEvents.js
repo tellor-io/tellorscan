@@ -1,10 +1,12 @@
 import React, { useState,useContext,useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import { Collapse } from 'antd';
 
 import {ReactComponent as Miner} from 'assets/miner.svg';
 import { getGranPrice } from 'utils/helpers';
 import { truncateAddr } from 'utils/helpers';
 import { NetworkContext } from 'contexts/Network';
+import Disputer from '../../shared/Disputer';
 
 // import MinerValuesModal from 'components/dashboard/current-mining-module/MinerValuesModal';
 
@@ -14,6 +16,9 @@ const PrevMiningEvents = ({ miningEvent }) => {
     const [showMinerVals,setShowMinerVals] = useState([]);
     const [currentNetwork] = useContext(NetworkContext);
     const [link,setLink] = useState();
+    const isMobile = useMediaQuery({query: '(max-width: 680px)'});
+
+    const [disputeCollapser,setDisputeCollapser] = useState("");
 
     const addtoShowMinerVals = (e) => {
         const arr = [...showMinerVals];
@@ -39,8 +44,7 @@ const PrevMiningEvents = ({ miningEvent }) => {
         }
     },[currentNetwork])
 
-    console.log("showMinerVals",showMinerVals);
-    console.log("currentNetwork",currentNetwork)
+    console.log("disputeCollapser",disputeCollapser)
   return(
     <div className="PrevMiningEvents">{miningEvent.requestIds.map((requestId, i) => {
         return (
@@ -57,13 +61,47 @@ const PrevMiningEvents = ({ miningEvent }) => {
                     <Panel header="Bracket panel" key={i}>
                     {miningEvent.minerValues.map((minerval,j) => {
                         return (
-                        <div className="PrevMiningEvent__MinerVal">
-                            <div>
-                                <Miner />
-                                <p><a href={link+minerval.miner} target="_blank" rel="noopener noreferrer">{truncateAddr(minerval.miner)}</a> submitted</p>
-                                <p>{getGranPrice(minerval.values[i], requestId)}</p>
+                            
+                            
+                            <div key={j} className="PrevMiningEvent__MinerVal">
+                            <div className="PrevMiningEvent__MinerVal__Inner">
+                                <div>
+                                {isMobile?
+                                <>
+                                    <Miner />
+                                    <div className="mobileExtra">
+                                        <p><a href={link+minerval.miner} target="_blank" rel="noopener noreferrer">{truncateAddr(minerval.miner)}</a> submitted</p>
+                                        <p>{getGranPrice(minerval.values[i], requestId)}</p>
+                                    </div>
+                                </>
+                                :
+                                <>
+                                    <Miner />
+                                    <p><a href={link+minerval.miner} target="_blank" rel="noopener noreferrer">{truncateAddr(minerval.miner)}</a> submitted</p>
+                                    <p>{getGranPrice(minerval.values[i], requestId)}</p>
+                                </>
+                                }
+
+
+                                </div>
+                                {parseInt(disputeCollapser, 10) === j?
+                                null 
+                                :
+                                <p className="disputeClick" onClick={() => setDisputeCollapser(j.toString())}>dispute value</p>}
                             </div>
-                            <p><span className="bold">dispute value</span></p>
+                
+                            <div className="disputeCollapser">
+                                <Collapse
+                                    activeKey={disputeCollapser}>
+                                    <Panel header="This is panel header 1" key={j}>
+                                        <Disputer
+                                            id={requestId}
+                                            minerIndex={j}
+                                            
+                                            onCancel={() => setDisputeCollapser("")} />
+                                    </Panel>
+                                </Collapse>
+                            </div>
                         </div>
                         )
                     })}
@@ -75,5 +113,7 @@ const PrevMiningEvents = ({ miningEvent }) => {
     })}</div>
   )
 };
+
+
 
 export default PrevMiningEvents;
