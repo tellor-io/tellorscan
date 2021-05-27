@@ -303,7 +303,7 @@ console.log("currentUser",currentUser);
                         txLink={txLink}
                         currentUser={currentUser}
                         id={priceData.id}
-                        minerIndex={1}
+                        minerIndex={0}
                         time={priceData.timestamp}
                         connectUser={() => connectUser()}
                         triggerDispute={currentUser?()=>toggleOpenDisputer(true):() => connectUser()}/>
@@ -316,37 +316,38 @@ console.log("currentUser",currentUser);
                         minerIndex={1}
                         time={priceData.timestamp}
                         connectUser={() => connectUser()}
-                        triggerDispute={()=>triggerDispute({minerIndex:2,time:priceData.timestamp})}/>
+                        triggerDispute={currentUser?()=>toggleOpenDisputer(true):() => connectUser()}/>
                     <DetailMinerItem
                         address="0x3F39955c9662678535d68a966862A06956ea5196"
                         value="3468.98"
                         txLink={txLink}
                         currentUser={currentUser}
                         id={priceData.id}
-                        minerIndex={1}
+                        minerIndex={2}
                         time={priceData.timestamp}
                         connectUser={() => connectUser()}
-                        triggerDispute={()=>triggerDispute({minerIndex:3,time:priceData.timestamp})}/>
+                        triggerDispute={currentUser?()=>toggleOpenDisputer(true):() => connectUser()}/>
                     <DetailMinerItem
                         address="0x7739955c9662678535d68a966862A06956ea5196"
                         value="3470.00"
                         txLink={txLink}
                         currentUser={currentUser}
                         id={priceData.id}
-                        minerIndex={1}
+                        minerIndex={3}
                         time={priceData.timestamp}
                         connectUser={() => connectUser()}
-                        triggerDispute={()=>triggerDispute({minerIndex:4,time:priceData.timestamp})}/>
+                        triggerDispute={currentUser?()=>toggleOpenDisputer(true):() => connectUser()}/>
                     <DetailMinerItem
                         address="0x2239955c9662678535d68a966862A06956ea5196"
                         value="3469.94"
                         txLink={txLink}
                         currentUser={currentUser}
                         id={priceData.id}
-                        minerIndex={1}
+                        minerIndex={4}
                         time={priceData.timestamp}
                         connectUser={() => connectUser()}
-                        triggerDispute={()=>triggerDispute({minerIndex:5,time:priceData.timestamp})}/>
+                        triggerDispute={currentUser?()=>toggleOpenDisputer(true):() => connectUser()}/>
+                        {/* triggerDispute={()=>triggerDispute({minerIndex:5,time:priceData.timestamp})}/> */}
                 </div>
 
                 <div className="Detail__Inner__Section PriceEvolution">
