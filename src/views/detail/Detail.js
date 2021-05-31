@@ -35,16 +35,15 @@ const Detail = ({ prices }) => {
     const [currentUser, setCurrentUser] = useContext(UserContext);
     const [currentNetwork,setCurrentNetwork] = useContext(NetworkContext);
     const alert = useAlert()
-
     const [error, setError] = useState();
-    const [processingTip, setProcessingTip] = useState();
-    const [processingDispute, setProcessingDispute] = useState();
-
     const [currentTx, setCurrentTx] = useState();
     const [txLink, setTxLink] = useState(1);
+    // const [processingTip, setProcessingTip] = useState();
+    // const [processingDispute, setProcessingDispute] = useState();
+    const [newEvents, setNewEvents] = useState();
+    const [eventsArr, setEventsArr] = useState();
 
-    const [events, setEvents] = useState();
-
+    //   console.log("newEvents in Detail",newEvents);
 
     useEffect(() => {
         if(currentNetwork){
@@ -56,6 +55,23 @@ const Detail = ({ prices }) => {
             }
         }
     },[currentNetwork]);
+
+
+    useEffect(() => {
+        if(newEvents){
+        //    const eventsarr = newEvents.forEach((event,i) => {
+        //         return ({
+        //             key:i,
+        //             date: event.timestamp,
+        //             value: "1602,23",
+        //             block:event.blockNumber
+        //         })
+        //     })
+        //     setEventsArr(eventsarr);
+        }
+    },[newEvents]);
+    // console.log("eventsArr",eventsArr);
+    console.log("newEvents",newEvents);
 
     const doTipping = async () => {
         setProcessingTip(true);
@@ -219,8 +235,6 @@ const Detail = ({ prices }) => {
     },[key,prices]);
 
 
-console.log("currentUser",currentUser);
-
     return(
         <div className="Detail">
             <Button className="backbutton" onClick={() => history.push("/")}><LeftOutlined /> Back to overview</Button>
@@ -365,11 +379,12 @@ console.log("currentUser",currentUser);
             :
             "none found"
             }
-{/* 
+        {priceData?
         <GraphFetch
-        query={GET_LATEST_EVENTS_BY_ID}
-        setRecords={setEvents}
-        /> */}
+        query={GET_LATEST_EVENTS_BY_ID(priceData.id)}
+        setRecords={setNewEvents}
+        />
+        :null}
 
         </div>
     )
@@ -378,7 +393,6 @@ console.log("currentUser",currentUser);
 
 const DetailMinerItem = ({id,minerIndex,time,address,value,txLink,currentUser,connectUser}) => {
     const [openDisputer,toggleOpenDisputer] = useState(false);
-    console.log(openDisputer);
     return (
         <div className="DetailMinerItem">
             <div className="DetailMinerItem__First">

@@ -6,17 +6,26 @@ import { Layout } from 'antd';
 import Routes from './Routes';
 import HeaderNav from 'components/shared/HeaderNav';
 import Footer from 'components/shared/Footer';
-
-import { GET_ALL_EVENTS } from 'utils/queries';
 import GraphFetch from 'components/shared/GraphFetch';
 import { NetworkContext } from 'contexts/Network';
 import { chains } from 'utils/chains';
+import { GET_ALL_EVENTS } from 'utils/queries';
+import { GET_VOTING } from 'utils/queries';
+
+import { UserContext } from 'contexts/User';
+
 
 const App = () => {
   const [events, setEvents] = useState();
-  const { Content } = Layout;
   const [currentNetwork] = useContext(NetworkContext);
   const [prices, setPrices] = useState(false);
+  const [votes, setVotes] = useState();
+  const [disputes, setDisputes] = useState();
+  const [disputesReady, setDisputesReady] = useState(false);
+  const [topCounter, setTopCounter] = useState(0);
+
+  const [activeDisputesCount, setActiveDisputesCount] = useState();
+  const [currentUser] = useContext(UserContext);
 
   useEffect(() => {
     getPrices(setPrices, currentNetwork)
@@ -34,7 +43,27 @@ const App = () => {
       console.error('error', e);
     }
   };
-  
+
+
+  useEffect(() => {
+    if(votes && votes.disputes){
+      let count = 0;
+      votes.disputes.forEach((v,i) => {
+          if(v.inVoteWindow){
+            count = count +1;
+          }
+        });
+        setDisputes(votes.disputes);
+        setActiveDisputesCount(count);
+        setDisputesReady(true);
+    } else {
+      setActiveDisputesCount(0);
+      setDisputesReady(true);
+    }
+  },[votes, currentUser])
+
+
+
   return (
     <>
     <Fragment>
@@ -42,14 +71,19 @@ const App = () => {
         <meta name="description" content="Tellor Scan" />
       </Helmet>
         <Router>
-          <HeaderNav />
-            <Routes events={events} prices={prices} />
+          <HeaderNav activeDisputesCount={activeDisputesCount} />
+            <Routes events={events} prices={prices} disputes={disputes} activeDisputesCount={activeDisputesCount} disputesReady={disputesReady} />
             <Footer />
         </Router>
     </Fragment>
     <GraphFetch
       query={GET_ALL_EVENTS}
       setRecords={setEvents}
+    />
+    <GraphFetch
+      query={GET_VOTING}
+      setRecords={setVotes}
+      suppressLoading={true}
     />
     </>
   );

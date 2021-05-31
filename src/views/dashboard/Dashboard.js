@@ -5,11 +5,12 @@ import CurrentMiningModule from 'components/dashboard/current-mining-module/Curr
 import AllMiningModule from 'components/dashboard/all-mining-module/AllMiningModule';
 import TipIdModule from 'components/dashboard/tipid-module/TipIdModule';
 import { useMediaQuery } from 'react-responsive';
+import VotingModule from 'components/dashboard/voting-module/VotingModule';
 
 
-
-const Dashboard = ({ events, prices }) => {
+const Dashboard = ({ events, prices, disputes, activeDisputesCount,disputesReady }) => {
     const mobileBreaker = useMediaQuery({query: '(max-width: 965px)'});
+
     return(
         <div className="Dashboard">
             {mobileBreaker?
@@ -17,6 +18,7 @@ const Dashboard = ({ events, prices }) => {
                 <CurrentMiningModule />
                 <div className="Prices_and_Tip">
                     {/* <TipIdModule /> */}
+                    <VotingModule disputes={disputes} activeDisputesCount={activeDisputesCount} disputesReady={disputesReady} />
                     <PricesModule prices={prices} />
                 </div>
                 <AllMiningModule events={events} />
@@ -29,6 +31,7 @@ const Dashboard = ({ events, prices }) => {
                 </div>
                 <div className="Prices_and_Tip">
                     {/* <TipIdModule /> */}
+                    <VotingModule disputes={disputes} activeDisputesCount={activeDisputesCount} disputesReady={disputesReady} />
                     <PricesModule prices={prices} />
                 </div>
             </div>

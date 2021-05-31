@@ -8,8 +8,13 @@ import {ReactComponent as TellorLogo} from 'assets/tellorscan.svg';
 import { useMediaQuery } from 'react-responsive';
 
 
-const HeaderNav = () => {
+
+const HeaderNav = ({activeDisputesCount}) => {
+  const [selectedId,setSelectedId] = useState(null);
   const isMobileHeader = useMediaQuery({query: '(max-width: 680px)'});
+
+
+
   return (
     <>
     {isMobileHeader?
@@ -21,7 +26,7 @@ const HeaderNav = () => {
            <NetworkSwitcher />
          </div>
          <div className="Header__Nav">
-           <Web3SignIn />
+           <Web3SignIn activeDisputesCount={activeDisputesCount} />
          </div>
        </div>
     :
@@ -33,7 +38,7 @@ const HeaderNav = () => {
         </div>
         <div className="Header__Nav">
           <NetworkSwitcher />
-          <Web3SignIn />
+          <Web3SignIn activeDisputesCount={activeDisputesCount} />
         </div>
       </div>
     }

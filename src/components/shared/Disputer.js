@@ -6,13 +6,7 @@ import { fromWei } from 'utils/helpers';
 import { UserContext } from 'contexts/User';
 import { NetworkContext } from 'contexts/Network';
 
-
-
 const Disputer = ({
-  // value,
-  // miningEvent,
-  // closeMinerValuesModal,
-  // minerAddr,
   id,
   time,
   minerIndex,
@@ -25,29 +19,21 @@ const Disputer = ({
 
   const [currentNetwork] = useContext(NetworkContext);
   const [currentUser,] = useContext(UserContext);
-
-  // const handleSubmit = async () => {
-  //   setProcessing(true);
-  //   try {
-  //     await currentUser.contracts.beginDispute(
-  //       currentUser.address,
-  //       miningEvent.requestId,
-  //       miningEvent.time,
-  //       minerIndex,
-  //       setCurrentTx,
-  //     );
-  //   } catch (e) {
-  //     console.error(`Error submitting dispute: ${e.toString()}`);
-  //     setError(e);
-  //   }
-  //   setProcessing(false);
-  // };
+  const [txLink, setTxLink] = useState(1);
 
 
+  useEffect(() => {
+    if(currentNetwork){
+        if(currentNetwork === 1){
+            setTxLink("https://etherscan.io/")
+        }
+        if(currentNetwork === 4){
+            setTxLink("https://rinkeby.etherscan.io/")
+        }
+      }
+  },[currentNetwork]);
 
   const triggerDispute = async ({id,minerIndex,time}) => {
-    debugger;
-    // setProcessingDispute(true);
     try {
       await currentUser.contracts.beginDispute(
         currentUser.address,
@@ -60,7 +46,6 @@ const Disputer = ({
       console.error(`Error submitting dispute: ${e.toString()}`);
       setError(e);
     }
-    // setProcessingDispute(false);
 }
 
   useEffect(() => {

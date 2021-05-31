@@ -17,7 +17,6 @@ const PrevMiningEvents = ({ miningEvent }) => {
     const [currentNetwork] = useContext(NetworkContext);
     const [link,setLink] = useState();
     const isMobile = useMediaQuery({query: '(max-width: 680px)'});
-
     const [disputeCollapser,setDisputeCollapser] = useState("");
 
     const addtoShowMinerVals = (e) => {
@@ -44,7 +43,6 @@ const PrevMiningEvents = ({ miningEvent }) => {
         }
     },[currentNetwork])
 
-    console.log("disputeCollapser",disputeCollapser)
   return(
     <div className="PrevMiningEvents">{miningEvent.requestIds.map((requestId, i) => {
         return (
@@ -97,7 +95,7 @@ const PrevMiningEvents = ({ miningEvent }) => {
                                         <Disputer
                                             id={requestId}
                                             minerIndex={j}
-                                            
+                                            time={miningEvent.time}
                                             onCancel={() => setDisputeCollapser("")} />
                                     </Panel>
                                 </Collapse>

@@ -22,7 +22,6 @@ const TipIdModule = () => {
   const [tipAmount,setTipAmount] = useState(null);
 
   const handleMenuClick = (e) => {
-    console.log('click', e);
     setSelectedId(e.key)
   }
 
