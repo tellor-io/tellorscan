@@ -15,13 +15,13 @@ const DisputeForm = ({
   miningEvent,
   closeMinerValuesModal,
   minerAddr,
-  minerIndex,
 }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [currentTx, setCurrentTx] = useState();
   const [error, setError] = useState();
   const [disputeFee, setDisputeFee] = useState();
+  const [minerIndex, setMinerIndex] = useState();
   const [userBalance, setUserBalance] = useState(0);
   const [cantSubmit, setCantSubmit] = useState();
 
@@ -68,6 +68,19 @@ const DisputeForm = ({
   };
 
   useEffect(() => {
+    fetch(chains[currentNetwork].apiURL + "/getMiners/" + miningEvent.requestId + "/" + miningEvent.timestamp)
+      .then(response => response.json())
+      .then(data => {
+        for (let index = 0; index < data.length; index++) {
+          if (data[index].toLowerCase() == minerAddr.toLowerCase()) {
+            setMinerIndex(index)
+            return
+          }
+        }
+      });
+  }, [])
+
+  useEffect(() => {
     fetch(chains[currentNetwork].apiURL + "/getDisputeFee")
       .then(response => response.json())
       .then(data =>
@@ -76,7 +89,7 @@ const DisputeForm = ({
   }, [])
 
   useEffect(() => {
-    if (currentUser && disputeFee) {
+    if (currentUser && disputeFee && minerIndex) {
       currentUser.contracts.balanceOf(currentUser.address).then(result => {
         let balance = fromWei(result)
         setUserBalance(balance)
@@ -107,7 +120,9 @@ const DisputeForm = ({
               <h6>Miner Index</h6>
               <p>{minerIndex}</p>
               <h6>Symbol</h6>
-              <p>{miningEvent.requestSymbol}</p>
+              <p>{miningEvent.requestSymbol} - {miningEvent.requestId}</p>
+              <h6>Timestamp</h6>
+              <p>{miningEvent.timestamp}</p>
               <h6>Value</h6>
               <p>{value}</p>
               <h6>TRB Stake dispute fee</h6>
