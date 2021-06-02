@@ -28,7 +28,7 @@ export const getEventStatus = (minerValues) => {
 
 export const getMatchingDispute = (openDisputes, miningEvent) => {
   return openDisputes.disputes.find((dispute) => {
-    return dispute.requestId === miningEvent.requestId && dispute.timestamp === miningEvent.time
+    return dispute.requestId === miningEvent.requestId && dispute.timestamp === miningEvent.timestamp
   });
 };
 

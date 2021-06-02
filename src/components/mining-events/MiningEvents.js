@@ -16,9 +16,9 @@ const MiningEvents = ({ miningEvent, valueIndex, current }) => {
       granPrice: getGranPrice(miningEvent.minedValues[i], requestId),
       totalTips: miningEvent.totalTips,
       status: miningEvent.status,
+      timestamp: miningEvent.timestamp,
       minerValues: miningEvent.minerValues,
       inDisputeWindow: miningEvent.inDisputeWindow,
-      time: miningEvent.time,
     };
   });
 
@@ -74,8 +74,8 @@ const MiningEvents = ({ miningEvent, valueIndex, current }) => {
           pagination={false}
         />
       ) : (
-          <Loader />
-        )}
+        <Loader />
+      )}
     </>
   );
 };

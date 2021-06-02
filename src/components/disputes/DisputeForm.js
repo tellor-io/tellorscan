@@ -34,7 +34,7 @@ const DisputeForm = ({
       await currentUser.contracts.beginDispute(
         currentUser.address,
         miningEvent.requestId,
-        miningEvent.time,
+        miningEvent.timestamp,
         minerIndex,
         setCurrentTx,
       );
