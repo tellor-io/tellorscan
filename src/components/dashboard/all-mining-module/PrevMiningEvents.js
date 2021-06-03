@@ -59,8 +59,6 @@ const PrevMiningEvents = ({ miningEvent }) => {
                     <Panel header="Bracket panel" key={i}>
                     {miningEvent.minerValues.map((minerval,j) => {
                         return (
-                            
-                            
                             <div key={j} className="PrevMiningEvent__MinerVal">
                             <div className="PrevMiningEvent__MinerVal__Inner">
                                 <div>
@@ -79,23 +77,20 @@ const PrevMiningEvents = ({ miningEvent }) => {
                                     <p>{getGranPrice(minerval.values[i], requestId)}</p>
                                 </>
                                 }
-
-
                                 </div>
                                 {parseInt(disputeCollapser, 10) === j?
                                 null 
                                 :
                                 <p className="disputeClick" onClick={() => setDisputeCollapser(j.toString())}>dispute value</p>}
                             </div>
-                
                             <div className="disputeCollapser">
                                 <Collapse
                                     activeKey={disputeCollapser}>
                                     <Panel header="This is panel header 1" key={j}>
                                         <Disputer
                                             id={requestId}
-                                            minerIndex={j}
-                                            time={miningEvent.time}
+                                            minerAddr={minerval.miner}
+                                            timestamp={miningEvent.timestamp}
                                             onCancel={() => setDisputeCollapser("")} />
                                     </Panel>
                                 </Collapse>

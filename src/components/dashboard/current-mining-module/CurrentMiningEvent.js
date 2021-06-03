@@ -5,10 +5,9 @@ import { useMediaQuery } from 'react-responsive';
 
 const CurrentMiningEvent = ({ currentEvent }) => {
   const isSmallVisual = useMediaQuery({query: '(max-width: 1200px)'});
-
-  // console.log("currentEvent in CurrentMiningEvent===",currentEvent);
-
   const [symbols, setSymbols] = useState();
+  const [challenge, setChallenge] = useState();
+
   const [miners, setMiners] = useState({
     miner1: false,
     miner2: false,
@@ -17,16 +16,34 @@ const CurrentMiningEvent = ({ currentEvent }) => {
     miner5: false,
   })
   useEffect(()=>{
-    if(currentEvent && currentEvent.minerValues){
-      setSymbols(currentEvent.minerValues[0].requestSymbols.join(", "));
-      setMiners({
-        miner1: currentEvent.minerValues[0] ? currentEvent.minerValues[0].miner : false,
-        miner2: currentEvent.minerValues[1] ? currentEvent.minerValues[1].miner : false,
-        miner3: currentEvent.minerValues[2] ? currentEvent.minerValues[2].miner : false,
-        miner4: currentEvent.minerValues[3] ? currentEvent.minerValues[3].miner : false,
-        miner5: currentEvent.minerValues[4] ? currentEvent.minerValues[4].miner : false,
-      }) 
+    if(currentEvent){
+      if(currentEvent._challenge !== challenge){
+        console.log("challenge changed");
+        setChallenge(currentEvent._challenge);
+        setMiners({
+          miner1: false,
+          miner2: false,
+          miner3: false,
+          miner4: false,
+          miner5: false,
+        })
+      } else {
+        console.log("challenge same");
+        if(currentEvent.minerValues){
+          console.log("currentEvent.minerValues::",currentEvent.minerValues);
+
+          setSymbols(currentEvent.minerValues[0].requestSymbols.join(", "));
+          setMiners({
+            miner1: currentEvent.minerValues[0] ? currentEvent.minerValues[0].miner : false,
+            miner2: currentEvent.minerValues[1] ? currentEvent.minerValues[1].miner : false,
+            miner3: currentEvent.minerValues[2] ? currentEvent.minerValues[2].miner : false,
+            miner4: currentEvent.minerValues[3] ? currentEvent.minerValues[3].miner : false,
+            miner5: currentEvent.minerValues[4] ? currentEvent.minerValues[4].miner : false,
+          }) 
+        }
+      }
     }
+
   },[currentEvent]);
 
   return (

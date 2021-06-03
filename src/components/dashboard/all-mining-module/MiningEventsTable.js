@@ -10,8 +10,8 @@ const MiningEventsTable = ({ events, pagination, current }) => {
   const columns = [
     {
       title: 'date',
-      dataIndex: 'time',
-      key: 'time',
+      dataIndex: 'timestamp',
+      key: 'timestamp',
       width: '24%',
       render: (text) => {
         const humandate = new Date(text * 1000).toLocaleString();

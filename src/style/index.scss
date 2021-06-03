@@ -186,7 +186,7 @@ h6 {
       @media (max-width: 965px) {
         @include fourteenpxfont;
         height: 40px;
-        padding: 10px 30px 14px 30px;
+        padding: 12px 30px 12px 30px;
       }
     }
     .gotAddress_wCount, .gotAddress_wCount:hover, .gotAddress_wCount:focus, .gotAddress_wCount:active  {
@@ -241,7 +241,7 @@ h6 {
   margin: 5px 0 0 0 !important;
   border: 1px solid #D9D9D9;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 20px;
   border: 1px solid $darkestgrey;
   z-index: 999;
   p {
@@ -249,12 +249,20 @@ h6 {
     margin: 0;
     color:$darkestgrey;
   }
+  h1 {
+    color:$darkestgrey;
+    margin: 0;
+    font-weight: 100;
+  }
 }
 
 .Dashboard {
   width: 100%;
   box-sizing: border-box;
   padding: 0 6vw 150px 6vw;
+  @media (max-width: 600px) {
+    padding: 0 6vw 50px 6vw;
+  }
   @include leftcolumn;
   .firstContainer {
     width: 100%;
@@ -842,6 +850,9 @@ h6 {
 
 .Prices {
   width: 100%;
+  @media (max-width: 600px) {
+    margin: 0 0 30px 0;
+  }
   .PriceListItem {
     overflow: hidden;
     @include leftcolumn;
@@ -912,9 +923,14 @@ h6 {
   color: $darkestgrey;
   @media (max-width: 600px) {
     margin: 20px 0 40px 0;
+    padding: 25px 15px 15px 15px;
   }
   h2:first-child {
     margin: 0 0 20px 20px;
+    @media (max-width: 600px) {
+      font-size: 1rem;
+      margin: 0 0 20px 10px;
+    }
   }
   .items {
     width: 100%;
@@ -925,15 +941,22 @@ h6 {
   background: white;
   width: 100%;
   box-sizing: border-box;
-  padding: 30px 30px 0 30px;
-  p {
+  padding: 30px 30px 25px 30px;
+  margin: 0 0 15px 0;
+  .ant-list {
+    width: 100%;
+  }
+  p, .ant-list {
+    color: $darkestgrey;
     margin: 0 0 5px 0;
   }
-
+  @media (max-width: 600px) {
+    padding: 25px 25px 20px 25px;
+  }
   .dispvalue {
     width: 100%;
     @include leftrow;
-    margin: 0 0 10px 0;
+    margin: 0 0 5px 0;
     // :nth-child(2){
     //   width: 30px;
     //   border: 1px solid $tellor-grey2;
@@ -953,27 +976,31 @@ h6 {
   .otherinfo {
     width: 100%;
     @include leftrow;
-    margin: 0 0 10px 0;
+    flex-wrap: wrap;
+    margin: 0 0 0 0;
     div {
-      margin: 0 40px 0 0;
+      margin: 0 25px 10px 0;
       a {
         color: $darkestgrey;
         text-decoration: underline;
+      }
+      h3 {
+        margin: 0;
       }
     }
   }
   .buttons {
     width: 100%;
-    margin: 30px 0 0 0;
+    margin: 0 0 0 0;
     @include leftrow;
     flex-wrap: wrap;
     @media (max-width: 600px) {
-      margin: 30px 0 0 0;
+      margin: 20px 0 0 0;
       @include leftcolumn;
     }
     button {
       flex: 1;
-      margin: 0 10px 15px 0;
+      margin: 15px 10px 0 0;
       min-width: 175px;
       @media (max-width: 600px) {
         flex: auto;
@@ -991,7 +1018,19 @@ h6 {
     border: 1px solid $tellor-green;
     box-sizing: border-box;
     padding:10px 15px;
-    margin: 20px 0 30px 0;
+    margin: 20px 0 10px 0;
+    p {
+      margin: 0;
+      @include fourteenpxfont;
+      font-weight: bold;
+    }
+  }
+  .notConn {
+    width: 100%;
+    border: 1px solid $tellor-grey2;
+    box-sizing: border-box;
+    padding:10px 15px;
+    margin: 20px 0 10px 0;
     p {
       margin: 0;
       @include fourteenpxfont;
@@ -1010,16 +1049,10 @@ h6 {
       font-weight: bold;
     }
   }
-  .line {
-    height: 2px;
-    background-color: white;
-    width: 75px;
-    margin: 30px 0 0 0;
-  }
 }
 .pastdisputes {
   width: 100%;
-  margin: 20px 0 0 0;
+  margin: 10px 0 0 0;
   .ant-collapse > .ant-collapse-item > .ant-collapse-header {
     color: $darkestgrey;
     font-weight: bold;
@@ -1257,6 +1290,129 @@ h6 {
               border: 1px solid $darkestgrey;
             }
           }
+          &__minerVals {
+            width: 100%;
+            @include leftcolumn;
+          }
+
+          &__InnerBox {
+            width: 100%;
+            @include leftcolumn;
+            box-sizing: border-box;
+            padding: 0 0 0 5%;
+
+          }
+          &__Inner {
+              width: 100%;
+              padding: 6px 0; 
+              @include leftrow;
+              align-items: center;
+              div:first-child {
+                @include leftrow;
+                flex: 1;
+                p:first-child {
+                  font-weight: bold;
+                  width: 100px;
+                }
+              }
+                svg {
+                  width: 30px;
+                  margin: 0 10px 0 0;
+                }
+                p:nth-child(2) {
+                  width: 160px;
+                  margin: 0 0 0 0;
+                }
+              
+              p {
+                @include fourteenpxfont;
+                color: $darkestgrey;
+                text-decoration: none;
+                margin: 0 0 0 0;
+
+              }
+              a {
+                @include fourteenpxfont;
+                color: $darkestgrey;
+                text-decoration: underline;
+              }
+              .disputeClick {
+                font-weight: bold;
+                text-decoration: underline;
+                cursor: pointer;
+                @media (max-width: 600px) {
+                  text-align: right;
+                  }
+              }
+            }
+            .disputeCollapser {
+              @include leftcolumn;
+              width: 100%;
+              p {
+                margin: 0;
+              }
+              .disputeFee {
+                font-size: 1.25rem !important;
+                line-height: 1.85rem !important;
+                @media (max-width: 600px) {
+                  font-size: 1rem !important;
+                  line-height: 1.25rem !important;
+                }
+              }
+              .ant-collapse-header {
+                display: none;
+              }
+              .ant-collapse-content-box {
+                width: 100%;
+                border: 2px solid $tellor-grey2;
+                border-bottom: 2px solid $darkestgrey;
+                padding: 25px 30px;
+                @media (max-width: 600px) {
+                  padding: 20px 20px;
+                }
+                margin: 10px 0 30px 0;
+                @include leftcolumn;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                div:first-child {
+                  flex: 1;
+                  margin: 0 0 30px 0;
+                  min-width: 200px;
+                  color: $darkestgrey;
+                  @media (max-width: 600px) {
+                    margin: 0 0 20px 0;
+                  }
+                }
+                div:nth-child(2) {
+                  width: 100%;
+                  margin: 0;
+                  box-sizing: border-box;
+                  @include rightcolumn;
+                  div:first-child {
+                    @include rightrow;
+                    align-items: center;
+                    margin: 0;
+                  }
+                  a {
+                    color:$darkestgrey;
+                    @include sixteenpxfont;
+                    text-decoration: underline;
+                    margin: 30px 0 0 0 !important;
+                    width: 100%;
+                    text-align: right;
+                  }
+                  p {
+                    margin: 0 20px 0 0;
+                    @include sixteenpxfont;
+                    font-weight: bold;
+                    @media (max-width: 600px) {
+                      margin: 0 8% 0 0;
+    
+                    }
+                  }
+                }
+              }
+            }
         }
       }
     }
@@ -1288,7 +1444,7 @@ h6 {
           box-sizing: border-box;
           padding: 20px 0 18px 0;
           @media (max-width: 600px) {
-            padding: 20px 30px 18px 0;
+            padding: 20px 0 18px 0;
           }
           svg {
             width: 38px;
@@ -1332,6 +1488,19 @@ h6 {
               max-width: 50px;
             }
           }
+          .DetailMinerItem__OutofWindow {
+            @include tenpxfont;
+            color: #666666;
+            text-align: right;
+            margin: 2px 0 0 0;
+            @media (max-width: 600px) {
+              margin: 2px 0 0 20px;
+              font-size: 0.65rem !important;
+              line-height: 0.815rem !important;
+              max-width: 50px;
+            }
+          }
+
         }
         .disputeCollapser {
           @include leftcolumn;

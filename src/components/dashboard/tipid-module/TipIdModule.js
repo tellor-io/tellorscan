@@ -25,10 +25,6 @@ const TipIdModule = () => {
     setSelectedId(e.key)
   }
 
-  const startTipFlow = () => {
-    console.log('startTipFlow!');
-  }
-
   const menu = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item key="id1">

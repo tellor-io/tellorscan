@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useLocation,useHistory } from 'react-router-dom';
 import { Button, Table, Collapse,Input } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
-import { truncateAddr } from '../../utils/helpers';
+import { truncateAddr,getGranPrice } from '../../utils/helpers';
 import { chains } from '../../utils/chains';
 
 import { GET_LATEST_EVENTS_BY_ID } from '../../utils/queries';
@@ -38,12 +38,9 @@ const Detail = ({ prices }) => {
     const [error, setError] = useState();
     const [currentTx, setCurrentTx] = useState();
     const [txLink, setTxLink] = useState(1);
-    // const [processingTip, setProcessingTip] = useState();
-    // const [processingDispute, setProcessingDispute] = useState();
     const [newEvents, setNewEvents] = useState();
-    const [eventsArr, setEventsArr] = useState();
-
-    //   console.log("newEvents in Detail",newEvents);
+    const [latestEvent, setLatestEvent] = useState();
+    const [allEvents, setAllEvents] = useState();
 
     useEffect(() => {
         if(currentNetwork){
@@ -58,20 +55,36 @@ const Detail = ({ prices }) => {
 
 
     useEffect(() => {
-        if(newEvents){
-        //    const eventsarr = newEvents.forEach((event,i) => {
-        //         return ({
-        //             key:i,
-        //             date: event.timestamp,
-        //             value: "1602,23",
-        //             block:event.blockNumber
-        //         })
-        //     })
-        //     setEventsArr(eventsarr);
+        if(newEvents && newEvents.miningEvents){
+            const allevents = newEvents.miningEvents.map((event,i) => {
+                return({
+                    key:i,
+                    minerValues:event.minerValues,
+                    value: event.granPrices[event.requestIds.indexOf(priceData.id)],
+                    inDisputeWindow:event.inDisputeWindow,
+                    id:priceData.id,
+                    date:event.timestamp,
+                    blockNumber:event.blockNumber,
+                    idIndex: event.requestIds.indexOf(priceData.id),
+                    txLink:txLink
+                });
+            })
+            setAllEvents(allevents)
         }
-    },[newEvents]);
-    // console.log("eventsArr",eventsArr);
-    console.log("newEvents",newEvents);
+        if(newEvents && newEvents.miningEvents && priceData && priceData.id){
+            const latestevent = newEvents.miningEvents[0].minerValues.map((event,i) => {
+                return({
+                    miner:event.miner,
+                    value: getGranPrice(event.values[newEvents.miningEvents[0].requestIds.indexOf(priceData.id)],priceData.id),
+                    inDisputeWindow:newEvents.miningEvents[0].inDisputeWindow,
+                    id:priceData.id
+                });
+            })
+            setLatestEvent(latestevent)
+        }
+    },[newEvents,priceData]);
+
+
 
     const doTipping = async () => {
         setProcessingTip(true);
@@ -107,13 +120,13 @@ const Detail = ({ prices }) => {
 
 
 
-    const triggerDispute = async ({minerIndex,time}) => {
+    const triggerDispute = async ({minerIndex,timestamp}) => {
         setProcessingDispute(true);
         try {
           await currentUser.contracts.beginDispute(
             currentUser.address,
             priceData.id,
-            time,
+            timestamp,
             minerIndex,
             setCurrentTx,
           );
@@ -136,82 +149,6 @@ const Detail = ({ prices }) => {
             console.log('login error', err);
           }
     }
-
-    
-    const testarr = [
-        {
-            key:1,
-            date: 1620276050,
-            value: "1602,23",
-            block:"(blocknr)"
-        },
-        {
-            key:2,
-            date: 1614980005,
-            value: "1602,23",
-            block:"(blocknr)"
-        },
-        {
-            key:3,
-            date: 1620276050,
-            value: "1602,23",
-            block:"(blocknr)"
-        },
-        {
-            key:4,
-            date: 1614980005,
-            value: "1602,23",
-            block:"(blocknr)"
-        },
-        {
-            key:5,
-            date: 1614980005,
-            value: "1602,23",
-            block:"(blocknr)"
-        },
-        {
-            key:6,
-            date: 1614980005,
-            value: "1602,23",
-            block:"(blocknr)"
-        },
-        {
-            key:7,
-            date: 1620276050,
-            value: "1602,23",
-            block:"(blocknr)"
-        },
-        {
-            key:8,
-            date: 1614980005,
-            value: "1602,23",
-            block:"(blocknr)"
-        },
-        {
-            key:9,
-            date: 1620276050,
-            value: "1602,23",
-            block:"(blocknr)"
-        },
-        {
-            key:10,
-            date: 1614980005,
-            value: "1602,23",
-            block:"(blocknr)"
-        },
-        {
-            key:11,
-            date: 1614980005,
-            value: "1602,23",
-            block:"(blocknr)"
-        },
-        {
-            key:12,
-            date: 1614980005,
-            value: "1602,23",
-            block:"(blocknr)"
-        },
-    ];
 
     useEffect(() => {
         let pricesfiltered;
@@ -294,10 +231,12 @@ const Detail = ({ prices }) => {
                         <p>latest update</p>
                         <h2>{priceData.date}</h2>
                     </div>
+                    {newEvents && newEvents.miningEvents[0]?
                     <div>
                         <p>latest update in block</p>
-                        <h2>(blocknr)</h2>
+                        <h2>{newEvents.miningEvents[0].blockNumber}</h2>
                     </div>
+                    : null }
                     <div>
                         <p>current tip</p>
                         <h2>{priceData.tip}</h2>
@@ -306,72 +245,43 @@ const Detail = ({ prices }) => {
 
                 <div className="Detail__Inner__LastMiners">
                     <p>latest update miner values</p>
-                    {currentTx?
+                    {/* {currentTx?
                         <a href={txLink+"tx/"+currentTx} target="_blank" rel="noopener noreferrer">Show tx on Etherscan</a>
                         :
                         null
-                    }
-                    <DetailMinerItem
-                        address="0x1D39955c9662678535d68a966862A06956ea5196"
-                        value="3469.92"
-                        txLink={txLink}
-                        currentUser={currentUser}
-                        id={priceData.id}
-                        minerIndex={0}
-                        time={priceData.timestamp}
-                        connectUser={() => connectUser()}
-                        triggerDispute={currentUser?()=>toggleOpenDisputer(true):() => connectUser()}/>
-                    <DetailMinerItem
-                        address="0x9G39955c9662678535d68a966862A06956ea5196"
-                        value="3469.29"
-                        txLink={txLink}
-                        currentUser={currentUser}
-                        id={priceData.id}
-                        minerIndex={1}
-                        time={priceData.timestamp}
-                        connectUser={() => connectUser()}
-                        triggerDispute={currentUser?()=>toggleOpenDisputer(true):() => connectUser()}/>
-                    <DetailMinerItem
-                        address="0x3F39955c9662678535d68a966862A06956ea5196"
-                        value="3468.98"
-                        txLink={txLink}
-                        currentUser={currentUser}
-                        id={priceData.id}
-                        minerIndex={2}
-                        time={priceData.timestamp}
-                        connectUser={() => connectUser()}
-                        triggerDispute={currentUser?()=>toggleOpenDisputer(true):() => connectUser()}/>
-                    <DetailMinerItem
-                        address="0x7739955c9662678535d68a966862A06956ea5196"
-                        value="3470.00"
-                        txLink={txLink}
-                        currentUser={currentUser}
-                        id={priceData.id}
-                        minerIndex={3}
-                        time={priceData.timestamp}
-                        connectUser={() => connectUser()}
-                        triggerDispute={currentUser?()=>toggleOpenDisputer(true):() => connectUser()}/>
-                    <DetailMinerItem
-                        address="0x2239955c9662678535d68a966862A06956ea5196"
-                        value="3469.94"
-                        txLink={txLink}
-                        currentUser={currentUser}
-                        id={priceData.id}
-                        minerIndex={4}
-                        time={priceData.timestamp}
-                        connectUser={() => connectUser()}
-                        triggerDispute={currentUser?()=>toggleOpenDisputer(true):() => connectUser()}/>
-                        {/* triggerDispute={()=>triggerDispute({minerIndex:5,time:priceData.timestamp})}/> */}
+                    } */}
+
+                    {latestEvent ?
+                    <>
+                    {latestEvent.map((latestminer,i)=>{
+                        return <DetailMinerItem
+                            key={i}
+                            miner={latestminer.miner}
+                            value={latestminer.value}
+                            inDisputeWindow={latestminer.inDisputeWindow}
+                            txLink={txLink}
+                            currentUser={currentUser}
+                            id={priceData.id}
+                            minerIndex={i}
+                            timestamp={priceData.timestamp}
+                            connectUser={() => connectUser()}
+                            triggerDispute={currentUser?()=>toggleOpenDisputer(true):() => connectUser()}/>
+                    })}
+                    </>
+                    : null }
                 </div>
 
-                <div className="Detail__Inner__Section PriceEvolution">
-                    <p>price evolution</p>
-                    <p>t.d.b.</p>
-                </div>
+                {/* 
+                    TO BE ADDED LATER !! :::
+
+                    <div className="Detail__Inner__Section PriceEvolution">
+                        <p>price evolution</p>
+                        <p>t.d.b.</p>
+                    </div> */}
 
                 <div className="Detail__Inner__Section AllMiningEventsOnID">
                     <p>all mining events on {priceData.name}</p>
-                    <AllEVentsOnIDTable isMobile={isMobile} records={testarr}/>
+                    <AllEVentsOnIDTable isMobile={isMobile} records={allEvents}/>
                 </div>
 
 
@@ -391,19 +301,25 @@ const Detail = ({ prices }) => {
 }
 
 
-const DetailMinerItem = ({id,minerIndex,time,address,value,txLink,currentUser,connectUser}) => {
+const DetailMinerItem = ({id,timestamp,miner,value,inDisputeWindow,txLink,currentUser,connectUser}) => {
     const [openDisputer,toggleOpenDisputer] = useState(false);
     return (
         <div className="DetailMinerItem">
             <div className="DetailMinerItem__First">
             <Miner />
-            <p><a href={txLink+"address/"+address} target="_blank" rel="noopener noreferrer">{truncateAddr(address)}</a> submitted {value}</p>
+            <p><a href={txLink+"address/"+miner} target="_blank" rel="noopener noreferrer">{truncateAddr(miner)}</a> submitted {value}</p>
             {openDisputer?
             null 
             :
+            <>
+            {inDisputeWindow?
             <span className="DetailMinerItem__DisputeTrigger" onClick={currentUser?() => toggleOpenDisputer(true):connectUser}>
                 dispute value
             </span>
+            :
+            <small className="DetailMinerItem__OutofWindow">Out of dispute window</small>
+            }
+            </>
             }
             </div>
             <div className="disputeCollapser">
@@ -413,8 +329,8 @@ const DetailMinerItem = ({id,minerIndex,time,address,value,txLink,currentUser,co
                     <Panel header="This is panel header 1" key="1">
                         <Disputer
                         id={id}
-                        minerIndex={minerIndex}
-                        time={time}
+                        minerAddr={miner}
+                        timestamp={timestamp}
                         onCancel={() => toggleOpenDisputer(false)} />
                     </Panel>
                 </Collapse>

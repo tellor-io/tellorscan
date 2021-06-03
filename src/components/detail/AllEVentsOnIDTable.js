@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useLocation,useHistory } from 'react-router-dom';
-import { Button, Table, Collapse,Input } from 'antd';
-import { LeftOutlined } from '@ant-design/icons';
-import { truncateAddr } from '../../utils/helpers';
+import React, { useState } from 'react';
+import { Table} from 'antd';
+import { truncateAddr,getGranPrice } from '../../utils/helpers';
 import {ReactComponent as Miner} from 'assets/miner.svg';
-import { useMediaQuery } from 'react-responsive';
+import { Collapse } from 'antd';
+import Disputer from '../shared/Disputer';
 
-import { UserContext } from 'contexts/User';
-import { NetworkContext } from 'contexts/Network';
-
+const { Panel } = Collapse;
 
 const AllEVentsOnIDTable = ({records,isMobile}) => {
+    const [disputeCollapser,setDisputeCollapser] = useState("");
+    console.log("disputeCollapser >>>",disputeCollapser);
     let columns;
     if(isMobile){
         columns = [
@@ -41,7 +40,7 @@ const AllEVentsOnIDTable = ({records,isMobile}) => {
               title: 'date',
               dataIndex: 'date',
               key: 'date',
-              width:'30%',
+              width:'33%',
               sorter: (a, b) => a.date - b.date,
               render: (date) => {
                 const humandate = new Date(date * 1000).toLocaleString();
@@ -53,14 +52,14 @@ const AllEVentsOnIDTable = ({records,isMobile}) => {
               title: 'value',
               dataIndex: 'value',
               key: 'value',
-              width:'33%',
+              width:'30%',
               sorter: (a, b) => a.value - b.value,
               render: (value) => <>{value} USD</>,
             },
             {
-              title: 'block',
-              dataIndex: 'block',
-              key: 'block',
+              title: 'update in block',
+              dataIndex: 'blockNumber',
+              key: 'blockNumber',
               width:'33%',
               sorter: (a, b) => a.block - b.block
             },
@@ -75,12 +74,41 @@ const AllEVentsOnIDTable = ({records,isMobile}) => {
                 expandRowByClick={true}
                 expandIconColumnIndex={4}
                 expandedRowRender={(record, index) => {
-                      return <p key={index}>
-                        {isMobile?
-                        <><p>{record.value}</p></>
-                        :
-                        <><p>Desktop</p></>
-                        }</p>;
+                      return (
+                        <div key={index} className="AllEVentsOnIDTable__minerVals">
+                            {record.minerValues.map((minerval,i)=>{
+                                return(
+                                    <div key={i} className="AllEVentsOnIDTable__InnerBox">
+                                        <div className="AllEVentsOnIDTable__Inner">
+                                            <div>
+                                            <Miner />
+                                            <p><a href={record.txLink+"/address/"+minerval.miner} target="_blank" rel="noopener noreferrer">{truncateAddr(minerval.miner)}</a> submitted</p>
+                                            <p>{getGranPrice(minerval.values[record.idIndex], record.id)}</p>
+                                            </div>
+                                            {parseInt(disputeCollapser, 10) === i?
+                                            null 
+                                            :
+                                            <p className="disputeClick" onClick={() => setDisputeCollapser(i.toString())}>dispute value</p>
+                                            }
+                                        </div>
+                                        <div className="disputeCollapser">
+                                            <Collapse
+                                                activeKey={disputeCollapser}>
+                                                <Panel header="This is panel header 1" key={i}>
+                                                    <Disputer
+                                                        id={record.id}
+                                                        minerAddr={minerval.miner}
+                                                        timestamp={record.date}
+                                                        onCancel={() => setDisputeCollapser("")} />
+                                                </Panel>
+                                            </Collapse>
+                                        </div>
+
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        )
                   }}
                    />
         </div>

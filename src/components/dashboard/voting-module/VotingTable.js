@@ -3,10 +3,12 @@ import { Table } from 'antd';
 import { getGranPrice,truncateAddr } from 'utils/helpers';
 import { CheckOutlined,CloseOutlined } from '@ant-design/icons';
 import { NetworkContext } from 'contexts/Network';
+import { useMediaQuery } from 'react-responsive';
 
 const VotingTable = ({ votes, pagination }) => {
   const [txLink, setTxLink] = useState(1);
   const [currentNetwork] = useContext(NetworkContext);
+  const isMobile = useMediaQuery({query: '(max-width: 680px)'});
 
   useEffect(() => {
     if(currentNetwork){
@@ -19,10 +21,11 @@ const VotingTable = ({ votes, pagination }) => {
       }
   },[currentNetwork]);
 
+  const copy = isMobile? 'value': 'disputed value';
   const columns = [
     {
-      title: 'disputed value',
-      width:'40%',
+      title: copy,
+      width:'50%',
       render: (record) => {
         return <p className="bold">{getGranPrice(record.value,record.id)+" ("+record.requestSymbol+")"}</p>;
       },

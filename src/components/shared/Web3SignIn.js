@@ -29,10 +29,10 @@ export const Web3SignIn = ({activeDisputesCount}) => {
   
 
   const headerdropdown = () => {
-    console.log("in dropdown",userBalance);
     return (
     <div className="HeaderDropdown">
-      <p>Your balance: <span className="bold">{userBalance} TRB</span></p>
+      <p>Your balance: </p>
+      <h1 className="bold">{userBalance} TRB</h1>
     </div>
     )
   };
@@ -43,8 +43,16 @@ export const Web3SignIn = ({activeDisputesCount}) => {
     overlay={headerdropdown}
     trigger={['click']}
     >
-    <Button className={activeDisputesCount>0?"gotAddress_wCount":"gotAddress"}>
+      {/* 
+      TO BE ADDED WHEN COUNTER IS FIXED (/REPLACED W THE ONE BELOW)!! :::
+      
+      <Button className={activeDisputesCount>0?"gotAddress_wCount":"gotAddress"}>
       {truncateAddr(currentUser.address)} {activeDisputesCount>0?<div className="activeDisputesCount"><p>{activeDisputesCount}</p></div>:null}
+      </Button>
+      
+      */}    
+      <Button className="gotAddress">
+        {truncateAddr(currentUser.address)}
       </Button>
     </Dropdown>
     : (

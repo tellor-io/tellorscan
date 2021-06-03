@@ -8,8 +8,8 @@ import { NetworkContext } from 'contexts/Network';
 
 const Disputer = ({
   id,
-  time,
-  minerIndex,
+  timestamp,
+  minerAddr,
   onCancel
 }) => {
   const [currentTx, setCurrentTx] = useState();
@@ -20,6 +20,9 @@ const Disputer = ({
   const [currentNetwork] = useContext(NetworkContext);
   const [currentUser,] = useContext(UserContext);
   const [txLink, setTxLink] = useState(1);
+
+  const [minerIndex, setMinerIndex] = useState();
+  const [dataReady, setDataReady] = useState(false);
 
 
   useEffect(() => {
@@ -33,12 +36,12 @@ const Disputer = ({
       }
   },[currentNetwork]);
 
-  const triggerDispute = async ({id,minerIndex,time}) => {
+  const triggerDispute = async ({id,minerIndex,timestamp}) => {
     try {
       await currentUser.contracts.beginDispute(
         currentUser.address,
         id,
-        time,
+        timestamp,
         minerIndex,
         setCurrentTx,
       );
@@ -47,6 +50,21 @@ const Disputer = ({
       setError(e);
     }
 }
+
+/* MINERINDEX FIX */
+useEffect(() => {
+  fetch(chains[currentNetwork].apiURL + "/getMiners/" + id + "/" + timestamp)
+    .then(response => response.json())
+    .then(data => {
+      for (let index = 0; index < data.length; index++) {
+        if (data[index].toLowerCase() == minerAddr.toLowerCase()) {
+          setMinerIndex(index)
+          return
+        }
+      }
+    });
+}, [])
+
 
   useEffect(() => {
     fetch(chains[currentNetwork].apiURL + "/getDisputeFee")
@@ -65,16 +83,25 @@ const Disputer = ({
     }
   }, [currentUser, disputeFee]);
 
+  useEffect(() => {
+    if (currentUser && disputeFee && (minerIndex || minerIndex===0)) {
+      setDataReady(true);
+    }
+  }, [currentUser, disputeFee,minerIndex]);
+
   return (
     <>
+    {dataReady?
+      <>
         <div>
+          {/* <p>minerIndex= {minerIndex} - userBalance= {userBalance}</p> */}
             <p className="disputeFee">Dispute fee: {disputeFee} TRB</p>
             {userBalance >= disputeFee?null:<p>Your balance is to low to start a dispute.</p>}
         </div>
         <div>
             <div>
             <p className="onCancel" onClick={onCancel}>cancel</p >
-            <Button disabled={userBalance < disputeFee} onClick={() => triggerDispute({minerIndex:minerIndex,time:time,id:id})}>dispute value</Button>
+            <Button disabled={userBalance < disputeFee} onClick={() => triggerDispute({minerIndex:minerIndex,timestamp:timestamp,id:id})}>dispute value</Button>
             </div>
             {currentTx?
                 <a href={txLink+"tx/"+currentTx} target="_blank" rel="noopener noreferrer">Show tx on Etherscan</a>
@@ -82,6 +109,9 @@ const Disputer = ({
                 null
             }
         </div>
+      </>
+      :<p> loading ...</p>
+    }
     </>
   );
 };
