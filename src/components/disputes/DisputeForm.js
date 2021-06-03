@@ -77,6 +77,10 @@ const DisputeForm = ({
             return
           }
         }
+      })
+      .catch((error) => {
+        console.log("error", error);
+        setCantSubmit("Miner index fetch error:" + error,)
       });
   }, [])
 
@@ -85,15 +89,21 @@ const DisputeForm = ({
       .then(response => response.json())
       .then(data =>
         setDisputeFee(fromWei(data.disputeFee))
-      );
+      )
+      .catch((error) => {
+        console.log("error", error);
+        setCantSubmit("Dispute fee fetch error:" + error,)
+      });
   }, [])
 
   useEffect(() => {
-    if (currentUser && disputeFee && minerIndex) {
+    if (currentUser) {
       currentUser.contracts.balanceOf(currentUser.address).then(result => {
         let balance = fromWei(result)
         setUserBalance(balance)
-        setCantSubmit(balance < disputeFee ? "Not enough balance" : null)
+        if (balance < disputeFee) {
+          setCantSubmit("Not enough balance")
+        }
       })
     }
   }, [currentUser, disputeFee]);
