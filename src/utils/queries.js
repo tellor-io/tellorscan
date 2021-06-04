@@ -76,6 +76,8 @@ const disputeFields = `
   }
 `;
 
+
+
 export const GET_OPEN_DISPUTES = gql`
   query {
     disputes(where : { active: null, requestId_gt: 0}) {
@@ -90,4 +92,21 @@ export const GET_VOTING = gql`
       ${disputeFields}
     }
   }
+`;
+
+
+const voteFields = `
+  disputeId
+  timestamp
+  voter
+  voteWeight
+  position
+`;
+
+export const GET_VOTES = gql`
+query {
+  votes {
+    ${voteFields}
+  }
+}
 `;
