@@ -1,70 +1,24 @@
 import React from 'react';
-import Icon from '@ant-design/icons';
-import {
-  TwitterOutlined,
-  LinkedinFilled,
-  YoutubeFilled,
-  GithubOutlined,
-  MediumOutlined,
-} from '@ant-design/icons';
-import { ReactComponent as DiscordSvg } from '../../assets/Discord.svg';
-import { ReactComponent as TelegramSvg } from '../../assets/Telegram.svg';
+import { Link } from 'react-router-dom';
+import {ReactComponent as TellorLogoWhite} from 'assets/tellorscan_white.svg';
+import {ReactComponent as Swoosh} from 'assets/Swoosh.svg';
 
 const Footer = () => {
   return (
     <div className="Footer">
-      <p style={{ textAlign: 'center' }}>
-        © 2021{' '}
-        <a href="https://tellor.io" rel="noopener noreferrer" target="_blank">
-          Tellor.io
-        </a>
-      </p>
-      <div className="Footer__Links">
-        <a
-          href="https://twitter.com/wearetellor"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <TwitterOutlined />
-        </a>
-        <a
-          href="https://www.linkedin.com/company/tellorinc/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <LinkedinFilled />
-        </a>
-        <a
-          href="https://www.youtube.com/channel/UCJteW6bsm1wn34i2hSAZBiw?view_as=subscriber"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <YoutubeFilled />
-        </a>
-        <a
-          href="https://github.com/tellor-io/TellorCore"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <GithubOutlined />
-        </a>
-        <a href="https://t.me/tellor" rel="noopener noreferrer" target="_blank">
-          <Icon component={TelegramSvg} />
-        </a>
-        <a
-          href="https://medium.com/tellor"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <MediumOutlined />
-        </a>
-        <a
-          href="https://discord.com/invite/n7drGjh"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <Icon component={DiscordSvg} />
-        </a>
+      <div>
+        <Link to="/">
+          <Swoosh />
+        </Link>
+        <Link to="/">
+          <TellorLogoWhite />
+        </Link>
+        <p>&copy; 2021 Tellor</p>
+      </div>
+      <div>
+        <p>Links</p>
+        <a href="http://tellor.io" alt="http://docs.tellor.io" target="_blank" rel="noopener noreferrer">tellor.io</a>
+        <a href="http://docs.tellor.io" alt="http://docs.tellor.io" target="_blank" rel="noopener noreferrer">docs.tellor.io</a>
       </div>
     </div>
   );

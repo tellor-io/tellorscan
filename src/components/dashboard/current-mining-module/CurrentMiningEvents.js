@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from 'antd';
 
 import Loader from 'components/shared/Loader';
-import MinerValuesModal from 'components/mining-events/MinerValuesModal';
+import MinerValuesModal from 'components/dashboard/current-mining-module/MinerValuesModal';
 
 const CurrentMiningEvents = ({ miningEvent, valueIndex, current }) => {
   const eventData = miningEvent.minerValues[0];

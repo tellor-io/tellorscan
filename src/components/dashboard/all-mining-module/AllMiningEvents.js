@@ -1,8 +1,5 @@
 import React from 'react';
-
 import MiningEventsTable from './MiningEventsTable';
-
-
 
 const AllMiningEvents = ({ events }) => {
   return (

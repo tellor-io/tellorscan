@@ -7,6 +7,7 @@ import { NetworkContext } from 'contexts/Network';
 let networkId = 'Mainnet';
 let connectedNetwork = networkId;
 
+
 const NetworkDropdown = styled(Dropdown)`
   display: flex;
   align-items: center;
@@ -19,14 +20,14 @@ const NetworkDropdown = styled(Dropdown)`
     background-color: ${networkId !== connectedNetwork
     ? '#dd5858'
     : '#00ff8f;'};
-    margin-right: 5px;
+    margin-right: 15px;
   }
   &:hover {
     span:nth-child(1) {
-      background-color: white;
+      background-color: #00ff8f;
     }
     svg {
-      fill: white;
+      fill: #555555;
     }
   }
 `;

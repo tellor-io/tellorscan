@@ -3,7 +3,7 @@ import lodash from 'lodash';
 
 import { GET_LATEST_MINER_VALUES } from 'utils/queries';
 import GraphFetch from 'components/shared/GraphFetch';
-import { NetworkContext } from '../../contexts/Network';
+import { NetworkContext } from '../../../contexts/Network';
 import chains from 'utils/chains.js';
 
 //TODO: Adjust to just look for miningvalues by current challenge again and again until they have a miningEvent
@@ -23,7 +23,6 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
         );
 
         const minerValues = groupedValues[currentDetails[0]] || [];
-
         if (minerValues.length) {
           const event = {
             ...currentDetails,
@@ -31,8 +30,8 @@ const CurrentEventFetch = ({ setCurrentEvent }) => {
             minedValue: 'Pending',
             status: `Mining (${minerValues.length}/5)`,
           };
-          setCurrentEvent(event);
 
+          setCurrentEvent(event);
           if (minerValues.length === 5) {
             console.log('5 of 5, looking for new challenge');
             setFindNextDetails(true);

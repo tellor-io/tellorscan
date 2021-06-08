@@ -1,25 +1,30 @@
 import React, { useState, useContext } from 'react';
 import { Table } from 'antd';
-import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
-import MiningEvents from './MiningEvents';
-import CurrentMiningEvents from './CurrentMiningEvents';
+// import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
+// import MiningEvents from './MiningEvents';
+import PrevMiningEvents from './PrevMiningEvents';
+
+// import CurrentMiningEvents from './CurrentMiningEvents';
 
 const MiningEventsTable = ({ events, pagination, current }) => {
   const columns = [
     {
-      title: 'Block',
-      dataIndex: 'blockNumber',
-      key: 'blockNumber',
+      title: 'date',
+      dataIndex: 'timestamp',
+      key: 'timestamp',
+      width: '24%',
       render: (text) => {
+        const humandate = new Date(text * 1000).toLocaleString();
         if (current) {
-          return <p>-</p>;
+          return <p>...</p>;
         } else {
-          return <p>{text}</p>;
+          return <p>{humandate}</p>;
         }
       },
     },
     {
-      title: 'Symbols',
+      title: 'previously mined',
+      width: '68%',
       render: (text) => {
         let symbols;
         if (current) {
@@ -27,21 +32,7 @@ const MiningEventsTable = ({ events, pagination, current }) => {
         } else {
           symbols = text.requestSymbols.join(', ');
         }
-        return <p>{symbols}</p>;
-      },
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render: (text) => {
-        if (current) {
-          return (
-            <span className="fader">{text}</span>
-          );
-        } else {
-          return <p>{text === 'Completed' ? 'Mined' : text}</p>;
-        }
+        return <p className="bold Symbols">{symbols}</p>;
       },
     },
   ];
@@ -70,26 +61,9 @@ const MiningEventsTable = ({ events, pagination, current }) => {
       onRow={onRow}
       onExpand={onExpand}
       expandedRowRender={(record, index) => {
-        if (current) {
-          return (
-            <CurrentMiningEvents miningEvent={record} valueIndex={index} />
-          );
-        } else {
-          return <MiningEvents miningEvent={record} valueIndex={index} />;
-        }
+          return <PrevMiningEvents miningEvent={record} valueIndex={index} />;
       }}
-      expandIconColumnIndex={current ? 5 : 6}
-      expandIcon={({ expanded, onExpand, record }) =>
-        expanded ? (
-          <span>
-            <MinusOutlined />
-          </span>
-        ) : (
-            <span>
-              <PlusOutlined />
-            </span>
-          )
-      }
+      expandIconColumnIndex={6}
       expandRowByClick={true}
       pagination={pagination}
     />

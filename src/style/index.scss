@@ -1,22 +1,104 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 @import 'variables';
 
-body {
-  background: var(--background-2);
-  color: var(--color-primary-2);
+
+
+$background: #FAFAFA;
+$tellor-grey1: #F2F2F2;
+$tellor-grey2: #F0F0F0;
+$darkestgrey: #555555;
+$tellor-green: #2DFC9F;
+
+/* gradient mixins */
+@mixin greenshine {
+  background: $tellor-green;
+  background: linear-gradient(90deg, #2DFC9F 0%, #00FB89 100%);
+}
+/* font mixins */
+@mixin tenpxfont {
+  font-size: 0.625rem !important;
+  line-height: 0.85rem !important;
+}
+@mixin twelvepxfont {
+  font-size: 0.75rem !important;
+  line-height: 1rem !important;
+}
+@mixin fourteenpxfont {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+}
+@mixin sixteenpxfont {
+  font-size: 1rem !important;
+  line-height: 1.5rem !important;
+}
+@mixin eighteenpxfont {
+  font-size: 1.125rem !important;
+  line-height: 1.75rem !important;
 }
 
-h1,
+/* general mixins */
+@mixin centeredrow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+@mixin centeredcolumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+@mixin leftrow {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+@mixin leftcolumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+@mixin rightrow {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+@mixin rightcolumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+
+body {
+  background-color: $background;
+  color: black;
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+  font-size: 1em;
+}
+p {
+  @include twelvepxfont;
+}
+
 h2,
 h3,
 h4 {
   font-weight: 100;
 }
 
-h1,
-h2 {
-  color: var(--color-heading);
+h1 {
+  font-weight: 700;
+  font-size: 1.75em;
+  color: $darkestgrey;
 }
 
 h5 {
@@ -27,12 +109,18 @@ h6 {
   font-size: 1em;
 }
 
-a {
-  color: var(--color-link);
-}
-
+/* general classes */
 .fader {
   animation: 1s ease-out fadeIn infinite;
+}
+.flexer {
+  flex: 1;
+}
+.bold {
+  font-weight: bold;
+}
+.green {
+  color: $tellor-green;
 }
 
 @keyframes fadeIn {
@@ -47,42 +135,37 @@ a {
 }
 
 // Specific Elements
-
 .Header {
-  display: flex;
-  width: 100%;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  @media (max-width: 800px) {
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+  @include centeredrow;
+  box-sizing: border-box;
+  padding: 50px;  
+  width: 100vw;
+  @media (max-width: 965px) {
+    align-items: flex-start;
+    padding: 28px 30px 28px 30px;  
   }
   .BrandLink {
-    a {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      flex-wrap: wrap;
-      img {
-        height: 60px;
-        width: auto;
-        display: inline-block;
+    @media (max-width: 965px) {
+      margin: 3px 0 0 0;
+      .ant-btn {
+        padding: 0;
+        height: 16px;
       }
-      span {
-        color: var(--color-link);
+    }
+    a {
+        color: $darkestgrey;
         font-size: 21px;
         font-weight: 300;
         margin-bottom: -11px;
         font-weight: 500;
+      svg {
+        width: 216px;
       }
-      @media (max-width: 800px) {
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
-        span {
-          display: none;
+      @media (max-width: 965px) {
+        svg {
+          width: 143px;
         }
+
       }
     }
   }
@@ -90,112 +173,1686 @@ a {
     display: flex;
     align-items: center;
     margin-left: auto;
-    @media (max-width: 800px) {
-      margin-left: 0px;
-    }
-    > button {
-      padding: 0px 15px !important;
-    }
-    > * {
-      margin-left: 25px;
-      font-size: 1.5em;
-      color: var(--color-link);
-      &:last-child {
-        border: 2px solid var(--color-link);
-        color: var(--color-link);
-        border-radius: 50px;
-        padding: 10px 15px;
-        vertical-align: middle;
-        transition: all 0.15s linear;
-        cursor: pointer;
-      }
-      @media (max-width: 800px) {
-        font-size: 1em;
-        margin-left: 15px;
+    .gotAddress, .gotAddress:hover, .gotAddress:focus, .gotAddress:active {
+      @include leftrow;
+      @include sixteenpxfont;
+      font-weight: bold;
+      color: $darkestgrey;
+      border: 1px solid rgba(#555555, 1);
+      height: 50px;
+      box-sizing: border-box;
+      padding: 16px 40px 16px 40px;
+      border-radius: 25px;
+      @media (max-width: 965px) {
+        @include fourteenpxfont;
+        height: 40px;
+        padding: 12px 30px 12px 30px;
       }
     }
+    .gotAddress_wCount, .gotAddress_wCount:hover, .gotAddress_wCount:focus, .gotAddress_wCount:active  {
+      @include leftrow;
+      @include sixteenpxfont;
+      font-weight: bold;
+      color: $darkestgrey;
+      border: 1px solid rgba(#555555, 1);
+      height: 50px;
+      box-sizing: border-box;
+      padding: 16px 12px 16px 32px;
+      border-radius: 25px;
+      @media (max-width: 965px) {
+        @include fourteenpxfont;
+        height: 40px;
+        padding: 12px 8px 12px 16px;
+      }
+    }
+    .activeDisputesCount {
+      @include leftrow;
+      justify-content: center;
+      background: $tellor-green;
+      width: 28px;
+      height: 28px;
+      border-radius: 14px;
+      margin: 0 0 0 18px;
+      padding: 2px 8px;
+      text-align: center;
+      @media (max-width: 965px) {
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        margin: 0 0 0 10px;
+      }
+      p {
+        margin: 0;
+      }
+    }
+    .dropper {
+      @include leftrow;
+      @include fourteenpxfont;
+      font-weight: normal;
+      width: 100%;
+      padding: 0 !important;;
+      height: 45px;
+      border-radius: 0px !important;
+      margin: 0;
+    }
+  }
+}
+.HeaderDropdown {
+  margin: 5px 0 0 0 !important;
+  border: 1px solid #D9D9D9;
+  box-sizing: border-box;
+  padding: 20px;
+  border: 1px solid $darkestgrey;
+  z-index: 999;
+  p {
+    @include fourteenpxfont;
+    margin: 0;
+    color:$darkestgrey;
+  }
+  h1 {
+    color:$darkestgrey;
+    margin: 0;
+    font-weight: 100;
   }
 }
 
-.Hero {
-  padding-top: 25px;
-  background-color: var(--background);
-}
-
-.View {
-  width: calc(100%);
-  max-width: 1200px;
-  position: relative;
-  margin: 0 auto;
-  padding-bottom: 75px;
-}
-
-.TableHeader {
-  h2 {
-    margin: 0px;
-    padding-left: 16px;
+.Dashboard {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 6vw 150px 6vw;
+  @media (max-width: 600px) {
+    padding: 0 6vw 50px 6vw;
   }
-  margin-top: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  a {
-    margin-left: 15px;
-    margin-top: 4px;
+  @include leftcolumn;
+  .firstContainer {
+    width: 100%;
+    @include leftrow;
+    align-items: flex-start;
+    @media (max-width: 965px) {
+      @include leftcolumn;
+    }
+    .Current_and_All {
+      width: 750px;
+      margin: 0 50px 0 0;
+    }
+    .Prices_and_Tip {
+      @include leftcolumn;
+      flex: 1;
+    }
+    @media (min-width: 1600px) {
+      padding: 50px 7vw 0 7vw;
+    }
+
+    @media (max-width: 1200px) {
+      .Current_and_All {
+        width: 460px;
+        margin: 0 25px 0 0;
+      }
+    }
+
+    @media (max-width: 965px) {
+      .Prices_and_Tip {
+        width: 100%;
+      }
+    }
+
   }
 }
 
-.LoaderSmall {
-  > div {
+.CurrentMining {
+  @include centeredcolumn;
+  width: 100%;
+  height: 750px;
+  border: 2px solid $tellor-grey2;
+  box-sizing: border-box;
+  padding: 50px 0 0 0;
+  margin: 0 0 44px 0;
+  &__MinersBox {
+    @include leftrow;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 28px 38px 0 38px;
+    div {
+      margin: 0 50px 0 0;
+    }
+    p {
+      color: $darkestgrey;
+      margin: 0;
+    }
+    h2 {
+      color: $darkestgrey;
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    height: auto;
+    padding: 36px 0 0 0;
+  }
+
+  @media (max-width: 600px) {
+  margin: 10px 0 0 0;
+  height: auto;
+  padding: 40px 0 0 0;
+  &__MinersBox {
+    padding: 28px 29px 0 29px;
+    div {
+      margin: 0 40px 0 0;
+    }
+    p {
+      font-size: 0.625rem;
+    }
+    h2 {
+      font-size: 1.625rem;
+    }
+  }
+  }
+
+}
+
+.CurrentMiningVisual {
+    @include centeredcolumn;
+    width: 668px;
+    height: 582px;
+    position: relative;
+    * {
+      position: absolute;
+    }
+    @media (max-width: 1200px) {
+      width: 440px;
+      height: 386px;
+    }
+    @media (max-width: 600px) {
+      width: 335px;
+      height: 300px;
+    }
+    .circle {
+      margin-top: -30px;
+      width: 324px;
+      @media (max-width: 1200px) {
+        width: 200px;
+      }
+      @media (max-width: 600px) {
+        width: 153px;
+      }
+    }
+    .midblock {
+      width: 182px;
+      height: 125px;
+      margin-top: -35px;
+      @media (max-width: 1200px) {
+        width: 128px;
+        height: 80px;
+        margin-top: -25px;
+      }
+      @media (max-width: 600px) {
+        width: 128px;
+        height: 80px;
+        margin-top: -25px;
+      }
+      p {
+        @include fourteenpxfont;
+        line-height: 1rem !important;
+        color: $darkestgrey;
+        text-align: center;
+        position:static;
+        margin: 0 0 16px 0;
+        @media (max-width: 1200px) {
+          font-size: 0.5rem !important;
+          line-height: 0.625rem !important;
+          color: $darkestgrey;
+          text-align: center;
+          position:static;
+          margin: 0 0 8px 0;
+
+        }
+        @media (max-width: 600px) {
+          font-size: 0.5rem !important;
+          line-height: 0.625rem !important;
+          color: $darkestgrey;
+          text-align: center;
+          position:static;
+          margin: 0 0 8px 0;
+        }
+      }
+      p:nth-child(2) {
+        font-weight: bold;
+        @include eighteenpxfont;
+        margin: 0 0 0 0;
+        @media (max-width: 1200px) {
+          font-weight: bold;
+          @include twelvepxfont;
+          margin: 0 0 0 0;
+        }
+        @media (max-width: 600px) {
+          font-weight: bold;
+          @include twelvepxfont;
+          margin: 0 0 0 0;
+        }
+      }
+    }
+}
+
+.CurrentMiner {
+  @include centeredcolumn;
+  position: absolute;
+  p {
+    color: $darkestgrey;
+    text-align: center;
+    font-weight: bold;
+    z-index: 9;
+    @media (max-width: 1200px) {
+      font-size: 0.625rem !important;
+    }
+    @media (max-width: 600px) {
+      font-size: 0.625rem !important;
+    }
+  }
+  &_first {
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 140px;
+    height: 144px;
+    top: 0;
+    left: 100px;
+    @media (max-width: 1200px) {
+      width: 122px;
+      height: 100px;
+      left: 50px;
+    }
+    @media (max-width: 600px) {
+      width: 94px;
+      height: 77px;
+      left: 50px;
+    }
+    p {
+      width: 100%;
+      margin: 0 0 12px 0;
+      position:static;
+      @media (max-width: 1200px) {
+        margin: 0 0 6px 0;
+      }
+      @media (max-width: 600px) {
+        margin: 0 0 6px 0;
+      }
+    }
+    svg {
+      position:static;
+      @media (max-width: 1200px) {
+        height: 72px;
+      }
+      @media (max-width: 600px) {
+        height: 55px;
+      }
+    }
+  }
+  
+  &_second {
+    width: 179px;
+    height: 84px;
+    align-items: flex-end;
+    justify-content: flex-start;
+    top: 316px;
+    left: 0px;
+    @media (max-width: 1200px) {
+      width: 128px;
+      height: 66px;
+      top: 206px;
+      left: 22px;
+    }
+    @media (max-width: 600px) {
+      width: 98px;
+      height: 51px;
+      top: 166px;
+      left: 46px;
+    }
+    p {
+      width: 140px;
+      margin: 0 39px 0 0;
+      position:static;
+      @media (max-width: 1200px) {
+        width: 100%;
+        margin: 0 20px 0 0;
+        position:static;
+      }
+      @media (max-width: 600px) {
+        width: 100%;
+        margin: 0 46px 0 0;
+        position:static;
+      }
+    }
+    svg {
+      position:static;
+      @media (max-width: 1200px) {
+        height: 46px;
+      }
+      @media (max-width: 600px) {
+        height: 35px;
+      }
+    }
+  }
+
+
+
+  &_third {
+    width: 140px;
+    height: 154px;
     position: absolute;
-    display: inline-block;
-    height: 36px;
-    width: 36px;
-    margin-top: -8px !important;
-    margin-left: 5px !important;
+    top: 436px;
+    left: 265px;
+    @media (max-width: 1200px) {
+      width: 120px;
+      height: 100px;
+      position: absolute;
+      top: 278px;
+      left: 160px;
+    }
+    @media (max-width: 600px) {
+      width: 94px;
+      height: 82px;
+      position: absolute;
+      top: 210px;
+      left: 125px;
+    }
+    svg {
+      position:static;
+    }
+  }
+
+
+  &_fourth {
+    width: 180px;
+    height: 88px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    top: 316px;
+    left: 490px;
+    @media (max-width: 1200px) {
+      width: 127px;
+      height: 66px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      position: absolute;
+      top: 206px;
+      left: 290px;
+    }
+    @media (max-width: 600px) {
+      width: 98px;
+      height: 52px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      position: absolute;
+      top: 166px;
+      left: 200px;
+    }
+    p {
+      width: 140px;
+      margin: 0 0 0 39px;
+      position:static;
+      @media (max-width: 1200px) {
+        width: 98px;
+        margin: 0 0 0 40px;
+      }
+      @media (max-width: 600px) {
+        width: 98px;
+        margin: 0 0 0 40px;
+      }
+    }
+    svg {
+      position:static;
+      @media (max-width: 1200px) {
+        height: 46px;
+      }
+      @media (max-width: 600px) {
+        height: 36px;
+      }
+    }
+  }
+
+  &_fifth {
+    width: 140px;
+    height: 144px;
+    align-items: flex-start;
+    justify-content: flex-end;
+    position: absolute;
+    top: 0;
+    left: 427px;
+    @media (max-width: 1200px) {
+      width: 122px;
+      height: 100px;
+      align-items: flex-start;
+      justify-content: flex-end;
+      position: absolute;
+      top: 0;
+      left: 265px;
+    }
+    @media (max-width: 600px) {
+      width: 94px;
+      height: 77px;
+      align-items: flex-start;
+      justify-content: flex-end;
+      position: absolute;
+      top: 0;
+      left: 192px;
+    }
+    p {
+      width: 100%;
+      position:static;
+      @media (max-width: 1200px) {
+        width: 100%;
+        margin: 0 0 6px 10px;
+        position:static;
+      }
+      @media (max-width: 600px) {
+        width: 100%;
+        margin: 0 0 6px 10px;
+        position:static;
+      }
+    }
+    svg {
+      position:static;
+      @media (max-width: 1200px) {
+        height: 72px;
+        position:static;
+      }
+      @media (max-width: 600px) {
+        height: 55px;
+        position:static;
+      }
+    }
   }
 }
 
-.BalanceStatus {
-  span {
-    margin-right: 10px;
+
+.AllMining {
+  width: 100%;
+  .ant-table {
+    background: white;
+  }
+  .Symbols {
+    @include fourteenpxfont;
+  }
+  .ant-table-cell p {
+    margin: 0;
+  }
+  .ant-table-row-expand-icon {
+    color:$darkestgrey;
+    border: 1px solid $darkestgrey;
+  }
+
+  .ant-table-expanded-row .ant-table-cell {
+    padding: 0;
+  }
+  .PrevMiningEvents {
+    background-color: white;
+    margin-top: -1px;
+    box-sizing: border-box;
+    padding: 0 16px 16px 16px;
+    .PrevMiningEvent {
+      width: 78%;
+      margin: 0 0 0 22%;
+      box-sizing: border-box;
+      padding: 15px 10px 15px 20px;
+      @include leftcolumn;
+      border-bottom: 1px solid grey;
+      @media (max-width: 600px) {
+        width: 100%;
+        margin: 0;
+      }
+      &__Inner {
+        @include leftrow;
+        width: 100%;
+        p {
+          @include fourteenpxfont;
+        }
+        div:first-child {
+          @include leftrow;
+          flex: 1;
+          p:first-child {
+            font-weight: bold;
+            width: 100px;
+          }
+        }
+        .ShowMinerValues {
+          text-decoration: underline;
+          margin: 0 0 0 20px;
+          cursor: pointer;
+        }
+      }
+      &__MinerVal {
+        width: 100%;
+        @include leftcolumn;
+        &__Inner {
+          width: 100%;
+          padding: 6px 0; 
+          @include leftrow;
+          div:nth-child(1) {
+            @include leftrow;
+            flex: 1;
+            svg {
+              width: 30px;
+              margin: 0 10px 0 0;
+            }
+            p:nth-child(2) {
+              width: 160px;
+
+            }
+          }
+          p {
+            @include fourteenpxfont;
+            color: $darkestgrey;
+            text-decoration: none;
+            
+          }
+          a {
+            @include fourteenpxfont;
+            color: $darkestgrey;
+            text-decoration: underline;
+          }
+          .disputeClick {
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+            @media (max-width: 600px) {
+              text-align: right;
+              }
+          }
+        }
+
+        .disputeCollapser {
+          @include leftcolumn;
+          width: 100%;
+          p {
+            margin: 0;
+          }
+          .disputeFee {
+            font-size: 1.25rem !important;
+            line-height: 1.85rem !important;
+            @media (max-width: 600px) {
+              font-size: 1rem !important;
+              line-height: 1.25rem !important;
+            }
+          }
+          .ant-collapse-header {
+            display: none;
+          }
+          .ant-collapse-content-box {
+            width: 100%;
+            border: 2px solid $tellor-grey2;
+            border-bottom: 2px solid $darkestgrey;
+            padding: 25px 30px;
+            @media (max-width: 600px) {
+              padding: 20px 20px;
+            }
+            margin: 10px 0 30px 0;
+            @include leftcolumn;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            div:first-child {
+              flex: 1;
+              margin: 0 0 30px 0;
+              min-width: 200px;
+              color: $darkestgrey;
+              @media (max-width: 600px) {
+                margin: 0 0 20px 0;
+              }
+            }
+            div:nth-child(2) {
+              width: 100%;
+              margin: 0;
+              box-sizing: border-box;
+              @include rightcolumn;
+              div:first-child {
+                @include rightrow;
+                align-items: center;
+                margin: 0;
+              }
+              a {
+                color:$darkestgrey;
+                @include sixteenpxfont;
+                text-decoration: underline;
+                margin: 30px 0 0 0 !important;
+                width: 100%;
+                text-align: right;
+              }
+              p {
+                margin: 0 20px 0 0;
+                @include sixteenpxfont;
+                font-weight: bold;
+                @media (max-width: 600px) {
+                  margin: 0 8% 0 0;
+
+                }
+              }
+            }
+          }
+        }
+      }
+
+
+
+      .ant-collapse {
+        width: 100%;
+      }
+      .ant-collapse-header {
+        display: none;
+      }
+      .ant-collapse,.ant-collapse-content,.ant-collapse-content-box,.ant-collapse-item {
+        border: none;
+      }
+      .ant-collapse-content-box {
+        padding: 10px 0;
+      }
+    }
   }
 }
 
-.ErrorMsg {
-  color: #dd5858;
-  font-size: 1.2em !important;
-  margin-top: -15px;
-  margin-bottom: 15px;
+.Prices {
+  width: 100%;
+  @media (max-width: 600px) {
+    margin: 0 0 30px 0;
+  }
+  .PriceListItem {
+    overflow: hidden;
+    @include leftcolumn;
+    color: $darkestgrey;
+    width: 100%;
+    background: white;
+    margin: 0 0 6px 0;
+    box-sizing: border-box;
+    padding: 0 10%;
+    transition: all 0.025s linear;
+    p{
+      margin: 0;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+    &:active {
+      transform: scale(0.995)
+    }
+    &__Inner {
+      width: 100%;
+      @include leftrow;
+      box-sizing: border-box;
+      padding: 26px 0 22px 0;
+      > div:first-child {
+        @include leftcolumn;
+        margin: 0 25px 0 0;
+        min-width: 20px;
+        h4,p {
+          color: $darkestgrey;
+          width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      > div > p {
+        margin: 0;
+      }
+      > div > h4 {
+        margin: 0;
+        font-weight: bold;
+        font-size: 1.125rem;
+      }
+      > h2 {
+        margin: 4px 0 0 0;
+        font-size: 2rem;
+        line-height: 2rem;
+        color: $darkestgrey;
+        text-align: right;
+      }
+    }
+    &__Stripe {
+      width: 75px;
+      background: $tellor-green;
+      height: 2px;
+    }
+  }
+}
+
+.VotingModule {
+  width: 100%;
+  @include leftcolumn;
+  box-sizing: border-box;
+  padding: 35px 15px 15px 15px;
+  border: 2px solid #F0F0F0;
+  margin: 0 0 40px 0;
+  color: $darkestgrey;
+  @media (max-width: 600px) {
+    margin: 20px 0 40px 0;
+    padding: 25px 15px 15px 15px;
+  }
+  h2:first-child {
+    margin: 0 0 20px 20px;
+    @media (max-width: 600px) {
+      font-size: 1rem;
+      margin: 0 0 20px 10px;
+    }
+  }
+  .items {
+    width: 100%;
+    @include leftcolumn;
+  }
+}
+.VoteItem {
+  background: white;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 30px 30px 25px 30px;
+  margin: 0 0 15px 0;
+  .ant-list {
+    width: 100%;
+  }
+  p, .ant-list {
+    color: $darkestgrey;
+    margin: 0 0 5px 0;
+  }
+  @media (max-width: 600px) {
+    padding: 25px 25px 20px 25px;
+  }
+  .dispvalue {
+    width: 100%;
+    @include leftrow;
+    margin: 0 0 5px 0;
+    // :nth-child(2){
+    //   width: 30px;
+    //   border: 1px solid $tellor-grey2;
+    //   margin: 0 15px;
+    // }
+    h2 {
+      color: $darkestgrey;
+      margin: 0;
+    }
+    .val {
+      font-size: 1.5em;
+      line-height: 1.5715;
+      margin: 0 8px 0 0;
+      color: $darkestgrey;
+    }
+  }
+  .otherinfo {
+    width: 100%;
+    @include leftrow;
+    flex-wrap: wrap;
+    margin: 0 0 0 0;
+    div {
+      margin: 0 25px 10px 0;
+      a {
+        color: $darkestgrey;
+        text-decoration: underline;
+      }
+      h3 {
+        margin: 0;
+      }
+    }
+  }
+  .buttons {
+    width: 100%;
+    margin: 0 0 0 0;
+    @include leftrow;
+    flex-wrap: wrap;
+    @media (max-width: 600px) {
+      margin: 20px 0 0 0;
+      @include leftcolumn;
+    }
+    button {
+      flex: 1;
+      margin: 15px 10px 0 0;
+      min-width: 175px;
+      @media (max-width: 600px) {
+        flex: auto;
+        width: 100%;
+        margin: 0 0 15px 0;
+      }
+    }
+    .challengebtn {
+      background: $darkestgrey;
+      color:$tellor-green;
+    }
+  }
+  .cantVote {
+    width: 100%;
+    border: 1px solid $tellor-green;
+    box-sizing: border-box;
+    padding:10px 15px;
+    margin: 20px 0 10px 0;
+    p {
+      margin: 0;
+      @include fourteenpxfont;
+      font-weight: bold;
+    }
+  }
+  .notConn {
+    width: 100%;
+    border: 1px solid $tellor-grey2;
+    box-sizing: border-box;
+    padding:10px 15px;
+    margin: 20px 0 10px 0;
+    p {
+      margin: 0;
+      @include fourteenpxfont;
+      font-weight: bold;
+    }
+  }
+  .processingTX {
+    width: 100%;
+    border: 1px solid $darkestgrey;
+    box-sizing: border-box;
+    padding:10px 15px;
+    margin: 20px 0 30px 0;
+    p {
+      margin: 0;
+      @include fourteenpxfont;
+      font-weight: bold;
+    }
+  }
+}
+.pastdisputes {
+  width: 100%;
+  margin: 10px 0 0 0;
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    color: $darkestgrey;
+    font-weight: bold;
+  }
+
+  .ant-table {
+    width: 100%;
+    background: #FAFAFA;
+    .ant-table-row {
+      background-color: white;
+    }
+    .ant-table-row-expand-icon {
+      color:$darkestgrey;
+      border: 1px solid $darkestgrey;
+    }
+    p {
+      @include twelvepxfont;
+      margin: 0;
+    }
+    a {
+      color:$darkestgrey;
+      text-decoration: underline;
+    }
+    .ant-table-expanded-row .ant-table-cell {
+      padding: 0;
+    }
+    .pastdispute_box {
+      box-sizing: border-box;
+      padding: 6px 16px 20px 30px;
+      margin: -1px 0 0 0; 
+      background: white;
+      div {
+        p {
+          @include fourteenpxfont;
+
+        }
+        margin: 0 0 5px 0 !important;
+      }
+    }
+  }
+  // .ant-collapse, .ant-collapse-header,
+  // .ant-collapse > .ant-collapse-item:last-child > .ant-collapse-header,
+  // .ant-collapse-item:last-child > .ant-collapse-content, .ant-collapse > .ant-collapse-item:last-child {
+  //   border: none;
+  //   border-radius: 0;
+  // }
+  // .ant-collapse-content {
+  //   background-color: transparent;
+  //   color:$darkestgrey;
+  //   p {
+  //     @include twelvepxfont;
+  //     margin: 0;
+  //   }
+  // }
+  // .ant-collapse-content > .ant-collapse-content-box {
+  //   padding:0;
+  // }
+}
+
+
+.Detail {
+  width: 100%;
+  min-height: 60vh;
+  box-sizing: border-box;
+  padding: 0 6vw 150px 6vw;
+  @include leftcolumn;
+  justify-content: flex-start;
+  @media (min-width: 1600px) {
+    padding: 0 7vw 150px 7vw;
+  }
+  .backbutton,.backbutton:hover,.backbutton:active,.backbutton:focus {
+    background: $tellor-grey1;
+  }
+  &__Inner {
+    background: white;
+    width: 100%;
+    max-width: 1174px;
+    box-sizing: border-box;
+    padding: 50px 0 100px 0;
+    margin-top: 22px;
+    @media (max-width: 600px) {
+      padding: 30px 0 100px 0;
+    }
+    &__Top {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 50px;
+      @include leftrow;
+      align-items: flex-start;
+      margin-bottom: 30px;
+      @media (max-width: 600px) {
+        padding: 0 20px 0 30px;
+      }
+      div {
+        @include leftrow;
+        flex-wrap: wrap;
+        margin: 6px 0 0 0;
+        h1 {
+          margin: 0 10px 10px 0;
+          line-height: 2rem;
+          @media (max-width: 600px) {
+            font-size: 1.375rem;
+            line-height: 1.65rem;
+          }
+        }
+        p:nth-child(2){
+          background: $tellor-grey1;
+          padding: 6px 10px;
+          margin: 0 0 10px 0;
+        }
+      }
+    }
+    &__Section {
+      width: 100%;
+      box-sizing: border-box;
+      @include leftcolumn;
+      padding: 0 50px;
+      @media (max-width: 600px) {
+        padding: 0 30px;
+      }
+      p {
+        @include fourteenpxfont;
+        color: $darkestgrey;
+        @media (max-width: 600px) {
+          @include tenpxfont;
+        }
+      }
+      &.tipCollapser {
+        width: 100%;
+        .ant-collapse-content-box {
+          width: 100%;
+          border: 2px solid $tellor-grey2;
+          border-bottom: 2px solid $darkestgrey;
+          padding: 35px 40px;
+          margin: 0 0 50px 0;
+          @include leftrow;
+          align-items: flex-start;
+          div:first-child {
+            flex: 1;
+            margin: 0 50px 0 0;
+          }
+          div:nth-child(2) {
+            box-sizing: border-box;
+            padding-top: 30px;
+            @include rightcolumn;
+            div:first-child {
+              @include rightrow;
+              align-items: center;
+            }
+            a {
+              color:$darkestgrey;
+              @include sixteenpxfont;
+              text-decoration: underline;
+              margin: 30px 0 0 0 !important;
+              width: 100%;
+              text-align: right;
+            }
+            p {
+              margin: 0 20px 0 0;
+              @include sixteenpxfont;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+      &.LastConfVal div:nth-child(2) {
+        width: 100%;
+        box-sizing: border-box;
+        @include leftrow;
+        align-items: flex-end;
+        margin-bottom: 25px;
+        h1 {
+          font-size: 3rem;
+          line-height: 3rem;
+          font-weight: 100;
+          margin: 0;
+          @media (max-width: 600px) {
+            font-size: 2rem;
+            line-height: 2rem;
+          }
+        }
+        p {
+          margin: 0 0 4px 10px;
+          font-size: 1.125rem !important;
+          @media (max-width: 600px) {
+            margin: 0 0 0px 10px;
+            @include fourteenpxfont;
+          }
+        }
+      }
+      &.UpdateBlockTip {
+        width: 100%;
+        box-sizing: border-box;
+        @include leftrow;
+        flex-wrap: wrap;
+        margin: 0 0 35px 0;
+        div {
+          margin: 0 100px 20px 0;
+          @media (max-width: 600px) {
+            margin: 0 40px 20px 0;
+          }
+          p {
+            margin: 0;
+          }
+          h2 {
+            font-size: 1.375rem;
+            line-height: 1.375rem;
+            margin: 10px 0 0 0;
+            @media (max-width: 600px) {
+              margin: 3px 0 0 0;
+              @include sixteenpxfont;
+            }
+          }
+        }
+      }
+      &.PriceEvolution {
+        width: 100%;
+        margin: 50px 0 0 0;
+      }
+      &.AllMiningEventsOnID {
+        width: 100%;
+        margin: 105px 0 0 0;
+        @media (max-width: 600px) {
+          margin: 50px 0 0 0;
+        }
+        .AllEVentsOnIDTable {
+          width: 100%;
+          box-sizing: border-box;
+          padding: 0;
+          .ant-table {
+            width: 100%;
+            background: #FAFAFA;
+            .ant-table-row-expand-icon {
+              color:$darkestgrey;
+              border: 1px solid $darkestgrey;
+            }
+          }
+          &__minerVals {
+            width: 100%;
+            @include leftcolumn;
+          }
+
+          &__InnerBox {
+            width: 100%;
+            @include leftcolumn;
+            box-sizing: border-box;
+            padding: 0 0 0 5%;
+
+          }
+          &__Inner {
+              width: 100%;
+              padding: 6px 0; 
+              @include leftrow;
+              align-items: center;
+              div:first-child {
+                @include leftrow;
+                flex: 1;
+                p:first-child {
+                  font-weight: bold;
+                  width: 100px;
+                }
+              }
+                svg {
+                  width: 30px;
+                  margin: 0 10px 0 0;
+                }
+                p:nth-child(2) {
+                  width: 160px;
+                  margin: 0 0 0 0;
+                }
+              
+              p {
+                @include fourteenpxfont;
+                color: $darkestgrey;
+                text-decoration: none;
+                margin: 0 0 0 0;
+
+              }
+              a {
+                @include fourteenpxfont;
+                color: $darkestgrey;
+                text-decoration: underline;
+              }
+              .disputeClick {
+                font-weight: bold;
+                text-decoration: underline;
+                cursor: pointer;
+                @media (max-width: 600px) {
+                  text-align: right;
+                  }
+              }
+            }
+            .disputeCollapser {
+              @include leftcolumn;
+              width: 100%;
+              p {
+                margin: 0;
+              }
+              .disputeFee {
+                font-size: 1.25rem !important;
+                line-height: 1.85rem !important;
+                @media (max-width: 600px) {
+                  font-size: 1rem !important;
+                  line-height: 1.25rem !important;
+                }
+              }
+              .ant-collapse-header {
+                display: none;
+              }
+              .ant-collapse-content-box {
+                width: 100%;
+                border: 2px solid $tellor-grey2;
+                border-bottom: 2px solid $darkestgrey;
+                padding: 25px 30px;
+                @media (max-width: 600px) {
+                  padding: 20px 20px;
+                }
+                margin: 10px 0 30px 0;
+                @include leftcolumn;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                div:first-child {
+                  flex: 1;
+                  margin: 0 0 30px 0;
+                  min-width: 200px;
+                  color: $darkestgrey;
+                  @media (max-width: 600px) {
+                    margin: 0 0 20px 0;
+                  }
+                }
+                div:nth-child(2) {
+                  width: 100%;
+                  margin: 0;
+                  box-sizing: border-box;
+                  @include rightcolumn;
+                  div:first-child {
+                    @include rightrow;
+                    align-items: center;
+                    margin: 0;
+                  }
+                  a {
+                    color:$darkestgrey;
+                    @include sixteenpxfont;
+                    text-decoration: underline;
+                    margin: 30px 0 0 0 !important;
+                    width: 100%;
+                    text-align: right;
+                  }
+                  p {
+                    margin: 0 20px 0 0;
+                    @include sixteenpxfont;
+                    font-weight: bold;
+                    @media (max-width: 600px) {
+                      margin: 0 8% 0 0;
+    
+                    }
+                  }
+                }
+              }
+            }
+        }
+      }
+    }
+    &__LastMiners {
+      width: 100%;
+      @include leftcolumn;
+      p {
+        @include fourteenpxfont;
+        color: $darkestgrey;
+        margin: 0 20px 0 50px;
+        @media (max-width: 600px) {
+          @include tenpxfont;
+          margin: 0 20px 0 30px;
+        }
+      }
+      .DetailMinerItem {
+        width: 100%;
+        @include leftcolumn;
+        box-sizing: border-box;
+        padding: 0 50px;
+        border-bottom: 1px solid $tellor-grey1;
+        @media (max-width: 600px) {
+          padding: 0 30px;
+        }
+        &__First {
+          width: 100%;
+          @include leftrow;
+          align-items: flex-start;
+          box-sizing: border-box;
+          padding: 20px 0 18px 0;
+          @media (max-width: 600px) {
+            padding: 20px 0 18px 0;
+          }
+          svg {
+            width: 38px;
+            height: 33px;
+            margin: 0 25px 0 0;
+            @media (max-width: 600px) {
+              width: 26px;
+              height: 23px;
+              margin: 0px 15px 0 0px;
+            }
+          }
+          p {
+            margin: 0;
+            color: $darkestgrey;
+            font-size: 1.25rem !important;
+            line-height: 1.85rem !important;
+            flex: 1;
+            font-weight: 100;
+            @media (max-width: 600px) {
+              font-size: 1rem !important;
+              line-height: 1.25rem !important;
+            }
+            a {
+              margin: 0;
+              color: $darkestgrey;
+              text-decoration: underline;
+            }
+          }
+          .DetailMinerItem__DisputeTrigger {
+            @include sixteenpxfont;
+            color: $darkestgrey;
+            font-weight: bold;
+            text-decoration: underline;
+            text-align: right;
+            cursor: pointer;
+            margin: 2px 0 0 0;
+            @media (max-width: 600px) {
+              margin: 2px 0 0 20px;
+              font-size: 0.875rem !important;
+              line-height: 1rem !important;
+              max-width: 50px;
+            }
+          }
+          .DetailMinerItem__OutofWindow {
+            @include tenpxfont;
+            color: #666666;
+            text-align: right;
+            margin: 2px 0 0 0;
+            @media (max-width: 600px) {
+              margin: 2px 0 0 20px;
+              font-size: 0.65rem !important;
+              line-height: 0.815rem !important;
+              max-width: 50px;
+            }
+          }
+
+        }
+        .disputeCollapser {
+          @include leftcolumn;
+          width: 100%;
+          p {
+            margin: 0;
+          }
+          .disputeFee {
+            font-size: 1.25rem !important;
+            line-height: 1.85rem !important;
+            @media (max-width: 600px) {
+              font-size: 1rem !important;
+              line-height: 1.25rem !important;
+            }
+          }
+          .ant-collapse-header {
+            display: none;
+          }
+          .ant-collapse-content-box {
+            width: 100%;
+            border: 2px solid $tellor-grey2;
+            border-bottom: 2px solid $darkestgrey;
+            padding: 35px 40px;
+            margin: 0 0 50px 0;
+            @include leftrow;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            div:first-child {
+              flex: 1;
+              margin: 0;
+              min-width: 200px;
+              @media (max-width: 600px) {
+                margin: 0 0 20px 0;
+              }
+            }
+            div:nth-child(2) {
+              box-sizing: border-box;
+              @include rightcolumn;
+              div:first-child {
+                @include rightrow;
+                align-items: center;
+              }
+              a {
+                color:$darkestgrey;
+                @include sixteenpxfont;
+                text-decoration: underline;
+                margin: 30px 0 0 0 !important;
+                width: 100%;
+                text-align: right;
+              }
+              p {
+                margin: 0 20px 0 0;
+                @include sixteenpxfont;
+                font-weight: bold;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .Footer {
   width: 100%;
-  padding-top: 25px;
-  padding-bottom: 25px;
-  background-color: var(--background);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-secondary-1);
-  &__Links {
-    display: flex;
-    > * {
-      font-size: 1.5em;
-      svg {
-        fill: var(--color-secondary-1);
-        transition: all 0.15s linear;
-        &:hover {
-          fill: #00ff8f;
-        }
-      }
+  @include leftrow;
+  background: url('../assets/bg_grey.png');
+  padding: 100px 10vw 140px 10vw;
+  @media (max-width: 600px) {
+    @include leftcolumn;
+    padding: 80px 10vw 120px 10vw;
+  }
+  p {
+    @include sixteenpxfont;
+    color: #999;
+    margin: 10px 0 40px 0;
+  }
+  div:first-child {
+    @include leftcolumn;
+    flex: 1;
+    a:first-child svg {
+      width: 57px;
+      margin: 0 0 6px 0;
     }
-    > *:not(:last-child) {
-      margin-right: 15px;
+    a:nth-child(2) svg {
+      height: 55px;
+      margin: 6px 0 0 0;
+    }
+  }
+  div:nth-child(2) {
+    @include rightcolumn;
+    @media (max-width: 600px) {
+      @include leftcolumn;
+    }
+    p {
+      @include sixteenpxfont;
+      color: #555;
+      margin: 0 0 16px 0;
+    }
+    a {
+      @include sixteenpxfont;
+      color: #999;
+      text-decoration: underline;
+      font-weight: bold;
     }
   }
 }
+
+.alertBox {
+  @include leftrow;
+  box-sizing: border-box;
+  padding: 20px 30px;
+  margin: 20px 0 0 0;
+  background: rgba(255, 255, 255, 0.95);
+  @include sixteenpxfont;
+  width: 96vw;
+  color: $darkestgrey;
+  border-bottom: 2px solid $tellor-green;
+  z-index: 99;
+}
+
+.TipId {
+  width: 100%;
+  @include centeredcolumn;
+  box-sizing: border-box;
+  padding: 45px 60px;
+  border: 2px solid #F0F0F0;
+  margin: 0 0 40px 0;
+  @media (max-width: 600px) {
+    margin: -2px 0 50px 0;
+    padding: 45px 40px;
+  }
+  p:first-child {
+    text-align: center;
+    color: $darkestgrey;
+  }
+  .DropDownAndButton {
+    margin-top: 40px;
+    @include leftcolumn;
+    width: 100%;
+    
+    .ant-dropdown-trigger,
+    .ant-dropdown-trigger:hover,
+    .ant-dropdown-trigger:focus {
+      border: 1px solid #707070;
+      width: 100%;
+    }
+    .ant-btn {
+      align-self: flex-end;
+      margin-top: 25px;
+    }
+    .dropper {
+      @include leftrow;
+      @include fourteenpxfont;
+      font-weight: normal;
+      width: 100%;
+      padding:15px;
+      height: 45px;
+      border-radius: 0px !important;
+      margin: 0;
+    }
+  }
+
+  &_Item {
+    width: 80%;
+    box-sizing: border-box;
+    padding-left: 5%;
+    @media (max-width: 600px) {
+      width: 100%;
+      padding-left: 0%;
+    }
+    @include leftrow;
+    p {
+      margin: 0;
+    }
+    div:nth-child(1) {
+      width: 100%;
+      font-weight: bold;
+      @include leftrow;
+      align-items: flex-end;
+      p {
+        @include eighteenpxfont;
+      }
+      div:nth-child(2) {
+        height: 1px;
+        flex: 1;
+        border-bottom: 1px solid #C7C7C7;
+        margin: 0 10px 9px 10px;
+      }
+    }
+    p:nth-child(2) {
+    width: 10%;
+    min-width: 80px;
+    }
+  }
+}
+
+.tipCollapser, .disputeCollapser {
+  width: 100%;
+  .ant-collapse {
+    width: 100%;
+  }
+  .ant-collapse-content {
+    background: none;
+    border: none;
+  }
+  .ant-collapse,.ant-collapse > .ant-collapse-item {
+    border: none;
+    background: inherit;
+  }
+
+  .ant-collapse-item:last-child > .ant-collapse-content {
+    border-radius: 0;
+  }
+  .ant-collapse-content-box {
+    @include leftcolumn;
+    padding: 20px 0;
+  }
+  .ant-collapse-header {
+    display: none;
+  }
+  .ant-input-affix-wrapper {
+    border-radius: 0;
+  }
+  .ant-input,.ant-input-affix-wrapper {
+    border-radius: 0;
+    color: $darkestgrey !important;
+  }
+  .ant-input-affix-wrapper-focused,.ant-input-affix-wrapper:hover {
+    border: 1px solid $darkestgrey;
+    box-shadow: none;
+  }
+  .ant-input-suffix {
+    color: $darkestgrey;
+    @include twelvepxfont;
+  }
+  .onCancel {
+    cursor: pointer;
+  }
+}
+
+
+
+// --- Miner graphic stuff --- 
+
+.loadercircle {
+  stroke-miterlimit: 10;
+  stroke-width: 2;
+  stroke: #D9D9D9;
+  stroke-dasharray: 250;
+  stroke-dashoffset: -250;
+  fill: none;
+  animation: circleanim 3s infinite linear;
+}
+
+.minericon_line {
+  stroke-miterlimit: 10;
+  stroke-width: 1;
+  stroke: #D9D9D9;
+  fill: none;
+}
+
+.minericon_line_loading {
+  stroke-miterlimit: 10;
+  stroke-dasharray: 4;
+  stroke-dashoffset: -8;
+  stroke-width: 1;
+  stroke: #555555;
+  fill: none;
+  animation: loadinganim 0.5s infinite linear;
+}
+
+.minericon_box {
+  stroke-width: 1;
+  stroke: #D9D9D9;
+  fill: none;
+}
+
+.minericon_loader {
+  stroke-dasharray: 84;
+  stroke-dashoffset: 84;
+  stroke-width: 2px;
+  stroke:$tellor-green;
+  fill: none;
+  animation: loaderanim 3s infinite linear;
+}
+
+.fullicon_second_extramargin {
+  margin: 0 -6px 0 0;
+}
+.fullicon_fourth_extramargin {
+  margin: 0 0 0 -7px;
+}
+.fullicon_line {
+  fill: none;
+  stroke: $tellor-green;
+  stroke-miterlimit: 10;
+  stroke-width:1;
+  stroke-dasharray: 4 4;
+  animation: connectedanim 1.5s infinite linear;
+}
+
+@keyframes circleanim {
+  0% {
+    stroke-dashoffset: 250;
+  }
+  50% {
+      stroke-dashoffset: 0;
+  }
+  100% {
+      stroke-dashoffset: -250;
+  }
+}
+@keyframes loaderanim {
+  0% {
+    stroke-dashoffset: 84;
+  }
+  50% {
+      stroke-dashoffset: 0;
+  }
+  100% {
+      stroke-dashoffset: -84;
+  }
+}
+
+@keyframes loadinganim {
+  0% {
+    stroke-dashoffset: -8;
+  }
+  50% {
+      stroke-dashoffset: 0;
+  }
+  100% {
+      stroke-dashoffset: 8;
+  }
+}
+
+@keyframes connectedanim {
+  0% {
+    stroke-dashoffset: -4;
+  }
+  50% {
+      stroke-dashoffset: 0;
+  }
+  100% {
+      stroke-dashoffset: 4;
+  }
+}
+
+
+
+
 
 // --- Ant Overrides ---
 
@@ -214,439 +1871,301 @@ button {
 }
 
 .ant-btn {
-  border-radius: 50px;
-  color: var(--color-primary-1);
-  &:hover {
+  @include sixteenpxfont;
+  @include greenshine;
+  color: $darkestgrey;
+  box-sizing: border-box;
+  padding: 14px 40px 18px 40px;
+  height: 50px;
+  transition: all 0.025s linear;
+  @media (max-width: 965px) {
+    padding: 12px 30px;
+    height: 40px;
+    @include fourteenpxfont;
   }
-  &-primary {
-    color: var(--color-secondary-2);
-    &:hover,
-    &:focus {
-      color: var(--color-secondary-2);
-    }
-  }
-  &-default {
-    background: transparent;
-    &:hover,
-    &:focus {
-      background: var(--color-primary-5);
-      color: var(--color-secondary-2);
-    }
-  }
+  width: auto;
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
   &:disabled {
-    opacity: 0.25;
-  }
-}
-
-// Tables
-
-.ant-table-wrapper {
-  max-width: 1200px;
-  width: 100%;
-}
-
-.ant-table {
-  background: transparent;
-  font-family: 'Roboto Mono', monospace;
-  table {
-    border: none !important;
-  }
-  &:not(.expanded) {
-    color: var(--color-primary-2);
-  }
-}
-
-.ant-table-thead > tr > th {
-  color: var(--color-table-thead);
-  background: transparent;
-  border-bottom: 1px solid var(--background);
-}
-
-tr.ant-table-expanded-row,
-tr.ant-table-expanded-row:hover {
-  background: transparent;
-}
-
-.ant-table-tbody > tr > td {
-  border-bottom: 1px solid var(--background);
-  transition: all 0.3s, border 0s, color 0ms;
-}
-
-.ant-table-thead
-  > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
-  > td,
-.ant-table-tbody
-  > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
-  > td,
-.ant-table-thead
-  > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
-  > td,
-.ant-table-tbody
-  > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
-  > td {
-  background: rgba(153, 255, 209, 0.1);
-  color: var(--color-primary-2);
-}
-
-.ant-table-row-expand-icon-cell {
-  cursor: pointer;
-  span {
-    pointer-events: none;
-    color: var(--color-primary-5);
-  }
-}
-
-tr.ant-table-expanded-row > td,
-tr.ant-table-expanded-row:hover > td {
-  background: rgba(153, 255, 209, 0.1);
-}
-
-.ant-table-thead > tr > th,
-.ant-table-tbody > tr > td,
-.ant-table tfoot > tr > th,
-.ant-table tfoot > tr > td {
-  padding: 16px 0px;
-}
-
-// Expanded Table Row
-
-.ant-table-tbody > tr .ant-table-wrapper:only-child .ant-table {
-  margin-left: -16px;
-  margin-right: -16px;
-}
-
-.ant-table-thead > tr > th,
-.ant-table-tbody > tr > td,
-.ant-table tfoot > tr > th,
-.ant-table tfoot > tr > td {
-  padding: 16px 16px;
-}
-
-.ant-table-bordered .ant-table-thead > tr > th,
-.ant-table-bordered .ant-table-tbody > tr > td {
-  border-right: none;
-}
-
-.ant-table-expanded-row
-  .ant-table-tbody
-  .ant-table-row
-  .ant-table-cell:last-child {
-  text-align: right;
-}
-
-.ant-table-cell p {
-  margin: 0;
-}
-
-.ant-table-row.expanded {
-  background-color: var(--color-primary-1);
-  color: #151515 !important;
-  &:hover .ant-table-cell {
-    color: #151515 !important;
-  }
-  .ant-table-row-expand-icon-cell {
-    cursor: pointer;
+    @include greenshine;
     span {
-      pointer-events: none;
-      color: #151515;
+      opacity: 0.5;
     }
   }
+  &:hover,&:focus {
+    color: $darkestgrey;
+    @include greenshine;
+    border: none;
+    outline: none;
+  }
+  &:active {
+    transform: scale(0.995)
+  }
+}
+
+[ant-click-animating-without-extra-node]:after {
+  -webkit-animation: none !important;
+  -moz-animation: none !important;
+  -o-animation: none !important;
+  -ms-animation: none !important;
+  animation: none !important;
+}
+
+.ant-dropdown-trigger {
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+  &:disabled {
+    background: transparent;
+    box-shadow: none;
+    outline: none;
+  }
+  &:hover,&:focus {
+    background: transparent;
+    box-shadow: none;
+    outline: none;
+    color: $darkestgrey !important;
+  }
+}
+
+
+// Dropdown Menu
+
+.ant-dropdown-menu {
+  box-shadow: none;
+  border-radius: 0;
+  padding: 4px 0 0 0;
+}
+
+.ant-dropdown-menu, .ant-dropdown-arrow {
+  margin: -5px 0 0 0;
+}
+.ant-dropdown-menu-item {
+  @include sixteenpxfont;
+  color: $darkestgrey;
+  border-bottom: 1px solid $tellor-grey2;
+  padding: 8px 12px;
+  &:hover{
+    background: transparent;
+    color: $tellor-green;
+  }
+}
+.ant-table {
+  color: $darkestgrey;
 }
 
 // Pagination
 
 .ant-pagination {
-  &.ant-table-pagination {
-    margin: 16px;
-  }
-  .ant-pagination-item:not(.ant-pagination-item-active) {
-    background-color: transparent;
+  color: $darkestgrey;
+  &-item {
+    background: none;
     border: none;
-    &.ant-pagination-item-active {
-      background-color: transparent;
-    }
+    border-radius: 50%;
+
   }
-  .ant-pagination-item {
-    background-color: transparent;
-    border-radius: 50px;
+  &-item-active {
+    background: none;
+    border: 1px solid $tellor-green;
   }
-  .ant-pagination-prev,
-  .ant-pagination-next {
-    .ant-pagination-item-link {
-      border: none;
-      background-color: transparent;
-    }
-  }
-  .ant-pagination-disabled {
-    .ant-pagination-item-link {
-      border: none;
-      background-color: transparent;
-    }
+
+}
+
+
+.ant-pagination-item a {
+  color: $darkestgrey;
+  &:hover {
+    color: $tellor-green;
   }
 }
 
-// Notification
 
-.ant-notification-notice {
-  background: var(--color-secondary-2);
+.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
+  border: none;
+  background: none;
+  color: $darkestgrey;
+
 }
 
-// Modal
 
-.ant-modal-mask {
-  background-color: rgba(0, 0, 0, 0.85);
-}
 
-.ant-modal-content {
-  background-color: var(--modal-color-background);
-  h6 {
-    color: var(--color-table-thead);
-  }
-  p {
-    font-size: 21px;
-    color: var(--color-primary-2);
-  }
-}
 
-.ant-modal-header {
-  background-color: var(--modal-color-background);
-  border-bottom: 1px solid var(--background);
-  .ant-modal-title {
-    font-size: 24px;
-    color: var(--color-heading);
-  }
-}
-
-.ant-modal-footer {
-  background-color: var(--modal-color-background);
-
-  .ant-btn {
-    &-default {
-      color: var(--modal-color-btn-default);
-
-      &:focus,
-      &:hover {
-        color: var(--color-secondary-2);
-      }
-    }
-  }
-}
-
-.ant-modal-close {
-  color: var(--color-primary-1);
-}
-
-.ant-layout-content {
-  background-color: var(--background-2);
-}
-
-// Web3Modal
-#WEB3_CONNECT_MODAL_ID{
-z-index: 100001;
-    position: fixed;
-}
-
-// Dropdown
-
-.ant-dropdown {
-  border-radius: 5px !important;
-  .ant-dropdown-menu {
-    padding-top: 8px;
-    padding-bottom: 8px;
-    background-color: var(--modal-color-background);
-    .ant-dropdown-menu-item {
-      color: var(--color-link);
-      &:hover {
-        background-color: var(--color-primary-5);
-        color: var(--color-secondary-2);
-      }
-    }
-  }
-}
-
-// Responsive Adjustments
-
-@media all and (max-width: 800px) {
-  .ant-table-expanded-row
-    .ant-table-tbody
-    .ant-table-row
-    .ant-table-cell:first-child {
-    max-width: 80px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .ant-layout-header {
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-}
-
-// Input field
-
-.ant-input {
-  color:#151515
-}
 
 
 
 // Migration specifics (by Bennisan)
 
-.Migration .Intro {
+.Migration {
+  width: 100%;
+  min-height: 60vh;
   box-sizing: border-box;
-  padding: 70px 0 0 0;
-  // background-color: black;
-  background-color: var(--background);
-}
-
-.Migration .View {
-  padding-bottom: 50px;
-}
-.Migration .Line {
-  border-top: 1px solid rgba(0, 0, 0, 0.5);
-  margin: 0 0 0 0;
-}
-
-.Migration h1, .Migration p, .Migration h2, .Migration li {
-  // color: white;
-}
-
-.Migration h1 {
-  font-size: 2em;
-  margin: 0 0 22px 0;
-}
-.Migration p, .Migration li {
-  font-size: 1rem !important;
-  line-height: 1.65rem;
-  font-weight: 100;
-}
-
-.Migration li {
-  margin-top: 10px;
-}
-
-.Migration h2 {
-  margin-bottom: 20px;
-}
-
-.Migration h1, .Migration .ant-collapse, .Migration .RadioGroup, .Migration li {
-  max-width: 685px;
-}
-
-.Migration .ant-collapse, .Migration .ant-collapse-content {
-  background-color: transparent;
-  border: none;
-  // color: white;
-}
-
-.Migration .ant-collapse > .ant-collapse-item {
-  border: none;
-}
-
-
-.Migration .ant-collapse > .ant-collapse-item > .ant-collapse-header {
-  color: var(--color-heading);
-  text-decoration: underline;
-}
-
-.Migration .RadioGroup {
-  display: flex;
-  flex-direction: column;
-}
-
-
-.Migration .RadioItem {
-  box-sizing: border-box;
-  padding: 15px;
-  border-radius: 5px;
-  margin: 0 0 10px 0;
-  background-color: #151515;
-}
-
-.wselected .ant-radio-wrapper {
-  opacity: 0.2;
-}
-
-.Migration .wselected .ant-radio-wrapper-checked {
-  opacity: 1 !important;
-}
-
-.Migration .Step {
-  box-sizing: border-box;
-  padding: 40px 0 50px 0;
-}
-
-.Migration .Step button {
-  margin: 10px 0 20px 0;
-}
-
-.Migration .connected {
-  margin: 30px 0 0 0;
-}
-
-
-.Migration .connected span {
-  font-weight: bold;
-  // color: white;
-}
-
-.Migration .Balances {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-end;
-  margin: 25px 0 20px 0;
-}
-
-
-.Migration .Balance {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  margin: 0 40px 0 0;
-}
-
-.Migration .Balance p {
-  font-size: 13px !important;
-  margin: 0 0 0 0;
-}
-
-
-.Migration .Balance h1 {
-  color: var(--color-link);
-}
-
-
-.halfop {
-  opacity: 0.2;
-}
-
-.fullop {
-  opacity: 1;
-}
-
-.Success {
-  background-color: var(--background);
-  box-sizing: border-box;
-  padding: 50px 0 25px 0;
+  padding: 0 6vw 100px 6vw;
+  @include leftcolumn;
+  .Intro {
+    box-sizing: border-box;
+    padding: 20px 0 0 0;
+    background-color: var(--background);
+    .View {
+      padding-bottom: 50px;
+      color:$darkestgrey;
+    }
+  }
+  .Line {
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+    margin: 0 0 0 0;
+    width: 100%;
+  }
   h1 {
-    // color: black;
+    font-size: 2rem;
+    line-height: 2.85rem;
+    font-weight: 100;
+    margin: 0 0 22px 0;
+  }
+  .ant-collapse, .ant-collapse-content {
+    background-color: transparent;
+    border: none;
+    color: $darkestgrey;
+    font-weight: bold;
+    @include sixteenpxfont;
+  }
+
+  p, li {
+    @include sixteenpxfont;
     font-weight: normal;
   }
+  li {
+    margin-top: 10px;
+  }
+  h2 {
+    margin-bottom: 20px;
+  }
+  h1, .ant-collapse, .RadioGroup, li {
+    max-width: 685px;
+  }
+  .ant-collapse > .ant-collapse-item {
+    border: none;
+  }
+
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    text-decoration: underline;
+  }
+  
+  .RadioGroup {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .RadioItem {
+    box-sizing: border-box;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 0 0 10px 0;
+    background-color: #151515;
+  }
+
+  .wselected .ant-radio-wrapper {
+    opacity: 0.2;
+  }
+
+  .wselected .ant-radio-wrapper-checked {
+    opacity: 1 !important;
+  }
+  
+  .Step {
+    box-sizing: border-box;
+    padding: 40px 0 50px 0;
+  }
+  
+  .Step button {
+    margin: 10px 0 20px 0;
+  }
+  
+  .connected {
+    margin: 30px 0 0 0;
+  }
+  
+  
+  .connected span {
+    font-weight: bold;
+    // color: white;
+  }
+  
+  .Balances {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+    margin: 25px 0 20px 0;
+  }
+  
+  
+  .Balance {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 0 40px 0 0;
+  }
+  
+  .Balance p {
+    font-size: 13px !important;
+    margin: 0 0 0 0;
+  }
+  
+  .Balance h1 {
+    color: var(--color-link);
+  }
+
+  .halfop {
+    opacity: 0.2;
+  }
+
+  .fullop {
+    opacity: 1;
+  }
+
+
+  .Success {
+    width: 100%;
+    background-color: $tellor-green;
+    box-sizing: border-box;
+    padding: 50px 0 25px 0;
+    h1 {
+      font-weight: normal;
+      text-align: center;
+      max-width: 100%;
+    }
+  }
+
+  .leftrow {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .copier {
+    margin: 1px 10px 0 10px;
+    font-size: 1rem !important;
+    cursor: pointer;
+    color: var(--color-heading);
+  }
+
 }
 
-.leftrow {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
 
-.copier {
-  margin: 1px 10px 0 10px;
-  font-size: 1rem !important;
-  cursor: pointer;
-  color: var(--color-heading);
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
