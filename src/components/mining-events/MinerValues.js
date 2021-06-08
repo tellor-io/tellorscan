@@ -68,6 +68,7 @@ const MinerValues = ({ miningEvent, valueIndex, closeMinerValuesModal }) => {
               value={value}
               minerAddr={record.miner}
               miningEvent={miningEvent}
+              minerIndex={index}
               closeMinerValuesModal={closeMinerValuesModal}
             />
           );
@@ -86,8 +87,8 @@ const MinerValues = ({ miningEvent, valueIndex, closeMinerValuesModal }) => {
           pagination={false}
         />
       ) : (
-        <Loader />
-      )}
+          <Loader />
+        )}
     </>
   );
 };

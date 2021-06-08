@@ -19,6 +19,7 @@ const eventFields = `
   id
   timestamp
   requestIds
+  time
   minedValues
   totalTips
   blockNumber

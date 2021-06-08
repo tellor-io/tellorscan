@@ -15,13 +15,13 @@ const DisputeForm = ({
   miningEvent,
   closeMinerValuesModal,
   minerAddr,
+  minerIndex,
 }) => {
   const [visible, setVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [currentTx, setCurrentTx] = useState();
   const [error, setError] = useState();
   const [disputeFee, setDisputeFee] = useState();
-  const [minerIndex, setMinerIndex] = useState();
   const [userBalance, setUserBalance] = useState(0);
   const [cantSubmit, setCantSubmit] = useState();
 
@@ -34,7 +34,7 @@ const DisputeForm = ({
       await currentUser.contracts.beginDispute(
         currentUser.address,
         miningEvent.requestId,
-        miningEvent.timestamp,
+        miningEvent.time,
         minerIndex,
         setCurrentTx,
       );
@@ -68,42 +68,19 @@ const DisputeForm = ({
   };
 
   useEffect(() => {
-    fetch(chains[currentNetwork].apiURL + "/getMiners/" + miningEvent.requestId + "/" + miningEvent.timestamp)
-      .then(response => response.json())
-      .then(data => {
-        for (let index = 0; index < data.length; index++) {
-          if (data[index].toLowerCase() == minerAddr.toLowerCase()) {
-            setMinerIndex(index)
-            return
-          }
-        }
-      })
-      .catch((error) => {
-        console.log("error", error);
-        setCantSubmit("Miner index fetch error:" + error,)
-      });
-  }, [])
-
-  useEffect(() => {
     fetch(chains[currentNetwork].apiURL + "/getDisputeFee")
       .then(response => response.json())
       .then(data =>
         setDisputeFee(fromWei(data.disputeFee))
-      )
-      .catch((error) => {
-        console.log("error", error);
-        setCantSubmit("Dispute fee fetch error:" + error,)
-      });
+      );
   }, [])
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && disputeFee) {
       currentUser.contracts.balanceOf(currentUser.address).then(result => {
         let balance = fromWei(result)
         setUserBalance(balance)
-        if (balance < disputeFee) {
-          setCantSubmit("Not enough balance")
-        }
+        setCantSubmit(balance < disputeFee ? "Not enough balance" : null)
       })
     }
   }, [currentUser, disputeFee]);
@@ -130,9 +107,7 @@ const DisputeForm = ({
               <h6>Miner Index</h6>
               <p>{minerIndex}</p>
               <h6>Symbol</h6>
-              <p>{miningEvent.requestSymbol} - {miningEvent.requestId}</p>
-              <h6>Timestamp</h6>
-              <p>{miningEvent.timestamp}</p>
+              <p>{miningEvent.requestSymbol}</p>
               <h6>Value</h6>
               <p>{value}</p>
               <h6>TRB Stake dispute fee</h6>
