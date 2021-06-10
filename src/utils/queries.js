@@ -102,3 +102,19 @@ export const GET_VOTING = gql`
     }
   }
 `;
+
+const voteFields = `
+  disputeId
+  timestamp
+  voter
+  voteWeight
+  position
+`;
+
+export const GET_VOTES = gql`
+query {
+  votes {
+    ${voteFields}
+  }
+}
+`;

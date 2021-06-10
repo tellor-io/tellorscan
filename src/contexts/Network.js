@@ -5,7 +5,7 @@ export const NetworkContext = createContext();
 
 const Network = ({ children }) => {
   const [currentNetwork, setCurrentNetwork] = useState(
-    window.localStorage.getItem('defaultNetwork') || '1'
+    window.localStorage.getItem('defaultNetwork') || 1
   );
 
   return (
