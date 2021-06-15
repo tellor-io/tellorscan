@@ -1,34 +1,20 @@
 import React, { useState,useEffect, useContext } from 'react';
-import { Table } from 'antd';
+import { Table,Collapse,Row,Col } from 'antd';
 import { fromWei, getGranPrice,truncateAddr } from 'utils/helpers';
-import { CheckOutlined,CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined,CloseOutlined,RightOutlined } from '@ant-design/icons';
 import { NetworkContext } from 'contexts/Network';
 import { useMediaQuery } from 'react-responsive';
 import GraphFetch from 'components/shared/GraphFetch';
 import { GET_VOTES } from 'utils/queries';
+import { concat } from '@apollo/client';
+
+const { Panel } = Collapse;
 
 const VotingTable = ({ votes, pagination }) => {
   const [voteFeed, setVoteFeed] = useState();
 
   GraphFetch({ query: GET_VOTES, setRecords: setVoteFeed, suppressLoading: true })
-  const VotesPerDisputeTable = ({ voteFeed, record }) => {
-    const columns = [
-      { title: 'Date', dataIndex: 'timestamp', key: 'timestamp', render: ((timestamp) => (new Date(timestamp * 1000).toISOString())) },
-      { title: 'Voter', dataIndex: 'voter', key: 'voter' },
-      { title: 'Vote Position', dataIndex: 'position', key: 'position', render: ((position) => position ? "Pass" : "Deny") },
-      { title: 'Vote Weight', dataIndex: 'voteWeight', key: 'voteWeight', align: 'left', render: ((voterWeight) => fromWei(voterWeight)) },
-    ];
-    let inTable = voteFeed.filter(function (entry) {
-      return entry.disputeId === record.id
-    });
-    return (
-      <Table columns={columns}
-        dataSource={inTable}
-        pagination={false}
-        rowKey={'disputeId'}
-      />
-    );
-  };
+
   const [txLink, setTxLink] = useState(1);
   const [currentNetwork] = useContext(NetworkContext);
   const isMobile = useMediaQuery({query: '(max-width: 680px)'});
@@ -43,6 +29,25 @@ const VotingTable = ({ votes, pagination }) => {
       }
     }
   },[currentNetwork]);
+
+  const VotesPerDisputeTable = ({ voteFeed, record }) => {
+    const columns = [
+      { title: 'date', dataIndex: 'timestamp', key: 'timestamp', render: ((timestamp) => (new Date(timestamp * 1000).toLocaleString())) },
+      { title: 'voter', dataIndex: 'voter', key: 'voter', render: ((voter) => <a href={txLink+"address/"+ voter} target="_blank" rel="noopener noreferrer">{truncateAddr(voter)}</a>) },
+      { title: 'position', dataIndex: 'position', key: 'position', render: ((position) => position ? "pass" : "deny") },
+      { title: 'weight', dataIndex: 'voteWeight', key: 'voteWeight', align: 'left', render: ((voterWeight) => fromWei(voterWeight)) },
+    ];
+    let inTable = voteFeed.filter(function (entry) {
+      return entry.disputeId === record.id
+    });
+    return (
+      <Table columns={columns}
+        dataSource={inTable}
+        pagination={false}
+        rowKey={'disputeId'}
+      />
+    );
+  };
 
   const copy = isMobile? 'value': 'disputed value';
   const columns = [
@@ -90,9 +95,14 @@ const VotingTable = ({ votes, pagination }) => {
       expandedRowRender={(record, index) => {
             return <div className="pastdispute_box" key={index}>
               <div><p>Value submitted by <a href={txLink+"address/"+record.miner} target="_blank" rel="noopener noreferrer">{truncateAddr(record.miner)}</a></p></div>
-              <div><p>Total votes: {record.votes? record.votes.length: "0"}</p></div>
+              <div className="vote_history">
+                <Collapse bordered="false" ghost>
+                  <Panel  header={<p>{"Total votes: ".concat(record.votes? record.votes.length:"0")}</p>}>
+                    <VotesPerDisputeTable voteFeed={voteFeed.votes} record={record} valueIndex={index} />
+                  </Panel>
+                </Collapse>
+              </div>
               <div className={record.result? "green bold":"bold"}><p>{record.result? <CheckOutlined />:<CloseOutlined />} Dispute {record.result? "Passed":"Rejected"}</p></div>
-              <VotesPerDisputeTable voteFeed={voteFeed.votes} record={record} valueIndex={index} />
 
               </div>
           }}
