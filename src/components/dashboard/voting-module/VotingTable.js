@@ -1,7 +1,7 @@
 import React, { useState,useEffect, useContext } from 'react';
 import { Table,Collapse,Row,Col } from 'antd';
 import { fromWei, getGranPrice,truncateAddr } from 'utils/helpers';
-import { CheckOutlined,CloseOutlined,RightOutlined } from '@ant-design/icons';
+import { CheckOutlined,CloseOutlined} from '@ant-design/icons';
 import { NetworkContext } from 'contexts/Network';
 import { useMediaQuery } from 'react-responsive';
 import GraphFetch from 'components/shared/GraphFetch';
