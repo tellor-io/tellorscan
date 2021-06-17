@@ -89,7 +89,7 @@ const disputeFields = `
 
 export const GET_OPEN_DISPUTES = gql`
   query {
-    disputes(where : { active: null, requestId_gt: 0}) {
+    disputes(where : { active: null, requestId_gt: 0}, orderBy: timestamp, orderDirection: desc) {
       ${disputeFields}
     }
   }
@@ -97,7 +97,7 @@ export const GET_OPEN_DISPUTES = gql`
 
 export const GET_VOTING = gql`
   query {
-    disputes(first: 50, orderBy: disputeId, orderDirection: desc) {
+    disputes(first: 50, orderBy: timestamp, orderDirection: desc) {
       ${disputeFields}
     }
   }
@@ -113,7 +113,7 @@ const voteFields = `
 
 export const GET_VOTES = gql`
 query {
-  votes {
+  votes(orderBy: timestamp, orderDirection: desc) {
     ${voteFields}
   }
 }

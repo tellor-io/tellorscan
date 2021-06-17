@@ -32,7 +32,14 @@ const VotingTable = ({ votes, pagination }) => {
 
   const VotesPerDisputeTable = ({ voteFeed, record }) => {
     const columns = [
-      { title: 'date', dataIndex: 'timestamp', key: 'timestamp', render: ((timestamp) => (new Date(timestamp * 1000).toLocaleString())) },
+      { title: 'date',
+        dataIndex: 'timestamp',
+        key: 'timestamp',
+        render: (timestamp) => {
+            const humandate = new Date(timestamp * 1000).toLocaleString();
+            return <>{humandate}</>;
+          },
+      },
       { title: 'voter', dataIndex: 'voter', key: 'voter', render: ((voter) => <a href={txLink+"address/"+ voter} target="_blank" rel="noopener noreferrer">{truncateAddr(voter)}</a>) },
       { title: 'position', dataIndex: 'position', key: 'position', render: ((position) => position ? "pass" : "deny") },
       { title: 'weight', dataIndex: 'voteWeight', key: 'voteWeight', align: 'left', render: ((voterWeight) => fromWei(voterWeight)) },
