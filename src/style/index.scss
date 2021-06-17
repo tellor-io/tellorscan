@@ -1250,8 +1250,21 @@ h6 {
     font-weight: bold;
   }
 
-  .ant-collapse>.ant-collapse-item>.ant-collapse-header .ant-collapse-arrow {
-    left: 0 !important;
+  .vote_history {
+    .ant-collapse-content>.ant-collapse-content-box {
+      padding: 0 0 0 0;
+
+    }
+
+    .ant-collapse>.ant-collapse-item>.ant-collapse-header .ant-collapse-arrow {
+      left: 0 !important;
+    }
+
+    .ant-table-expanded-row .ant-table-cell {
+      padding: 0;
+      color: $darkestgrey;
+    }
+
   }
 
   .ant-table {

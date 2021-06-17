@@ -86,6 +86,7 @@ const VotingTable = ({ votes, pagination }) => {
     <Table
       columns={columns}
       rowKey={'id'}
+      defaultSortOrder='disputed on'
       dataSource={votes}
       pagination={pagination}
       onRow={onRow}
@@ -102,7 +103,7 @@ const VotingTable = ({ votes, pagination }) => {
                   </Panel>
                 </Collapse>
               </div>
-              <div className={record.result? "green bold":"bold"}><p>{record.result? <CheckOutlined />:<CloseOutlined />} Dispute {record.result? "Passed":"Rejected"}</p></div>
+              <div className={Boolean(record.disputeVotePassed)? "green bold":"bold"}><p>{Boolean(record.disputeVotePassed)? <CheckOutlined />:<CloseOutlined />} Dispute {Boolean(record.disputeVotePassed)? "Passed":"Rejected"}</p></div>
 
               </div>
           }}
