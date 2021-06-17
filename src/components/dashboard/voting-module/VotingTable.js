@@ -60,9 +60,11 @@ const VotingTable = ({ votes, pagination }) => {
     },
     {
       title: 'disputed on',
+      dataIndex: 'timestamp',
+      key: 'timestamp',
       width:'50%',
-      render: (record) => {
-        const humandate = new Date(record.timestamp * 1000).toLocaleString();
+      render: (timestamp) => {
+        const humandate = new Date(timestamp * 1000).toLocaleString();
         return <>{humandate}</>;
       },
     },
@@ -86,7 +88,6 @@ const VotingTable = ({ votes, pagination }) => {
     <Table
       columns={columns}
       rowKey={'id'}
-      defaultSortOrder='disputed on'
       dataSource={votes}
       pagination={pagination}
       onRow={onRow}
