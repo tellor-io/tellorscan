@@ -15,23 +15,28 @@ $tellor-green: #2DFC9F;
   background: $tellor-green;
   background: linear-gradient(90deg, #2DFC9F 0%, #00FB89 100%);
 }
+
 /* font mixins */
 @mixin tenpxfont {
   font-size: 0.625rem !important;
   line-height: 0.85rem !important;
 }
+
 @mixin twelvepxfont {
   font-size: 0.75rem !important;
   line-height: 1rem !important;
 }
+
 @mixin fourteenpxfont {
   font-size: 0.875rem !important;
   line-height: 1.25rem !important;
 }
+
 @mixin sixteenpxfont {
   font-size: 1rem !important;
   line-height: 1.5rem !important;
 }
+
 @mixin eighteenpxfont {
   font-size: 1.125rem !important;
   line-height: 1.75rem !important;
@@ -44,30 +49,35 @@ $tellor-green: #2DFC9F;
   justify-content: center;
   align-items: center;
 }
+
 @mixin centeredcolumn {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
 @mixin leftrow {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
 }
+
 @mixin leftcolumn {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
 }
+
 @mixin rightrow {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
 }
+
 @mixin rightcolumn {
   display: flex;
   flex-direction: column;
@@ -85,6 +95,7 @@ body {
 a {
   font-size: 1em;
 }
+
 p {
   @include twelvepxfont;
 }
@@ -113,12 +124,15 @@ h6 {
 .fader {
   animation: 1s ease-out fadeIn infinite;
 }
+
 .flexer {
   flex: 1;
 }
+
 .bold {
   font-weight: bold;
 }
+
 .green {
   color: $tellor-green;
 }
@@ -128,6 +142,7 @@ h6 {
     opacity: 0;
     visibility: hidden;
   }
+
   100% {
     opacity: 1;
     visibility: visible;
@@ -138,29 +153,35 @@ h6 {
 .Header {
   @include centeredrow;
   box-sizing: border-box;
-  padding: 50px;  
+  padding: 50px;
   width: 100vw;
+
   @media (max-width: 965px) {
     align-items: flex-start;
-    padding: 28px 30px 28px 30px;  
+    padding: 28px 30px 28px 30px;
   }
+
   .BrandLink {
     @media (max-width: 965px) {
       margin: 3px 0 0 0;
+
       .ant-btn {
         padding: 0;
         height: 16px;
       }
     }
+
     a {
-        color: $darkestgrey;
-        font-size: 21px;
-        font-weight: 300;
-        margin-bottom: -11px;
-        font-weight: 500;
+      color: $darkestgrey;
+      font-size: 21px;
+      font-weight: 300;
+      margin-bottom: -11px;
+      font-weight: 500;
+
       svg {
         width: 216px;
       }
+
       @media (max-width: 965px) {
         svg {
           width: 143px;
@@ -169,11 +190,16 @@ h6 {
       }
     }
   }
+
   &__Nav {
     display: flex;
     align-items: center;
     margin-left: auto;
-    .gotAddress, .gotAddress:hover, .gotAddress:focus, .gotAddress:active {
+
+    .gotAddress,
+    .gotAddress:hover,
+    .gotAddress:focus,
+    .gotAddress:active {
       @include leftrow;
       @include sixteenpxfont;
       font-weight: bold;
@@ -183,13 +209,18 @@ h6 {
       box-sizing: border-box;
       padding: 16px 40px 16px 40px;
       border-radius: 25px;
+
       @media (max-width: 965px) {
         @include fourteenpxfont;
         height: 40px;
         padding: 12px 30px 12px 30px;
       }
     }
-    .gotAddress_wCount, .gotAddress_wCount:hover, .gotAddress_wCount:focus, .gotAddress_wCount:active  {
+
+    .gotAddress_wCount,
+    .gotAddress_wCount:hover,
+    .gotAddress_wCount:focus,
+    .gotAddress_wCount:active {
       @include leftrow;
       @include sixteenpxfont;
       font-weight: bold;
@@ -199,12 +230,14 @@ h6 {
       box-sizing: border-box;
       padding: 16px 12px 16px 32px;
       border-radius: 25px;
+
       @media (max-width: 965px) {
         @include fourteenpxfont;
         height: 40px;
         padding: 12px 8px 12px 16px;
       }
     }
+
     .activeDisputesCount {
       @include leftrow;
       justify-content: center;
@@ -215,28 +248,33 @@ h6 {
       margin: 0 0 0 18px;
       padding: 2px 8px;
       text-align: center;
+
       @media (max-width: 965px) {
         width: 24px;
         height: 24px;
         border-radius: 12px;
         margin: 0 0 0 10px;
       }
+
       p {
         margin: 0;
       }
     }
+
     .dropper {
       @include leftrow;
       @include fourteenpxfont;
       font-weight: normal;
       width: 100%;
-      padding: 0 !important;;
+      padding: 0 !important;
+      ;
       height: 45px;
       border-radius: 0px !important;
       margin: 0;
     }
   }
 }
+
 .HeaderDropdown {
   margin: 5px 0 0 0 !important;
   border: 1px solid #D9D9D9;
@@ -244,13 +282,15 @@ h6 {
   padding: 20px;
   border: 1px solid $darkestgrey;
   z-index: 999;
+
   p {
     @include fourteenpxfont;
     margin: 0;
-    color:$darkestgrey;
+    color: $darkestgrey;
   }
+
   h1 {
-    color:$darkestgrey;
+    color: $darkestgrey;
     margin: 0;
     font-weight: 100;
   }
@@ -260,25 +300,32 @@ h6 {
   width: 100%;
   box-sizing: border-box;
   padding: 0 6vw 150px 6vw;
+
   @media (max-width: 600px) {
     padding: 0 6vw 50px 6vw;
   }
+
   @include leftcolumn;
+
   .firstContainer {
     width: 100%;
     @include leftrow;
     align-items: flex-start;
+
     @media (max-width: 965px) {
       @include leftcolumn;
     }
+
     .Current_and_All {
       width: 750px;
       margin: 0 50px 0 0;
     }
+
     .Prices_and_Tip {
       @include leftcolumn;
       flex: 1;
     }
+
     @media (min-width: 1600px) {
       padding: 50px 7vw 0 7vw;
     }
@@ -307,18 +354,22 @@ h6 {
   box-sizing: border-box;
   padding: 50px 0 0 0;
   margin: 0 0 44px 0;
+
   &__MinersBox {
     @include leftrow;
     width: 100%;
     box-sizing: border-box;
     padding: 28px 38px 0 38px;
+
     div {
       margin: 0 50px 0 0;
     }
+
     p {
       color: $darkestgrey;
       margin: 0;
     }
+
     h2 {
       color: $darkestgrey;
       font-size: 2rem;
@@ -331,123 +382,146 @@ h6 {
   }
 
   @media (max-width: 600px) {
-  margin: 10px 0 0 0;
-  height: auto;
-  padding: 40px 0 0 0;
-  &__MinersBox {
-    padding: 28px 29px 0 29px;
-    div {
-      margin: 0 40px 0 0;
+    margin: 10px 0 0 0;
+    height: auto;
+    padding: 40px 0 0 0;
+
+    &__MinersBox {
+      padding: 28px 29px 0 29px;
+
+      div {
+        margin: 0 40px 0 0;
+      }
+
+      p {
+        font-size: 0.625rem;
+      }
+
+      h2 {
+        font-size: 1.625rem;
+      }
     }
-    p {
-      font-size: 0.625rem;
-    }
-    h2 {
-      font-size: 1.625rem;
-    }
-  }
   }
 
 }
 
 .CurrentMiningVisual {
-    @include centeredcolumn;
-    width: 668px;
-    height: 582px;
-    position: relative;
-    * {
-      position: absolute;
-    }
+  @include centeredcolumn;
+  width: 668px;
+  height: 582px;
+  position: relative;
+
+  * {
+    position: absolute;
+  }
+
+  @media (max-width: 1200px) {
+    width: 440px;
+    height: 386px;
+  }
+
+  @media (max-width: 600px) {
+    width: 335px;
+    height: 300px;
+  }
+
+  .circle {
+    margin-top: -30px;
+    width: 324px;
+
     @media (max-width: 1200px) {
-      width: 440px;
-      height: 386px;
+      width: 200px;
     }
+
     @media (max-width: 600px) {
-      width: 335px;
-      height: 300px;
+      width: 153px;
     }
-    .circle {
-      margin-top: -30px;
-      width: 324px;
-      @media (max-width: 1200px) {
-        width: 200px;
-      }
-      @media (max-width: 600px) {
-        width: 153px;
-      }
+  }
+
+  .midblock {
+    width: 182px;
+    height: 125px;
+    margin-top: -35px;
+
+    @media (max-width: 1200px) {
+      width: 128px;
+      height: 80px;
+      margin-top: -25px;
     }
-    .midblock {
-      width: 182px;
-      height: 125px;
-      margin-top: -35px;
+
+    @media (max-width: 600px) {
+      width: 128px;
+      height: 80px;
+      margin-top: -25px;
+    }
+
+    p {
+      @include fourteenpxfont;
+      line-height: 1rem !important;
+      color: $darkestgrey;
+      text-align: center;
+      position: static;
+      margin: 0 0 16px 0;
+
       @media (max-width: 1200px) {
-        width: 128px;
-        height: 80px;
-        margin-top: -25px;
-      }
-      @media (max-width: 600px) {
-        width: 128px;
-        height: 80px;
-        margin-top: -25px;
-      }
-      p {
-        @include fourteenpxfont;
-        line-height: 1rem !important;
+        font-size: 0.5rem !important;
+        line-height: 0.625rem !important;
         color: $darkestgrey;
         text-align: center;
-        position:static;
-        margin: 0 0 16px 0;
-        @media (max-width: 1200px) {
-          font-size: 0.5rem !important;
-          line-height: 0.625rem !important;
-          color: $darkestgrey;
-          text-align: center;
-          position:static;
-          margin: 0 0 8px 0;
+        position: static;
+        margin: 0 0 8px 0;
 
-        }
-        @media (max-width: 600px) {
-          font-size: 0.5rem !important;
-          line-height: 0.625rem !important;
-          color: $darkestgrey;
-          text-align: center;
-          position:static;
-          margin: 0 0 8px 0;
-        }
       }
-      p:nth-child(2) {
-        font-weight: bold;
-        @include eighteenpxfont;
-        margin: 0 0 0 0;
-        @media (max-width: 1200px) {
-          font-weight: bold;
-          @include twelvepxfont;
-          margin: 0 0 0 0;
-        }
-        @media (max-width: 600px) {
-          font-weight: bold;
-          @include twelvepxfont;
-          margin: 0 0 0 0;
-        }
+
+      @media (max-width: 600px) {
+        font-size: 0.5rem !important;
+        line-height: 0.625rem !important;
+        color: $darkestgrey;
+        text-align: center;
+        position: static;
+        margin: 0 0 8px 0;
       }
     }
+
+    p:nth-child(2) {
+      font-weight: bold;
+      @include eighteenpxfont;
+      margin: 0 0 0 0;
+
+      @media (max-width: 1200px) {
+        font-weight: bold;
+        @include twelvepxfont;
+        margin: 0 0 0 0;
+      }
+
+      @media (max-width: 600px) {
+        font-weight: bold;
+        @include twelvepxfont;
+        margin: 0 0 0 0;
+      }
+    }
+  }
 }
 
 .CurrentMiner {
   @include centeredcolumn;
   position: absolute;
+
   p {
     color: $darkestgrey;
     text-align: center;
     font-weight: bold;
     z-index: 9;
+
     @media (max-width: 1200px) {
       font-size: 0.625rem !important;
     }
+
     @media (max-width: 600px) {
       font-size: 0.625rem !important;
     }
   }
+
   &_first {
     align-items: flex-end;
     justify-content: flex-end;
@@ -455,38 +529,46 @@ h6 {
     height: 144px;
     top: 0;
     left: 100px;
+
     @media (max-width: 1200px) {
       width: 122px;
       height: 100px;
       left: 50px;
     }
+
     @media (max-width: 600px) {
       width: 94px;
       height: 77px;
       left: 50px;
     }
+
     p {
       width: 100%;
       margin: 0 0 12px 0;
-      position:static;
+      position: static;
+
       @media (max-width: 1200px) {
         margin: 0 0 6px 0;
       }
+
       @media (max-width: 600px) {
         margin: 0 0 6px 0;
       }
     }
+
     svg {
-      position:static;
+      position: static;
+
       @media (max-width: 1200px) {
         height: 72px;
       }
+
       @media (max-width: 600px) {
         height: 55px;
       }
     }
   }
-  
+
   &_second {
     width: 179px;
     height: 84px;
@@ -494,38 +576,46 @@ h6 {
     justify-content: flex-start;
     top: 316px;
     left: 0px;
+
     @media (max-width: 1200px) {
       width: 128px;
       height: 66px;
       top: 206px;
       left: 22px;
     }
+
     @media (max-width: 600px) {
       width: 98px;
       height: 51px;
       top: 166px;
       left: 46px;
     }
+
     p {
       width: 140px;
       margin: 0 39px 0 0;
-      position:static;
+      position: static;
+
       @media (max-width: 1200px) {
         width: 100%;
         margin: 0 20px 0 0;
-        position:static;
+        position: static;
       }
+
       @media (max-width: 600px) {
         width: 100%;
         margin: 0 46px 0 0;
-        position:static;
+        position: static;
       }
     }
+
     svg {
-      position:static;
+      position: static;
+
       @media (max-width: 1200px) {
         height: 46px;
       }
+
       @media (max-width: 600px) {
         height: 35px;
       }
@@ -540,6 +630,7 @@ h6 {
     position: absolute;
     top: 436px;
     left: 265px;
+
     @media (max-width: 1200px) {
       width: 120px;
       height: 100px;
@@ -547,6 +638,7 @@ h6 {
       top: 278px;
       left: 160px;
     }
+
     @media (max-width: 600px) {
       width: 94px;
       height: 82px;
@@ -554,8 +646,9 @@ h6 {
       top: 210px;
       left: 125px;
     }
+
     svg {
-      position:static;
+      position: static;
     }
   }
 
@@ -568,6 +661,7 @@ h6 {
     position: absolute;
     top: 316px;
     left: 490px;
+
     @media (max-width: 1200px) {
       width: 127px;
       height: 66px;
@@ -577,6 +671,7 @@ h6 {
       top: 206px;
       left: 290px;
     }
+
     @media (max-width: 600px) {
       width: 98px;
       height: 52px;
@@ -586,24 +681,30 @@ h6 {
       top: 166px;
       left: 200px;
     }
+
     p {
       width: 140px;
       margin: 0 0 0 39px;
-      position:static;
+      position: static;
+
       @media (max-width: 1200px) {
         width: 98px;
         margin: 0 0 0 40px;
       }
+
       @media (max-width: 600px) {
         width: 98px;
         margin: 0 0 0 40px;
       }
     }
+
     svg {
-      position:static;
+      position: static;
+
       @media (max-width: 1200px) {
         height: 46px;
       }
+
       @media (max-width: 600px) {
         height: 36px;
       }
@@ -618,6 +719,7 @@ h6 {
     position: absolute;
     top: 0;
     left: 427px;
+
     @media (max-width: 1200px) {
       width: 122px;
       height: 100px;
@@ -627,6 +729,7 @@ h6 {
       top: 0;
       left: 265px;
     }
+
     @media (max-width: 600px) {
       width: 94px;
       height: 77px;
@@ -636,29 +739,35 @@ h6 {
       top: 0;
       left: 192px;
     }
+
     p {
       width: 100%;
-      position:static;
+      position: static;
+
       @media (max-width: 1200px) {
         width: 100%;
         margin: 0 0 6px 10px;
-        position:static;
+        position: static;
       }
+
       @media (max-width: 600px) {
         width: 100%;
         margin: 0 0 6px 10px;
-        position:static;
+        position: static;
       }
     }
+
     svg {
-      position:static;
+      position: static;
+
       @media (max-width: 1200px) {
         height: 72px;
-        position:static;
+        position: static;
       }
+
       @media (max-width: 600px) {
         height: 55px;
-        position:static;
+        position: static;
       }
     }
   }
@@ -667,28 +776,34 @@ h6 {
 
 .AllMining {
   width: 100%;
+
   .ant-table {
     background: white;
   }
+
   .Symbols {
     @include fourteenpxfont;
   }
+
   .ant-table-cell p {
     margin: 0;
   }
+
   .ant-table-row-expand-icon {
-    color:$darkestgrey;
+    color: $darkestgrey;
     border: 1px solid $darkestgrey;
   }
 
   .ant-table-expanded-row .ant-table-cell {
     padding: 0;
   }
+
   .PrevMiningEvents {
     background-color: white;
     margin-top: -1px;
     box-sizing: border-box;
     padding: 0 16px 16px 16px;
+
     .PrevMiningEvent {
       width: 78%;
       margin: 0 0 0 22%;
@@ -696,130 +811,159 @@ h6 {
       padding: 15px 10px 15px 20px;
       @include leftcolumn;
       border-bottom: 1px solid grey;
+
       @media (max-width: 600px) {
         width: 100%;
         margin: 0;
       }
+
       &__Inner {
         @include leftrow;
         width: 100%;
+
         p {
           @include fourteenpxfont;
         }
+
         div:first-child {
           @include leftrow;
           flex: 1;
+
           p:first-child {
             font-weight: bold;
             width: 100px;
           }
         }
+
         .ShowMinerValues {
           text-decoration: underline;
           margin: 0 0 0 20px;
           cursor: pointer;
         }
       }
+
       &__MinerVal {
         width: 100%;
         @include leftcolumn;
+
         &__Inner {
           width: 100%;
-          padding: 6px 0; 
+          padding: 6px 0;
           @include leftrow;
+
           div:nth-child(1) {
             @include leftrow;
             flex: 1;
+
             svg {
               width: 30px;
               margin: 0 10px 0 0;
             }
+
             p:nth-child(2) {
               width: 160px;
 
             }
           }
+
           p {
             @include fourteenpxfont;
             color: $darkestgrey;
             text-decoration: none;
-            
+
           }
+
           a {
             @include fourteenpxfont;
             color: $darkestgrey;
             text-decoration: underline;
           }
+
           .disputeClick {
             font-weight: bold;
             text-decoration: underline;
             cursor: pointer;
+
             @media (max-width: 600px) {
               text-align: right;
-              }
+            }
           }
         }
 
         .disputeCollapser {
           @include leftcolumn;
           width: 100%;
+
           p {
             margin: 0;
           }
+
           .disputeFee {
             font-size: 1.25rem !important;
             line-height: 1.85rem !important;
+
             @media (max-width: 600px) {
               font-size: 1rem !important;
               line-height: 1.25rem !important;
             }
           }
+
           .ant-collapse-header {
             display: none;
           }
+
           .ant-collapse-content-box {
             width: 100%;
             border: 2px solid $tellor-grey2;
             border-bottom: 2px solid $darkestgrey;
             padding: 25px 30px;
+
             @media (max-width: 600px) {
               padding: 20px 20px;
             }
+
             margin: 10px 0 30px 0;
             @include leftcolumn;
             flex-wrap: wrap;
             align-items: flex-start;
+
             div:first-child {
               flex: 1;
               margin: 0 0 30px 0;
               min-width: 200px;
               color: $darkestgrey;
+
               @media (max-width: 600px) {
                 margin: 0 0 20px 0;
               }
             }
+
             div:nth-child(2) {
               width: 100%;
               margin: 0;
               box-sizing: border-box;
               @include rightcolumn;
+
               div:first-child {
                 @include rightrow;
                 align-items: center;
                 margin: 0;
               }
+
               a {
-                color:$darkestgrey;
+                color: $darkestgrey;
                 @include sixteenpxfont;
                 text-decoration: underline;
                 margin: 30px 0 0 0 !important;
                 width: 100%;
                 text-align: right;
               }
+
               p {
                 margin: 0 20px 0 0;
                 @include sixteenpxfont;
                 font-weight: bold;
+
                 @media (max-width: 600px) {
                   margin: 0 8% 0 0;
 
@@ -835,12 +979,18 @@ h6 {
       .ant-collapse {
         width: 100%;
       }
+
       .ant-collapse-header {
         display: none;
       }
-      .ant-collapse,.ant-collapse-content,.ant-collapse-content-box,.ant-collapse-item {
+
+      .ant-collapse,
+      .ant-collapse-content,
+      .ant-collapse-content-box,
+      .ant-collapse-item {
         border: none;
       }
+
       .ant-collapse-content-box {
         padding: 10px 0;
       }
@@ -850,9 +1000,11 @@ h6 {
 
 .Prices {
   width: 100%;
+
   @media (max-width: 600px) {
     margin: 0 0 30px 0;
   }
+
   .PriceListItem {
     overflow: hidden;
     @include leftcolumn;
@@ -863,25 +1015,32 @@ h6 {
     box-sizing: border-box;
     padding: 0 10%;
     transition: all 0.025s linear;
-    p{
+
+    p {
       margin: 0;
     }
+
     &:hover {
       cursor: pointer;
     }
+
     &:active {
       transform: scale(0.995)
     }
+
     &__Inner {
       width: 100%;
       @include leftrow;
       box-sizing: border-box;
       padding: 26px 0 22px 0;
-      > div:first-child {
+
+      >div:first-child {
         @include leftcolumn;
         margin: 0 25px 0 0;
         min-width: 20px;
-        h4,p {
+
+        h4,
+        p {
           color: $darkestgrey;
           width: 100%;
           white-space: nowrap;
@@ -889,15 +1048,18 @@ h6 {
           text-overflow: ellipsis;
         }
       }
-      > div > p {
+
+      >div>p {
         margin: 0;
       }
-      > div > h4 {
+
+      >div>h4 {
         margin: 0;
         font-weight: bold;
         font-size: 1.125rem;
       }
-      > h2 {
+
+      >h2 {
         margin: 4px 0 0 0;
         font-size: 2rem;
         line-height: 2rem;
@@ -905,6 +1067,7 @@ h6 {
         text-align: right;
       }
     }
+
     &__Stripe {
       width: 75px;
       background: $tellor-green;
@@ -921,42 +1084,53 @@ h6 {
   border: 2px solid #F0F0F0;
   margin: 0 0 40px 0;
   color: $darkestgrey;
+
   @media (max-width: 600px) {
     margin: 20px 0 40px 0;
     padding: 25px 15px 15px 15px;
   }
+
   h2:first-child {
     margin: 0 0 20px 20px;
+
     @media (max-width: 600px) {
       font-size: 1rem;
       margin: 0 0 20px 10px;
     }
   }
+
   .items {
     width: 100%;
     @include leftcolumn;
   }
 }
+
 .VoteItem {
   background: white;
   width: 100%;
   box-sizing: border-box;
   padding: 30px 30px 25px 30px;
   margin: 0 0 15px 0;
+
   .ant-list {
     width: 100%;
   }
-  p, .ant-list {
+
+  p,
+  .ant-list {
     color: $darkestgrey;
     margin: 0 0 5px 0;
   }
+
   @media (max-width: 600px) {
     padding: 25px 25px 20px 25px;
   }
+
   .dispvalue {
     width: 100%;
     @include leftrow;
     margin: 0 0 5px 0;
+
     // :nth-child(2){
     //   width: 30px;
     //   border: 1px solid $tellor-grey2;
@@ -966,6 +1140,7 @@ h6 {
       color: $darkestgrey;
       margin: 0;
     }
+
     .val {
       font-size: 1.5em;
       line-height: 1.5715;
@@ -973,76 +1148,91 @@ h6 {
       color: $darkestgrey;
     }
   }
+
   .otherinfo {
     width: 100%;
     @include leftrow;
     flex-wrap: wrap;
     margin: 0 0 0 0;
+
     div {
       margin: 0 25px 10px 0;
+
       a {
         color: $darkestgrey;
         text-decoration: underline;
       }
+
       h3 {
         margin: 0;
       }
     }
   }
+
   .buttons {
     width: 100%;
     margin: 0 0 0 0;
     @include leftrow;
     flex-wrap: wrap;
+
     @media (max-width: 600px) {
       margin: 20px 0 0 0;
       @include leftcolumn;
     }
+
     button {
       flex: 1;
       margin: 15px 10px 0 0;
       min-width: 175px;
+
       @media (max-width: 600px) {
         flex: auto;
         width: 100%;
         margin: 0 0 15px 0;
       }
     }
+
     .challengebtn {
       background: $darkestgrey;
-      color:$tellor-green;
+      color: $tellor-green;
     }
   }
+
   .cantVote {
     width: 100%;
     border: 1px solid $tellor-green;
     box-sizing: border-box;
-    padding:10px 15px;
+    padding: 10px 15px;
     margin: 20px 0 10px 0;
+
     p {
       margin: 0;
       @include fourteenpxfont;
       font-weight: bold;
     }
   }
+
   .notConn {
     width: 100%;
     border: 1px solid $tellor-grey2;
     box-sizing: border-box;
-    padding:10px 15px;
+    padding: 10px 15px;
     margin: 20px 0 10px 0;
+
     p {
       margin: 0;
       @include fourteenpxfont;
       font-weight: bold;
     }
   }
+
   .processingTX {
     width: 100%;
     border: 1px solid $darkestgrey;
     box-sizing: border-box;
-    padding:10px 15px;
+    padding: 10px 15px;
     margin: 20px 0 30px 0;
+
     p {
       margin: 0;
       @include fourteenpxfont;
@@ -1050,49 +1240,81 @@ h6 {
     }
   }
 }
+
 .pastdisputes {
   width: 100%;
   margin: 10px 0 0 0;
-  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+
+  .ant-collapse>.ant-collapse-item>.ant-collapse-header {
     color: $darkestgrey;
     font-weight: bold;
+  }
+
+  .vote_history {
+    .ant-collapse-content>.ant-collapse-content-box {
+      padding: 0 0 0 0;
+
+    }
+
+    .ant-collapse>.ant-collapse-item>.ant-collapse-header .ant-collapse-arrow {
+      left: 0 !important;
+    }
+
+    .ant-table-expanded-row .ant-table-cell {
+      padding: 0;
+      color: $darkestgrey;
+    }
+
   }
 
   .ant-table {
     width: 100%;
     background: #FAFAFA;
+
+    .ant-collapse-header {
+      padding-left: 15px !important;
+    }
+
     .ant-table-row {
       background-color: white;
     }
+
     .ant-table-row-expand-icon {
-      color:$darkestgrey;
+      color: $darkestgrey;
       border: 1px solid $darkestgrey;
     }
+
     p {
       @include twelvepxfont;
       margin: 0;
     }
+
     a {
-      color:$darkestgrey;
+      color: $darkestgrey;
       text-decoration: underline;
     }
+
     .ant-table-expanded-row .ant-table-cell {
       padding: 0;
     }
+
     .pastdispute_box {
       box-sizing: border-box;
       padding: 6px 16px 20px 30px;
-      margin: -1px 0 0 0; 
+      margin: -1px 0 0 0;
       background: white;
+
       div {
         p {
           @include fourteenpxfont;
 
         }
+
         margin: 0 0 5px 0 !important;
       }
     }
   }
+
   // .ant-collapse, .ant-collapse-header,
   // .ant-collapse > .ant-collapse-item:last-child > .ant-collapse-header,
   // .ant-collapse-item:last-child > .ant-collapse-content, .ant-collapse > .ant-collapse-item:last-child {
@@ -1120,12 +1342,18 @@ h6 {
   padding: 0 6vw 150px 6vw;
   @include leftcolumn;
   justify-content: flex-start;
+
   @media (min-width: 1600px) {
     padding: 0 7vw 150px 7vw;
   }
-  .backbutton,.backbutton:hover,.backbutton:active,.backbutton:focus {
+
+  .backbutton,
+  .backbutton:hover,
+  .backbutton:active,
+  .backbutton:focus {
     background: $tellor-grey1;
   }
+
   &__Inner {
     background: white;
     width: 100%;
@@ -1133,9 +1361,11 @@ h6 {
     box-sizing: border-box;
     padding: 50px 0 100px 0;
     margin-top: 22px;
+
     @media (max-width: 600px) {
       padding: 30px 0 100px 0;
     }
+
     &__Top {
       width: 100%;
       box-sizing: border-box;
@@ -1143,45 +1373,56 @@ h6 {
       @include leftrow;
       align-items: flex-start;
       margin-bottom: 30px;
+
       @media (max-width: 600px) {
         padding: 0 20px 0 30px;
       }
+
       div {
         @include leftrow;
         flex-wrap: wrap;
         margin: 6px 0 0 0;
+
         h1 {
           margin: 0 10px 10px 0;
           line-height: 2rem;
+
           @media (max-width: 600px) {
             font-size: 1.375rem;
             line-height: 1.65rem;
           }
         }
-        p:nth-child(2){
+
+        p:nth-child(2) {
           background: $tellor-grey1;
           padding: 6px 10px;
           margin: 0 0 10px 0;
         }
       }
     }
+
     &__Section {
       width: 100%;
       box-sizing: border-box;
       @include leftcolumn;
       padding: 0 50px;
+
       @media (max-width: 600px) {
         padding: 0 30px;
       }
+
       p {
         @include fourteenpxfont;
         color: $darkestgrey;
+
         @media (max-width: 600px) {
           @include tenpxfont;
         }
       }
+
       &.tipCollapser {
         width: 100%;
+
         .ant-collapse-content-box {
           width: 100%;
           border: 2px solid $tellor-grey2;
@@ -1190,26 +1431,31 @@ h6 {
           margin: 0 0 50px 0;
           @include leftrow;
           align-items: flex-start;
+
           div:first-child {
             flex: 1;
             margin: 0 50px 0 0;
           }
+
           div:nth-child(2) {
             box-sizing: border-box;
             padding-top: 30px;
             @include rightcolumn;
+
             div:first-child {
               @include rightrow;
               align-items: center;
             }
+
             a {
-              color:$darkestgrey;
+              color: $darkestgrey;
               @include sixteenpxfont;
               text-decoration: underline;
               margin: 30px 0 0 0 !important;
               width: 100%;
               text-align: right;
             }
+
             p {
               margin: 0 20px 0 0;
               @include sixteenpxfont;
@@ -1218,49 +1464,60 @@ h6 {
           }
         }
       }
+
       &.LastConfVal div:nth-child(2) {
         width: 100%;
         box-sizing: border-box;
         @include leftrow;
         align-items: flex-end;
         margin-bottom: 25px;
+
         h1 {
           font-size: 3rem;
           line-height: 3rem;
           font-weight: 100;
           margin: 0;
+
           @media (max-width: 600px) {
             font-size: 2rem;
             line-height: 2rem;
           }
         }
+
         p {
           margin: 0 0 4px 10px;
           font-size: 1.125rem !important;
+
           @media (max-width: 600px) {
             margin: 0 0 0px 10px;
             @include fourteenpxfont;
           }
         }
       }
+
       &.UpdateBlockTip {
         width: 100%;
         box-sizing: border-box;
         @include leftrow;
         flex-wrap: wrap;
         margin: 0 0 35px 0;
+
         div {
           margin: 0 100px 20px 0;
+
           @media (max-width: 600px) {
             margin: 0 40px 20px 0;
           }
+
           p {
             margin: 0;
           }
+
           h2 {
             font-size: 1.375rem;
             line-height: 1.375rem;
             margin: 10px 0 0 0;
+
             @media (max-width: 600px) {
               margin: 3px 0 0 0;
               @include sixteenpxfont;
@@ -1268,28 +1525,35 @@ h6 {
           }
         }
       }
+
       &.PriceEvolution {
         width: 100%;
         margin: 50px 0 0 0;
       }
+
       &.AllMiningEventsOnID {
         width: 100%;
         margin: 105px 0 0 0;
+
         @media (max-width: 600px) {
           margin: 50px 0 0 0;
         }
+
         .AllEVentsOnIDTable {
           width: 100%;
           box-sizing: border-box;
           padding: 0;
+
           .ant-table {
             width: 100%;
             background: #FAFAFA;
+
             .ant-table-row-expand-icon {
-              color:$darkestgrey;
+              color: $darkestgrey;
               border: 1px solid $darkestgrey;
             }
           }
+
           &__minerVals {
             width: 100%;
             @include leftcolumn;
@@ -1302,160 +1566,193 @@ h6 {
             padding: 0 0 0 5%;
 
           }
-          &__Inner {
-              width: 100%;
-              padding: 6px 0; 
-              @include leftrow;
-              align-items: center;
-              div:first-child {
-                @include leftrow;
-                flex: 1;
-                p:first-child {
-                  font-weight: bold;
-                  width: 100px;
-                }
-              }
-                svg {
-                  width: 30px;
-                  margin: 0 10px 0 0;
-                }
-                p:nth-child(2) {
-                  width: 160px;
-                  margin: 0 0 0 0;
-                }
-              
-              p {
-                @include fourteenpxfont;
-                color: $darkestgrey;
-                text-decoration: none;
-                margin: 0 0 0 0;
 
-              }
-              a {
-                @include fourteenpxfont;
-                color: $darkestgrey;
-                text-decoration: underline;
-              }
-              .disputeClick {
+          &__Inner {
+            width: 100%;
+            padding: 6px 0;
+            @include leftrow;
+            align-items: center;
+
+            div:first-child {
+              @include leftrow;
+              flex: 1;
+
+              p:first-child {
                 font-weight: bold;
-                text-decoration: underline;
-                cursor: pointer;
-                @media (max-width: 600px) {
-                  text-align: right;
-                  }
+                width: 100px;
               }
             }
-            .disputeCollapser {
-              @include leftcolumn;
+
+            svg {
+              width: 30px;
+              margin: 0 10px 0 0;
+            }
+
+            p:nth-child(2) {
+              width: 160px;
+              margin: 0 0 0 0;
+            }
+
+            p {
+              @include fourteenpxfont;
+              color: $darkestgrey;
+              text-decoration: none;
+              margin: 0 0 0 0;
+
+            }
+
+            a {
+              @include fourteenpxfont;
+              color: $darkestgrey;
+              text-decoration: underline;
+            }
+
+            .disputeClick {
+              font-weight: bold;
+              text-decoration: underline;
+              cursor: pointer;
+
+              @media (max-width: 600px) {
+                text-align: right;
+              }
+            }
+          }
+
+          .disputeCollapser {
+            @include leftcolumn;
+            width: 100%;
+
+            p {
+              margin: 0;
+            }
+
+            .disputeFee {
+              font-size: 1.25rem !important;
+              line-height: 1.85rem !important;
+
+              @media (max-width: 600px) {
+                font-size: 1rem !important;
+                line-height: 1.25rem !important;
+              }
+            }
+
+            .ant-collapse-header {
+              display: none;
+            }
+
+            .ant-collapse-content-box {
               width: 100%;
-              p {
-                margin: 0;
+              border: 2px solid $tellor-grey2;
+              border-bottom: 2px solid $darkestgrey;
+              padding: 25px 30px;
+
+              @media (max-width: 600px) {
+                padding: 20px 20px;
               }
-              .disputeFee {
-                font-size: 1.25rem !important;
-                line-height: 1.85rem !important;
+
+              margin: 10px 0 30px 0;
+              @include leftcolumn;
+              flex-wrap: wrap;
+              align-items: flex-start;
+
+              div:first-child {
+                flex: 1;
+                margin: 0 0 30px 0;
+                min-width: 200px;
+                color: $darkestgrey;
+
                 @media (max-width: 600px) {
-                  font-size: 1rem !important;
-                  line-height: 1.25rem !important;
+                  margin: 0 0 20px 0;
                 }
               }
-              .ant-collapse-header {
-                display: none;
-              }
-              .ant-collapse-content-box {
+
+              div:nth-child(2) {
                 width: 100%;
-                border: 2px solid $tellor-grey2;
-                border-bottom: 2px solid $darkestgrey;
-                padding: 25px 30px;
-                @media (max-width: 600px) {
-                  padding: 20px 20px;
-                }
-                margin: 10px 0 30px 0;
-                @include leftcolumn;
-                flex-wrap: wrap;
-                align-items: flex-start;
+                margin: 0;
+                box-sizing: border-box;
+                @include rightcolumn;
+
                 div:first-child {
-                  flex: 1;
-                  margin: 0 0 30px 0;
-                  min-width: 200px;
-                  color: $darkestgrey;
-                  @media (max-width: 600px) {
-                    margin: 0 0 20px 0;
-                  }
-                }
-                div:nth-child(2) {
-                  width: 100%;
+                  @include rightrow;
+                  align-items: center;
                   margin: 0;
-                  box-sizing: border-box;
-                  @include rightcolumn;
-                  div:first-child {
-                    @include rightrow;
-                    align-items: center;
-                    margin: 0;
-                  }
-                  a {
-                    color:$darkestgrey;
-                    @include sixteenpxfont;
-                    text-decoration: underline;
-                    margin: 30px 0 0 0 !important;
-                    width: 100%;
-                    text-align: right;
-                  }
-                  p {
-                    margin: 0 20px 0 0;
-                    @include sixteenpxfont;
-                    font-weight: bold;
-                    @media (max-width: 600px) {
-                      margin: 0 8% 0 0;
-    
-                    }
+                }
+
+                a {
+                  color: $darkestgrey;
+                  @include sixteenpxfont;
+                  text-decoration: underline;
+                  margin: 30px 0 0 0 !important;
+                  width: 100%;
+                  text-align: right;
+                }
+
+                p {
+                  margin: 0 20px 0 0;
+                  @include sixteenpxfont;
+                  font-weight: bold;
+
+                  @media (max-width: 600px) {
+                    margin: 0 8% 0 0;
+
                   }
                 }
               }
             }
+          }
         }
       }
     }
+
     &__LastMiners {
       width: 100%;
       @include leftcolumn;
+
       p {
         @include fourteenpxfont;
         color: $darkestgrey;
         margin: 0 20px 0 50px;
+
         @media (max-width: 600px) {
           @include tenpxfont;
           margin: 0 20px 0 30px;
         }
       }
+
       .DetailMinerItem {
         width: 100%;
         @include leftcolumn;
         box-sizing: border-box;
         padding: 0 50px;
         border-bottom: 1px solid $tellor-grey1;
+
         @media (max-width: 600px) {
           padding: 0 30px;
         }
+
         &__First {
           width: 100%;
           @include leftrow;
           align-items: flex-start;
           box-sizing: border-box;
           padding: 20px 0 18px 0;
+
           @media (max-width: 600px) {
             padding: 20px 0 18px 0;
           }
+
           svg {
             width: 38px;
             height: 33px;
             margin: 0 25px 0 0;
+
             @media (max-width: 600px) {
               width: 26px;
               height: 23px;
               margin: 0px 15px 0 0px;
             }
           }
+
           p {
             margin: 0;
             color: $darkestgrey;
@@ -1463,16 +1760,19 @@ h6 {
             line-height: 1.85rem !important;
             flex: 1;
             font-weight: 100;
+
             @media (max-width: 600px) {
               font-size: 1rem !important;
               line-height: 1.25rem !important;
             }
+
             a {
               margin: 0;
               color: $darkestgrey;
               text-decoration: underline;
             }
           }
+
           .DetailMinerItem__DisputeTrigger {
             @include sixteenpxfont;
             color: $darkestgrey;
@@ -1481,6 +1781,7 @@ h6 {
             text-align: right;
             cursor: pointer;
             margin: 2px 0 0 0;
+
             @media (max-width: 600px) {
               margin: 2px 0 0 20px;
               font-size: 0.875rem !important;
@@ -1488,11 +1789,13 @@ h6 {
               max-width: 50px;
             }
           }
+
           .DetailMinerItem__OutofWindow {
             @include tenpxfont;
             color: #666666;
             text-align: right;
             margin: 2px 0 0 0;
+
             @media (max-width: 600px) {
               margin: 2px 0 0 20px;
               font-size: 0.65rem !important;
@@ -1502,23 +1805,29 @@ h6 {
           }
 
         }
+
         .disputeCollapser {
           @include leftcolumn;
           width: 100%;
+
           p {
             margin: 0;
           }
+
           .disputeFee {
             font-size: 1.25rem !important;
             line-height: 1.85rem !important;
+
             @media (max-width: 600px) {
               font-size: 1rem !important;
               line-height: 1.25rem !important;
             }
           }
+
           .ant-collapse-header {
             display: none;
           }
+
           .ant-collapse-content-box {
             width: 100%;
             border: 2px solid $tellor-grey2;
@@ -1528,29 +1837,35 @@ h6 {
             @include leftrow;
             flex-wrap: wrap;
             align-items: flex-start;
+
             div:first-child {
               flex: 1;
               margin: 0;
               min-width: 200px;
+
               @media (max-width: 600px) {
                 margin: 0 0 20px 0;
               }
             }
+
             div:nth-child(2) {
               box-sizing: border-box;
               @include rightcolumn;
+
               div:first-child {
                 @include rightrow;
                 align-items: center;
               }
+
               a {
-                color:$darkestgrey;
+                color: $darkestgrey;
                 @include sixteenpxfont;
                 text-decoration: underline;
                 margin: 30px 0 0 0 !important;
                 width: 100%;
                 text-align: right;
               }
+
               p {
                 margin: 0 20px 0 0;
                 @include sixteenpxfont;
@@ -1569,37 +1884,46 @@ h6 {
   @include leftrow;
   background: url('../assets/bg_grey.png');
   padding: 100px 10vw 140px 10vw;
+
   @media (max-width: 600px) {
     @include leftcolumn;
     padding: 80px 10vw 120px 10vw;
   }
+
   p {
     @include sixteenpxfont;
     color: #999;
     margin: 10px 0 40px 0;
   }
+
   div:first-child {
     @include leftcolumn;
     flex: 1;
+
     a:first-child svg {
       width: 57px;
       margin: 0 0 6px 0;
     }
+
     a:nth-child(2) svg {
       height: 55px;
       margin: 6px 0 0 0;
     }
   }
+
   div:nth-child(2) {
     @include rightcolumn;
+
     @media (max-width: 600px) {
       @include leftcolumn;
     }
+
     p {
       @include sixteenpxfont;
       color: #555;
       margin: 0 0 16px 0;
     }
+
     a {
       @include sixteenpxfont;
       color: #999;
@@ -1629,35 +1953,40 @@ h6 {
   padding: 45px 60px;
   border: 2px solid #F0F0F0;
   margin: 0 0 40px 0;
+
   @media (max-width: 600px) {
     margin: -2px 0 50px 0;
     padding: 45px 40px;
   }
+
   p:first-child {
     text-align: center;
     color: $darkestgrey;
   }
+
   .DropDownAndButton {
     margin-top: 40px;
     @include leftcolumn;
     width: 100%;
-    
+
     .ant-dropdown-trigger,
     .ant-dropdown-trigger:hover,
     .ant-dropdown-trigger:focus {
       border: 1px solid #707070;
       width: 100%;
     }
+
     .ant-btn {
       align-self: flex-end;
       margin-top: 25px;
     }
+
     .dropper {
       @include leftrow;
       @include fourteenpxfont;
       font-weight: normal;
       width: 100%;
-      padding:15px;
+      padding: 15px;
       height: 45px;
       border-radius: 0px !important;
       margin: 0;
@@ -1668,22 +1997,28 @@ h6 {
     width: 80%;
     box-sizing: border-box;
     padding-left: 5%;
+
     @media (max-width: 600px) {
       width: 100%;
       padding-left: 0%;
     }
+
     @include leftrow;
+
     p {
       margin: 0;
     }
+
     div:nth-child(1) {
       width: 100%;
       font-weight: bold;
       @include leftrow;
       align-items: flex-end;
+
       p {
         @include eighteenpxfont;
       }
+
       div:nth-child(2) {
         height: 1px;
         flex: 1;
@@ -1691,52 +2026,67 @@ h6 {
         margin: 0 10px 9px 10px;
       }
     }
+
     p:nth-child(2) {
-    width: 10%;
-    min-width: 80px;
+      width: 10%;
+      min-width: 80px;
     }
   }
 }
 
-.tipCollapser, .disputeCollapser {
+.tipCollapser,
+.disputeCollapser {
   width: 100%;
+
   .ant-collapse {
     width: 100%;
   }
+
   .ant-collapse-content {
     background: none;
     border: none;
   }
-  .ant-collapse,.ant-collapse > .ant-collapse-item {
+
+  .ant-collapse,
+  .ant-collapse>.ant-collapse-item {
     border: none;
     background: inherit;
   }
 
-  .ant-collapse-item:last-child > .ant-collapse-content {
+  .ant-collapse-item:last-child>.ant-collapse-content {
     border-radius: 0;
   }
+
   .ant-collapse-content-box {
     @include leftcolumn;
     padding: 20px 0;
   }
+
   .ant-collapse-header {
     display: none;
   }
+
   .ant-input-affix-wrapper {
     border-radius: 0;
   }
-  .ant-input,.ant-input-affix-wrapper {
+
+  .ant-input,
+  .ant-input-affix-wrapper {
     border-radius: 0;
     color: $darkestgrey !important;
   }
-  .ant-input-affix-wrapper-focused,.ant-input-affix-wrapper:hover {
+
+  .ant-input-affix-wrapper-focused,
+  .ant-input-affix-wrapper:hover {
     border: 1px solid $darkestgrey;
     box-shadow: none;
   }
+
   .ant-input-suffix {
     color: $darkestgrey;
     @include twelvepxfont;
   }
+
   .onCancel {
     cursor: pointer;
   }
@@ -1783,7 +2133,7 @@ h6 {
   stroke-dasharray: 84;
   stroke-dashoffset: 84;
   stroke-width: 2px;
-  stroke:$tellor-green;
+  stroke: $tellor-green;
   fill: none;
   animation: loaderanim 3s infinite linear;
 }
@@ -1791,14 +2141,16 @@ h6 {
 .fullicon_second_extramargin {
   margin: 0 -6px 0 0;
 }
+
 .fullicon_fourth_extramargin {
   margin: 0 0 0 -7px;
 }
+
 .fullicon_line {
   fill: none;
   stroke: $tellor-green;
   stroke-miterlimit: 10;
-  stroke-width:1;
+  stroke-width: 1;
   stroke-dasharray: 4 4;
   animation: connectedanim 1.5s infinite linear;
 }
@@ -1807,22 +2159,27 @@ h6 {
   0% {
     stroke-dashoffset: 250;
   }
+
   50% {
-      stroke-dashoffset: 0;
+    stroke-dashoffset: 0;
   }
+
   100% {
-      stroke-dashoffset: -250;
+    stroke-dashoffset: -250;
   }
 }
+
 @keyframes loaderanim {
   0% {
     stroke-dashoffset: 84;
   }
+
   50% {
-      stroke-dashoffset: 0;
+    stroke-dashoffset: 0;
   }
+
   100% {
-      stroke-dashoffset: -84;
+    stroke-dashoffset: -84;
   }
 }
 
@@ -1830,11 +2187,13 @@ h6 {
   0% {
     stroke-dashoffset: -8;
   }
+
   50% {
-      stroke-dashoffset: 0;
+    stroke-dashoffset: 0;
   }
+
   100% {
-      stroke-dashoffset: 8;
+    stroke-dashoffset: 8;
   }
 }
 
@@ -1842,11 +2201,13 @@ h6 {
   0% {
     stroke-dashoffset: -4;
   }
+
   50% {
-      stroke-dashoffset: 0;
+    stroke-dashoffset: 0;
   }
+
   100% {
-      stroke-dashoffset: 4;
+    stroke-dashoffset: 4;
   }
 }
 
@@ -1878,27 +2239,34 @@ button {
   padding: 14px 40px 18px 40px;
   height: 50px;
   transition: all 0.025s linear;
+
   @media (max-width: 965px) {
     padding: 12px 30px;
     height: 40px;
     @include fourteenpxfont;
   }
+
   width: auto;
   border: none;
   border-radius: 25px;
   font-weight: bold;
+
   &:disabled {
     @include greenshine;
+
     span {
       opacity: 0.5;
     }
   }
-  &:hover,&:focus {
+
+  &:hover,
+  &:focus {
     color: $darkestgrey;
     @include greenshine;
     border: none;
     outline: none;
   }
+
   &:active {
     transform: scale(0.995)
   }
@@ -1916,12 +2284,15 @@ button {
   background: transparent;
   box-shadow: none;
   outline: none;
+
   &:disabled {
     background: transparent;
     box-shadow: none;
     outline: none;
   }
-  &:hover,&:focus {
+
+  &:hover,
+  &:focus {
     background: transparent;
     box-shadow: none;
     outline: none;
@@ -1938,19 +2309,23 @@ button {
   padding: 4px 0 0 0;
 }
 
-.ant-dropdown-menu, .ant-dropdown-arrow {
+.ant-dropdown-menu,
+.ant-dropdown-arrow {
   margin: -5px 0 0 0;
 }
+
 .ant-dropdown-menu-item {
   @include sixteenpxfont;
   color: $darkestgrey;
   border-bottom: 1px solid $tellor-grey2;
   padding: 8px 12px;
-  &:hover{
+
+  &:hover {
     background: transparent;
     color: $tellor-green;
   }
 }
+
 .ant-table {
   color: $darkestgrey;
 }
@@ -1959,12 +2334,14 @@ button {
 
 .ant-pagination {
   color: $darkestgrey;
+
   &-item {
     background: none;
     border: none;
     border-radius: 50%;
 
   }
+
   &-item-active {
     background: none;
     border: 1px solid $tellor-green;
@@ -1975,13 +2352,15 @@ button {
 
 .ant-pagination-item a {
   color: $darkestgrey;
+
   &:hover {
     color: $tellor-green;
   }
 }
 
 
-.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
+.ant-pagination-prev .ant-pagination-item-link,
+.ant-pagination-next .ant-pagination-item-link {
   border: none;
   background: none;
   color: $darkestgrey;
@@ -2002,27 +2381,33 @@ button {
   box-sizing: border-box;
   padding: 0 6vw 100px 6vw;
   @include leftcolumn;
+
   .Intro {
     box-sizing: border-box;
     padding: 20px 0 0 0;
     background-color: var(--background);
+
     .View {
       padding-bottom: 50px;
-      color:$darkestgrey;
+      color: $darkestgrey;
     }
   }
+
   .Line {
     border-top: 1px solid rgba(0, 0, 0, 0.5);
     margin: 0 0 0 0;
     width: 100%;
   }
+
   h1 {
     font-size: 2rem;
     line-height: 2.85rem;
     font-weight: 100;
     margin: 0 0 22px 0;
   }
-  .ant-collapse, .ant-collapse-content {
+
+  .ant-collapse,
+  .ant-collapse-content {
     background-color: transparent;
     border: none;
     color: $darkestgrey;
@@ -2030,27 +2415,35 @@ button {
     @include sixteenpxfont;
   }
 
-  p, li {
+  p,
+  li {
     @include sixteenpxfont;
     font-weight: normal;
   }
+
   li {
     margin-top: 10px;
   }
+
   h2 {
     margin-bottom: 20px;
   }
-  h1, .ant-collapse, .RadioGroup, li {
+
+  h1,
+  .ant-collapse,
+  .RadioGroup,
+  li {
     max-width: 685px;
   }
-  .ant-collapse > .ant-collapse-item {
+
+  .ant-collapse>.ant-collapse-item {
     border: none;
   }
 
-  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  .ant-collapse>.ant-collapse-item>.ant-collapse-header {
     text-decoration: underline;
   }
-  
+
   .RadioGroup {
     display: flex;
     flex-direction: column;
@@ -2071,26 +2464,26 @@ button {
   .wselected .ant-radio-wrapper-checked {
     opacity: 1 !important;
   }
-  
+
   .Step {
     box-sizing: border-box;
     padding: 40px 0 50px 0;
   }
-  
+
   .Step button {
     margin: 10px 0 20px 0;
   }
-  
+
   .connected {
     margin: 30px 0 0 0;
   }
-  
-  
+
+
   .connected span {
     font-weight: bold;
     // color: white;
   }
-  
+
   .Balances {
     display: flex;
     flex-direction: row;
@@ -2098,8 +2491,8 @@ button {
     align-items: flex-end;
     margin: 25px 0 20px 0;
   }
-  
-  
+
+
   .Balance {
     display: flex;
     flex-direction: column;
@@ -2107,12 +2500,12 @@ button {
     align-items: flex-start;
     margin: 0 40px 0 0;
   }
-  
+
   .Balance p {
     font-size: 13px !important;
     margin: 0 0 0 0;
   }
-  
+
   .Balance h1 {
     color: var(--color-link);
   }
@@ -2131,6 +2524,7 @@ button {
     background-color: $tellor-green;
     box-sizing: border-box;
     padding: 50px 0 25px 0;
+
     h1 {
       font-weight: normal;
       text-align: center;
@@ -2153,19 +2547,3 @@ button {
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
