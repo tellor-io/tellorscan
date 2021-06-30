@@ -5,6 +5,8 @@ import { Collapse } from 'antd';
 import {ReactComponent as Miner} from 'assets/miner.svg';
 import { getGranPrice } from 'utils/helpers';
 import { truncateAddr } from 'utils/helpers';
+import { UserContext, setupUser } from 'contexts/User';
+
 import { NetworkContext } from 'contexts/Network';
 import Disputer from '../../shared/Disputer';
 
@@ -14,7 +16,9 @@ const { Panel } = Collapse;
 
 const PrevMiningEvents = ({ miningEvent }) => {
     const [showMinerVals,setShowMinerVals] = useState([]);
-    const [currentNetwork] = useContext(NetworkContext);
+    const [currentNetwork,setCurrentNetwork] = useContext(NetworkContext);
+    const [currentUser, setCurrentUser] = useContext(UserContext);
+
     const [link,setLink] = useState();
     const isMobile = useMediaQuery({query: '(max-width: 680px)'});
     const [disputeCollapser,setDisputeCollapser] = useState("");
@@ -42,6 +46,20 @@ const PrevMiningEvents = ({ miningEvent }) => {
             }
         }
     },[currentNetwork])
+
+
+    const connectUser = () => {
+        try {
+            setupUser(setCurrentUser)
+              .then(network => {
+                setCurrentNetwork(network)
+                alert.show("You are logged in to " + chains[network].network+". To login to a different network, switch the provider network.");
+              })
+          } catch (err) {
+            console.log('login error', err);
+          }
+    }
+
 
   return(
     <div className="PrevMiningEvents">{miningEvent.requestIds.map((requestId, i) => {
@@ -81,7 +99,7 @@ const PrevMiningEvents = ({ miningEvent }) => {
                                 {parseInt(disputeCollapser, 10) === j?
                                 null 
                                 :
-                                <p className="disputeClick" onClick={() => setDisputeCollapser(j.toString())}>dispute value</p>}
+                                <p className="disputeClick" onClick={currentUser?() => setDisputeCollapser(j.toString()):() => connectUser()}>dispute value</p>}
                             </div>
                             <div className="disputeCollapser">
                                 <Collapse
