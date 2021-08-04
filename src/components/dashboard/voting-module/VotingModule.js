@@ -72,9 +72,9 @@ const VoteItem = ({ data }) => {
 
   return (
     <div className="VoteItem">
-      <h3>
+      <p>
         Dispute Id: <strong>{data.disputeId}</strong>
-      </h3>
+      </p>
       <p>Disputed value</p>
       <div className="dispvalue">
         <h3>
