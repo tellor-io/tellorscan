@@ -57,4 +57,5 @@ export const psrLookup = {
   '56': { name: 'VIXEOD', granularity: '1000000' },
   '57': { name: 'DEFITVL', granularity: '1000000' },
   '58': { name: 'DEFICAP', granularity: '1000000' },
+  '59': { name: 'ETH/JPY', granularity: '1000000' },
 };
