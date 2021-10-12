@@ -1,0 +1,217 @@
+@import '../../../style/index.scss';
+
+.Header {
+    @include leftcolumn;
+    box-sizing: border-box;
+    padding: 56px 60px 20px 104px;
+    width: 100vw;
+    position: fixed;
+    background-color: rgba(#262626, 0.925);
+    z-index: 999;
+
+    @media (max-width: 965px) {
+      align-items: flex-start;
+      padding: 28px 30px 28px 30px;
+    }
+  
+
+    &__Nav {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      color: white;
+      .counter {
+        @include centeredrow;
+        min-width: 28px;
+        height: 30px;
+        box-sizing: border-box;
+        padding: 0 8px;
+        margin: 0 98px 0 0;
+        font-family: 'Renogare Regular';
+        :hover {
+          cursor: pointer;
+        }
+        p {
+        font-size: 1.125rem !important;
+        line-height: 1.325rem;
+        text-align: center;
+        margin: 0;
+        }
+        a {
+          text-decoration: none;
+        }
+      }
+      .noitems {
+          color: $background; 
+          background-color: #464646;
+          text-decoration: none;
+      }
+      .hasitems {
+        color: $background; 
+        background-color: $real-tellor-green;
+        text-decoration: none;
+      }
+
+      .gotAddress,
+      .gotNoAddress
+      .gotAddress:hover,
+      .gotAddress:focus,
+      .gotAddress:active {
+        @include leftrow;
+        @include eighteenpxfont;
+        line-height: 1.1875rem;
+        font-weight: bold;
+        color: white;
+        border: 1px solid white;
+        border-bottom: 2px solid white;
+        height: 54px;
+        border-radius: 0;
+        @media (max-width: 965px) {
+          @include fourteenpxfont;
+          height: 40px;
+          padding: 12px 30px 12px 30px;
+        }
+        .avatar, .avatar > div {
+          width: 20px;
+          height: 20px
+        }
+        .avatar {
+          margin-right: 20px;
+        }
+      }
+    }
+  
+    .BrandLink {
+      padding: 0;
+      a {
+        @include leftrow;
+        align-items: flex-end;
+        color: white;
+        text-decoration: none;
+        .logo {
+          font-family: 'Renogare Regular';
+          font-weight: normal;
+          font-size: 4.375rem;
+          line-height: 3.5rem;
+          margin: 0 32px 0 0;
+        }
+        .baseline {
+          margin: 0;
+          font-size: 1.125rem;
+          font-weight: normal;
+          line-height: 1.25rem;
+        }
+
+      }
+    }
+  }
+
+
+
+
+
+/*
+///////////////
+
+All things regarding the menu
+
+///////////////
+*/
+
+
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 32px;
+  height: 26px;
+  right: 300px;
+  top: 70px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: white;
+  height: 15% !important;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 50px !important;
+  width: 50px !important;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: none;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: $background;
+  padding: 80px 50px 50px 50px;
+  font-size: 1.15em;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: none;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  padding: 0;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+  color: white;
+  opacity: 0.5;
+  text-align: left;
+  margin: 0;
+  box-sizing: border-box;
+  padding: 15px 0;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.bm-item:focus,.bm-item:active {
+  color: white;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.bm-item:hover {
+  color: white;
+  font-weight: bold;
+  text-decoration: underline;
+  opacity: 1;
+}
+
+.bm-item:first-child {
+  border-bottom:none !important;
+  padding: 0;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+  top: 0;
+  left: 0;
+}
+
+.selectedPage {
+  opacity: 1;
+}

@@ -1,0 +1,31 @@
+@import '../../../style/index.scss';
+
+
+.Datapoint {
+    @include leftrow;
+    width: 100%;
+    margin: 0 0 20px 0;
+    &__left {
+        p {
+            margin: 0 0 7px 0;
+        }
+        h4 {
+            color: white;
+            font-family: 'Renogare Regular';
+            margin: 0;
+            font-size: 1.25rem;
+            line-height: 1.4375rem;
+        }
+    }
+    &__right {
+        flex: 1;
+        h2 {
+            font-family: 'Renogare Regular';
+            color: white;
+            text-align: right;
+            margin: 0;
+            font-size: 2.75rem;
+            line-height: 3.25rem;
+        }
+    }
+}

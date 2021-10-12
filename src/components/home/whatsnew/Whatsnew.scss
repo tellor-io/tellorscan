@@ -1,0 +1,111 @@
+@import '../../../style/index.scss';
+
+.Whatsnew {
+    @include leftrow;
+    padding: 0;
+    align-items: center;
+}
+
+.Blogpost {
+    @include leftrow;
+    align-items: flex-start;
+    width: 716px;
+    height: 187px;
+    background-color: #1F1F1F;
+    :hover {
+        cursor: pointer;
+    }
+    &__image {
+        width: 332px;
+        height: 187px;
+        img {
+            width: 100%;
+        }
+    }
+    &__txt {
+        height: 100%;
+        flex: 1;
+        padding: 32px 25px 0 38px;
+        p {
+            color: white;
+        }
+        h4 {
+            color: white;
+            font-family: 'Renogare Regular';
+            font-size: 1.25rem;
+        }
+    }
+
+}
+
+.Tellorprice {
+    @include centeredcolumn;
+    width: 182px;
+    height: 187px;
+    margin: 0 64px 0 45px;
+    border: 1px solid $real-tellor-green;
+    p {
+        @include eighteenpxfont;
+        color: $real-tellor-green;
+        margin: 0;
+    }
+    a {
+        @include eighteenpxfont;
+        color: $real-tellor-green;
+        text-decoration: underline;
+    }
+    a:hover {
+        @include eighteenpxfont;
+        color: $real-tellor-green;
+        text-decoration: underline;
+        font-weight: bold;
+    }
+    svg {
+        width: 50px;
+        margin: 12px 0 27px 0;
+    }
+}
+
+
+
+.Tellorfeeds {
+    @include leftcolumn;
+    height: 100%;
+    flex: 1;
+
+}
+.Tellorfeed {
+    @include leftrow;
+    align-items: flex-start;
+    max-width: 360px;
+    &__icon {
+        margin: 5px 0 0 0;
+        svg {
+            width: 25px;
+            height: auto;
+        }
+    }
+    &__txt {
+        @include leftcolumn;
+        justify-content: flex-start;
+        width: 100%;
+        margin: 0 0 0 30px;
+        a {
+            @include sixteenpxfont;
+            color: white;
+        }
+        p {
+            color: white;
+            @include sixteenpxfont;
+            margin: 0;
+        }
+    }
+    
+    /* specific margins for each feed */
+    &__github {
+        margin: 0;
+    }
+    &__twitter {
+        margin: 25px 0 0 0;
+    }
+}

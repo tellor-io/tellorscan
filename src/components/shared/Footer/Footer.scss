@@ -1,0 +1,54 @@
+@import '../../../style/index.scss';
+
+.Footer {
+    width: 100%;
+    @include leftrow;
+    padding: 100px 10vw 140px 10vw;
+  
+    @media (max-width: 600px) {
+      @include leftcolumn;
+      padding: 80px 10vw 120px 10vw;
+    }
+  
+    p {
+      @include sixteenpxfont;
+      color: #999;
+      margin: 10px 0 40px 0;
+    }
+  
+    div:first-child {
+      @include leftcolumn;
+      flex: 1;
+  
+      a:first-child svg {
+        width: 57px;
+        margin: 0 0 6px 0;
+      }
+  
+      a:nth-child(2) svg {
+        height: 55px;
+        margin: 6px 0 0 0;
+      }
+    }
+  
+    div:nth-child(2) {
+      @include rightcolumn;
+  
+      @media (max-width: 600px) {
+        @include leftcolumn;
+      }
+  
+      p {
+        @include sixteenpxfont;
+        color: #555;
+        margin: 0 0 16px 0;
+      }
+  
+      a {
+        @include sixteenpxfont;
+        color: #999;
+        text-decoration: underline;
+        font-weight: bold;
+      }
+    }
+  }

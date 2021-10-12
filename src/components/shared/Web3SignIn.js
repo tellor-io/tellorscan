@@ -7,6 +7,7 @@ import { useAlert } from 'react-alert'
 import { chains } from 'utils/chains';
 import { truncateAddr } from 'utils/helpers';
 import { fromWei } from 'utils/helpers';
+import { Jazzicon } from '@ukstv/jazzicon-react';
 
 
 export const Web3SignIn = ({activeDisputesCount}) => {
@@ -42,16 +43,11 @@ export const Web3SignIn = ({activeDisputesCount}) => {
     <Dropdown
     overlay={headerdropdown}
     trigger={['click']}
-    >
-      {/* 
-      TO BE ADDED WHEN COUNTER IS FIXED (/REPLACED W THE ONE BELOW)!! :::
-      
-      <Button className={activeDisputesCount>0?"gotAddress_wCount":"gotAddress"}>
-      {truncateAddr(currentUser.address)} {activeDisputesCount>0?<div className="activeDisputesCount"><p>{activeDisputesCount}</p></div>:null}
-      </Button>
-      
-      */}    
+    >  
       <Button className="gotAddress">
+        <div className="avatar">
+          <Jazzicon address={currentUser.address} />
+        </div>
         {truncateAddr(currentUser.address)}
       </Button>
     </Dropdown>
@@ -59,6 +55,7 @@ export const Web3SignIn = ({activeDisputesCount}) => {
       <Button
         type="default"
         size="large"
+        className="gotNoAddress"
         onClick={() => {
           try {
             setupUser(setCurrentUser)
@@ -71,7 +68,7 @@ export const Web3SignIn = ({activeDisputesCount}) => {
           }
         }}
       >
-        Connect
+        connect
       </Button>)
   );
 };

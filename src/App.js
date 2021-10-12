@@ -1,11 +1,10 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Layout } from 'antd';
 
 import Routes from './Routes';
-import HeaderNav from 'components/shared/HeaderNav';
-import Footer from 'components/shared/Footer';
+import HeaderNav from 'components/shared/HeaderNav/HeaderNav';
+import Footer from 'components/shared/Footer/Footer';
 import GraphFetch from 'components/shared/GraphFetch';
 import { NetworkContext } from 'contexts/Network';
 import { chains } from 'utils/chains';
@@ -17,50 +16,49 @@ import { UserContext } from 'contexts/User';
 
 const App = () => {
   const [events, setEvents] = useState();
-  const [currentNetwork] = useContext(NetworkContext);
-  const [prices, setPrices] = useState(false);
   const [votes, setVotes] = useState();
-  const [disputes, setDisputes] = useState();
-  const [disputesReady, setDisputesReady] = useState(false);
-  const [topCounter, setTopCounter] = useState(0);
+    // const [currentNetwork] = useContext(NetworkContext);
+  // const [prices, setPrices] = useState(false);
+  // const [disputes, setDisputes] = useState();
+  // const [disputesReady, setDisputesReady] = useState(false);
+  // const [topCounter, setTopCounter] = useState(0);
 
-  const [activeDisputesCount, setActiveDisputesCount] = useState();
-  const [currentUser] = useContext(UserContext);
+  // const [currentUser] = useContext(UserContext);
 
-  useEffect(() => {
-    getPrices(setPrices, currentNetwork)
-  }, [currentNetwork])
+  // useEffect(() => {
+  //   getPrices(setPrices, currentNetwork)
+  // }, [currentNetwork])
 
-  const getPrices = async (setPrices, currentNetwork) => {
-    try {
-      fetch(chains[currentNetwork].apiURL + "/prices")
-        .then(response => response.json())
-        .then(data => {
-          setPrices(data)
-        }
-        );
-    } catch (e) {
-      console.error('error', e);
-    }
-  };
+  // const getPrices = async (setPrices, currentNetwork) => {
+  //   try {
+  //     fetch(chains[currentNetwork].apiURL + "/prices")
+  //       .then(response => response.json())
+  //       .then(data => {
+  //         setPrices(data)
+  //       }
+  //       );
+  //   } catch (e) {
+  //     console.error('error', e);
+  //   }
+  // };
 
 
-  useEffect(() => {
-    if(votes && votes.disputes){
-      let count = 0;
-      votes.disputes.forEach((v,i) => {
-          if(v.inVoteWindow){
-            count = count +1;
-          }
-        });
-        setDisputes(votes.disputes);
-        setActiveDisputesCount(count);
-        setDisputesReady(true);
-    } else {
-      setActiveDisputesCount(0);
-      setDisputesReady(true);
-    }
-  },[votes, currentUser])
+  // useEffect(() => {
+  //   if(votes && votes.disputes){
+  //     let count = 0;
+  //     votes.disputes.forEach((v,i) => {
+  //         if(v.inVoteWindow){
+  //           count = count +1;
+  //         }
+  //       });
+  //       setDisputes(votes.disputes);
+  //       setActiveDisputesCount(count);
+  //       setDisputesReady(true);
+  //   } else {
+  //     setActiveDisputesCount(0);
+  //     setDisputesReady(true);
+  //   }
+  // },[votes, currentUser])
 
 
 
@@ -71,8 +69,8 @@ const App = () => {
         <meta name="description" content="Tellor Scan" />
       </Helmet>
         <Router>
-          <HeaderNav activeDisputesCount={activeDisputesCount} />
-            <Routes events={events} prices={prices} disputes={disputes} activeDisputesCount={activeDisputesCount} disputesReady={disputesReady} />
+          <HeaderNav />
+            <Routes />
             <Footer />
         </Router>
     </Fragment>
