@@ -5,7 +5,6 @@ import { ApolloClient, useQuery } from '@apollo/client'
 import { cache } from 'utils/cache';
 import { chains } from 'utils/chains';
 import { NetworkContext } from 'contexts/Network';
-import Loader from './Loader';
 
 let clientM = new ApolloClient({
   uri: chains[1].subgraphURL,
@@ -31,7 +30,7 @@ const GraphFetch = ({ query, setRecords, variables, suppressLoading }) => {
     }
   }, [data]);
 
-  if (loading) return <>{!suppressLoading ? <Loader /> : null}</>;
+  if (loading) return <>{!suppressLoading ? <p>Load</p> : null}</>;
   if (error) console.log('error', error);
 
   return <></>;

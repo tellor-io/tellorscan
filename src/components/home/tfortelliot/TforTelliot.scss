@@ -2,5 +2,44 @@
 
 
 .TforTelliot {
-    background-color: grey;
+    @include leftrow;
+    align-items: flex-start;
+    width: 100%;
+    &__illustration {
+        @include rightcolumn;
+        width: 590px;
+        background: url(../../../assets/Telliot_bg.png) no-repeat;
+        img {
+        margin-top: -70px;
+        }
+    }
+    &__txt__andcta {
+        @include leftcolumn;
+        padding: 108px 0 0 74px;
+        h2 {
+            color: white;
+            font-size: 32px;
+            max-width: 500px;
+
+        }
+        p {
+            @include sixteenpxfont;
+            color: white;
+            max-width: 500px;
+
+        }
+    }
+    &__cta {
+        @include leftrow;
+        margin: 50px 0 0 0;
+        Button {
+            width: 345px;
+            margin: 0 45px 0 0;
+            svg {
+                width: 20px;
+                height: 20px;
+                margin: 0 15px -4px 0;
+            }
+        }
+    }
 }

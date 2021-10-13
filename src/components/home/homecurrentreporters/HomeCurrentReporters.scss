@@ -9,49 +9,142 @@
     padding: 100px 0 140px 0;
     &__illustration {
         @include centeredrow;
+        position: relative;
         align-items: flex-start;
         width: 1114px;
         margin: 0 0 80px 0;
-        &__reporters {
+
+        .currentReporter__top {
+            width: 200px;
+            height: 70px;
+            position: absolute;
+            top: 0;
+            left: 232px;
+        }
+
+        .currentReporter__bottom {
+            width: 200px;
+            height: 70px;
+            position: absolute;
+            top: 33px;
+            left: 0;
+        }
+
+        .slider {
+            height: 5px;
+            width: 86px;
+            background-color: $real-tellor-green;
+        }
+
+        .reporters_and_link {
             @include centeredcolumn;
+            align-items: center;
+            justify-content: flex-end;
+            height: 184px;
+        }
+
+        .reporters {
+            @include centeredcolumn;
+            
             align-items: flex-end;
             justify-content: flex-end;
             height: 128px;
-            flex:1;
+            width: 696px;
             padding: 58px 36px 32px 0;
             &__top {
                 height: 6px;
-                width: 326px;
+                width: 362px;
                 margin: 0 0 32px 0;
                 border-bottom: 1px solid $background;
-
-                transition: all 2s ease-in-out;
-                -webkit-transition: all 2s ease-in-out; /** Chrome & Safari **/
-                -moz-transition: all 2s ease-in-out; /** Firefox **/
-                -o-transition: all 2s ease-in-out; /** Opera **/
-
+                .slider {
+                    animation: top_slider 1.2s 3 forwards linear;
+                }
             }
             &__bottom {
                 height: 6px;
                 width: 594px;
                 border-bottom: 1px solid $background;
+                .slider {
+                    animation: bottom_slider 1.2s 3 forwards linear;
+                    
+                }
+            }
 
-            }
-            &__slider {
-                width: 86px;
-                height: 5px;
-                background-color: $real-tellor-green;
-            }
         }
         .chains {
             @include centeredcolumn;
             svg {
                 margin-top: 18px;
             }
-            a {
-                margin: 30px 0 0 0;
-                color: $background;
-            }
         }
+        a {
+            margin: 30px 0 0 0;
+            color: $background;
+        }
+    }
+}
+
+.HomeCurrentReporter {
+    @include centeredrow;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    height: 100%;
+    padding: 0;
+    &__avatar_etc {
+        @include leftcolumn;
+        justify-content: flex-start;
+        position: relative;
+        width: 75px;
+        height: 100%;
+    }
+    &__avatar, &__avatar > div {
+        width: 60px;
+        height: 60px;
+    }
+    &__telliot {
+        position: absolute;
+        bottom: 0;
+        left: 39px;
+    }
+    &__txt {
+        margin: 0 0 0 12px;
+        a {
+            @include fourteenpxfont;
+        }
+        h4 {
+            font-size: 1.0625rem
+        }
+    }
+}
+
+
+@keyframes top_slider {
+    0% {
+        transform: translateX(0px);
+        width: 86px;
+    }
+    77% {
+        transform: translateX(276px);
+        width: 86px;
+    }
+    100% {
+        transform: translateX(362px);
+        width: 0px;
+    }
+}
+
+@keyframes bottom_slider {
+    0% {
+      transform: translateX(0px);
+      width: 86px;
+    }
+    86% {
+        transform: translateX(508px);
+        width: 86px;
+    }
+    100% {
+        transform: translateX(594px);
+        width: 0px;
     }
 }

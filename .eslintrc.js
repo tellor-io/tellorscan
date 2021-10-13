@@ -4,7 +4,6 @@ module.exports = {
     es6: true,
   },
   extends: [
-    "standard",
     "prettier",
     "plugin:prettier/recommended",
     "plugin:react/recommended",
