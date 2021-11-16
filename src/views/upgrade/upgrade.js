@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Upgrade = ({ currentUser }) => {
   //Globals
@@ -11,6 +11,12 @@ const Upgrade = ({ currentUser }) => {
   const [justVoted, setJustVoted] = useState(false);
 
   // console.log(currentUser && currentUser.contracts.instance.methods);
+
+  useEffect(() => {
+    if (justVoted) {
+      alert('Thanks for voting, you can now safely exit the page.');
+    }
+  }, [justVoted]);
 
   //Handlers
   const handleVote = async (bool) => {
