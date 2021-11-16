@@ -1,40 +1,43 @@
-import React from 'react';
-
-//TODOS:
-
-// [] Get current TRB value from address to see if they have enough to vote.
-//////// [] currentAddress.TRB token amount
-//////// [] what's the TRB amount needed to vote?
-// [] Be able to handle Rinkeby and Mainnet or just Rinkeby?
-// [] Have a button that votes on the contract method when clicked.
-//////// [] whats the contract method?
-// [] Find out what the method needs as parameters
-//////// [] vote Id 78, right?
-// [] Have a way to display current state of vote?
-//////// [] curent votes for/against?
-// [] Use web3 for this
-
-// Use iTellorABI?
+import React, { useState } from 'react';
 
 const Upgrade = ({ currentUser }) => {
   //Globals
-  const voteId = 78;
+  //No voteId currently on Mainnet
+  //voteId 78 is essentially empty right now Nov 16, 2021
+  const voteIdMainnet = 78;
+  const voteIdRinkeby = 26;
+
+  //Component State
+  const [justVoted, setJustVoted] = useState(false);
+
+  // console.log(currentUser && currentUser.contracts.instance.methods);
 
   //Handlers
   const handleVote = async (bool) => {
     if (currentUser) {
-      if (currentUser.address && currentUser.network === 1) {
-        const vote = await currentUser.contracts.instance.methods
-          .vote(voteId, bool)
-          .send({ from: currentUser.address });
-        // console.log(vote);
-        return vote;
-      } else if (currentUser.address && currentUser.network === 4) {
-        alert('Please sign in on Mainnet to vote!');
+      const didAlreadyVote = await currentUser.contracts.instance.methods
+        .didVote(voteIdRinkeby, currentUser.address)
+        .call();
+
+      if (!didAlreadyVote) {
+        if (currentUser.address && currentUser.network === 1) {
+          await currentUser.contracts.instance.methods
+            .vote(voteIdMainnet, bool)
+            .send({ from: currentUser.address });
+          setJustVoted(true);
+        } else if (currentUser.address && currentUser.network === 4) {
+          // alert('Please sign in on Mainnet to vote!');
+          await currentUser.contracts.instance.methods
+            .vote(voteIdRinkeby, bool)
+            .send({ from: currentUser.address });
+          setJustVoted(true);
+        }
+      } else if (currentUser && didAlreadyVote) {
+        alert('You already voted at this address. Thank you for voting!');
       }
     } else {
       alert(
-        'Please sign in with MetaMask, via the green connect button, to vote!',
+        'Please sign in with the green connect button and MetaMask to cast your vote!',
       );
     }
   };
@@ -68,30 +71,40 @@ const Upgrade = ({ currentUser }) => {
               alignItems: 'center',
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              <h2>Click here to vote in favor of the TellorX Upgrade</h2>
-              <button onClick={() => handleVote(true)} className="ant-btn">
-                Vote in Favor
-              </button>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              <h2>Click here to vote in opposition of the TellorX Upgrade</h2>
-              <button onClick={() => handleVote(false)} className="ant-btn">
-                Vote in Opposition
-              </button>
-            </div>
+            {justVoted ? (
+              <h1>{`Thanks for voting ${
+                currentUser ? currentUser.address : 'Tellor enthusiast'
+              }!`}</h1>
+            ) : (
+              <>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                  }}
+                >
+                  <h2>Click here to vote in favor of the TellorX Upgrade</h2>
+                  <button onClick={() => handleVote(true)} className="ant-btn">
+                    Vote in Favor
+                  </button>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                  }}
+                >
+                  <h2>
+                    Click here to vote in opposition of the TellorX Upgrade
+                  </h2>
+                  <button onClick={() => handleVote(false)} className="ant-btn">
+                    Vote in Opposition
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
