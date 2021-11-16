@@ -14,7 +14,6 @@ import { GET_VOTING } from 'utils/queries';
 
 import { UserContext } from 'contexts/User';
 
-
 const App = () => {
   const [events, setEvents] = useState();
   const [currentNetwork] = useContext(NetworkContext);
@@ -28,63 +27,63 @@ const App = () => {
   const [currentUser] = useContext(UserContext);
 
   useEffect(() => {
-    getPrices(setPrices, currentNetwork)
-  }, [currentNetwork])
+    getPrices(setPrices, currentNetwork);
+  }, [currentNetwork]);
 
   const getPrices = async (setPrices, currentNetwork) => {
     try {
-      fetch(chains[currentNetwork].apiURL + "/prices")
-        .then(response => response.json())
-        .then(data => {
-          setPrices(data)
-        }
-        );
+      fetch(chains[currentNetwork].apiURL + '/prices')
+        .then((response) => response.json())
+        .then((data) => {
+          setPrices(data);
+        });
     } catch (e) {
       console.error('error', e);
     }
   };
 
-
   useEffect(() => {
-    if(votes && votes.disputes){
+    if (votes && votes.disputes) {
       let count = 0;
-      votes.disputes.forEach((v,i) => {
-          if(v.inVoteWindow){
-            count = count +1;
-          }
-        });
-        setDisputes(votes.disputes);
-        setActiveDisputesCount(count);
-        setDisputesReady(true);
+      votes.disputes.forEach((v, i) => {
+        if (v.inVoteWindow) {
+          count = count + 1;
+        }
+      });
+      setDisputes(votes.disputes);
+      setActiveDisputesCount(count);
+      setDisputesReady(true);
     } else {
       setActiveDisputesCount(0);
       setDisputesReady(true);
     }
-  },[votes, currentUser])
-
-
+  }, [votes, currentUser]);
 
   return (
     <>
-    <Fragment>
-      <Helmet defaultTitle="Tellor Scan">
-        <meta name="description" content="Tellor Scan" />
-      </Helmet>
+      <Fragment>
+        <Helmet defaultTitle="Tellor Scan">
+          <meta name="description" content="Tellor Scan" />
+        </Helmet>
         <Router>
           <HeaderNav activeDisputesCount={activeDisputesCount} />
-            <Routes events={events} prices={prices} disputes={disputes} activeDisputesCount={activeDisputesCount} disputesReady={disputesReady} />
-            <Footer />
+          <Routes
+            events={events}
+            prices={prices}
+            disputes={disputes}
+            activeDisputesCount={activeDisputesCount}
+            disputesReady={disputesReady}
+            currentUser={currentUser}
+          />
+          <Footer />
         </Router>
-    </Fragment>
-    <GraphFetch
-      query={GET_ALL_EVENTS}
-      setRecords={setEvents}
-    />
-    <GraphFetch
-      query={GET_VOTING}
-      setRecords={setVotes}
-      suppressLoading={true}
-    />
+      </Fragment>
+      <GraphFetch query={GET_ALL_EVENTS} setRecords={setEvents} />
+      <GraphFetch
+        query={GET_VOTING}
+        setRecords={setVotes}
+        suppressLoading={true}
+      />
     </>
   );
 };
