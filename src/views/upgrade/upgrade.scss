@@ -1,0 +1,48 @@
+@import '../../style/index.scss';
+
+.Upgrade {
+  @include eighteenpxfont;
+  h1 {
+    margin-bottom: 40px;
+  }
+  h2 {
+    font-weight: 400;
+  }
+  h3 {
+    font-weight: 700;
+  }
+}
+
+.subheaders {
+  @include sixteenpxfont;
+  width: 90%;
+  margin: 20px 0px;
+}
+
+.upgradeSummaryList {
+  @include sixteenpxfont;
+  font-weight: 300;
+  margin: 20px 0px;
+}
+
+.buttonContainer {
+  @include fourteenpxfont;
+}
+
+.opposition {
+  @include sixteenpxfont;
+  color: $darkestgrey;
+  box-sizing: border-box;
+  padding: 12px 40px 18px 40px;
+  background-color: transparent;
+  height: 50px;
+  transition: all 0.025s linear;
+  width: auto;
+  border: 1px solid $tellor-green;
+  border-radius: 25px;
+  font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

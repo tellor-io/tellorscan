@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './upgrade.scss';
 
 const Upgrade = ({ currentUser }) => {
   //Globals
@@ -52,24 +53,49 @@ const Upgrade = ({ currentUser }) => {
     <>
       <div className="Hero">
         <div
-          className="View"
+          className="View Upgrade"
           style={{
             padding: '100px 180px',
           }}
         >
           <h1 style={{ fontSize: 60, alignContent: 'center' }}>
-            Tellor X Proposal!
+            TellorX Upgrade - Community Vote
           </h1>
-          <h2>
-            TL;DR: Tellor is upgrading to TellorX. Vote in support of this, just
-            do it!
-          </h2>
-          <h3>
-            <a href="https://www.tellor.io/static/media/tellorX-whitepaper.f6527d55.pdf">
-              Link to Whitepaper
-            </a>
-          </h3>
+          <div className="subheaders">
+            <h2>
+              A new oracle design, decentralized governance and treasury
+              features adds even more robustness to Tellor.
+            </h2>
+            <h3>
+              The vote to upgrade Tellor starts November 23rd and runs seven
+              days until November 30.
+            </h3>
+          </div>
+          <h4>
+            All TRB holders are eligible and encouraged to vote! Make sure to
+            have your TRB in an Ethereum wallet before the voting starts.
+          </h4>
+          <div className="upgradeSummaryList">
+            <h4>TellorX upgrade summary:</h4>
+            <li>Data reported in bytes, supporting virtually any request.</li>
+            <li>Easier to launch Tellor on other blockchains.</li>
+            <li>Moves from proof-of-work to proof-of-stake model.</li>
+            <li>
+              Data reporter staking requirement decreases to 100 TRB from 500
+              TRB.
+            </li>
+            <li>
+              Tellor treasuries adds TRB rewards for staking and participating
+              in community governance.
+            </li>
+          </div>
+
+          <a href="https://www.tellor.io/static/media/tellorX-whitepaper.f6527d55.pdf">
+            Read more about the TellorX upgrade in the whitepaper here.
+          </a>
+
           <div
+            className="buttonContainer"
             style={{
               marginTop: '50px',
               display: 'flex',
@@ -102,11 +128,12 @@ const Upgrade = ({ currentUser }) => {
                     alignItems: 'center',
                   }}
                 >
-                  <h2>
-                    Click here to vote in opposition of the TellorX Upgrade
-                  </h2>
-                  <button onClick={() => handleVote(false)} className="ant-btn">
-                    Vote in Opposition
+                  <h2>Click here to vote against the TellorX Upgrade</h2>
+                  <button
+                    onClick={() => handleVote(false)}
+                    className="opposition"
+                  >
+                    Vote Against
                   </button>
                 </div>
               </>
