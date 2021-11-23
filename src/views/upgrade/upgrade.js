@@ -11,7 +11,7 @@ const Upgrade = ({ currentUser }) => {
   //Component State
   const [justVoted, setJustVoted] = useState(false);
 
-  // console.log(currentUser && currentUser.contracts.instance.methods);
+  //Adds comment for new page update
 
   useEffect(() => {
     if (justVoted) {
