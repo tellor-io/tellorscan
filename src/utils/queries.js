@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const GET_LATEST_MINER_VALUES = gql`
   query {
-    minerValues(first: 6, orderBy: timestamp, orderDirection: desc) {
+    minerValues(first: 10, orderBy: timestamp, orderDirection: desc) {
       id
       miningEventId
       currentChallenge
